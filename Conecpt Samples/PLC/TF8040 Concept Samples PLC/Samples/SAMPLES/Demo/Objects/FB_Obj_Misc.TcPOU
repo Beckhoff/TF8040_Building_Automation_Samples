@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Obj_Misc" Id="{69b1c2ea-7343-455f-ae88-cfe6d2858d6e}" SpecialFunc="None">
+    <Declaration><![CDATA[// Demonstration of objects.
+// > See "FB_BA_EC01" to view decleared event classes.
+FUNCTION_BLOCK FB_Obj_Misc EXTENDS FB_BA_View
+VAR CONSTANT
+	TREND_COUNT									: INT										:= 10;
+END_VAR
+VAR
+	{region 'Project'}
+		Proj									: FB_BA_View := (
+													iParent									:= THIS^,
+													sDescription							:= '[Project information]'
+												);
+				 
+			// Intention:						Project Information
+			Project								: FB_BA_Project := (
+													iParent									:= Proj,
+													sDescription							:= '[My project infos]',
+													stProject := (	
+														sTitle								:= 'Mein Projekt',
+														sDescription						:= 'PLC Beispielprojekt',
+														sLocation							:= 'Verl'
+													)
+												);
+	{endregion}
+	{region 'Loop'}
+		Loop									: FB_BA_View := (
+													iParent									:= THIS^,
+													sDescription							:= '[Loop objects]'
+												);
+				 
+			fLoop_Setpoint						: REAL										:= 20;								// Temperature setpoint.
+			fLoop_Deadband						: REAL										:= 1.0;								// Deadband between heating- and cooling-loops.
+			fLoop_CtrlVal						: REAL										:= 16;								// Simulation of controlled variable value.
+				 
+			// Intention:						Sequence of loops
+			// Initialization:					Via sequence linker
+			Heat2_En							: REFERENCE TO BOOL							REF= Heat2.bEn;
+			Heat2_EnSync						: REFERENCE TO BOOL							REF= Heat2.bEnSync;
+			Heat2_ValSync						: REFERENCE TO REAL							REF= Heat2.fValSync;
+			Heat2_Y								: REFERENCE TO REAL							REF= Heat2.fPresentValue;
+			Heat2								: FB_BA_Loop := (
+													iParent									:= Loop,
+													sDescription							:= '[Heating Loop 2]',
+													eOutputUnit								:= E_BA_Unit.eOther_Percent,
+													bEn										:= TRUE,
+													eActionRm								:= E_BA_Action.eReverse,
+													fProportionalConstant					:= 3.0,
+													fIntegralConstant						:= 180
+												);
+			Heat1_En							: REFERENCE TO BOOL							REF= Heat1.bEn;
+			Heat1_EnSync						: REFERENCE TO BOOL							REF= Heat1.bEnSync;
+			Heat1_ValSync						: REFERENCE TO REAL							REF= Heat1.fValSync;
+			Heat1_Y								: REFERENCE TO REAL							REF= Heat1.fPresentValue;
+			Heat1								: FB_BA_Loop := (
+													iParent									:= Loop,
+													sDescription							:= '[Heating Loop 1]',
+													eOutputUnit								:= E_BA_Unit.eOther_Percent,
+													bEn										:= TRUE,
+													eActionRm								:= E_BA_Action.eReverse,
+													fProportionalConstant					:= 5.0,
+													fIntegralConstant						:= 120
+												);
+			Cool_En								: REFERENCE TO BOOL							REF= Cool.bEn;
+			Cool_EnSync							: REFERENCE TO BOOL							REF= Cool.bEnSync;
+			Cool_ValSync						: REFERENCE TO REAL							REF= Cool.fValSync;
+			Cool_Y								: REFERENCE TO REAL							REF= Cool.fPresentValue;
+			Cool								: FB_BA_Loop := (
+													iParent									:= Loop,
+													sDescription							:= '[Cooling Loop]',
+													eOutputUnit								:= E_BA_Unit.eOther_Percent,
+													bEn										:= TRUE,
+													eActionRm								:= E_BA_Action.eDirect,
+													fProportionalConstant					:= 5.0,
+													fIntegralConstant						:= 180
+												);
+			TSeq_En								: REFERENCE TO BOOL							REF= TSeq.bEn;
+			TSeq_Step							: REFERENCE TO STRING						REF= TSeq.sStep;
+			TSeq								: FB_BA_SequenceLink := (
+													iParent									:= Loop,
+													sDescription							:= '[Temperature sequence]',
+													iReference								:= [ Heat2, Heat1, Cool ]
+												);
+													
+			// Intention:						Sequence of loops
+			// Initialization:					Manual
+			// Parameter:						iNextSequenceRef = [reference to next loop]
+			Heat3_En							: REFERENCE TO BOOL							REF= Heat3.bEn;
+			Heat3_EnSync						: REFERENCE TO BOOL							REF= Heat3.bEnSync;
+			Heat3_ValSync						: REFERENCE TO REAL							REF= Heat3.fValSync;
+			Heat3_Y								: REFERENCE TO REAL							REF= Heat3.fPresentValue;
+			Heat3								: FB_BA_Loop := (
+													iParent									:= Loop,
+													iNextSequenceRef						:= Heat4,
+													sDescription							:= '[Heating Loop 3]',
+													eOutputUnit								:= E_BA_Unit.eOther_Percent,
+													bEn										:= TRUE,
+													eActionRm								:= E_BA_Action.eReverse,
+													fProportionalConstant					:= 3.0,
+													fIntegralConstant						:= 180
+												);
+			Heat4_En							: REFERENCE TO BOOL							REF= Heat4.bEn;
+			Heat4_EnSync						: REFERENCE TO BOOL							REF= Heat4.bEnSync;
+			Heat4_ValSync						: REFERENCE TO REAL							REF= Heat4.fValSync;
+			Heat4_Y								: REFERENCE TO REAL							REF= Heat4.fPresentValue;
+			Heat4								: FB_BA_Loop := (
+													iParent									:= Loop,
+													sDescription							:= '[Heating Loop 3]',
+													eOutputUnit								:= E_BA_Unit.eOther_Percent,
+													bEn										:= TRUE,
+													eActionRm								:= E_BA_Action.eReverse,
+													fProportionalConstant					:= 3.0,
+													fIntegralConstant						:= 180
+												);
+	{endregion}
+	{region 'Calendar'}
+		Cals									: FB_BA_View := (
+													iParent									:= THIS^,
+													sDescription							:= '[Calendar objects]'
+												);
+				 
+			// Intention:						Calendar
+			Cal1								: FB_BA_Cal := (
+													iParent									:= Cals,
+													sDescription							:= '[Calendar 1]',
+													aDateList := [(
+														eType								:= E_BA_DateValChoice.eDate,
+														uDate								:= F_BA_DateVal(2021,E_BA_Month.eMarch,10)
+													),(
+														eType								:= E_BA_DateValChoice.eDateRange,
+														uDate								:= F_BA_DateRangeVal(nFromYear:=2021,E_BA_Month.eMarch,10, nToYear:=2021,E_BA_Month.eMarch,15)
+													),(
+														eType								:= E_BA_DateValChoice.eWeekNDay,
+														uDate								:= F_BA_WeekNDayVal(E_BA_Weekday.eMonday, E_BA_Week.Unspecified, E_BA_Month.Unspecified)
+													)]
+												);
+			// Intention:						Calendar
+			Cal2								: FB_BA_Cal := (
+													iParent									:= Cals,
+													sDescription							:= '[Calendar 2]'
+												);
+			// Intention:						Calendar
+			Cal3								: FB_BA_Cal := (
+													iParent									:= Cals,
+													sDescription							:= '[Calendar 3]'
+												);
+	{endregion}
+	{region 'Scheduler'}
+		Sched									: FB_BA_View := (
+													iParent									:= THIS^,
+													sDescription							:= '[Schedule objects]'
+												);
+			
+			// Intention:						Analog Schedule
+			// Parameter:						tWeek = F_BA_SchedWeeklyXxA(...)
+			//									tCalendar = F_BA_SchedCalendar(...)
+			//									tException = [(..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...))]
+			SchedA								: FB_BA_SchedA := (
+													iParent									:= Sched,
+													sDescription							:= '[Schedule Analog]',
+													eUnit									:= E_BA_Unit.eOther_NoUnits,
+													aWeek									:= F_BA_SchedWeekly3xA(E_BA_Weekday.eMonday, E_BA_Weekday.eFriday, T#0H, 0.0, T#6H, 10.0, T#20H, 0.0),
+													aCalendar := [(
+														iRefCalendar						:= Cal1,
+														aEntry								:= F_BA_SchedEntry2xA(T#8H, 15.0, T#18H, 0.0)
+													)],
+													aException := [(
+														eType								:= E_BA_DateValChoice.eDate,
+														uDate								:= F_BA_DateVal(2021,E_BA_Month.eMarch,10),
+														aEntry								:= F_BA_SchedEntry1xA(T#0H, 0.0)
+													),(
+														eType								:= E_BA_DateValChoice.eDateRange,
+														uDate								:= F_BA_DateRangeVal(nFromYear:=2021,E_BA_Month.eMarch,10, nToYear:=2021,E_BA_Month.eMarch,15),
+														aEntry								:= F_BA_SchedEntry2xA(T#10H, 10.0, T#17H, F_BA_NullA())
+													),(
+														eType								:= E_BA_DateValChoice.eWeekNDay,
+														uDate								:= F_BA_WeekNDayVal(E_BA_Weekday.eFriday, E_BA_Week.Unspecified, E_BA_Month.Unspecified),
+														aEntry								:= F_BA_SchedEntry3xA(T#9H, 0, T#12H, 15.0, T#17H, F_BA_NullA())
+													)]);
+			
+			// Intention:						Boolean Schedule
+			// Parameter:						tWeek = F_BA_SchedWeeklyXxB(...)
+			//									tCalendar = [(...), (...), (...)]
+			SchedB								: FB_BA_SchedB := (
+													iParent									:= Sched,
+													sDescription							:= '[Schedule Bool]',
+													sInactiveText							:= 'Aus',
+													sActiveText								:= 'Ein',
+													aWeek									:= F_BA_SchedWeekly3xB(E_BA_Weekday.eMonday, E_BA_Weekday.eFriday, T#0H, FALSE, T#6H, TRUE, T#20H, FALSE),
+													aCalendar := [(
+														iRefCalendar						:= Cal1,
+														aEntry								:= F_BA_SchedEntry2xB(T#8H, TRUE, T#18H, FALSE)
+													)],
+													aException := [(
+														eType								:= E_BA_DateValChoice.eWeekNDay,
+														uDate								:= F_BA_WeekNDayVal(E_BA_Weekday.eFriday, E_BA_Week.Unspecified, E_BA_Month.Unspecified),
+														aEntry								:= F_BA_SchedEntry3xB(T#9H, FALSE, T#12H, TRUE, T#17H, F_BA_NullB())
+													)]);
+			
+			// Intention:						Multistate Schedule
+			SchedM								: FB_BA_SchedM := (
+													iParent									:= Sched,
+													sDescription							:= '[Schedule Multistate]',
+													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3' ],
+													aWeek									:= F_BA_SchedWeekly3xM(E_BA_Weekday.eMonday, E_BA_Weekday.eFriday, T#0H, 1, T#6H, 2, T#20H, 1),
+													aCalendar := [(
+														iRefCalendar						:= Cal1,
+														aEntry								:= F_BA_SchedEntry2xM(T#8H, 3, T#18H, 1)
+													)],
+													aException := [(
+														eType								:= E_BA_DateValChoice.eWeekNDay,
+														uDate								:= F_BA_WeekNDayVal(E_BA_Weekday.eFriday, E_BA_Week.Unspecified, E_BA_Month.Unspecified),
+														aEntry								:= F_BA_SchedEntry4xM(T#8H, 3, T#10H, F_BA_NullM(), T#12H, 4, T#17H, F_BA_NullM())
+													)]
+												);
+	{endregion}
+	{region 'Trend'}
+		Trnd									: FB_BA_View := (
+													iParent									:= THIS^,
+													sDescription							:= '[Trend objects]'
+												);
+				 
+			// Intention:						Trend in polling-mode
+			// Parameter:						eLoggingType = E_BA_LoggingType.ePolled
+			PollAV								: FB_BA_AV_Op := (
+													iParent									:= Trnd,
+													sDescription							:= '[Referred object for polling]',
+													eUnit									:= E_BA_Unit.eTemperature_DegreesCelsius,
+													fValueRm								:= 3
+												);
+			TrendPoll							: FB_BA_Trend := (
+													iParent									:= Trnd,
+													sDescription							:= '[Sample Trend]',
+													nEventClassID							:= 11,
+													stStartTime								:= F_BA_ToSTDateTime(DT#2010-01-01-00:00),
+													eLoggingType							:= E_BA_LoggingType.ePolled,
+													nLogInterval							:= 300,
+													stReferredParam							:= F_BA_Reference(PollAV, E_BA_Parameter.ePresentValue)
+												);
+													 
+			// Intention:						Trend in COV-mode
+			// Parameter:						eLoggingType = E_BA_LoggingType.eCOV
+			CovAI								: FB_BA_AI := (
+													iParent									:= Trnd,
+													sDescription							:= '[Referred analog object for COV]',
+													eUnit									:= E_BA_Unit.eOther_Percent,
+													nEventClassID							:= 11,
+													bEventDetectionEnable					:= FALSE
+												);
+			TrendCovAI							: FB_BA_Trend := (
+													iParent									:= Trnd,
+													sDescription							:= '[Sample Analog Trend COV]',
+													nEventClassID							:= 11,
+													bEnable									:= TRUE,
+													nBufferSize								:= 100,
+													eLoggingType							:= E_BA_LoggingType.eCOV,
+													stReferredParam							:= F_BA_Reference(CovAI, E_BA_Parameter.ePresentValue)
+												);
+			CovBI								: FB_BA_BI := (
+													iParent									:= Trnd,
+													sDescription							:= '[Referred binary object for COV]',
+													sInactiveText							:= 'Off',
+													sActiveText								:= 'On',
+													nEventClassID							:= 11,
+													bEventDetectionEnable					:= FALSE
+												);
+			TrendCovBI							: FB_BA_Trend := (
+													iParent									:= Trnd,
+													sDescription							:= '[Sample Binary Trend COV]',
+													nEventClassID							:= 11,
+													bEnable									:= TRUE,
+													nBufferSize								:= 100,
+													eLoggingType							:= E_BA_LoggingType.eCOV,
+													stReferredParam							:= F_BA_Reference(CovBI, E_BA_Parameter.ePresentValue)
+												);
+			CovMI								: FB_BA_MI := (
+													iParent									:= Trnd,
+													sDescription							:= '[Referred multistate object for COV]',
+													aStateText								:= ['Eco', 'Standard', 'Comfort'],
+													nEventClassID							:= 11,
+													bEventDetectionEnable					:= FALSE
+												);
+			TrendCovMI							: FB_BA_Trend := (
+													iParent									:= Trnd,
+													sDescription							:= '[Sample Multistate Trend COV]',
+													nEventClassID							:= 11,
+													bEnable									:= TRUE,
+													nBufferSize								:= 100,
+													eLoggingType							:= E_BA_LoggingType.eCOV,
+													stReferredParam							:= F_BA_Reference(CovMI, E_BA_Parameter.ePresentValue)
+												);
+													 
+			// Intention:						Multiple trend objects as array
+			Trends								: FB_BA_View := (
+													iParent									:= Trnd,
+													sDescription							:= 'Multiple trend objects'
+												);
+				Trend							: ARRAY[1 .. TREND_COUNT] OF FB_BA_Trend := [TREND_COUNT((
+													iParent									:= Trends,
+													iLabel									:= MyLabels.Trnd,
+													nEventClassID							:= 11,
+													eLoggingType							:= E_BA_LoggingType.eCOV
+												))];
+	{endregion}
+	{region 'Event classes'}
+		EC										: FB_BA_View := (
+													iParent									:= THIS^,
+													sDescription							:= '[Event classes]'
+												);
+				 
+			EC_Test1							: FB_BA_EC := (
+													iParent									:= EC,
+													nInstanceID								:= 245,
+													sDescription							:= '[EC Sample 1]',
+													eEventType								:= E_BA_EventType.eDisturb,
+													eAlarmMode								:= E_BA_AlarmMode.eStandard
+												);	
+			EC_Test2							: FB_BA_EC := (
+													iParent									:= EC,
+													nInstanceID								:= 246,
+													sDescription							:= '[EC Sample 2]',
+													aAcknowledgeRequired					:= BA_Globals.aAckFlags_Extended
+												);
+	{endregion}
+END_VAR
+VAR			
+	_i											: INT;
+	_fSpH										: REAL;
+	_fSpC										: REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+// Project:
+Proj();
+
+Project();
+
+// Calendar:
+Cals();
+
+Cal1();
+Cal2();
+Cal3();
+
+// Scheduler:
+Sched();
+
+SchedA();
+SchedB();
+SchedM();
+
+// Loop:
+_fSpH := (fLoop_Setpoint - (fLoop_Deadband / 2));
+_fSpC := (fLoop_Setpoint + (fLoop_Deadband / 2));
+
+Loop();
+
+Heat2(
+	fSetpoint := _fSpH,
+	fCtrlVal := fLoop_CtrlVal
+);
+Heat1(
+	fSetpoint := _fSpH,
+	fCtrlVal := fLoop_CtrlVal
+);
+Cool(
+	fSetpoint := _fSpC,
+	fCtrlVal := fLoop_CtrlVal
+);
+TSeq();
+
+Heat3(
+	fSetpoint := _fSpH,
+	fCtrlVal := fLoop_CtrlVal
+);
+Heat4(
+	fSetpoint := _fSpH,
+	fCtrlVal := fLoop_CtrlVal
+);
+
+// Trend:
+Trnd();
+
+PollAV();
+TrendPoll();
+IF (MAIN.nCounter MOD 200 = 0) THEN
+	CovAI.fVal := SEL((CovAI.fVal<10), 0, (CovAI.fVal+1));
+END_IF
+IF (MAIN.nCounter MOD 500 = 0) THEN
+	CovBI.bVal := (NOT CovBI.bVal);
+	CovMI.nVal := SEL((CovMI.nVal<CovMI.StateCount), 1, (CovMI.nVal+1));
+END_IF
+CovAI();
+TrendCovAI();
+CovBI();
+TrendCovBI();
+CovMI();
+TrendCovMI();
+Trends();
+FOR _i := 1 TO TREND_COUNT DO
+	Trend[_i]();
+END_FOR
+
+// Event classes:
+EC();
+
+EC_Test1();
+EC_Test2();
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Obj_Misc">
+      <LineId Id="9" Count="0" />
+      <LineId Id="319" Count="0" />
+      <LineId Id="710" Count="0" />
+      <LineId Id="759" Count="0" />
+      <LineId Id="711" Count="1" />
+      <LineId Id="811" Count="0" />
+      <LineId Id="810" Count="0" />
+      <LineId Id="809" Count="0" />
+      <LineId Id="812" Count="0" />
+      <LineId Id="814" Count="5" />
+      <LineId Id="874" Count="0" />
+      <LineId Id="872" Count="0" />
+      <LineId Id="875" Count="1" />
+      <LineId Id="813" Count="0" />
+      <LineId Id="751" Count="0" />
+      <LineId Id="1807" Count="1" />
+      <LineId Id="1806" Count="0" />
+      <LineId Id="757" Count="1" />
+      <LineId Id="713" Count="7" />
+      <LineId Id="725" Count="3" />
+      <LineId Id="627" Count="0" />
+      <LineId Id="1422" Count="7" />
+      <LineId Id="882" Count="0" />
+      <LineId Id="1430" Count="0" />
+      <LineId Id="881" Count="0" />
+      <LineId Id="888" Count="0" />
+      <LineId Id="948" Count="0" />
+      <LineId Id="928" Count="0" />
+      <LineId Id="1040" Count="0" />
+      <LineId Id="1039" Count="0" />
+      <LineId Id="1037" Count="0" />
+      <LineId Id="1047" Count="3" />
+      <LineId Id="1028" Count="5" />
+      <LineId Id="929" Count="0" />
+      <LineId Id="931" Count="2" />
+      <LineId Id="753" Count="0" />
+      <LineId Id="934" Count="0" />
+      <LineId Id="730" Count="0" />
+      <LineId Id="755" Count="1" />
+      <LineId Id="731" Count="0" />
+      <LineId Id="729" Count="0" />
+      <LineId Id="754" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,237 @@
+﻿{
+  "$schema": "../../Packages/Beckhoff.TwinCAT.HMI.Framework-12.746.0/runtimes/native1.12-tchmi/Schema/TchmiConfig.Schema.json",
+  "basePath": "./framework",
+  "scaleMode": "None",
+  "startupView": "Desktop.view",
+  "loginPage": "",
+  "tcHmiServer": {
+    "websocketIntervalTime": 500,
+    "websocketTimeout": 20000,
+    "websocketSystemTimeout": 60000,
+    "websocketSubscriptionMode": "Change"
+  },
+  "activeTheme": "Base",
+  "themes": {
+    "Base": {
+      "resources": [
+        {
+          "name": "Themes/Base/Base.theme",
+          "description": "",
+          "type": "ThemedValues"
+        },
+        {
+          "name": "Themes/Base/BaseStyle.css",
+          "description": "",
+          "type": "Stylesheet"
+        }
+      ],
+      "replacesThemeForControls": []
+    }
+  },
+  "dependencyFiles": [
+    {
+      "name": "Fonts/Fonts.css",
+      "description": "",
+      "type": "Stylesheet"
+    }
+  ],
+  "userControls": [
+    {
+      "url": "Navigation/HeaderMenu.usercontrol"
+    }
+  ],
+  "content": [
+    {
+      "url": "Content/Pages/EventList.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Pages/PlantView.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Pages/ProjectNavigation.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Pages/ServerLog.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Pages/StartPage.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Samples/BaObjects.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Samples/BasicComponents.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Samples/ColorPicker.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Samples/Events.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Samples/RoomAutomation.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Samples/Schedule.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Samples/Trend.content",
+      "preload": false,
+      "keepAlive": false
+    }
+  ],
+  "views": [
+    {
+      "url": "Desktop.view",
+      "preload": false,
+      "keepAlive": false
+    }
+  ],
+  "userFunctions": [],
+  "symbols": {
+    "internal": {
+      "LastTargetRegionContent": {
+        "type": "tchmi:framework#/definitions/ContentPath",
+        "persist": false,
+        "readonly": false
+      },
+      "numberTest": {
+        "value": 0.0,
+        "type": "tchmi:general#/definitions/Number",
+        "persist": false,
+        "readonly": false
+      },
+      "booleanTest": {
+        "value": false,
+        "type": "tchmi:general#/definitions/Boolean",
+        "persist": false,
+        "readonly": false
+      },
+      "stringTest": {
+        "value": "'Test test'",
+        "type": "tchmi:general#/definitions/String",
+        "persist": false,
+        "readonly": false
+      },
+      "integerTest": {
+        "value": 1,
+        "type": "tchmi:general#/definitions/INT32",
+        "persist": false,
+        "readonly": false
+      }
+    }
+  },
+  "trigger": [
+    {
+      "event": "onInitialized",
+      "actions": [
+        {
+          "objectType": "JavaScript",
+          "active": true,
+          "sourceLines": [
+            "TcHmi.EventProvider.raise('onUserChanged');\nTcHmi.EventProvider.raise('onThemeDataChanged');"
+          ],
+          "injectContextObject": false,
+          "asyncWait": true,
+          "waitMode": "Synchronous"
+        }
+      ]
+    },
+    {
+      "event": "onUserChanged",
+      "actions": [
+        {
+          "objectType": "Function",
+          "active": true,
+          "fn": "TcHmi.BuildingAutomation.Functions.LoadUserDependentContent",
+          "fnParams": [
+            {
+              "objectType": "Symbol",
+              "valueType": "tchmi:framework#/definitions/Control",
+              "symbolExpression": "%ctrl%TargetRegion%/ctrl%"
+            },
+            {
+              "objectType": "StaticValue",
+              "valueType": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.UserContents",
+              "value": "[\r\n  {\r\n    \"userName\": \"Default User\",\r\n    \"content\": \"Content/ColorPicker.content\"\r\n  },\r\n  {\r\n    \"userName\": \"Default\",\r\n    \"content\": \"Content/Pages/StartPage.content\"\r\n  }\r\n]"
+            },
+            {
+              "objectType": "StaticValue",
+              "valueType": "tchmi:general#/definitions/Boolean",
+              "value": true
+            }
+          ],
+          "asyncWait": true
+        }
+      ]
+    }
+  ],
+  "actionTemplates": [],
+  "languages": {
+    "de-DE": "Localization\\de-DE.localization",
+    "en-US": "Localization\\en-US.localization"
+  },
+  "languageFallback": "",
+  "disableLoadingOptimization": false,
+  "creatorSettings": {
+    "viewport": {
+      "defaultWidth": 800,
+      "defaultHeight": 600
+    }
+  },
+  "binding": {
+    "symbolError": "Ignore"
+  },
+  "packages": [
+    {
+      "name": "Beckhoff.TwinCAT.HMI.Controls",
+      "basePath": "/Beckhoff.TwinCAT.HMI.Controls"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.Framework",
+      "basePath": "/framework"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.Functions",
+      "basePath": "/Beckhoff.TwinCAT.HMI.Functions"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.BA.Controls",
+      "basePath": "/Beckhoff.TwinCAT.HMI.BA.Controls"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.BA.Framework",
+      "basePath": "/Beckhoff.TwinCAT.HMI.BA.Framework"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.BA.Icons",
+      "basePath": "/Beckhoff.TwinCAT.HMI.BA.Icons"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.ResponsiveNavigation",
+      "basePath": "/Beckhoff.TwinCAT.HMI.ResponsiveNavigation"
+    }
+  ]
+}

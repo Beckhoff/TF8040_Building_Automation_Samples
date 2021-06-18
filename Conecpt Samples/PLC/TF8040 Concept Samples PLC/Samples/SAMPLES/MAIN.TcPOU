@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
+  <POU Name="MAIN" Id="{7c15d84c-41a4-421d-9b24-c13041281be0}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	{region 'Settings'}
+		DPAD					: FB_BA_CarelessDPAD:=(
+									aIdentifier:=[
+										(* Level 1 *)	(eNodeType:=E_BA_NodeType.eBuilding,	nIndexDigits:=2),
+										(* Level 2 *)	(eNodeType:=E_BA_NodeType.eTrade,		nIndexDigits:=0),
+										(* Level 3 *)	(eNodeType:=E_BA_NodeType.ePlant,		nIndexDigits:=2,			sSeparator_ObjectName:='~~~',		sSeparator_Description:=' --- '),
+										(* Level 4 *)	(eNodeType:=E_BA_NodeType.eAggregate,	nIndexDigits:=2,			sSeparator_ObjectName:='++'),
+										(* Level 5 *)	(eNodeType:=E_BA_NodeType.eFunction,	nIndexDigits:=3)
+								]);
+	{endregion}
+		 
+	Smpl						: FB_BA_View			:= (									sDescription:='Samples');
+	{region 'Demonstration'}
+		Demo					: FB_BA_View			:= (iParent:=Smpl,						sDescription:='Demonstration');
+			Obj					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Objects');
+				General			: FB_Obj_General		:= (iParent:=Obj,						sDescription:='General objects');
+				Misc			: FB_Obj_Misc			:= (iParent:=Obj,						sDescription:='Miscellaneous objects');
+					 
+			Ref					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Reference');
+				Collect			: FB_Ref_Collectors		:= (iParent:=Ref,						sDescription:='Collectors');
+				Groups			: FB_Ref_Groups			:= (iParent:=Ref,						sDescription:='Groups');
+				PubSubLc		: FB_Ref_PubSub_Local	:= (iParent:=Ref,						sDescription:='Publisher and subscriber (Local)');
+				PubSubRm		: FB_Ref_PubSub_Remote	:= (iParent:=Ref,						sDescription:='Publisher and subscriber (Remote)');
+					 
+			Evt					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Event');
+				Events			: FB_Evt_Events			:= (iParent:=Evt,						sDescription:='Events');
+				Ack				: FB_Evt_Ack			:= (iParent:=Evt,						sDescription:='Acknowledgement');
+					 
+			Strct				: FB_BA_View			:= (iParent:=Demo,						sDescription:='Structure');
+				Nested			: FB_Struct_Nested		:= (iParent:=Strct,						sDescription:='Nested objects');
+					 
+			Plt					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Plant');
+				PltCtrl			: FB_Plt_PlantControl	:= (iParent:=Plt,						sDescription:='Plant control');
+	{endregion}
+	{region 'Templates'}
+		Tmpl					: FB_BA_View			:= (iParent:=Smpl,						sDescription:='Templates');
+			Gen					: FB_BA_View			:= (iParent:=Tmpl,						sDescription:='General');
+				Bld				: FB_BA_Bld01			:= (iParent:=Gen,						sDescription:='Building information');
+				EvtCls			: FB_BA_EC01			:= (iParent:=Gen,						sDescription:='Event Classes');
+	{endregion}		
+END_VAR
+VAR		
+	nCounter					: UDINT					:= 0;	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[nCounter:=(nCounter+1);
+
+Smpl();
+
+// Demonstration:
+Demo();
+
+Obj();
+General();
+Misc();
+
+Ref();
+Collect();
+Groups();
+PubSubLc();
+PubSubRm();
+
+Evt();
+Events();
+Ack();
+
+Strct();
+Nested();
+
+Plt();
+PltCtrl();
+
+// Templates:
+Tmpl();
+
+Gen();
+Bld();
+EvtCls();]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="41" Count="5" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="47" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="132" Count="1" />
+      <LineId Id="80" Count="1" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="180" Count="2" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="53" Count="2" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

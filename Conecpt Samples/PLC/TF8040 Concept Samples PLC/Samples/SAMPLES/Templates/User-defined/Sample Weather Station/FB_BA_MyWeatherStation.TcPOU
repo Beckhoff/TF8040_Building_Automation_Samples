@@ -1,0 +1,320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_BA_MyWeatherStation" Id="{325ca01a-4181-4604-a24c-032333bda7d8}" SpecialFunc="None">
+    <Declaration><![CDATA[// [Sample]
+// User specific weather station.
+FUNCTION_BLOCK FB_BA_MyWeatherStation EXTENDS FB_BA_Publisher IMPLEMENTS I_BA_MyWeatherStation
+VAR_OUTPUT
+	fWeatherTemperature	: REAL;
+	fHumidity			: REAL;
+	fBrightness			: REAL;
+	
+	bDisturb			: BOOL;
+END_VAR
+VAR
+	{region 'Internal'}
+		eState			: (eInit:=1, eOperation:=2, eError:=3) UDINT	:= 1;
+		stData			: ST_BA_MyWeatherData;
+	{endregion}
+	{region 'Temporary'}
+		_nCounter		: UINT;
+	{endregion}
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE (eState) OF
+	eInit:
+		IF (OnInit()) THEN
+			eState := eOperation;
+		ELSE
+			eState := eError;
+		END_IF
+		
+	eOperation:
+		// [Sample] Simulate weather data.
+		_nCounter := (_nCounter+1);
+		
+		IF ((_nCounter MOD 1000) > 800) THEN
+			// Simulate a physical error:
+			MEMSET(ADR(stData), 0, SIZEOF(stData));
+			stData.fWeatherTemperature := 99.9;
+			stData.fHumidity := 99.9;
+			stData.bDisturb := TRUE;
+		ELSE
+			// Simulate valid values:
+			stData.fWeatherTemperature := 20 + (TO_REAL((_nCounter / 10) MOD 100) * 0.01);
+			stData.fHumidity := TO_REAL(50 + (_nCounter MOD 1000) / 500);
+			stData.fBrightness := TO_REAL(10 + (_nCounter MOD 1000) / 200);
+			stData.fWindSpeed := TO_REAL(5 + ((_nCounter MOD 500) / 10));
+			stData.fWindDirection := TO_REAL(90 + ((_nCounter MOD 500) / 200));
+			stData.fLatitude := 51.8761551;
+			stData.fLongitude := 8.4671055;
+			stData.bDisturb := FALSE;
+		END_IF
+		
+END_CASE
+		
+// Update outputs of most important variables:
+fWeatherTemperature := stData.fWeatherTemperature;
+fHumidity := stData.fHumidity;
+fBrightness := stData.fBrightness;
+bDisturb := stData.bDisturb;]]></ST>
+    </Implementation>
+    <Folder Name="[Protected] Events" Id="{d22c7991-1d19-4780-be08-e2352a6e2038}" />
+    <Folder Name="Management" Id="{7fe2618b-fa69-4bda-a041-90f62599a105}">
+      <Folder Name="Properties" Id="{d11fab7a-0307-45e9-aa93-3c112e191c83}" />
+    </Folder>
+    <Folder Name="Properties" Id="{fc4a37fb-0788-49d8-868f-7f1fb6657f22}" />
+    <Property Name="Brightness" Id="{8f68b89d-f748-420d-be3c-fad39b23eceb}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY Brightness : REAL]]></Declaration>
+      <Get Name="Get" Id="{2e11ac81-73c6-4774-af98-0966db16d9b6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Brightness := stData.fBrightness;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{c93b8f3b-bf2e-484d-ba7f-a1ff13f92748}" FolderPath="Management\Properties\">
+      <Declaration><![CDATA[PROPERTY Error : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a7d3988f-c07a-4361-b40c-54447e1dc4d7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := (eState=eError);]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="FB_init" Id="{2fa2cb0a-a4b4-41de-8c4c-6d1246ad58bd}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// [Hint]
+// > Eigentlich wird an dieser Stelle das Profil definiert. Aber zur Übersicht wird es in "MAIN_SharedInterfaces" initialisiert.
+
+// bEnPublish := TRUE;
+// iProfile := SampleMyProfiles.MyWeatherStation;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetData" Id="{a064610f-7304-45ca-afbf-43a0384c83f4}" FolderPath="Management\">
+      <Declaration><![CDATA[// Returns published data.
+METHOD GetData
+VAR_OUTPUT
+	pData			: PVOID;				// Pointer to published data.
+	nSize			: DINT;					// Size of published data.
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[pData := ADR(stData);
+nSize := SIZEOF(stData);
+
+
+
+
+
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Humidity" Id="{ccdd0b4e-9674-4137-b058-115e4418a811}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY Humidity : REAL]]></Declaration>
+      <Get Name="Get" Id="{206d56ad-bc2e-466a-bb11-a981ba86673d}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Humidity := stData.fHumidity;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Latitude" Id="{1fa404d1-5572-4cc4-b454-c2fd6ff8db3d}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY Latitude : REAL]]></Declaration>
+      <Get Name="Get" Id="{4ae46f5c-834b-4604-beee-ebecb5b31644}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Latitude := stData.fLatitude;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Longitude" Id="{30fe5788-be81-4bd4-81df-be1ca384a008}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY Longitude : REAL]]></Declaration>
+      <Get Name="Get" Id="{ecfd843e-2a59-427e-a116-b03459fc74a7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Longitude := stData.fLongitude;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="OnInit" Id="{4a7b9460-4e64-426f-b877-154635ed56e3}" FolderPath="[Protected] Events\">
+      <Declaration><![CDATA[METHOD PROTECTED OnInit : BOOL]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (SUPER^.OnInit()) THEN
+	// [Sample]:
+	// Implement custom init code here (Optional).
+	// ...
+	
+	OnInit := TRUE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnPostOnlineChange" Id="{8e310921-a50c-4bfc-91ac-2c44692005ae}" FolderPath="[Protected] Events\">
+      <Declaration><![CDATA[{attribute 'call_after_online_change_slot' := '5000'}
+METHOD PROTECTED OnPostOnlineChange]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.OnPostOnlineChange();
+
+// Re-initialize after online-changes:
+eState := eInit;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Ready" Id="{b05ad22b-ad2d-4655-8772-2b773b85e1df}" FolderPath="Management\Properties\">
+      <Declaration><![CDATA[PROPERTY Ready : BOOL]]></Declaration>
+      <Get Name="Get" Id="{0171a4a3-d220-4506-b7f8-59cf07047441}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Ready := (eState=eOperation);]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Valid" Id="{83e6fe39-753a-453b-9b15-494d41b3fbd7}" FolderPath="Management\Properties\">
+      <Declaration><![CDATA[PROPERTY Valid : BOOL]]></Declaration>
+      <Get Name="Get" Id="{7a944215-4b5f-4487-99c3-d446194a8216}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IF (SUPER^.Valid) THEN
+	// [Sample]:
+	// Implement custom validation code here (Optional).
+	// ...
+	
+	Valid := TRUE;
+END_IF]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="WeatherTemperature" Id="{3e0d7e2e-264f-4754-8352-62676acf18ee}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY WeatherTemperature : REAL]]></Declaration>
+      <Get Name="Get" Id="{3e12772c-089d-4226-bfdd-12496518e9f3}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[WeatherTemperature := stData.fWeatherTemperature;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="WindDirection" Id="{fefa4046-87ce-48b6-913f-b5193379cea0}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY WindDirection : REAL]]></Declaration>
+      <Get Name="Get" Id="{279a43b1-3d6a-48a7-86f4-78e8f80fdfeb}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[WindDirection := stData.fWindDirection;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="WindSpeed" Id="{e020b5b0-f346-43ad-9c0e-b7d2cc6e54e9}" FolderPath="Properties\">
+      <Declaration><![CDATA[PROPERTY WindSpeed : REAL]]></Declaration>
+      <Get Name="Get" Id="{571f99b1-e9d5-46b3-8726-e8d1d983ae87}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[WindSpeed := stData.fWindSpeed;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <LineIds Name="FB_BA_MyWeatherStation">
+      <LineId Id="36" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="47" Count="1" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="50" Count="1" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="98" Count="1" />
+      <LineId Id="146" Count="0" />
+      <LineId Id="150" Count="0" />
+      <LineId Id="159" Count="0" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="164" Count="1" />
+      <LineId Id="151" Count="7" />
+      <LineId Id="147" Count="0" />
+      <LineId Id="166" Count="0" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="116" Count="4" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="144" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.Brightness.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.Error.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.FB_init">
+      <LineId Id="9" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.GetData">
+      <LineId Id="128" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="135" Count="5" />
+      <LineId Id="134" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.Humidity.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.Latitude.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.Longitude.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.OnInit">
+      <LineId Id="30" Count="1" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.OnPostOnlineChange">
+      <LineId Id="41" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="38" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.Ready.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.Valid.Get">
+      <LineId Id="5" Count="5" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.WeatherTemperature.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.WindDirection.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStation.WindSpeed.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
+  <POU Name="FB_Evt_Ack" Id="{fbc947ed-fc04-4bb0-b954-ae66748fd31d}" SpecialFunc="None">
+    <Declaration><![CDATA[// Acknowledgement-Examples.
+// > One object per demonstrated 'AlarmMode'.
+// > See "FB_BA_EC01" to view decleared event classes.
+// [Hint]
+// > All reference-variables are implemented to ease monitoring of relevant variables.
+FUNCTION_BLOCK FB_Evt_Ack EXTENDS FB_BA_View
+VAR               
+	{region 'General'}
+		bAlm_Test						: BOOL;																						// Trigger alarm for testing.
+		bAlm_AckAll						: REFERENCE TO BOOL							REF= THIS^.bAcknowledgeRm;						// Acknowledge all test objects.
+		bAlm_AckMode					: POINTER TO BOOL							:= ADR(BA_Param.eEvtMgmt_AckMode);				// Used reset mode (See parameter description for more details)
+	{endregion}
+		 
+	{region 'Simple'}
+		// Intention:					Alarm that automatically disappears.
+		// State on active alarm:		- "bEvent = TRUE'
+		//								- "stAckedTransitions = [FALSE,true,true]'
+		// State when disappeared:		- "bEvent = false'
+		//								- "stAckedTransitions = [true,true,true]'
+		AlmSimple_Ack					: REFERENCE TO BOOL							REF= AlmSimple.bAcknowledgeRm;
+		AlmSimple_Indicated				: BOOL;
+		AlmSimple_Event					: REFERENCE TO BOOL							REF= AlmSimple.bEvent;
+		AlmSimple						: FB_BA_BI_Raw := (
+											iParent									:= THIS^,
+											sInactiveText							:= 'Normal',
+											sActiveText								:= 'Alarm',
+											nEventClassID							:= 12);
+	{endregion}
+	{region 'Standard'}
+		// Intention:					Alarm that is just indicated (by acknowledge transition) when disappeared.
+		// State on active alarm:		- "bEvent = TRUE'
+		//								- "stAckedTransitions = [FALSE,true,true]'
+		// State when disappeared:		- "bEvent = false'
+		//								- "stAckedTransitions = [FALSE,true,true]'
+		// State after acknowledgement:	- "bEvent = false'
+		//								- "stAckedTransitions = [true,true,true]'
+		AlmStandard_Ack					: REFERENCE TO BOOL							REF= AlmStandard.bAcknowledgeRm;
+		AlmStandard_Indicated			: BOOL;
+		AlmStandard_Event				: REFERENCE TO BOOL							REF= AlmStandard.bEvent;
+		AlmStandard						: FB_BA_BI_Raw := (
+											iParent									:= THIS^,
+											sInactiveText							:= 'Normal',
+											sActiveText								:= 'Alarm',
+											nEventClassID							:= 11);	
+	{endregion}
+	{region 'Extended'}
+		// Intention:					Alarm that is indicated (by acknowledge transition) and hold when disappeared.
+		//								The 'bEvent' is released when an additional reset has been triggered.
+		// State on active alarm:		- "bEvent = TRUE'
+		//								- "stAckedTransitions = [FALSE,true,FALSE]'
+		// State when disappeared:		- "bEvent = TRUE'
+		//								- "stAckedTransitions = [FALSE,true,FALSE]'
+		// State after acknowledgement:	- "bEvent = TRUE'
+		//								- "stAckedTransitions = [true,true,FALSE]'
+		// State after reset:			- "bEvent = false'
+		//								- "stAckedTransitions = [true,true,true]'
+		AlmExtended_Ack					: REFERENCE TO BOOL							REF= AlmExtended.bAcknowledgeRm;
+		AlmExtended_Indicated			: BOOL;
+		AlmExtended_Event				: REFERENCE TO BOOL							REF= AlmExtended.bEvent;
+		AlmExtended						: FB_BA_BI_Raw := (
+											iParent									:= THIS^,
+											sInactiveText							:= 'Normal',
+											sActiveText								:= 'Alarm',
+											nEventClassID							:= 10);	
+	{endregion}	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+AlmSimple(bRawVal:=bAlm_Test);
+AlmSimple_Indicated := (NOT AlmSimple.stAckedTransitions.bToOffnormal);
+AlmStandard(bRawVal:=bAlm_Test);
+AlmStandard_Indicated := (NOT AlmStandard.stAckedTransitions.bToOffnormal);
+AlmExtended(bRawVal:=bAlm_Test);
+AlmExtended_Indicated := (NOT AlmExtended.stAckedTransitions.bToOffnormal);
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Evt_Ack">
+      <LineId Id="9" Count="0" />
+      <LineId Id="231" Count="6" />
+      <LineId Id="83" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

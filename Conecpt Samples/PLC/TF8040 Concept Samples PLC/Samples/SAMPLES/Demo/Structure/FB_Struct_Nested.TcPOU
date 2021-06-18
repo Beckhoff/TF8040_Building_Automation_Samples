@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
+  <POU Name="FB_Struct_Nested" Id="{fc3d18fb-3d7e-4ba7-8d0a-fd548bfa308c}" SpecialFunc="None">
+    <Declaration><![CDATA[// Examples of nested objects and possible variants for initialization of parent/child-relations.
+FUNCTION_BLOCK FB_Struct_Nested EXTENDS FB_BA_View
+VAR
+	{region 'Variant 1'}
+		Nested1a		: FB_NestedView				:= (View:=(iParent:=THIS^));
+		Nested1b		: FB_NestedView				:= (View:=(iParent:=THIS^));
+	{endregion}
+	{region 'Variant 2'}
+		Nested2			: FB_NestedView2			(THIS^);     
+	{endregion}
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+// Variant 1:
+Nested1a();
+Nested1b();
+
+// Variant 2:
+Nested2();]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Struct_Nested">
+      <LineId Id="9" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="118" Count="2" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="83" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

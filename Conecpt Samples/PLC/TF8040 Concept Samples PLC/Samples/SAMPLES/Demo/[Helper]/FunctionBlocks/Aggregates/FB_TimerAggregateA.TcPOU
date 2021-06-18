@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
+  <POU Name="FB_TimerAggregateA" Id="{a1e3767a-21ef-4020-8623-53d1c21d6066}" SpecialFunc="None">
+    <Declaration><![CDATA[// Some aggregate that has implemented a timer for demonstration.
+FUNCTION_BLOCK FB_TimerAggregateA EXTENDS FB_BA_AggregateA
+VAR_OUTPUT
+	bOpen			: BOOL;
+END_VAR
+VAR
+	Delay			: TON					:= (PT:=T#25S);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+Delay(IN := (bActiveEn AND (fActiveVal > 0.0)));
+bOpen := Delay.Q;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_TimerAggregateA">
+      <LineId Id="14" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="27" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

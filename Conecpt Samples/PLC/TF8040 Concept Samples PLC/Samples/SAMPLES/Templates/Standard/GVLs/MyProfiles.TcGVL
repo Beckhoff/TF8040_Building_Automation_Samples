@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
+  <GVL Name="MyProfiles" Id="{3e642d28-3453-459d-95c3-5ec3b4371093}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	{region 'Placeholder'}
+		{region 'Text'}
+			txtOff						: STRING						:= 'Aus';
+			txtOn						: STRING						:= 'Ein';
+			txtNormal					: STRING						:= 'Normal';
+			txtOffnormal				: STRING						:= 'Unnormal';
+			txtAlert					: STRING						:= 'Alarm';
+			txtDisturb					: STRING						:= 'Störung';
+			txtExceeded					: STRING						:= 'Überschritten';
+			txtMonitoring				: STRING						:= 'Überwachung';
+			txtProtection				: STRING						:= 'Schutzbetrieb';
+			txtEconomy					: STRING						:= 'Economy';
+			txtComfort					: STRING						:= 'Comfort';
+		{endregion}
+		{region 'Event Transition Text'}
+			trnsExceeded				: T_BA_EventTransitionText		:= [txtExceeded,			txtDisturb,			txtNormal];
+			trnsMonitoring				: T_BA_EventTransitionText		:= [txtMonitoring,			txtDisturb,			txtNormal];
+		{endregion}
+		{region 'Multistate Text'}
+			txtEnergyLevel				: T_BA_StateTextArray			:= [txtProtection,			txtEconomy,			txtComfort];
+		{endregion}
+	{endregion}
+END_VAR
+VAR_GLOBAL
+	{region 'Sample Templates'}
+		// A
+		// B
+		CmdB							: FB_BA_ProfileBEvtObj			:= (sInactiveText := txtOff,			sActiveText := txtOn,			aEventTransitionText := trnsMonitoring,							nEventClassID := 11);
+		// D
+		// E
+		// F
+		// G
+		// H
+		// I
+		// J
+		// K
+		// L
+		// M
+		// N
+		// O
+		// P	
+		// Q
+		// R
+		// S	
+		// t
+		// U
+		// v
+		// W
+		// X
+		// Y
+		// Z
+	{endregion}
+	{region 'Sample Objects'}
+		{region 'Analog'}
+			AV_Prf						: FB_BA_ProfileAEvtObj			:= (eUnit:=E_BA_Unit.eTemperature_DegreesCelsius,						aEventTransitionText:=MyProfiles.trnsExceeded,					nEventClassID:=11);
+			AVOp_Prf					: FB_BA_ProfileAObj				:= (eUnit:=E_BA_Unit.eTemperature_DegreesCelsius);
+			AI_Prf						: FB_BA_ProfileAEvtObj			:= (eUnit:=E_BA_Unit.eTemperature_DegreesCelsius,						aEventTransitionText:=MyProfiles.trnsExceeded,					nEventClassID:=11);
+			AO_Prf						: FB_BA_ProfileAEvtObj			:= (eUnit:=E_BA_Unit.eTemperature_DegreesCelsius,						aEventTransitionText:=MyProfiles.trnsExceeded,					nEventClassID:=11);
+		{endregion}
+		{region 'Binary'}
+			BV_Prf						: FB_BA_ProfileBEvtObj			:= (sInactiveText := txtOff, sActiveText := txtOn,						aEventTransitionText:=MyProfiles.trnsExceeded,					nEventClassID:=11);
+			BVOp_Prf					: FB_BA_ProfileBObj				:= (sInactiveText := txtOff, sActiveText := txtOn);
+			BI_Prf						: FB_BA_ProfileBEvtObj			:= (sInactiveText := txtOff, sActiveText := txtOn,						aEventTransitionText:=MyProfiles.trnsExceeded,					nEventClassID:=11);
+			BO_Prf						: FB_BA_ProfileBEvtObj			:= (sInactiveText := txtOff, sActiveText := txtOn,						aEventTransitionText:=MyProfiles.trnsExceeded,					nEventClassID:=11);
+		{endregion}
+		{region 'Multistate'}
+			MV_Prf						: FB_BA_ProfileMEvtObj			:= (aStateText:=MyProfiles.txtEnergyLevel,								aEventTransitionText:=MyProfiles.trnsExceeded,					nEventClassID:=11);	
+			MVOp_Prf					: FB_BA_ProfileMObj				:= (aStateText:=MyProfiles.txtEnergyLevel);
+			MI_Prf						: FB_BA_ProfileMEvtObj			:= (aStateText:=MyProfiles.txtEnergyLevel,								aEventTransitionText:=MyProfiles.trnsExceeded,					nEventClassID:=11);
+			MO_Prf						: FB_BA_ProfileMEvtObj			:= (aStateText:=MyProfiles.txtEnergyLevel,								aEventTransitionText:=MyProfiles.trnsExceeded,					nEventClassID:=11);
+		{endregion}
+		{region 'Misc'}
+			Loop_Prf					: FB_BA_ProfileAObj				:= (eUnit:=E_BA_Unit.eOther_Percent);
+			Cal_Prf						: FB_BA_ProfileBObj				:= (sInactiveText := txtOff, sActiveText := txtOn);
+			SchedA_Prf					: FB_BA_ProfileAObj				:= (eUnit:=E_BA_Unit.eOther_Percent);
+			SchedB_Prf					: FB_BA_ProfileBObj				:= (sInactiveText := txtOff, sActiveText := txtOn);
+			SchedM_Prf					: FB_BA_ProfileMObj				:= (aStateText:=MyProfiles.txtEnergyLevel);
+			Trend_Prf					: FB_BA_ProfileBObj				:= (sInactiveText := txtOff, sActiveText := txtOn);
+			EvtCls_Prf					: FB_BA_Profile;
+		{endregion}
+		{region 'Custom'}
+			MyWthSt_Prf					: FB_BA_Profile;
+		{endregion}
+		{region 'Collectors'}
+			Col_PrfEn					: FB_BA_ProfileBObj				:= (sInactiveText := 'Nein', sActiveText := 'Ja');
+			Col_PrfValA					: FB_BA_ProfileAObj				:= (eUnit:=E_BA_Unit.eTemperature_DegreesCelsius);
+		{endregion}
+	{endregion}
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

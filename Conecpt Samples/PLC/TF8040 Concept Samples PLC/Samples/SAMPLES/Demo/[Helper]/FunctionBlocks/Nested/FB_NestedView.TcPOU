@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
+  <POU Name="FB_NestedView" Id="{0c57493a-b28c-4808-ac95-a2a244c7d8a3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_NestedView
+VAR_INPUT CONSTANT
+	View		: FB_BA_View;
+		Enable	: FB_BA_BV_Op := (
+					iParent			:= View,
+					iProfile		:= MyProfiles.BVOp_Prf,
+					bValueRm		:= FALSE
+				);		
+		Value	: FB_BA_AV_Op := (
+					iParent			:= View,
+					iProfile		:= MyProfiles.AVOp_Prf,
+					fValueRm		:= 0.0
+				);	
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[View();
+Enable();
+Value();]]></ST>
+    </Implementation>
+    <LineIds Name="FB_NestedView">
+      <LineId Id="9" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="33" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

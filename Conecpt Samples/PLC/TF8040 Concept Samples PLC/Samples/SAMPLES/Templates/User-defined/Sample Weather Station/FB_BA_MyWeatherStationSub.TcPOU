@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_BA_MyWeatherStationSub" Id="{17417506-e33f-4972-b839-5e8a66f2f355}" SpecialFunc="None">
+    <Declaration><![CDATA[// [Sample]
+// Subscriber to a user specific weather station.
+FUNCTION_BLOCK FB_BA_MyWeatherStationSub EXTENDS FB_BA_Subscriber
+VAR_OUTPUT
+	fWeatherTemperature	: REAL;
+	fHumidity			: REAL;
+	fBrightness			: REAL;
+	
+	bDisturb			: BOOL;
+END_VAR
+VAR
+	{region 'General'}
+		stData			: ST_BA_MyWeatherData;
+	{endregion}
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+// Update outputs of most important variables:
+fWeatherTemperature := stData.fWeatherTemperature;
+fHumidity := stData.fHumidity;
+fBrightness := stData.fBrightness;
+
+// Indicate:
+// - A physical error that is really occured in the remote weather station
+// - A reference error (E.g. broken ADS connection)
+bDisturb := (stData.bDisturb) OR (Error);]]></ST>
+    </Implementation>
+    <Folder Name="[Protected] Events" Id="{49e9a87b-26c9-44a3-9292-34b059a2047a}" />
+    <Folder Name="Management" Id="{3e63512f-3226-4cb2-af06-2db0d04fc38d}" />
+    <Method Name="FB_init" Id="{331ec02d-b0b0-4f1b-a128-6ee4179000dc}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// [Hint]
+// > Eigentlich wird an dieser Stelle das Profil definiert. Aber zur Übersicht wird es in "MAIN_SharedInterfaces" initialisiert.
+
+// iProfile := SampleMyProfiles.MyWeatherStation;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetData" Id="{09db79f0-a1cc-440f-b09b-f8092fbaa0a4}" FolderPath="Management\">
+      <Declaration><![CDATA[// Returns subscription-data (For storing read data).
+METHOD GetData
+VAR_OUTPUT
+	pData			: PVOID;				// Pointer to subscribed data.
+	nSize			: DINT;					// Size of subscribed data.
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[pData := ADR(stData);
+nSize := SIZEOF(stData);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnValidateSubscription" Id="{b4a3d99f-a1de-4c68-9ca0-cad4df264726}" FolderPath="[Protected] Events\">
+      <Declaration><![CDATA[METHOD PROTECTED OnValidateSubscription : BOOL
+VAR_INPUT
+	iPublisher			: I_BA_Publisher;
+END_VAR
+VAR
+	_iSubWthSt			: I_BA_MyWeatherStation;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Cast interface pointer (Used for a local subscription):
+OnValidateSubscription := __QUERYINTERFACE(iPublisher, _iSubWthSt);]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_BA_MyWeatherStationSub">
+      <LineId Id="87" Count="0" />
+      <LineId Id="129" Count="3" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="154" Count="0" />
+      <LineId Id="156" Count="1" />
+      <LineId Id="147" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStationSub.FB_init">
+      <LineId Id="9" Count="1" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStationSub.GetData">
+      <LineId Id="86" Count="0" />
+      <LineId Id="90" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_MyWeatherStationSub.OnValidateSubscription">
+      <LineId Id="26" Count="0" />
+      <LineId Id="30" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

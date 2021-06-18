@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
+  <POU Name="FB_ProcAggregateB" Id="{e7e2e93b-b12f-4626-a312-91fafef05993}" SpecialFunc="None">
+    <Declaration><![CDATA[// Some aggregate that has implemented a process for demonstration.
+FUNCTION_BLOCK FB_ProcAggregateB EXTENDS FB_BA_AggregateB
+VAR
+	Delay			: TON					:= (PT:=T#10S);
+	Process			: FB_BA_Process			:= (iParent:=THIS^);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+Delay(IN := (bActiveEn AND bActiveVal));
+Process(
+	bEn := Delay.IN,
+	bVal := (NOT Delay.Q)
+);]]></ST>
+    </Implementation>
+    <LineIds Name="FB_ProcAggregateB">
+      <LineId Id="14" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="28" Count="1" />
+      <LineId Id="27" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

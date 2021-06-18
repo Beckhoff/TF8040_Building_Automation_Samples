@@ -1,0 +1,517 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
+  <POU Name="FB_Obj_General" Id="{f07adce9-708d-4d7c-bf72-62a1785c3363}" SpecialFunc="None">
+    <Declaration><![CDATA[// Demonstration of objects.
+// > See "FB_BA_EC01" to view decleared event classes.
+FUNCTION_BLOCK FB_Obj_General EXTENDS FB_BA_View
+VAR
+	{region 'Analog'}
+		A										: FB_BA_View := (
+													iParent									:= THIS^,
+													sDescription							:= '[Analog objects]'
+												);
+			 
+			// Intention:						Value
+			AV									: FB_BA_AV := (
+													iParent									:= A,
+													sDescription							:= '[Analog Value]',
+													eUnit									:= E_BA_Unit.eOther_Percent,
+													nEventClassID							:= 11,
+													stLowLimit								:= F_BA_Limit(TRUE, 0),
+													stHighLimit								:= F_BA_Limit(TRUE, 50),
+													stTimeDelay								:= F_BA_TimeDelay(1, 1),
+													bEnPgm									:= TRUE,
+													fValPgm									:= 10.0
+												);
+													
+			// Intention:						Value for Display
+			// Operation:						Display
+			fAVDsp_ValuePgm						: REAL := 0;
+			AVDsp								: FB_BA_AV_Op := (
+													iParent									:= A,
+													sObjectName								:= '[MyAvDsp]',
+													sDescription							:= '[Sample AV Display]',
+													eUnit									:= E_BA_Unit.eOther_Percent
+												);	
+			
+			// Intention:						Value for Setpoint
+			// Operation:						Setpoint
+			AVSp								: FB_BA_AV_Op := (
+													iParent									:= A,
+													sDescription							:= '[Sample AV Setpoint]',
+													eUnit									:= E_BA_Unit.eTemperature_DegreesCelsius,
+													fValueRm								:= 3
+												);
+			bAVSp2_ValViaProp					: BOOL;
+			fAVSp2_ValViaProp					: REAL;
+			AVSp2								: FB_BA_AV_Op := (
+													iParent									:= A,
+													sDescription							:= '[Sample AV Setpoint 2]',
+													eUnit									:= E_BA_Unit.eTemperature_DegreesCelsius,
+													fValueRm								:= 3
+												);
+		
+			// Intention:						Input
+			// Hardware:						Process Data
+			fAI_Proc_ValuePgm					: REAL := 20;
+			AI_Proc								: FB_BA_AI := (
+													iParent									:= A,
+													sDescription							:= '[Sample AI (Process Data)]',
+													sDeviceType								:= 'Analoger Eingang',
+													eUnit									:= E_BA_Unit.eOther_Percent,
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Input
+			// Hardware:						Raw Data
+			AI_Raw								: FB_BA_AI_Raw := (
+													iParent									:= A,
+													sDescription							:= '[Sample AI (Raw)]',
+													sDeviceType								:= 'Analoger Eingang',
+													eUnit									:= E_BA_Unit.eOther_Percent,
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Input
+			// Hardware:						I/O
+			AI_IO								: FB_BA_AI_IO := (
+													iParent									:= A,
+													sDescription							:= '[Sample AI (IO)]',
+													sDeviceType								:= 'Analoger Eingang',
+													eUnit									:= E_BA_Unit.eOther_Percent,
+													nEventClassID							:= 11
+												);
+												
+			AI_IO_2_10V							: FB_BA_AI_IO := (
+													iParent									:= A,
+													sDescription							:= '[Sample AI (IO)]',
+													sDeviceType								:= 'Analoger Eingang (2-10V)',
+													eUnit									:= E_BA_Unit.eOther_Percent,
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Input
+			// Hardware:						I/O
+			AI_Temp								: FB_BA_AI_IOEx := (
+													iParent									:= A,
+													sDescription							:= '[Sample AI Temperaturfühler (Temp)]',
+													sDeviceType								:= 'Temperaturfühler',
+													eUnit									:= E_BA_Unit.eTemperature_DegreesCelsius,
+													eSensor									:= E_BA_MeasuringElement.eNI1000,
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Input for Display
+			// Operation:						Display
+			// Hardware:						I/O
+			// Parameter:						EventDetectionEnable = FALSE
+			AIDsp_IO							: FB_BA_AI_IO := (
+													iParent									:= A,
+													sDescription							:= '[Sample AI Display (IO)]',
+													sDeviceType								:= 'Analoger Eingang',
+													eUnit									:= E_BA_Unit.eOther_Percent,
+													bEventDetectionEnable					:= FALSE,
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Output
+			// Hardware:						Process Data
+			AO_CmdProc							: FB_BA_AO := (
+													iParent									:= A,
+													sDescription							:= '[Analog Befehl (Process Data)]',
+													eUnit									:= E_BA_Unit.eOther_Percent,
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Output
+			// Hardware:						Raw Data
+			AO_CmdRaw							: FB_BA_AO_Raw := (
+													iParent									:= A,
+													sDescription							:= '[Analog Befehl (Raw Data)]',
+													eUnit									:= E_BA_Unit.eOther_Percent,
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Output
+			// Hardware:						I/O
+			AO_CmdIO							: FB_BA_AO_IO := (
+													iParent									:= A,
+													sDescription							:= '[Analog Befehl (IO)]',
+													eUnit									:= E_BA_Unit.eOther_Percent,
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Output for Display
+			// Operation:						Display
+			// Hardware:						I/O
+			// Parameter:						EventDetectionEnable = FALSE
+			AODisp_CmdIO						: FB_BA_AO_IO := (
+													iParent									:= A,
+													sDescription							:= '[Analog Befehl Display (IO)]',
+													eUnit									:= E_BA_Unit.eOther_Percent,
+													bEventDetectionEnable					:= FALSE,
+													nEventClassID							:= 11
+												);
+	{endregion}
+	{region 'Binary'}
+		B										: FB_BA_View := (
+													iParent									:= THIS^,
+													sDescription							:= '[Binary objects]'
+												);
+			 
+			// Intention:						Value
+			BV									: FB_BA_BV := (
+													iParent									:= B,
+													sDescription							:= '[Binary Value]',
+													sInactiveText							:= 'Aus',
+													sActiveText								:= 'Ein',
+													nEventClassID							:= 10
+												);
+															
+			// Intention:						Value for Display
+			// Operation:						Display
+			bBVDsp_ValuePgm						: BOOL := FALSE;
+			BVDsp								: FB_BA_BV_Op := (
+													iParent									:= B,
+													sDescription							:= '[Sample BV Display]',
+													sInactiveText							:= 'Aus',
+													sActiveText								:= 'Ein'
+												);
+			
+			// Intention:						Value for Setpoint
+			// Operation:						Setpoint
+			BVSp								: FB_BA_BV_Op := (
+													iParent									:= B,
+													sDescription							:= '[Sample BV Setpoint]',
+													sInactiveText							:= 'Aus',
+													sActiveText								:= 'Ein',
+													bValueRm								:= TRUE
+												);
+												
+			// Intention:						Value for Setpoint
+			// Operation:						Pushbutton
+			nBVPushButton_Counter				: UINT;
+			BVPushButton						: FB_BA_BV_Op := (
+													iParent									:= B,
+													sDescription							:= '[Sample BV Pushbutton]',
+													sInactiveText							:= 'Aus',
+													sActiveText								:= 'Ein',
+													eToggleMode								:= E_BA_ToggleMode.ePushButton
+												);
+		
+			// Intention:						Input
+			// Hardware:						Process Data
+			BI_Proc								: FB_BA_BI := (
+													iParent									:= B,
+													sDescription							:= '[Sample BI (Process Data)]',
+													sDeviceType								:= 'Sicherung',
+													sInactiveText							:= 'Normal',
+													sActiveText								:= 'Ausgelöst',
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Input
+			// Hardware:						Raw Data
+			BI_Raw								: FB_BA_BI_Raw := (
+													iParent									:= B,
+													sDescription							:= '[Sample BI (Raw Data)]',
+													sDeviceType								:= 'Sicherung',
+													sInactiveText							:= 'Normal',
+													sActiveText								:= 'Ausgelöst',
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Input
+			// Hardware:						I/O
+			BI_DstbIO							: FB_BA_BI_IO := (
+													iParent									:= B,
+													sDescription							:= '[Sample BI Disturb (IO)]',
+													sDeviceType								:= 'Sicherung',
+													sInactiveText							:= 'Normal',
+													sActiveText								:= 'Ausgelöst',
+													ePolarity								:= E_BA_Polarity.eReverse,
+													nEventClassID							:= 51,
+													eEnPlantLock							:= E_BA_LockPriority.eLocalMedium
+												);
+		
+			// Intention:						Input for Display
+			// Operation:						Display
+			// Hardware:						I/O
+			// Parameter:						EventDetectionEnable = FALSE
+			BIDsp_SwiIO							: FB_BA_BI_IO := (
+													iParent									:= B,
+													sDescription							:= '[Sample BI Schalter Display (IO)]',
+													sDeviceType								:= 'Sicherung',
+													sInactiveText							:= 'Normal',
+													sActiveText								:= 'Ausgelöst',
+													ePolarity								:= E_BA_Polarity.eReverse,
+													nEventClassID							:= 182,
+													bEventDetectionEnable					:= FALSE
+												);
+		
+			// Intention:						Output
+			// Hardware:						I/O
+			BO_CmdIO							: FB_BA_BO_IO := (
+													iParent									:= B,
+													sDescription							:= '[Sample BO Befehl (IO)]',
+													sInactiveText							:= 'Aus',
+													sActiveText								:= 'Ein',
+													nEventClassID							:= 11,
+													stTimeDelay := (
+														nToAbnormal							:= 3
+													)
+												);
+		
+			// Intention:						Output
+			// Hardware:						Process Data
+			BO_CmdProc							: FB_BA_BO := (
+													iParent									:= B,
+													sDescription							:= '[Sample BO Befehl (Process Data)]',
+													sInactiveText							:= 'Aus',
+													sActiveText								:= 'Ein',
+													nEventClassID							:= 11,
+													stTimeDelay := (
+														nToAbnormal							:= 3
+													)
+												);
+		
+			// Intention:						Output
+			// Hardware:						Raw Data
+			BO_CmdRaw							: FB_BA_BO_Raw := (
+													iParent									:= B,
+													sDescription							:= '[Sample BO Befehl (Raw Data)]',
+													sInactiveText							:= 'Aus',
+													sActiveText								:= 'Ein',
+													nEventClassID							:= 11,
+													stTimeDelay := (
+														nToAbnormal							:= 3
+													)
+												);
+													
+			// Intention:						Output for Display
+			// Operation:						Display
+			// Hardware:						I/O
+			// Parameter:						EventDetectionEnable = FALSE
+			BODisp_CmdIO						: FB_BA_BO_IO := (
+													iParent									:= B,
+													sDescription							:= '[Sample BO Befehl Display (IO)]',
+													sInactiveText							:= 'Aus',
+													sActiveText								:= 'Ein',
+													nEventClassID							:= 182,
+													bEventDetectionEnable					:= FALSE
+												);
+	{endregion}
+	{region 'Multistate'}
+		M										: FB_BA_View := (
+													iParent									:= THIS^,
+													sDescription							:= '[Multistate objects]'
+												);
+			 
+			// Intention:						Value
+			MV									: FB_BA_MV := (
+													iParent									:= M,
+													sDescription							:= '[Sample MV]',
+													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2' ],
+													nEventClassID							:= 11
+												);
+			
+			// Intention:						Value for Display
+			// Operation:						Display
+			nAVDsp_ValuePgm						: UDINT := 1;
+			MVDsp								: FB_BA_MV_Op := (
+													iParent									:= M,
+													sObjectName								:= '[BAS01]',
+													sDescription							:= '[Sample MV Display]',
+													aStateText								:= [ 'Auto', 'Aus', 'Stufe 1', 'Stufe 2' ]
+												);
+			
+			// Intention:						Value for Setpoint
+			// Operation:						Setpoint
+			MVSp								: FB_BA_MV_Op := (
+													iParent									:= M,
+													sObjectName								:= '[BAM01]',
+													sDescription							:= '[Sample MV Setpoint]',
+													aStateText								:= [ 'Auto', 'Aus', 'Stufe 1', 'Stufe 2' ],
+													nValueRm								:= 1
+												);
+												
+												
+			nMVPushButton_Counter				: UDINT;
+			MVPushButton						: FB_BA_MV_Op := (
+													iParent									:= M,
+													sDescription							:= '[Sample MV Pushbutton]',
+													aStateText								:= [ 'Aus', 'Increment 1', 'Increment 2' ],
+													eToggleMode								:= E_BA_ToggleMode.ePushButton
+												);
+		
+			// Intention:						Input
+			// Hardware:						Process Data
+			MI_StateProc						: FB_BA_MI := (
+													iParent									:= M,
+													sDescription							:= '[Sample MI State (Process Data)]',
+													sDeviceType								:= 'Gerät',
+													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
+													aAlarmValues							:= [ 3, 4 ],
+													aFaultValues							:= [ 5 ],
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Input
+			// Hardware:						Raw Data
+			MI_StateRaw							: FB_BA_MI_Raw := (
+													iParent									:= M,
+													sDescription							:= '[Sample MI State (Raw Data)]',
+													sDeviceType								:= 'Gerät',
+													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
+													aAlarmValues							:= [ 3, 4 ],
+													aFaultValues							:= [ 5 ],
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Input
+			// Hardware:						I/O
+			MI_StateIO							: FB_BA_MI_IO := (
+													iParent									:= M,
+													sDescription							:= '[Sample MI State (IO)]',
+													sDeviceType								:= 'Gerät',
+													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
+													aAlarmValues							:= [ 3, 4 ],
+													aFaultValues							:= [ 5 ],
+													nEventClassID							:= 11
+												);
+		
+			// Intention:						Input for Display
+			// Operation:						Display
+			// Hardware:						I/O
+			// Parameter:						EventDetectionEnable = FALSE
+			MIDsp_Swi_StateIO					: FB_BA_MI_IO := (
+													iParent									:= M,
+													sDescription							:= '[Sample MI State (IO)]',
+													sDeviceType								:= 'Gerät',
+													aStateText								:= [ 'Zustand 1', 'Zustand 2', 'Zustand 3', 'Unbekannt' ],
+													nEventClassID							:= 182,
+													bEventDetectionEnable					:= FALSE
+												);
+		
+			// Intention:						Output for Display
+			// Operation:						Display
+			// Hardware:						I/O
+			// Parameter:						EventDetectionEnable = FALSE
+			MODisp_IO							: FB_BA_MO_IO := (
+													iParent									:= M,
+													sDescription							:= '[Sample MO Befehl (IO)]',
+													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
+													nEventClassID							:= 182,
+													bEventDetectionEnable					:= FALSE
+												);
+		
+			// Intention:						Output
+			// Hardware:						Process Data
+			MO_CmdProc							: FB_BA_MO := (
+													iParent									:= M,
+													sDescription							:= '[Sample MO Befehl (Process Data)]',
+													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
+													nEventClassID							:= 182
+												);
+		
+			// Intention:						Output
+			// Hardware:						Raw Data
+			MO_CmdRaw							: FB_BA_MO_Raw := (
+													iParent									:= M,
+													sDescription							:= '[Sample MO Befehl (Raw Data)]',
+													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
+													nEventClassID							:= 182
+												);
+	{endregion}
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+// Analog:
+A();
+
+AV();
+AVDsp(fValuePgm	:= MAX(fAVDsp_ValuePgm, AVSp.fPresentValue));
+AVSp();
+IF (bAVSp2_ValViaProp) THEN
+	bAVSp2_ValViaProp := FALSE;
+	AVSp2.PresentValue := fAVSp2_ValViaProp;
+END_IF
+AVSp2();
+AI_Proc(fVal := fAI_Proc_ValuePgm);
+AI_Raw();
+AI_IO();
+AI_IO_2_10V();
+AI_Temp();
+AIDsp_IO();
+AO_CmdProc();
+AO_CmdRaw();
+AO_CmdIO();
+AODisp_CmdIO();
+
+// Binary:
+B();
+
+BV(bEnCrit := BI_DstbIO.bEvent);
+BVDsp(bValuePgm	:= (bBVDsp_ValuePgm OR BVSp.bPresentValue));
+BVSp();
+BVPushButton();
+BI_Proc();
+BI_Raw();
+BI_DstbIO();
+BIDsp_SwiIO();
+BO_CmdProc();
+BO_CmdRaw();
+BO_CmdIO();
+BODisp_CmdIO();
+
+IF (BVPushButton.bPresentValue <> BVPushButton.bDefaultValue) THEN
+	nBVPushButton_Counter := (nBVPushButton_Counter+1);
+END_IF
+
+// Multistate:
+M();
+
+MV();
+MVDsp(nValuePgm := MAX(nAVDsp_ValuePgm, MVSp.nPresentValue));
+MVSp();
+MVPushButton();
+MI_StateProc();
+MI_StateRaw();
+MI_StateIO();
+MIDsp_Swi_StateIO();
+MODisp_IO(
+	bEnPgm		:= TRUE,
+	nValPgm		:= LIMIT(1, TO_UDINT(AVSp.fPresentValue), MODisp_IO.StateCount)
+);
+MO_CmdProc();
+MO_CmdRaw();
+
+IF (MVPushButton.nPresentValue <> MVPushButton.nDefaultValue) THEN
+	nMVPushButton_Counter := (nMVPushButton_Counter+(MVPushButton.nPresentValue-1));
+END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Obj_General">
+      <LineId Id="9" Count="0" />
+      <LineId Id="319" Count="0" />
+      <LineId Id="295" Count="0" />
+      <LineId Id="1053" Count="1" />
+      <LineId Id="296" Count="0" />
+      <LineId Id="303" Count="0" />
+      <LineId Id="1484" Count="3" />
+      <LineId Id="304" Count="0" />
+      <LineId Id="308" Count="10" />
+      <LineId Id="466" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="1055" Count="1" />
+      <LineId Id="469" Count="15" />
+      <LineId Id="597" Count="1" />
+      <LineId Id="1057" Count="1" />
+      <LineId Id="599" Count="1" />
+      <LineId Id="603" Count="15" />
+      <LineId Id="467" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
