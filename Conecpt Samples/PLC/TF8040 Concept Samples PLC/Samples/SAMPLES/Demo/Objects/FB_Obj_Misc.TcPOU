@@ -11,13 +11,13 @@ VAR
 	{region 'Project'}
 		Proj									: FB_BA_View := (
 													iParent									:= THIS^,
-													sDescription							:= '[Project information]'
+													sDescription							:= '{Project information}'
 												);
 				 
 			// Intention:						Project Information
 			Project								: FB_BA_Project := (
 													iParent									:= Proj,
-													sDescription							:= '[My project infos]',
+													sDescription							:= '{My project infos}',
 													stProject := (	
 														sTitle								:= 'Mein Projekt',
 														sDescription						:= 'PLC Beispielprojekt',
@@ -28,7 +28,7 @@ VAR
 	{region 'Loop'}
 		Loop									: FB_BA_View := (
 													iParent									:= THIS^,
-													sDescription							:= '[Loop objects]'
+													sDescription							:= '{Loop objects}'
 												);
 				 
 			fLoop_Setpoint						: REAL										:= 20;								// Temperature setpoint.
@@ -43,7 +43,7 @@ VAR
 			Heat2_Y								: REFERENCE TO REAL							REF= Heat2.fPresentValue;
 			Heat2								: FB_BA_Loop := (
 													iParent									:= Loop,
-													sDescription							:= '[Heating Loop 2]',
+													sDescription							:= '{Heating Loop 2}',
 													eOutputUnit								:= E_BA_Unit.eOther_Percent,
 													bEn										:= TRUE,
 													eActionRm								:= E_BA_Action.eReverse,
@@ -56,7 +56,7 @@ VAR
 			Heat1_Y								: REFERENCE TO REAL							REF= Heat1.fPresentValue;
 			Heat1								: FB_BA_Loop := (
 													iParent									:= Loop,
-													sDescription							:= '[Heating Loop 1]',
+													sDescription							:= '{Heating Loop 1}',
 													eOutputUnit								:= E_BA_Unit.eOther_Percent,
 													bEn										:= TRUE,
 													eActionRm								:= E_BA_Action.eReverse,
@@ -69,7 +69,7 @@ VAR
 			Cool_Y								: REFERENCE TO REAL							REF= Cool.fPresentValue;
 			Cool								: FB_BA_Loop := (
 													iParent									:= Loop,
-													sDescription							:= '[Cooling Loop]',
+													sDescription							:= '{Cooling Loop}',
 													eOutputUnit								:= E_BA_Unit.eOther_Percent,
 													bEn										:= TRUE,
 													eActionRm								:= E_BA_Action.eDirect,
@@ -80,7 +80,7 @@ VAR
 			TSeq_Step							: REFERENCE TO STRING						REF= TSeq.sStep;
 			TSeq								: FB_BA_SequenceLink := (
 													iParent									:= Loop,
-													sDescription							:= '[Temperature sequence]',
+													sDescription							:= '{Temperature sequence}',
 													iReference								:= [ Heat2, Heat1, Cool ]
 												);
 													
@@ -94,7 +94,7 @@ VAR
 			Heat3								: FB_BA_Loop := (
 													iParent									:= Loop,
 													iNextSequenceRef						:= Heat4,
-													sDescription							:= '[Heating Loop 3]',
+													sDescription							:= '{Heating Loop 3}',
 													eOutputUnit								:= E_BA_Unit.eOther_Percent,
 													bEn										:= TRUE,
 													eActionRm								:= E_BA_Action.eReverse,
@@ -107,7 +107,7 @@ VAR
 			Heat4_Y								: REFERENCE TO REAL							REF= Heat4.fPresentValue;
 			Heat4								: FB_BA_Loop := (
 													iParent									:= Loop,
-													sDescription							:= '[Heating Loop 3]',
+													sDescription							:= '{Heating Loop 3}',
 													eOutputUnit								:= E_BA_Unit.eOther_Percent,
 													bEn										:= TRUE,
 													eActionRm								:= E_BA_Action.eReverse,
@@ -118,13 +118,13 @@ VAR
 	{region 'Calendar'}
 		Cals									: FB_BA_View := (
 													iParent									:= THIS^,
-													sDescription							:= '[Calendar objects]'
+													sDescription							:= '{Calendar objects}'
 												);
 				 
 			// Intention:						Calendar
 			Cal1								: FB_BA_Cal := (
 													iParent									:= Cals,
-													sDescription							:= '[Calendar 1]',
+													sDescription							:= '{Calendar 1}',
 													aDateList := [(
 														eType								:= E_BA_DateValChoice.eDate,
 														uDate								:= F_BA_DateVal(2021,E_BA_Month.eMarch,10)
@@ -139,18 +139,18 @@ VAR
 			// Intention:						Calendar
 			Cal2								: FB_BA_Cal := (
 													iParent									:= Cals,
-													sDescription							:= '[Calendar 2]'
+													sDescription							:= '{Calendar 2}'
 												);
 			// Intention:						Calendar
 			Cal3								: FB_BA_Cal := (
 													iParent									:= Cals,
-													sDescription							:= '[Calendar 3]'
+													sDescription							:= '{Calendar 3}'
 												);
 	{endregion}
 	{region 'Scheduler'}
 		Sched									: FB_BA_View := (
 													iParent									:= THIS^,
-													sDescription							:= '[Schedule objects]'
+													sDescription							:= '{Schedule objects}'
 												);
 			
 			// Intention:						Analog Schedule
@@ -159,7 +159,7 @@ VAR
 			//									tException = [(..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...))]
 			SchedA								: FB_BA_SchedA := (
 													iParent									:= Sched,
-													sDescription							:= '[Schedule Analog]',
+													sDescription							:= '{Schedule Analog}',
 													eUnit									:= E_BA_Unit.eOther_NoUnits,
 													aWeek									:= F_BA_SchedWeekly3xA(E_BA_Weekday.eMonday, E_BA_Weekday.eFriday, T#0H, 0.0, T#6H, 10.0, T#20H, 0.0),
 													aCalendar := [(
@@ -185,7 +185,7 @@ VAR
 			//									tCalendar = [(...), (...), (...)]
 			SchedB								: FB_BA_SchedB := (
 													iParent									:= Sched,
-													sDescription							:= '[Schedule Bool]',
+													sDescription							:= '{Schedule Bool}',
 													sInactiveText							:= 'Aus',
 													sActiveText								:= 'Ein',
 													aWeek									:= F_BA_SchedWeekly3xB(E_BA_Weekday.eMonday, E_BA_Weekday.eFriday, T#0H, FALSE, T#6H, TRUE, T#20H, FALSE),
@@ -202,7 +202,7 @@ VAR
 			// Intention:						Multistate Schedule
 			SchedM								: FB_BA_SchedM := (
 													iParent									:= Sched,
-													sDescription							:= '[Schedule Multistate]',
+													sDescription							:= '{Schedule Multistate}',
 													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3' ],
 													aWeek									:= F_BA_SchedWeekly3xM(E_BA_Weekday.eMonday, E_BA_Weekday.eFriday, T#0H, 1, T#6H, 2, T#20H, 1),
 													aCalendar := [(
@@ -219,20 +219,20 @@ VAR
 	{region 'Trend'}
 		Trnd									: FB_BA_View := (
 													iParent									:= THIS^,
-													sDescription							:= '[Trend objects]'
+													sDescription							:= '{Trend objects}'
 												);
 				 
 			// Intention:						Trend in polling-mode
 			// Parameter:						eLoggingType = E_BA_LoggingType.ePolled
 			PollAV								: FB_BA_AV_Op := (
 													iParent									:= Trnd,
-													sDescription							:= '[Referred object for polling]',
+													sDescription							:= '{Referred object for polling}',
 													eUnit									:= E_BA_Unit.eTemperature_DegreesCelsius,
 													fValueRm								:= 3
 												);
 			TrendPoll							: FB_BA_Trend := (
 													iParent									:= Trnd,
-													sDescription							:= '[Sample Trend]',
+													sDescription							:= '{Sample Trend}',
 													nEventClassID							:= 11,
 													stStartTime								:= F_BA_ToSTDateTime(DT#2010-01-01-00:00),
 													eLoggingType							:= E_BA_LoggingType.ePolled,
@@ -244,14 +244,14 @@ VAR
 			// Parameter:						eLoggingType = E_BA_LoggingType.eCOV
 			CovAI								: FB_BA_AI := (
 													iParent									:= Trnd,
-													sDescription							:= '[Referred analog object for COV]',
+													sDescription							:= '{Referred analog object for COV}',
 													eUnit									:= E_BA_Unit.eOther_Percent,
 													nEventClassID							:= 11,
 													bEventDetectionEnable					:= FALSE
 												);
 			TrendCovAI							: FB_BA_Trend := (
 													iParent									:= Trnd,
-													sDescription							:= '[Sample Analog Trend COV]',
+													sDescription							:= '{Sample Analog Trend COV}',
 													nEventClassID							:= 11,
 													bEnable									:= TRUE,
 													nBufferSize								:= 100,
@@ -260,7 +260,7 @@ VAR
 												);
 			CovBI								: FB_BA_BI := (
 													iParent									:= Trnd,
-													sDescription							:= '[Referred binary object for COV]',
+													sDescription							:= '{Referred binary object for COV}',
 													sInactiveText							:= 'Off',
 													sActiveText								:= 'On',
 													nEventClassID							:= 11,
@@ -268,7 +268,7 @@ VAR
 												);
 			TrendCovBI							: FB_BA_Trend := (
 													iParent									:= Trnd,
-													sDescription							:= '[Sample Binary Trend COV]',
+													sDescription							:= '{Sample Binary Trend COV}',
 													nEventClassID							:= 11,
 													bEnable									:= TRUE,
 													nBufferSize								:= 100,
@@ -277,14 +277,14 @@ VAR
 												);
 			CovMI								: FB_BA_MI := (
 													iParent									:= Trnd,
-													sDescription							:= '[Referred multistate object for COV]',
+													sDescription							:= '{Referred multistate object for COV}',
 													aStateText								:= ['Eco', 'Standard', 'Comfort'],
 													nEventClassID							:= 11,
 													bEventDetectionEnable					:= FALSE
 												);
 			TrendCovMI							: FB_BA_Trend := (
 													iParent									:= Trnd,
-													sDescription							:= '[Sample Multistate Trend COV]',
+													sDescription							:= '{Sample Multistate Trend COV}',
 													nEventClassID							:= 11,
 													bEnable									:= TRUE,
 													nBufferSize								:= 100,
@@ -307,20 +307,20 @@ VAR
 	{region 'Event classes'}
 		EC										: FB_BA_View := (
 													iParent									:= THIS^,
-													sDescription							:= '[Event classes]'
+													sDescription							:= '{Event classes}'
 												);
 				 
 			EC_Test1							: FB_BA_EC := (
 													iParent									:= EC,
 													nInstanceID								:= 245,
-													sDescription							:= '[EC Sample 1]',
+													sDescription							:= '{EC Sample 1}',
 													eEventType								:= E_BA_EventType.eDisturb,
 													eAlarmMode								:= E_BA_AlarmMode.eStandard
 												);	
 			EC_Test2							: FB_BA_EC := (
 													iParent									:= EC,
 													nInstanceID								:= 246,
-													sDescription							:= '[EC Sample 2]',
+													sDescription							:= '{EC Sample 2}',
 													aAcknowledgeRequired					:= BA_Globals.aAckFlags_Extended
 												);
 	{endregion}

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="FB_Evt_Events" Id="{b218198f-fd5a-469c-b5b5-684d23708b65}" SpecialFunc="None">
     <Declaration><![CDATA[// Examples of objects that refer different event classes.
 // > One object per 'EventType' and 'AlarmMode'.
@@ -15,7 +15,7 @@ VAR
 	{endregion}
 		 
 	{region 'Alarm'}
-		Alm						: FB_BA_View					:= (iParent:=THIS^,	sDescription:= '[Alarm]');
+		Alm						: FB_BA_View					:= (iParent:=THIS^,	sDescription:='{Alarm}');
 			AlmLock				: FB_BA_PlantLock				:= (iParent:=Alm);
 							
 			BIAlmSmpl_Val		: REFERENCE TO BOOL				REF= BIAlmSmpl.bVal;
@@ -29,7 +29,7 @@ VAR
 			BIAlmExt			: FB_BA_BI						:= (iParent:=Alm,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=10);
 	{endregion}
 	{region 'Disturb'}
-		Dstb					: FB_BA_View					:= (iParent:=THIS^,	sDescription:= '[Disturb]');
+		Dstb					: FB_BA_View					:= (iParent:=THIS^,	sDescription:='{Disturb}');
 			DstbLock			: FB_BA_PlantLock				:= (iParent:=Dstb);
 
 			BIDstbSmpl_Val		: REFERENCE TO BOOL				REF= BIDstbSmpl.bVal;
@@ -43,7 +43,7 @@ VAR
 			BIDstbExt			: FB_BA_BI						:= (iParent:=Dstb,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=50);
 	{endregion}
 	{region 'Maintenance'}
-		Mntn					: FB_BA_View					:= (iParent:=THIS^,	sDescription:= '[Maintenance]');
+		Mntn					: FB_BA_View					:= (iParent:=THIS^,	sDescription:='{Maintenance}');
 			MntnLock			: FB_BA_PlantLock				:= (iParent:=Mntn);
 
 			BIMntnSmpl_Val		: REFERENCE TO BOOL				REF= BIMntnSmpl.bVal;
@@ -57,7 +57,7 @@ VAR
 			BIMntnExt			: FB_BA_BI						:= (iParent:=Mntn,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=90);
 	{endregion}
 	{region 'Notification'}
-		Ntfy					: FB_BA_View					:= (iParent:=THIS^,	sDescription:= '[Notification]');
+		Ntfy					: FB_BA_View					:= (iParent:=THIS^,	sDescription:='{Notification}');
 			NtfyLock			: FB_BA_PlantLock				:= (iParent:=Ntfy);
 
 			BINtfySmpl_Val		: REFERENCE TO BOOL				REF= BINtfySmpl.bVal;
@@ -68,7 +68,7 @@ VAR
 			BINtfyStd			: FB_BA_BI						:= (iParent:=Ntfy,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=131,	eEnPlantLock:= E_BA_LockPriority.eLocalMedium);
 	{endregion}
 	{region 'Other'}
-		Other					: FB_BA_View					:= (iParent:=THIS^,	sDescription:= '[Other]');
+		Other					: FB_BA_View					:= (iParent:=THIS^,	sDescription:='{Other}');
 			OtherLock			: FB_BA_PlantLock				:= (iParent:=Other);
 				 
 			BIOthrSmpl_Val		: REFERENCE TO BOOL				REF= BIOthrSmpl.bVal;
