@@ -1,0 +1,181 @@
+﻿{
+  "$schema": "../../Packages/Beckhoff.TwinCAT.HMI.Framework-12.746.0/runtimes/native1.12-tchmi/Schema/TchmiConfig.Schema.json",
+  "basePath": "./framework",
+  "scaleMode": "None",
+  "startupView": "Desktop.view",
+  "loginPage": "",
+  "tcHmiServer": {
+    "websocketIntervalTime": 500,
+    "websocketTimeout": 20000,
+    "websocketSystemTimeout": 60000,
+    "websocketSubscriptionMode": "Change"
+  },
+  "activeTheme": "Base",
+  "themes": {
+    "Base": {
+      "resources": [
+        {
+          "name": "Themes/Base/Base.theme",
+          "description": "",
+          "type": "ThemedValues"
+        },
+        {
+          "name": "Themes/Base/BaseStyle.css",
+          "description": "",
+          "type": "Stylesheet"
+        }
+      ],
+      "replacesThemeForControls": []
+    },
+    "Dark": {
+      "resources": [
+        {
+          "name": "Themes/Dark/Dark.theme",
+          "description": "",
+          "type": "ThemedValues"
+        },
+        {
+          "name": "Themes/Dark/Style.css",
+          "description": "",
+          "type": "Stylesheet"
+        }
+      ],
+      "replacesThemeForControls": []
+    }
+  },
+  "dependencyFiles": [
+    {
+      "name": "Fonts/Fonts.css",
+      "description": "",
+      "type": "Stylesheet"
+    }
+  ],
+  "userControls": [
+    {
+      "url": "Content/Layouts/PipeLayout1.usercontrol"
+    },
+    {
+      "url": "Navigation/HeaderMenu.usercontrol"
+    }
+  ],
+  "content": [
+    {
+      "url": "Content/Pages/EventList.content",
+      "preload": false,
+      "keepAlive": true
+    },
+    {
+      "url": "Content/Pages/ProjectNavigation.content",
+      "preload": false,
+      "keepAlive": true
+    },
+    {
+      "url": "Content/Pages/ServerLog.content",
+      "preload": false,
+      "keepAlive": true
+    },
+    {
+      "url": "Content/Pages/StartPage.content",
+      "preload": false,
+      "keepAlive": true
+    },
+    {
+      "url": "Content/Plants/SiteA_B_IFP01_F01_AC_TKA11.content",
+      "preload": false,
+      "keepAlive": false
+    },
+    {
+      "url": "Content/Plants/SiteA_B_IFP01_F01_H_HZK01.content",
+      "preload": false,
+      "keepAlive": true
+    }
+  ],
+  "views": [
+    {
+      "url": "Desktop.view",
+      "preload": false,
+      "keepAlive": false
+    }
+  ],
+  "userFunctions": [],
+  "symbols": {
+    "internal": {
+      "LastTargetRegionContent": {
+        "type": "tchmi:framework#/definitions/ContentPath",
+        "persist": false,
+        "readonly": false
+      }
+    }
+  },
+  "trigger": [
+    {
+      "event": "onInitialized",
+      "actions": [
+        {
+          "objectType": "JavaScript",
+          "active": true,
+          "sourceLines": [
+            "TcHmi.EventProvider.raise('onUserChanged');\nTcHmi.EventProvider.raise('onThemeDataChanged');"
+          ],
+          "injectContextObject": false,
+          "asyncWait": true,
+          "waitMode": "Synchronous"
+        }
+      ]
+    }
+  ],
+  "actionTemplates": [],
+  "languages": {
+    "de-DE": "Localization\\de-DE.localization",
+    "en-US": "Localization\\en-US.localization"
+  },
+  "languageFallback": "",
+  "disableLoadingOptimization": false,
+  "creatorSettings": {
+    "viewport": {
+      "defaultWidth": 800,
+      "defaultHeight": 600
+    }
+  },
+  "binding": {
+    "symbolError": "Ignore"
+  },
+  "packages": [
+    {
+      "name": "Beckhoff.TwinCAT.HMI.Controls",
+      "basePath": "/Beckhoff.TwinCAT.HMI.Controls"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.Framework",
+      "basePath": "/framework"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.Functions",
+      "basePath": "/Beckhoff.TwinCAT.HMI.Functions"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.ResponsiveNavigation",
+      "basePath": "/Beckhoff.TwinCAT.HMI.ResponsiveNavigation"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.BA.Icons",
+      "basePath": "/Beckhoff.TwinCAT.HMI.BA.Icons"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.BA.Framework",
+      "basePath": "/Beckhoff.TwinCAT.HMI.BA.Framework"
+    },
+    {
+      "name": "Beckhoff.TwinCAT.HMI.BA.Controls",
+      "basePath": "/Beckhoff.TwinCAT.HMI.BA.Controls"
+    }
+  ],
+  "keyboardLayouts": [
+    {
+      "url": "KeyboardLayouts/German - compact.keyboard.json"
+    },
+    {
+      "url": "KeyboardLayouts/US - compact.keyboard.json"
+    }
+  ]
+}
