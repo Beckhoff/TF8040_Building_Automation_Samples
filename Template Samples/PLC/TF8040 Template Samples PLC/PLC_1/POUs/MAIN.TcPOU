@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="MAIN" Id="{02463c08-f0a2-43a7-9b16-a1c0611ede9b}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	DPAD		: FB_BA_CarelessDPAD := (
+					aIdentifier := [
+	(* Level 1 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eLocation,			sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
+	(* Level 2 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eBuilding,			sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
+	(* Level 3 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eControlCabinet,	sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
+	(* Level 4 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eFloor,			sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
+	(* Level 5 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eTrade,			sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
+	(* Level 6 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.ePlant,			sSeparator_ObjectName := '=', 	sSeparator_Description := ' = ',	nIndexDigits := 2),
+	(* Level 7 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eAggregate,		sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 2),
+	(* Level 8 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eFunction,			sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 2)
+					]
+				);		
+		 
+//	Level 1 Standort bzw. Ort oder Stadt 
+//	Level 1 Site respectively location or town
+	SiteA						: FB_BA_View	:= (sDescription:='Location'	)		;	
+//	Level 2 Gebäude 	
+//	Level 2 Building 	
+		B						: FB_BA_View := 	(iParent := SiteA,	sDescription:='Building'	);     
+// Level 3 ISP -> Informationsschwerpunkt
+// Level 3 information focal point 	 	                                                                                   	
+			IFP01				: FB_BA_View := 	(iParent := B, 		sDescription:='PLC'	);     
+// Level 4 Stockwerk 	->	O01 = Obergeschoss 01, U01 = Untergeschoss 01,  E00 = Ergeschoss
+// Level 4 floor ->	F01 = floor 01, B01 = basement 01,  GFL = Ground floor  						
+				F01				: FB_BA_View := 	(iParent := IFP01, 	sDescription:='Floor 01'	);     	
+// Level 5 Gewerk Wärmeversorgungsanlagen  
+// Level 5 Trade Heat supply systems, heat distribution  --> 	HD = heat distribution, HG = heat generation
+					H			: FB_BA_H 	:= 		(iParent := F01, 	sDescription:='Heating'	);     	 															   	 	
+// Level 5 Gewerk Gebäudeautomation Allgemein   
+// Level 5 Trade General                                                                                       	
+					G			: FB_BA_General := 	(iParent := F01, 	sDescription:='General'	);     	 											
+// Level 5 Gewerk Luftechnische Anlagen      
+// Level 5 Trade ventilation system                                                                                	
+					AC			: FB_BA_AC 		:= 	(iParent := F01, 	sDescription:='AirCondition'	);     	   	
+// Level 5 Gewerk Raumautomation    
+// Level 5 Trade room automation                                                                              	
+				
+//	Test Level
+					WeatherStation	: FB_BA_WeatherStation := (iParent			:= F01, sDescription:='Weatherstation'	); 					
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//	Level 1 Standort bzw. Ort oder Stadt 
+SiteA();
+
+//	Level 2 Gebäude 		
+	B();
+
+// Level 3 ISP -> Informationsschwerpunkt
+		IFP01();
+
+// Level 4 Stockwerk -->	O01 = Obergeschoss 01, U01 = Untergeschoss 01,  E00 = Ergeschoss 
+			F01();
+
+// Level 5 Gewerk Wärmeversorgungsanlagen	
+				H();								
+// Level 5 Gewerk Allgemein				
+				G(); 								
+// Level 5 Gewerk Luftechnische Anlagen		
+				AC();								
+// Level 5 Gewerk Raumautomation 
+					
+// Level 5 Test
+				WeatherStation(); 								]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{eb37d56a-d28c-4c56-aba1-c4bdcfdb0e59}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[			]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="MAIN">
+      <LineId Id="86" Count="19" />
+      <LineId Id="163" Count="0" />
+      <LineId Id="162" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.FB_init">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
