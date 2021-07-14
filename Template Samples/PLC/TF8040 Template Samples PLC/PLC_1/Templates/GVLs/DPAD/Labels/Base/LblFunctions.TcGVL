@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <GVL Name="LblFunctions" Id="{4550ac40-16a5-4dbe-8bd1-ab4a19ccca56}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '0.0.1.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, DPAD, Labels, ObjectName, Description"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, DPAD, Labels, ObjectName, Description"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Labels functions"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Labels functions"'}
+{endregion}
+
+{attribute 'qualified_only'}
+{attribute 'global_init_slot' := '40510'}
+// erstellt am :19.05.2021 -- 10:49:41 Liste Funktionskennungen nach VDI 3814
+VAR_GLOBAL
+  Requirement                                       :FB_BA_Label:=( sObjName:='AF_', sDescr:='Anforderung');
+  SystemSwitch                                      :FB_BA_Label:=( sObjName:='ALS', sDescr:='Anlagenschalter');
+  StatusOccupiedRoom                                :FB_BA_Label:=( sObjName:='BEL', sDescr:='Belegtzustand Raum');
+  LimitCalculatedValue                              :FB_BA_Label:=( sObjName:='GWC', sDescr:='Berechneter Grenzwert');
+  SetpointCalculated                                :FB_BA_Label:=( sObjName:='SWC', sDescr:='Berechneter Sollwert');
+  ReadyForOperation                                 :FB_BA_Label:=( sObjName:='BB_', sDescr:='Betriebsbereit');
+  OperationalMessage                                :FB_BA_Label:=( sObjName:='BM_', sDescr:='Betriebsmeldung');
+  HoursOfOperation                                  :FB_BA_Label:=( sObjName:='BZ_', sDescr:='Betriebsstunden');
+  LimitValueHoursOfOperation                        :FB_BA_Label:=( sObjName:='BZG', sDescr:='Betriebsstunden Grenzwert');
+  ObjectCalendar                                    :FB_BA_Label:=( sObjName:='CAL', sDescr:='Calendar-Objekt');
+  ObjectCommand                                     :FB_BA_Label:=( sObjName:='COM', sDescr:='Command-Objekt');
+  DifferentialConstantController                    :FB_BA_Label:=( sObjName:='TV_', sDescr:='Differenzialkonstante Regler');
+  SwitchOnErrorUnauthorisedON                       :FB_BA_Label:=( sObjName:='EF_', sDescr:='Einschaltfehler, unerlaubt EIN');
+  EnergyLevel                                       :FB_BA_Label:=( sObjName:='EN_', sDescr:='Energieniveau');
+  EnergyLevelCalculated                             :FB_BA_Label:=( sObjName:='ENC', sDescr:='Energieniveau berechnet');
+  UnlockingDevice                                   :FB_BA_Label:=( sObjName:='ENT', sDescr:='Entriegelung');
+  ObjectEventEnrollment                             :FB_BA_Label:=( sObjName:='EE_', sDescr:='Event-Enrollment-Objekt');
+  Enabled                                           :FB_BA_Label:=( sObjName:='FR_', sDescr:='Freigabe');
+  DangerAlarm                                       :FB_BA_Label:=( sObjName:='GM_', sDescr:='Gefahrmeldung');
+  Threshold                                         :FB_BA_Label:=( sObjName:='GW_', sDescr:='Grenzwert');
+  LimitMAX                                          :FB_BA_Label:=( sObjName:='GWX', sDescr:='Grenzwert MAX');
+  LimitMIN                                          :FB_BA_Label:=( sObjName:='GWI', sDescr:='Grenzwert MIN');
+  LimitNight                                        :FB_BA_Label:=( sObjName:='GWN', sDescr:='Grenzwert Nacht');
+  LimitDay                                          :FB_BA_Label:=( sObjName:='GWT', sDescr:='Grenzwert Tag');
+  ObjectGroup                                       :FB_BA_Label:=( sObjName:='GP_', sDescr:='Group-Objekt');
+  localPriorityAndOperatingUnitsManualMessage       :FB_BA_Label:=( sObjName:='HD_', sDescr:='LVB-Handmeldung');
+  HeatingCharacteristicCurveExponent                :FB_BA_Label:=( sObjName:='HEX', sDescr:='Heizkennlinie Exponent');
+  HeatingCharacteristicCurveParallelDisplacement    :FB_BA_Label:=( sObjName:='HPV', sDescr:='Heizkennlinie Parallelverschiebung');
+  HeatingCharacteristicCurveSteepness               :FB_BA_Label:=( sObjName:='HST', sDescr:='Heizkennlinie Steilheit');
+  HeatingCircuitNightReduction                      :FB_BA_Label:=( sObjName:='NAH', sDescr:='Heizkreis Nachtabsenkung');
+  Hysteresis                                        :FB_BA_Label:=( sObjName:='HYS', sDescr:='Hysterese');
+  Calendar                                          :FB_BA_Label:=( sObjName:='KAL', sDescr:='Kalender');
+  RuntimeError                                      :FB_BA_Label:=( sObjName:='LFZ', sDescr:='Laufzeitfehler');
+  LoopMAXLimit                                      :FB_BA_Label:=( sObjName:='LPX', sDescr:='Loop-MAX-Begrenzung');
+  LoopMINLimit                                      :FB_BA_Label:=( sObjName:='LPI', sDescr:='Loop-MIN-Begrenzung');
+  LoopObject                                        :FB_BA_Label:=( sObjName:='LP_', sDescr:='Regler');
+  LoopObjectCascadeSupplyAirTemperature             :FB_BA_Label:=( sObjName:='LP_', sDescr:='Führungsregler Zulufttemperatur');
+  LoopObjectCascadeSupplyAirHumidity                :FB_BA_Label:=( sObjName:='LP_', sDescr:='Führungsregler Zuluftfeuchte');
+  MaximumValue                                      :FB_BA_Label:=( sObjName:='MAX', sDescr:='Maximalwert');
+  MeasuredValue                                     :FB_BA_Label:=( sObjName:='MW_', sDescr:='Messwert');
+  MeasuredValueCalculated                           :FB_BA_Label:=( sObjName:='MWC', sDescr:='Berechneter Messwert');
+  MeasuredValueEast                                 :FB_BA_Label:=( sObjName:='MW_', sDescr:='Messwert Osten');
+  MeasuredValueNorth                                :FB_BA_Label:=( sObjName:='MW_', sDescr:='Messwert Norden');
+  MeasuredValueSouth                                :FB_BA_Label:=( sObjName:='MW_', sDescr:='Messwert Sueden');
+  MeasuredValueWest                                 :FB_BA_Label:=( sObjName:='MW_', sDescr:='Messwert Westen');
+  MinimumValue                                      :FB_BA_Label:=( sObjName:='MIN', sDescr:='Minimalwert');
+  Mean                                              :FB_BA_Label:=( sObjName:='MWT', sDescr:='Mittelwert');
+  FollowUpTime                                      :FB_BA_Label:=( sObjName:='NL_', sDescr:='Nachlaufzeit');
+  ResetTime                                         :FB_BA_Label:=( sObjName:='TN_', sDescr:='Nachstellzeit');
+  FeedbackDelay                                     :FB_BA_Label:=( sObjName:='ZVR', sDescr:='Zeitverzögerung Rückmeldung');
+  ObjectNotificationClass                           :FB_BA_Label:=( sObjName:='NC_', sDescr:='Notification-Class-Objekt');
+  EventClassObject                                  :FB_BA_Label:=( sObjName:='EKL', sDescr:='Ereignisklasse');
+  Programobject                                     :FB_BA_Label:=( sObjName:='PRG', sDescr:='Programm');
+  ProportionalBand                                  :FB_BA_Label:=( sObjName:='XP_', sDescr:='Proportionalband');
+  FeedbackOPEN                                      :FB_BA_Label:=( sObjName:='RMA', sDescr:='Rückmeldung AUF');
+  FeedbackCLOSED                                    :FB_BA_Label:=( sObjName:='RMZ', sDescr:='Rückmeldung ZU');
+  FeedbackValue                                     :FB_BA_Label:=( sObjName:='RW_', sDescr:='Rückführwert');
+  FeedbackErrorOPEN                                 :FB_BA_Label:=( sObjName:='RFA', sDescr:='Rückmeldefehler AUF');
+  FeedbackErrorCLOSED                               :FB_BA_Label:=( sObjName:='RFZ', sDescr:='Rückmeldefehler ZU');
+  Feedback                                          :FB_BA_Label:=( sObjName:='RM_', sDescr:='Rückmeldung');
+  ExecutionControl                                  :FB_BA_Label:=( sObjName:='RF_', sDescr:='Ausführkontrolle');
+  SwitchingCommand                                  :FB_BA_Label:=( sObjName:='SB_', sDescr:='Schaltbefehl');
+  Scheduler                                         :FB_BA_Label:=( sObjName:='ZPL', sDescr:='Zeitschaltplan');
+  Setpoint                                          :FB_BA_Label:=( sObjName:='SW_', sDescr:='Sollwert');
+  SetpointComfortHeating                            :FB_BA_Label:=( sObjName:='SW_', sDescr:='Sollwert Comfort Heizen');
+  SetpointPreComfortHeating                         :FB_BA_Label:=( sObjName:='SW_', sDescr:='Sollwert Pre-comfort Heizen');
+  SetpointEconomyHeating                            :FB_BA_Label:=( sObjName:='SW_', sDescr:='Sollwert Economy Heizen');
+  SetpointProtectionHeating                         :FB_BA_Label:=( sObjName:='SW_', sDescr:='Sollwert Protection Heizen');
+  SetpointComfortCooling                            :FB_BA_Label:=( sObjName:='SW_', sDescr:='Sollwert Comfort Kühlen');
+  SetpointPreComfortCooling                         :FB_BA_Label:=( sObjName:='SW_', sDescr:='Sollwert Pre-comfort Kühlen');
+  SetpointEconomyCooling                            :FB_BA_Label:=( sObjName:='SW_', sDescr:='Sollwert Economy Kühlen');
+  SetpointProtectionCooling                         :FB_BA_Label:=( sObjName:='SW_', sDescr:='Sollwert Protection Kühlen');
+  SetpointBase                                      :FB_BA_Label:=( sObjName:='SWB', sDescr:='Basissollwert');
+  SetpointHeating                                   :FB_BA_Label:=( sObjName:='SWH', sDescr:='Sollwert Heizen');
+  SetpointCooling                                   :FB_BA_Label:=( sObjName:='SWK', sDescr:='Sollwert Kühlen');
+  SetpointMaximum                                   :FB_BA_Label:=( sObjName:='SWX', sDescr:='Sollwert, maximal');
+  SetpointMechanical                                :FB_BA_Label:=( sObjName:='SWM', sDescr:='Sollwert, mechanisch');
+  SetpointMinimum                                   :FB_BA_Label:=( sObjName:='SWI', sDescr:='Sollwert, minimal');
+  SetpointNight                                     :FB_BA_Label:=( sObjName:='SWN', sDescr:='Sollwert Nacht');
+  SetpointDay                                       :FB_BA_Label:=( sObjName:='SWT', sDescr:='Sollwert Tag');
+  SetpointAdjuster                                  :FB_BA_Label:=( sObjName:='SWV', sDescr:='Sollwertversteller');
+  SetpointAdjustmentMechanical                      :FB_BA_Label:=( sObjName:='SVM', sDescr:='Sollwertverstellung, mechanisch');
+  Selection                                         :FB_BA_Label:=( sObjName:='AUS', sDescr:='Auswahl');
+  Status                                            :FB_BA_Label:=( sObjName:='STA', sDescr:='Status');
+  ControlSignal                                     :FB_BA_Label:=( sObjName:='ST_', sDescr:='Stellsignal');
+  Fault                                             :FB_BA_Label:=( sObjName:='SM_', sDescr:='Störung');
+  FaultFuse                                         :FB_BA_Label:=( sObjName:='SM_', sDescr:='Sicherung Störung ');
+  Button                                            :FB_BA_Label:=( sObjName:='TS_', sDescr:='Taster');
+  DeadZone                                          :FB_BA_Label:=( sObjName:='TZ_', sDescr:='Totzone');
+  ObjectTrendLogMultiple                            :FB_BA_Label:=( sObjName:='TRM', sDescr:='Trend-Log-Multiple-Objekt');
+  ObjectTrendLog                                    :FB_BA_Label:=( sObjName:='TR_', sDescr:='Trend-Log-Objekt');
+  AmplificationController                           :FB_BA_Label:=( sObjName:='KP_', sDescr:='Verstärkung Regler');
+  RetentionPeriod                                   :FB_BA_Label:=( sObjName:='TV_', sDescr:='Vorhaltezeit');
+  MaintenanceMessage                                :FB_BA_Label:=( sObjName:='WM_', sDescr:='Wartungsmeldung');
+  Efficiency                                        :FB_BA_Label:=( sObjName:='WG_', sDescr:='Wirkungsgrad');
+  CountValue                                        :FB_BA_Label:=( sObjName:='ZW_', sDescr:='Zählwert');
+  TimeProgram                                       :FB_BA_Label:=( sObjName:='ZPR', sDescr:='Zeitprogramm');
+// Beckhoff Skalierung
+  ValueX1                                           :FB_BA_Label:=( sObjName:='SPX', sDescr:='Wert Stützpunkt [X1]');
+  ValueX2                                           :FB_BA_Label:=( sObjName:='SPX', sDescr:='Wert Stützpunkt [X2]');
+  ValueX3                                           :FB_BA_Label:=( sObjName:='SPX', sDescr:='Wert Stützpunkt [X3]');
+  ValueX4                                           :FB_BA_Label:=( sObjName:='SPX', sDescr:='Wert Stützpunkt [X4]');
+  ValueX5                                           :FB_BA_Label:=( sObjName:='SPX', sDescr:='Wert Stützpunkt [X5]');
+  ValueX6                                           :FB_BA_Label:=( sObjName:='SPX', sDescr:='Wert Stützpunkt [X6]');
+  ValueX7                                           :FB_BA_Label:=( sObjName:='SPX', sDescr:='Wert Stützpunkt [X7]');
+  ValueY1                                           :FB_BA_Label:=( sObjName:='SPY', sDescr:='Wert Stützpunkt [Y1]');
+  ValueY2                                           :FB_BA_Label:=( sObjName:='SPY', sDescr:='Wert Stützpunkt [Y2]');
+  ValueY3                                           :FB_BA_Label:=( sObjName:='SPY', sDescr:='Wert Stützpunkt [Y3]');
+  ValueY2_3                                         :FB_BA_Label:=( sObjName:='SPY', sDescr:='Wert Stützpunkt [Y2-Y3]');
+  ValueY4                                           :FB_BA_Label:=( sObjName:='SPY', sDescr:='Wert Stützpunkt [Y4]');
+  ValueY5                                           :FB_BA_Label:=( sObjName:='SPY', sDescr:='Wert Stützpunkt [Y5]');
+  ValueY6                                           :FB_BA_Label:=( sObjName:='SPY', sDescr:='Wert Stützpunkt [Y6]');
+  ValueY7                                           :FB_BA_Label:=( sObjName:='SPY', sDescr:='Wert Stützpunkt [Y7]');
+  SuppyAirTempSetpointHeaterCalc                    :FB_BA_Label:=( sObjName:='SWC', sDescr:='Zulufttemperatursollwert Erhitzer errechnet');
+  SuppyAirTempSetpointCoolerCalc                    :FB_BA_Label:=( sObjName:='SWC', sDescr:='Zulufttemperatursollwert Kühler errechnet');
+  SuppyAirTempSetpointERCCalc                       :FB_BA_Label:=( sObjName:='SWC', sDescr:='Zulufttemperatursollwert ERG errechnet');
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>
