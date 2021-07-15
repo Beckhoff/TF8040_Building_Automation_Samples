@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="LblUniControl" Id="{4a952974-96a3-4207-b436-29f4b4a90dc5}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '1.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, Universal, AKS, Plants, ObjectName, Description"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, Universal, DPAD, Plants, ObjectName, Description"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Anlagenkennzeichnungssystem, Universal Labels Kompensation"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Data Point Addressing Description, Universal labels compensation"'}
+{endregion}
+
+{attribute 'qualified_only'}
+VAR_GLOBAL
+//	Anti blocking
+	Analog3Pnt_HysPos					:FB_BA_Label	:= LblFunctions_Hysteresis;
+	Analog3Pnt_TimeOpen     			:FB_BA_Label	:= LblControl_DriveTimeOpen;	
+	Analog3Pnt_TimeCls					:FB_BA_Label	:= LblControl_DriveTimeClose;
+	Analog3Pnt_Pos						:FB_BA_Label	:= LblFunctions_ControlSignal;	
+//	Anti blocking
+	AntiBlocking_IdlePeriod				:FB_BA_Label	:= LblControl_IdlePeriod;
+	AntiBlocking_ImpulsLength           :FB_BA_Label	:= LblControl_ImpulsLength;	
+//	Delay
+	DelayOn_TiDly						:FB_BA_Label	:= LblControl_TimeDelay;
+	DelayOff_TiDly						:FB_BA_Label	:= LblControl_TimeDelay;
+//	Hysteresis	
+	Hysteresis_On						:FB_BA_Label	:= LblFunctions_LimitMAX;
+	Hysteresis_Off						:FB_BA_Label	:= LblFunctions_LimitMIN;
+	Hysteresis_Q						:FB_BA_Label	:= LblFunctions_SwitchingCommand;
+//	Hysteresis	NEU NEU vorher Filter monitoring
+	Hysteresis_PreAlarmLimitMAX         :FB_BA_Label	:= LblControl_PreAlarmLimitMAX;
+    Hysteresis_PreAlarmLimitMIN         :FB_BA_Label	:= LblControl_PreAlarmLimitMIN;
+    Hysteresis_PreAlarmFault            :FB_BA_Label	:= LblControl_PreAlarmFault;
+    Hysteresis_MainAlarmLimitMAX        :FB_BA_Label	:= LblControl_MainAlarmLimitMAX;
+    Hysteresis_MainAlarmLimitMIN        :FB_BA_Label	:= LblControl_MainAlarmLimitMIN;
+    Hysteresis_MainAlarmFault           :FB_BA_Label	:= LblControl_MainAlarmFault;		
+//	Monitoring	
+	Monitoring_SwitchOnValue			:FB_BA_Label	:= LblFunctions_LimitMAX;
+	Monitoring_SwitchOffValue			:FB_BA_Label	:= LblFunctions_LimitMIN;
+	Monitoring_DelayFeedback			:FB_BA_Label	:= LblFunctions_FeedbackDelay;
+	Monitoring_DelayInterruption		:FB_BA_Label	:= LblControl_TimeDelayInterruptionFeedback;
+	Monitoring_Dst						:FB_BA_Label	:= LblFunctions_Fault;
+	Monitoring_TiDly					:FB_BA_Label	:= LblControl_TimeDelay;
+	Monitoring_HighLimitValue			:FB_BA_Label	:= LblFunctions_LimitMAX;
+	Monitoring_LowLimitValue			:FB_BA_Label	:= LblFunctions_LimitMIN;
+	Monitoring_HighLimitOn				:FB_BA_Label	:= LblFunctions_OperationalMessage;
+	Monitoring_LowLimitOn				:FB_BA_Label	:= LblFunctions_OperationalMessage;
+	Monitoring_Hys						:FB_BA_Label	:= LblFunctions_Hysteresis;
+//	Operating Mode
+	OperatingMode_OpModMan				:FB_BA_Label	:= LblControl_OperationModeSelection;	
+	OperatingMode_OpModPr				:FB_BA_Label	:= LblControl_PresentOperationMode;		
+	OperatingMode_Sched					:FB_BA_Label	:= LblFunctions_Scheduler;							
+//	PID
+	PID_Ctrl							:FB_BA_Label	:= LblFunctions_LoopObject;
+	PID_Sp								:FB_BA_Label	:= LblFunctions_Setpoint;
+//	FilterPT1	
+	FilterPT1_DampingConstant			:FB_BA_Label	:= LblControl_DampConstant;
+//	Ramp	
+	Ramp_TiDown							:FB_BA_Label	:= LblControl_RampTimeDown;
+	Ramp_TiUp							:FB_BA_Label	:= LblControl_RampTimeUp;
+	Ramp_Y								:FB_BA_Label	:= LblFunctions_ControlSignal;
+//	Scale
+	Scale_X01							:FB_BA_Label	:= LblControl_X01;	
+	Scale_X02							:FB_BA_Label	:= LblControl_X02;	
+	Scale_X03							:FB_BA_Label	:= LblControl_X03;	
+	Scale_X04							:FB_BA_Label	:= LblControl_X04;	
+	Scale_X05							:FB_BA_Label	:= LblControl_X05;	
+	Scale_X06							:FB_BA_Label	:= LblControl_X06;	
+	Scale_X07							:FB_BA_Label	:= LblControl_X07;	
+	
+	Scale_Y01							:FB_BA_Label	:= LblControl_Y01;
+	Scale_Y02							:FB_BA_Label	:= LblControl_Y02;
+	Scale_Y03							:FB_BA_Label	:= LblControl_Y03;
+	Scale_Y04							:FB_BA_Label	:= LblControl_Y04;
+	Scale_Y05							:FB_BA_Label	:= LblControl_Y05;
+	Scale_Y06							:FB_BA_Label	:= LblControl_Y06;
+	Scale_Y07							:FB_BA_Label	:= LblControl_Y07;
+	
+	Scale_Ymin							:FB_BA_Label	:= LblFunctions_MinimumValue;
+	Scale_Ymax							:FB_BA_Label	:= LblFunctions_MaximumValue;
+	Scale_Y								:FB_BA_Label	:= LblFunctions_SetpointCalculated;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

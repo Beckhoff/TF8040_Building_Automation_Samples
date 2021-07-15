@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <GVL Name="LblCmpRoomAutomation" Id="{c0bc5656-4134-42f7-b8c2-87282263c1f4}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '1.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, Room automation, AKS, Plants, ObjectName, Description"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, Room automation, DPAD, Plants, ObjectName, Description"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Anlagenkennzeichnungssystem, Raum Automation Labels Kompensation"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Data Point Addressing Description, Room automation labels compensation"'}
+{endregion}
+
+{attribute 'qualified_only'}
+VAR_GLOBAL
+	BuildingEnergyLevel_EnergLvlMan					: FB_BA_Label := LblControl_BuildingEnergyLevelManual;
+	BuildingEnergyLevel_EnergLvlPr					: FB_BA_Label := LblControl_BuildingEnergyLevelActual;
+	BuildingEnergyLevel_Sched						: FB_BA_Label := LblControl_BuildingEnergyLevelSched;
+    
+	BuildingSpRmT_SumCpsn							: FB_BA_Label := LblControl_SummerCompensation;
+	BuildingSpRmT_WinCpsn							: FB_BA_Label := LblControl_WinterCompensation;
+	BuildingSpRmT_PrtcHtg							: FB_BA_Label := LblFunctions_SetpointProtectionHeating;
+	BuildingSpRmT_EcoHtg							: FB_BA_Label := LblFunctions_SetpointEconomyHeating;
+	BuildingSpRmT_PreCmfHtg							: FB_BA_Label := LblFunctions_SetpointPreComfortHeating;
+	BuildingSpRmT_CmfHtg							: FB_BA_Label := LblFunctions_SetpointComfortHeating;
+	BuildingSpRmT_PrtcCol							: FB_BA_Label := LblFunctions_SetpointProtectionCooling;
+	BuildingSpRmT_EcoCol							: FB_BA_Label := LblFunctions_SetpointEconomyCooling;
+	BuildingSpRmT_PreCmfCol							: FB_BA_Label := LblFunctions_SetpointPreComfortCooling;
+	BuildingSpRmT_CmfCol							: FB_BA_Label := LblFunctions_SetpointComfortCooling;
+	BuildingSpRmT_ShiftHtg							: FB_BA_Label := LblControl_SetpointShiftHeating;
+	BuildingSpRmT_ShiftCol							: FB_BA_Label := LblControl_SetpointShiftCooling;
+	
+	BuildingSunprotection_SpIce						: FB_BA_Label := LblControl_SetpointIce;
+	BuildingSunprotection_SunPrtcPosIntval			: FB_BA_Label := LblControl_SunProtectionInterval;
+	BuildingSunprotection_DeiceTi					: FB_BA_Label := LblControl_DeiceTime;
+	BuildingSunprotection_GlobalThAutoValOn			: FB_BA_Label := LblControl_GlobalThermoAutomaticValueOn;
+	BuildingSunprotection_GlobalThAutoValOff		: FB_BA_Label := LblControl_GlobalThermoAutomaticValueOff;
+	BuildingSunprotection_GlobalTwiLgtAutoValOn		: FB_BA_Label := LblControl_GlobalTwilightAutomaticValueOn;
+	BuildingSunprotection_GlobalTwiLgtAutoValOff	: FB_BA_Label := LblControl_GlobalTwilightAutomaticValueOff;
+	BuildingSunprotection_IceAlert					: FB_BA_Label := LblControl_IceAlert;
+	BuildingSunprotection_GlobalThAutoRlse			: FB_BA_Label := LblControl_GlobalThermoAutomaticRelease;
+	BuildingSunprotection_GlobalTwiLgtAutoRlse		: FB_BA_Label := LblControl_GlobalTwilightAutomaticRelease;
+	BuildingSunprotection_GlobalResetManMode		: FB_BA_Label := LblControl_GlobalResetManMode;
+	
+	Facade_DlyStrmOn								: FB_BA_Label := LblControl_TimeDelayStormOn;
+	Facade_DlyStrmOff								: FB_BA_Label := LblControl_TimeDelayStormOff;
+	Facade_MntnEn									: FB_BA_Label := LblControl_MaintenanceEnable;                    		
+	Facade_MntnPos									: FB_BA_Label := LblControl_MaintenancePosition;
+	Facade_MntnAngl									: FB_BA_Label := LblControl_MaintenanceAngle;
+	Facade_FcdThAutoEn								: FB_BA_Label := LblControl_FacadeThermoAutomaticEnable;
+	Facade_FcdThAutoColPos							: FB_BA_Label := LblControl_FacadeThermoAutomaticCoolingPosition;
+	Facade_FcdThAutoColAngl							: FB_BA_Label := LblControl_FacadeThermoAutomaticCoolingAngle;
+	Facade_FcdTwiLgtAutoEn							: FB_BA_Label := LblControl_FacadeTwilightAutomaticEnable;
+	Facade_SunPrtcValOn								: FB_BA_Label := LblControl_SunProtectionValueOn;
+	Facade_SunPrtcValOff							: FB_BA_Label := LblControl_SunProtectionValueOff;
+	Facade_SunPrtcDlyOn								: FB_BA_Label := LblControl_TimeDelaySunProtectionOn;
+	Facade_SunPrtcDlyOff							: FB_BA_Label := LblControl_TimeDelaySunProtectionOff;
+	Facade_FcdParkEn								: FB_BA_Label := LblControl_FacadeParkingEnable;
+	Facade_FcdParkPos								: FB_BA_Label := LblControl_FacadeParkingPosition;
+	Facade_FcdParkAngl								: FB_BA_Label := LblControl_FacadeParkingAngle;
+	Facade_WndPrtcState								: FB_BA_Label := LblControl_WindProtectionState;
+	Facade_SunPrtcState								: FB_BA_Label := LblControl_SunProtectionState;
+    
+	SunBld_LocInputPos								: FB_BA_Label := LblControl_SetpointSunblindPosition;
+	SunBld_LocInputAngl								: FB_BA_Label := LblControl_SetpointSunblindAngle;
+	SunBld_LocButtonStart							: FB_BA_Label := LblControl_CommandSunblindStart;
+	SunBld_ActlPos									: FB_BA_Label := LblControl_FeedbackSunblindPosition;
+	SunBld_ActlAngl									: FB_BA_Label := LblControl_FeedbackSunblindAngle;
+	SunBld_ActlPrio									: FB_BA_Label := LblControl_FeedbackSunblindPrio;
+	SunBld_ManSwi									: FB_BA_Label := LblControl_ButtonSunblind;
+		
+	HeatCoolAxisAnlg_RmTSen							: FB_BA_Label := LblAggregates_TemperatureRoomAir;
+	HeatCoolAxisAnlg_RmTAdj							: FB_BA_Label := LblAggregates_RoomControlUnit;
+	HeatCoolAxisAnlg_PrtcDetc						: FB_BA_Label := LblAggregates_PresenceSwitches;
+	HeatCoolAxisAnlg_WdwCon							: FB_BA_Label := LblAggregates_WindowContact;
+	HeatCoolAxisAnlg_VlvHtg							: FB_BA_Label :=(sObjName:='VEN',sDescr:='Heizventil');
+ 	HeatCoolAxisAnlg_VlvCol							: FB_BA_Label :=(sObjName:='VEN',sDescr:='Kuehlventil');
+ 	HeatCoolAxisAnlg_Ctrl							: FB_BA_Label := LblControl_RoomTemperatureControl;
+ 	HeatCoolAxisAnlg_Ctrl_CtrlHtg					: FB_BA_Label :=(sObjName:='LPH',sDescr:='Heizregler');
+ 	HeatCoolAxisAnlg_Ctrl_CtrlCol					: FB_BA_Label :=(sObjName:='LPC',sDescr:='Kuehlregler');
+	HeatCoolAxisAnlg_DewPoint						: FB_BA_Label := LblAggregates_MonitorDewPoint;
+
+	SunBldZone_SunBld								: FB_BA_Label := LblAggregates_Blind;
+                                          	
+//	RoomAutomation_RoomGeneral						: FB_BA_Label := LabelPlants.Room_automation;
+	
+	RoomGeneral_FcdEast								: FB_BA_Label := LblControl_Facade;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>
