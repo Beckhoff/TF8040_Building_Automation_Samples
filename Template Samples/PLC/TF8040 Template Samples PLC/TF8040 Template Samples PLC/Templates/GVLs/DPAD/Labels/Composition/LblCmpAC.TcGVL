@@ -1,215 +1,175 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <GVL Name="LblCmpAC" Id="{df69d1da-ee53-4e73-b88c-5332884476e5}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <GVL Name="LblCmpAC" Id="{c84e6d0f-8660-4952-b571-fc62082e8659}">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '1.0.0.0'}
-	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, AC, AKS, Plants, ObjectName, Description"'}
+	{attribute 'Version' := '0.0.1.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, AC, DPAD, Plants, ObjectName, Description"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, AC, DPAD, Plants, ObjectName, Description"'}
-	{attribute 'Description' := '"LCID": "1031", "Text": "Anlagenkennzeichnungssystem, AC Labels Kompensation"'}
-	{attribute 'Description' := '"LCID": "1033", "Text": "Data Point Addressing Description, AC labels compensation"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "AC Labels Kompensation"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "AC labels compensation"'}
 {endregion}
 
 {attribute 'qualified_only'}
 VAR_GLOBAL
 ///////////////////////
 //	Aggregates\Cooler	
-	Cooler_TFl							:FB_BA_Label	:= LblAggregates_TemperatureFlow;	
-	Cooler_TRt							:FB_BA_Label	:= LblAggregates_TemperatureReturnFlow;	
+	Cooler_TFl							:FB_BA_Label	:= LblAggregates.TemperatureFlow;	
+	Cooler_TRt							:FB_BA_Label	:= LblAggregates.TemperatureReturnFlow;	
 
-	Cooler_TSuACtrl						:FB_BA_Label	:= LblControl_SupplyAirTemperatureControl;
-	Cooler_TSuACtrl_Ctrl				:FB_BA_Label	:= LblFunctions_LoopObject; 
-	Cooler_TSuALimitationCtrl			:FB_BA_Label	:= LblControl_SupplyAirTemperatureLimitationControl;
+	Cooler_HSuACtrl_Ctrl				:FB_BA_Label	:= LblFunctions.LoopObject; 
+	Cooler_HSuACtrl_Dehumf				:FB_BA_Label	:= LblControl.OperationalMessageDehumidification;	
 
-	Cooler_XSuACtrl						:FB_BA_Label	:= LblControl_SupplyAirDehumidifierControl; 
-	Cooler_XSuACtrl_Ctrl				:FB_BA_Label	:= LblFunctions_LoopObject; 
-	Cooler_Dehumf						:FB_BA_Label	:= LblControl_OperationalMessageDehumidification;	
+	Cooler_TSuACtrl						:FB_BA_Label	:= LblControl.SupplyAirTemperatureControl;
+	Cooler_TSuACtrl_Ctrl				:FB_BA_Label	:= LblFunctions.LoopObject; 
 
-	Cooler_Vlv							:FB_BA_Label	:= LblAggregates_Valve;
-	Cooler_Pu							:FB_BA_Label	:= LblAggregates_Pump;
-	
+	Cooler_Vlv							:FB_BA_Label	:= LblAggregates.Valve;
+	Cooler_Pu							:FB_BA_Label	:= LblAggregates.Pump;
+
 //	Aggregates\ERC
-	ERC_DiffPrssSwi						:FB_BA_Label	:= LblAggregates_PressureDifferential;												 										 
-	ERC_IcePrtcRamp						:FB_BA_Label	:= LblControl_EnergyRecoveryDeicingRamp;
-	ERC_Motor							:FB_BA_Label	:= LblAggregates_HeatRecovery;
-	ERC_TExhACtrl						:FB_BA_Label	:= LblControl_ExhaustAirTemperatureControl;
-	ERC_TSuACtrl						:FB_BA_Label	:= LblControl_SupplyAirTemperatureControl;
-	ERC_TSuACtrl_Ctrl					:FB_BA_Label	:= LblFunctions_LoopObject; 
+	ERC_DiffPrssSwi						:FB_BA_Label	:= LblAggregates.PressureDifferential;												 										 
+	ERC_IcePrtcRamp						:FB_BA_Label	:= LblControl.EnergyRecoveryDeicingRamp;
+	ERC_Motor							:FB_BA_Label	:= LblAggregates.HeatRecovery;
+	ERC_TExhACtrl						:FB_BA_Label	:= LblControl.ExhaustAirTemperatureControl;
+	ERC_TSuACtrl						:FB_BA_Label	:= LblControl.SupplyAirTemperatureControl;
+	ERC_TSuACtrl_Ctrl					:FB_BA_Label	:= LblFunctions.LoopObject; 
 
-	ERC_DiffPrssSensor					:FB_BA_Label	:= LblAggregates_PressureDifferential;	
-	ERC_Damping							:FB_BA_Label	:= LblAggregates_PressureDifferential;
-	ERC_IcePrtcDiffPrssCtrl				:FB_BA_Label	:= LblControl_ExhaustAirTemperatureControl;
-	ERC_Dmp								:FB_BA_Label	:= LblAggregates_VentilationDamperSupplyAir;	
-	ERC_ByDmp							:FB_BA_Label	:= LblAggregates_VentilationDamperBypassAir;
+	ERC_DiffPrssSensor					:FB_BA_Label	:= LblAggregates.PressureDifferential;	
+	ERC_Damping							:FB_BA_Label	:= LblAggregates.PressureDifferential;
+	ERC_IcePrtcDiffPrssCtrl				:FB_BA_Label	:= LblControl.ExhaustAirTemperatureControl;
+	ERC_Dmp								:FB_BA_Label	:= LblAggregates.VentilationDamperSupplyAir;	
+	ERC_ByDmp							:FB_BA_Label	:= LblAggregates.VentilationDamperBypassAir;
 
 //	Aggregates\Humidifier
-	Humf_HuDet							:FB_BA_Label	:= LblAggregates_Hygrostat;	
-//////////////////////
-	Humf_Dst							:FB_BA_Label	:= LblAggregates_Airwasher;			
-	Humf_Dst_Input						:FB_BA_Label	:= LblFunctions_Fault;			
-	Humf_LowWaterMonitor				:FB_BA_Label	:= LblAggregates_Airwasher;			
-	Humf_LowWaterMonitor_Input			:FB_BA_Label	:= LblControl_LowWaterMonitor;	
-	Humf_ReadyOp						:FB_BA_Label	:= LblAggregates_Airwasher;			
-	Humf_ReadyOp_Input					:FB_BA_Label	:= LblFunctions_ReadyForOperation;			
-	Humf_MntnSwi						:FB_BA_Label	:= LblAggregates_Airwasher;			
-	Humf_MntnSwi_Input					:FB_BA_Label	:= LblFunctions_MaintenanceMessage;
-//////////////////////	
-	Humf_AirWasher						:FB_BA_Label	:= LblAggregates_Airwasher;			
-	Humf_AirWasher_Dst					:FB_BA_Label	:= LblFunctions_Fault;			
-	Humf_AirWasher_LowWaterMonitor		:FB_BA_Label	:= LblControl_LowWaterMonitor;	
-	Humf_AirWasher_ReadyOp				:FB_BA_Label	:= LblFunctions_ReadyForOperation;			
-	Humf_AirWasher_MntnSwi				:FB_BA_Label	:= LblFunctions_MaintenanceMessage;				
-	
-	Humf_XSuACtrl						:FB_BA_Label	:= LblControl_SupplyAirHumidifierController;
-	Humf_XSuACtrl_Ctrl					:FB_BA_Label	:= LblFunctions_LoopObject; 
-	Humf_Vlv							:FB_BA_Label	:= LblAggregates_Valve;
-	Humf_Pu								:FB_BA_Label	:= LblAggregates_Pump;			
-	Humf_DlyOff							:FB_BA_Label	:= LblControl_DelayOff;	
-
-	Humf_HLmtCtrl						:FB_BA_Label	:= LblControl_HumidityLimitationControl;
-
+	Humf_SuACtrl_Ctrl					:FB_BA_Label	:= LblFunctions.LoopObject; 
+		
 //	Aggregates\MixedAir
-	Mix_TSuACtrl						:FB_BA_Label	:= LblControl_SupplyAirTemperatureControl;
-	Mix_TSuACtrl_Ctrl					:FB_BA_Label	:= LblFunctions_LoopObject; 
-	Mix_StartUpRamp						:FB_BA_Label	:= LblControl_MixedAirStartUpRamp;
-	Mix_DmpMixA							:FB_BA_Label	:= LblAggregates_VentilationDamperMixAir;	
-	Mix_DmpOuA							:FB_BA_Label	:= LblAggregates_VentilationDamperOutsideAir;	
-	Mix_DmpExhA							:FB_BA_Label	:= LblAggregates_VentilationDamperExhaustAir;	
+	Mix_TSuACtrl						:FB_BA_Label	:= LblControl.SupplyAirTemperatureControl;
+	Mix_TSuACtrl_Ctrl					:FB_BA_Label	:= LblFunctions.LoopObject; 
+	Mix_StartUpRamp						:FB_BA_Label	:= LblControl.MixedAirStartUpRamp;
+	Mix_DmpMixA							:FB_BA_Label	:= LblAggregates.VentilationDamperMixAir;	
+	Mix_DmpOuA							:FB_BA_Label	:= LblAggregates.VentilationDamperOutsideAir;	
+	Mix_DmpExhA							:FB_BA_Label	:= LblAggregates.VentilationDamperExhaustAir;	
 
 //	Aggregates\pre-heater
-	PreHtr_TFl							:FB_BA_Label	:= LblAggregates_TemperatureFlow;	
-	PreHtr_TRt							:FB_BA_Label	:= LblAggregates_TemperatureReturnFlow;	
-	PreHtr_TSuACtrl						:FB_BA_Label	:= LblControl_SupplyAirTemperatureControl;
-	PreHtr_TSuACtrl_Ctrl				:FB_BA_Label	:= LblFunctions_LoopObject; 
-	PreHtr_TFrost						:FB_BA_Label	:= LblControl_TemperatureFrost;	
-	PreHtr_TFrostPrtcCtrlAir			:FB_BA_Label	:= LblControl_FrostProtectionControl;
-	PreHtr_FrostThermostat				:FB_BA_Label	:= LblAggregates_FrostProtectionMonitor;												 										 
-	PreHtr_FrostThermostat_Input		:FB_BA_Label	:= LblFunctions_DangerAlarm;
-	PreHtr_Vlv							:FB_BA_Label	:= LblAggregates_Valve;
-	PreHtr_Pu							:FB_BA_Label	:= LblAggregates_Pump;		
-	PreHtr_TRtCtrl						:FB_BA_Label	:= LblControl_ReturnWaterControl;
-	PreHtr_TRtCtrl_SpTRtW				:FB_BA_Label	:= LblFunctions_Setpoint;
-	PreHtr_TRtCtrl_PreRinseDelay		:FB_BA_Label	:= LblControl_DelayOn;
-	PreHtr_TRtCtrl_PreRinseDelay_TiDly	:FB_BA_Label	:= LblControl_PreRinseDuration;
-	PreHtr_TRtCtrl_PreRinseDst			:FB_BA_Label	:= LblControl_DisturbancePreRinse;	 								 
-	PreHtr_TRtCtrl_PreRinseSp			:FB_BA_Label	:= LblControl_CalculationPreRinseSetpoint;			
-	PreHtr_TRtCtrl_Ctrl					:FB_BA_Label	:= LblFunctions_LoopObject; 		
+	PreHtr_TFl							:FB_BA_Label	:= LblAggregates.TemperatureFlow;	
+	PreHtr_TRt							:FB_BA_Label	:= LblAggregates.TemperatureReturnFlow;	
+	PreHtr_TSuACtrl						:FB_BA_Label	:= LblControl.SupplyAirTemperatureControl;
+	PreHtr_TSuACtrl_Ctrl				:FB_BA_Label	:= LblFunctions.LoopObject; 
+	PreHtr_TFrost						:FB_BA_Label	:= LblControl.TemperatureFrost;	
+	PreHtr_TFrostPrtcCtrlAir			:FB_BA_Label	:= LblControl.FrostProtectionControl;
+	PreHtr_FrostThermostat				:FB_BA_Label	:= LblAggregates.FrostProtectionMonitor;												 										 
+	PreHtr_FrostThermostat_Input		:FB_BA_Label	:= LblFunctions.DangerAlarm;
+	PreHtr_Vlv							:FB_BA_Label	:= LblAggregates.Valve;
+	PreHtr_Pu							:FB_BA_Label	:= LblAggregates.Pump;		
+	PreHtr_TRtCtrl						:FB_BA_Label	:= LblControl.ReturnWaterControl;
+	PreHtr_TRtCtrl_SpTRtW				:FB_BA_Label	:= LblFunctions.Setpoint;
+	PreHtr_TRtCtrl_PreRinseDelay		:FB_BA_Label	:= LblControl.DelayOn;
+	PreHtr_TRtCtrl_PreRinseDelay_TiDly	:FB_BA_Label	:= LblControl.PreRinseDuration;
+	PreHtr_TRtCtrl_PreRinseDst			:FB_BA_Label	:= LblControl.DisturbancePreRinse;	 								 
+	PreHtr_TRtCtrl_PreRinseSp			:FB_BA_Label	:= LblControl.CalculationPreRinseSetpoint;			
+	PreHtr_TRtCtrl_Ctrl					:FB_BA_Label	:= LblFunctions.LoopObject; 		
 	
-	PreHtr_ProcessPreRinse				:FB_BA_LabelProcess	:= LblControl_ProcPreRinse;
+	PreHtr_ProcessPreRinse				:FB_BA_LabelProcess	:= LblControl.ProcPreRinse;
 
 //	Aggregates\re-heater
-	ReHtr_TFl							:FB_BA_Label	:= LblAggregates_TemperatureFlow;	
-	ReHtr_TRt							:FB_BA_Label	:= LblAggregates_TemperatureReturnFlow;	
-	ReHtr_TSuACtrl						:FB_BA_Label	:= LblControl_SupplyAirTemperatureControl;
-	ReHtr_TSuACtrl_Ctrl					:FB_BA_Label	:= LblFunctions_LoopObject;
-	ReHtr_TMinSuACtrl					:FB_BA_Label	:= LblControl_SupplyAirTemperatureLimitationControl;
- 
-	ReHtr_Vlv							:FB_BA_Label	:= LblAggregates_Valve;
-	ReHtr_Pu							:FB_BA_Label	:= LblAggregates_Pump;		
+	ReHtr_TFl							:FB_BA_Label	:= LblAggregates.TemperatureFlow;	
+	ReHtr_TRt							:FB_BA_Label	:= LblAggregates.TemperatureReturnFlow;	
+	ReHtr_TSuACtrl						:FB_BA_Label	:= LblControl.SupplyAirTemperatureControl;
+	ReHtr_TSuACtrl_Ctrl					:FB_BA_Label	:= LblFunctions.LoopObject; 
+	ReHtr_Vlv							:FB_BA_Label	:= LblAggregates.Valve;
+	ReHtr_Pu							:FB_BA_Label	:= LblAggregates.Pump;		
 		
 ///////////////////////
 //	General
-	General_OpModMan					:FB_BA_Label	:= LblControl_OperationModeSelection;							
-	General_Sched						:FB_BA_Label	:= LblFunctions_Scheduler;							
-	General_OpModPr						:FB_BA_Label	:= LblControl_PresentOperationMode;		
+	General_OpModMan					:FB_BA_Label	:= LblControl.OperationModeSelection;							
+	General_Sched						:FB_BA_Label	:= LblFunctions.Scheduler;							
+	General_OpModPr						:FB_BA_Label	:= LblControl.PresentOperationMode;		
 	
 //	Summer night cooling
-	General_SumNgtCol_WthTLoLmt			:FB_BA_Label	:= LblControl_OutsideTemperatureLowLimit;			
-	General_SumNgtCol_RmTHys			:FB_BA_Label	:= LblControl_HysteresisRoomTemperature;			
-	General_SumNgtCol_SwiOnDiffT		:FB_BA_Label	:= LblControl_OnValueDifferenceOutsideInsightTemperature;			
-	General_SumNgtCol_SwiOffDiffT		:FB_BA_Label	:= LblControl_OffValueDifferenceOutsideInsightTemperature;			
-	General_SumNgtCol_Q					:FB_BA_Label	:= LblFunctions_OperationalMessage;												 
-	General_SumNgtCol_Sched				:FB_BA_Label	:= LblFunctions_Scheduler;		
+	General_SumNgtCol_WthTLoLmt			:FB_BA_Label	:= LblControl.OutsideTemperatureLowLimit;			
+	General_SumNgtCol_RmTHys			:FB_BA_Label	:= LblControl.HysteresisRoomTemperature;			
+	General_SumNgtCol_SwiOnDiffT		:FB_BA_Label	:= LblControl.OnValueDifferenceOutsideInsightTemperature;			
+	General_SumNgtCol_SwiOffDiffT		:FB_BA_Label	:= LblControl.OffValueDifferenceOutsideInsightTemperature;			
+	General_SumNgtCol_Q					:FB_BA_Label	:= LblFunctions.OperationalMessage;												 
+	General_SumNgtCol_Sched				:FB_BA_Label	:= LblFunctions.Scheduler;		
 ///////////////////////
 //	Setpoint\Temperature
-	SpTRm_X1							:FB_BA_Label	:= LblControl_X01;	
-	SpTRm_X2							:FB_BA_Label	:= LblControl_X02;	
-	SpTRm_X3							:FB_BA_Label	:= LblControl_X03;	
-	SpTRm_X4							:FB_BA_Label	:= LblControl_X04;	
+	SpTRm_X1							:FB_BA_Label	:= LblControl.X01;	
+	SpTRm_X2							:FB_BA_Label	:= LblControl.X02;	
+	SpTRm_X3							:FB_BA_Label	:= LblControl.X03;	
+	SpTRm_X4							:FB_BA_Label	:= LblControl.X04;	
 	
-	SpTRm_Y1							:FB_BA_Label	:= LblControl_Y01;
-	SpTRm_Y2_3							:FB_BA_Label	:= LblControl_Y02_03;
-	SpTRm_Y4							:FB_BA_Label	:= LblControl_Y03;
-	SpTRm_Sp							:FB_BA_Label	:= LblFunctions_SetpointCalculated;
+	SpTRm_Y1							:FB_BA_Label	:= LblControl.Y01;
+	SpTRm_Y2_3							:FB_BA_Label	:= LblControl.Y02_03;
+	SpTRm_Y4							:FB_BA_Label	:= LblControl.Y03;
+	SpTRm_Sp							:FB_BA_Label	:= LblFunctions.SetpointCalculated;
 	
-	SpTRm_SpColX1						:FB_BA_Label	:= LblControl_SummerCompensationX1;	
-	SpTRm_SpColX2						:FB_BA_Label	:= LblControl_SummerCompensationX2;	
-	SpTRm_SpColY1						:FB_BA_Label	:= LblControl_SummerCompensationY1;	
-	SpTRm_SpColY2						:FB_BA_Label	:= LblControl_SummerCompensationY2;	
-	SpTRm_SpColYMin						:FB_BA_Label	:= LblControl_SummerCompensationYmin;
-	SpTRm_SpColYMax						:FB_BA_Label	:= LblControl_SummerCompensationYmax;	
-	SpTRm_SpCol							:FB_BA_Label	:= LblControl_SummerCompensationSp;	
+	SpTRm_SpColX1						:FB_BA_Label	:= LblControl.SummerCompensationX1;	
+	SpTRm_SpColX2						:FB_BA_Label	:= LblControl.SummerCompensationX2;	
+	SpTRm_SpColY1						:FB_BA_Label	:= LblControl.SummerCompensationY1;	
+	SpTRm_SpColY2						:FB_BA_Label	:= LblControl.SummerCompensationY2;	
+	SpTRm_SpColYMin						:FB_BA_Label	:= LblControl.SummerCompensationYmin;
+	SpTRm_SpColYMax						:FB_BA_Label	:= LblControl.SummerCompensationYmax;	
+	SpTRm_SpCol							:FB_BA_Label	:= LblControl.SummerCompensationSp;	
 	
-	SpTRm_SpHtgX1						:FB_BA_Label	:= LblControl_WinterCompensationX1;	
-	SpTRm_SpHtgX2						:FB_BA_Label	:= LblControl_WinterCompensationX2;	
-	SpTRm_SpHtgY1						:FB_BA_Label	:= LblControl_WinterCompensationY1;	
-	SpTRm_SpHtgY2						:FB_BA_Label	:= LblControl_WinterCompensationY2;	
-	SpTRm_SpHtgYMin						:FB_BA_Label	:= LblControl_WinterCompensationYmin;
-	SpTRm_SpHtgYMax						:FB_BA_Label	:= LblControl_WinterCompensationYmax;		
-	SpTRm_SpHtg							:FB_BA_Label	:= LblControl_WinterCompensationSp;	
+	SpTRm_SpHtgX1						:FB_BA_Label	:= LblControl.WinterCompensationX1;	
+	SpTRm_SpHtgX2						:FB_BA_Label	:= LblControl.WinterCompensationX2;	
+	SpTRm_SpHtgY1						:FB_BA_Label	:= LblControl.WinterCompensationY1;	
+	SpTRm_SpHtgY2						:FB_BA_Label	:= LblControl.WinterCompensationY2;	
+	SpTRm_SpHtgYMin						:FB_BA_Label	:= LblControl.WinterCompensationYmin;
+	SpTRm_SpHtgYMax						:FB_BA_Label	:= LblControl.WinterCompensationYmax;		
+	SpTRm_SpHtg							:FB_BA_Label	:= LblControl.WinterCompensationSp;	
 	
-	SpTSuA_SelSpErc						:FB_BA_Label	:= LblControl_OperationModeSelection;							
-	SpTSuA_SpErc						:FB_BA_Label	:= LblFunctions_SetpointCalculated;	
+	SpTSuA_SelSpErc						:FB_BA_Label	:= LblControl.OperationModeSelection;							
+	SpTSuA_SpErc						:FB_BA_Label	:= LblFunctions.SetpointCalculated;	
 
-	TCasCtrl_SpHtg						:FB_BA_Label	:= LblControl_SuppyAirTempSetpointHeaterCalc;			
-	TCasCtrl_SpCol						:FB_BA_Label	:= LblControl_SuppyAirTempSetpointCoolerCalc;			
-	TCasCtrl_SpErc						:FB_BA_Label	:= LblControl_SuppyAirTempSetpointERCCalc;			
-	TCasCtrl_Ctrl						:FB_BA_Label	:= LblFunctions_LoopObjectCascadeSupplyAirTemperature; 			
-	TCasCtrl_SelSpErc					:FB_BA_Label	:= LblControl_OperationModeSelection;							
+	TCasCtrl_SpHtg						:FB_BA_Label	:= LblControl.SuppyAirTempSetpointHeaterCalc;			
+	TCasCtrl_SpCol						:FB_BA_Label	:= LblControl.SuppyAirTempSetpointCoolerCalc;			
+	TCasCtrl_SpErc						:FB_BA_Label	:= LblControl.SuppyAirTempSetpointERCCalc;			
+	TCasCtrl_Ctrl						:FB_BA_Label	:= LblFunctions.LoopObjectCascadeSupplyAirTemperature; 			
+	TCasCtrl_SelSpErc					:FB_BA_Label	:= LblControl.OperationModeSelection;							
 //	Setpoint\Humidity
-	HumCasCtrl_Ctrl						:FB_BA_Label	:= LblFunctions_LoopObjectCascadeSupplyAirHumidity; 	
-	SpHum_SpH							:FB_BA_Label	:= LblControl_SetpointRelHumidity;			
-	SpHum_SpX							:FB_BA_Label	:= LblControl_SetpointAbsHumidity;
-	SpHum_SpHHumf						:FB_BA_Label	:= LblControl_SetpointRelHumidityHumidification;			
-	SpHum_SpHDehumf						:FB_BA_Label	:= LblControl_SetpointRelHumidityDehumidification;			
-	SpHum_SpXHumf						:FB_BA_Label	:= LblControl_SetpointAbsHumidityHumidification;	
-	SpHum_SpXDehumf						:FB_BA_Label	:= LblControl_SetpointAbsHumidityDehumidification;
-//	
-	PlantControlStatus   	:FB_BA_Label2x :=(iAggregate:=LblControl_PlantControl,		iFunction:=LblFunctions_Status);
-	TSequenceControlStatus  :FB_BA_Label2x :=(iAggregate:=LblControl_TSequenceControl,	iFunction:=LblFunctions_Status);		
-	HSequenceControlStatus  :FB_BA_Label2x :=(iAggregate:=LblControl_HSequenceControl,	iFunction:=LblFunctions_Status);		
+	HumCasCtrl_Ctrl						:FB_BA_Label	:= LblFunctions.LoopObjectCascadeSupplyAirHumidity; 	
+	SpHum_SpH							:FB_BA_Label	:= LblControl.SetpointRelHumidity;			
+	SpHum_SpX							:FB_BA_Label	:= LblControl.SetpointCalculatedAbsHumidity;
+	SpHum_SpHHumf						:FB_BA_Label	:= LblControl.SetpointRelHumidityHumidification;			
+	SpHum_SpHDehumf						:FB_BA_Label	:= LblControl.SetpointRelHumidityDehumidification;			
+	SpHum_SpXHumf						:FB_BA_Label	:= LblControl.SetpointCalculatedAbsHumidityHumidification;	
+	SpHum_SpXDehumf						:FB_BA_Label	:= LblControl.SetpointCalculatedAbsHumidityDehumidification;
+
+
+//	Sonderlösung - eventuelle Überarbeitung
+	PlantControlStatus   	:FB_BA_Label2x :=(iAggregate:=LblControl.PlantControl,		iFunction:=LblFunctions.Status);
+	TSequenceControlStatus  :FB_BA_Label2x :=(iAggregate:=LblControl.TSequenceControl,	iFunction:=LblFunctions.Status);		
+
 //	AHU	
-	AHU_TOuA						:FB_BA_Label	:= LblAggregates_TemperatureOutside;
-	AHU_HOuA						:FB_BA_Label	:= LblAggregates_RelativeHumidityOutsideAir;
-	AHU_XOuA						:FB_BA_Label	:= LblAggregates_AbsoluteHumidtiyOutsideAir;
-	AHU_TExhA						:FB_BA_Label	:= LblAggregates_TemperatureExhaustAir;	
-	AHU_HExhA						:FB_BA_Label	:= LblAggregates_RelativeHumidityExhaustAir;	
-	AHU_XExhA						:FB_BA_Label	:= LblAggregates_AbsoluteHumidtiyExhaustAir;	
-	AHU_TSuA						:FB_BA_Label	:= LblAggregates_TemperatureSupplyAir;	
-	AHU_HSuA						:FB_BA_Label	:= LblAggregates_RelativeHumiditySupplyAir;	
-	AHU_XSuA						:FB_BA_Label	:= LblAggregates_AbsoluteHumiditySupplyAir;	
-	AHU_TExtA						:FB_BA_Label	:= LblAggregates_TemperatureExtractAir;	
-	AHU_HExtA						:FB_BA_Label	:= LblAggregates_RelativeHumiditiyExtractAir;	
-	AHU_XExtA						:FB_BA_Label	:= LblAggregates_AbsoluteHumidityExtractAir;	
-	AHU_TRm							:FB_BA_Label	:= LblAggregates_TemperatureRoomAir;	
-	AHU_HRm							:FB_BA_Label	:= LblAggregates_RelativeHumidityRoomHumidity;	
-	AHU_XRm							:FB_BA_Label	:= LblAggregates_AbsoluteHumidityRoomAir;	
-	AHU_DiffPrssOuAFilt				:FB_BA_Label	:= LblAggregates_PressureDifferentialOutsideAirFilter;	
-	AHU_FiltOuAMonit				:FB_BA_Label	:= LblAggregates_AirFilterOutsideAir;
-	AHU_DiffPrssExtAFilt			:FB_BA_Label	:= LblAggregates_PressureDifferentialExtractAirFilter;	
-	AHU_FiltExtAMonit				:FB_BA_Label	:= LblAggregates_AirFilterExtractAir;
-	AHU_SumNgtCol					:FB_BA_Label	:= LblControl_SummerNightCooling;
-	AHU_OpMod						:FB_BA_Label	:= LblControl_OperationMode;
-	AHU_OuADmp						:FB_BA_Label	:= LblAggregates_VentilationDamperOutsideAir;
-	AHU_SuAPrss						:FB_BA_Label	:= LblAggregates_PressureSupplyAir;	
-	AHU_SuADiffPrss					:FB_BA_Label	:= LblAggregates_PressureDifferentialSupplyAirFan;	
-	AHU_SuAFan						:FB_BA_Label	:= LblAggregates_FanSupplyAir;
-	AHU_SuADiffPrssMonit			:FB_BA_Label	:= LblControl_DifferencePressureMonitoringSupplyAirFan;
-	AHU_ExhADmp						:FB_BA_Label	:= LblAggregates_VentilationDamperExhaustAir;
-	AHU_ExtAPrss					:FB_BA_Label	:= LblAggregates_PressureExtractAir;	
-	AHU_ExtADiffPrss				:FB_BA_Label	:= LblAggregates_PressureDifferentialExtractAirFan;	
-	AHU_ExtAFan						:FB_BA_Label	:= LblAggregates_FanExtractAir;
-	AHU_ExtADiffPrssMonit			:FB_BA_Label	:= LblControl_DifferencePressureMonitoringExtractAirFan;
-	AHU_SpTRm						:FB_BA_Label	:= LblControl_TSetpointCalculation;
-	AHU_TCasCtrl					:FB_BA_Label	:= LblControl_TCascadeSupplyAirControl;
+	AHU_TOuA						:FB_BA_Label	:= LblAggregates.TemperatureOutside;	
+	AHU_TExhA						:FB_BA_Label	:= LblAggregates.TemperatureExhaustAir;	
+	AHU_TSuA						:FB_BA_Label	:= LblAggregates.TemperatureSupplyAir;	
+	AHU_TExtA						:FB_BA_Label	:= LblAggregates.TemperatureExtractAir;	
+	AHU_TRm							:FB_BA_Label	:= LblAggregates.TemperatureRoomAir;	
+	AHU_DiffPrssOuAFilt				:FB_BA_Label	:= LblAggregates.PressureDifferentialOutsideAirFilter;	
+	AHU_FiltOuAMonit				:FB_BA_Label	:= LblAggregates.AirFilterOutsideAir;
+	AHU_DiffPrssExtAFilt			:FB_BA_Label	:= LblAggregates.PressureDifferentialExtractAirFilter;	
+	AHU_FiltExtAMonit				:FB_BA_Label	:= LblAggregates.AirFilterExtractAir;
+	AHU_SumNgtCol					:FB_BA_Label	:= LblControl.SummerNightCooling;
+	AHU_OpMod						:FB_BA_Label	:= LblControl.OperationMode;
+	AHU_OuADmp						:FB_BA_Label	:= LblAggregates.VentilationDamperOutsideAir;
+	AHU_SuAPrss						:FB_BA_Label	:= LblAggregates.PressureSupplyAir;	
+	AHU_SuADiffPrss					:FB_BA_Label	:= LblAggregates.PressureDifferentialSupplyAirFan;	
+	AHU_SuAFan						:FB_BA_Label	:= LblAggregates.FanSupplyAir;
+	AHU_SuADiffPrssMonit			:FB_BA_Label	:= LblControl.DifferencePressureMonitoringSupplyAirFan;
+	AHU_ExhADmp						:FB_BA_Label	:= LblAggregates.VentilationDamperExhaustAir;
+	AHU_ExtAPrss					:FB_BA_Label	:= LblAggregates.PressureExtractAir;	
+	AHU_ExtADiffPrss				:FB_BA_Label	:= LblAggregates.PressureDifferentialExtractAirFan;	
+	AHU_ExtAFan						:FB_BA_Label	:= LblAggregates.FanExtractAir;
+	AHU_ExtADiffPrssMonit			:FB_BA_Label	:= LblControl.DifferencePressureMonitoringExtractAirFan;
+	AHU_SpTRm						:FB_BA_Label	:= LblControl.SetpointCalculation;
+	AHU_TCasCtrl					:FB_BA_Label	:= LblControl.CascadeSupplyAirControl;
 	AHU_TSeqLink					:FB_BA_Label2x	:= TSequenceControlStatus;
-	AHU_SpHRm						:FB_BA_Label	:= LblControl_HSetpointCalculation;
-	AHU_HCasCtrl					:FB_BA_Label	:= LblControl_HCascadeSupplyAirControl;
-	AHU_HSeqLink					:FB_BA_Label2x	:= HSequenceControlStatus;	
-	AHU_ReHtr						:FB_BA_Label	:= LblControl_ReHeater;
-	AHU_PreHtr						:FB_BA_Label	:= LblControl_PreHeater;
-	AHU_Erc							:FB_BA_Label	:= LblControl_EnergyRecovery;
-	AHU_Col							:FB_BA_Label	:= LblControl_Cooler;
-	AHU_Humf						:FB_BA_Label	:= LblAggregates_Humidifier;
+	AHU_PreHtr						:FB_BA_Label	:= LblControl.PreHeater;
+	AHU_Erc							:FB_BA_Label	:= LblControl.EnergyRecovery;
+	AHU_Col							:FB_BA_Label	:= LblControl.Cooler;
 	AHU_PlantCtrl					:FB_BA_Label2x	:= PlantControlStatus;	
 
 
