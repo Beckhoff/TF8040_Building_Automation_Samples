@@ -1,26 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
   <POU Name="MAIN" Id="{42763611-eb75-4b49-9c1b-573123fc2741}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	DPAD		: FB_BA_CarelessDPAD := (
 					aIdentifier := [
-	(* Level 1 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eLocation,			sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
-	(* Level 2 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eBuilding,			sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
-	(* Level 3 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eControlCabinet,	sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
-	(* Level 4 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eFloor,			sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
-	(* Level 5 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eTrade,			sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
-	(* Level 6 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.ePlant,			sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 2),
-	(* Level 7 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eAggregate,		sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 2),
-	(* Level 8 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eFunction,			sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 2)
+	(* Level 1 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eLocation,			sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
+	(* Level 2 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eBuilding,			sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
+	(* Level 3 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eControlCabinet,	sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
+	(* Level 4 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eFloor,			sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
+	(* Level 5 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eTrade,			sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 0),
+	(* Level 6 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.ePlant,			sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 2),
+	(* Level 7 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eAggregate,		sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 2),
+	(* Level 8 *)		(eMode:=E_BA_DPADMode.eInclude,		eNodeType:=E_BA_NodeType.eFunction,			sSeparator_ObjectName := '_', 	sSeparator_Description := ' - ',	nIndexDigits := 2)
 					]
 				);		
 		 
 //	Level 1 Standort bzw. Ort oder Stadt 
 //	Level 1 Site respectively location or town
 	SiteA		: FB_BA_View := (
-					sObjectName		:= 'A',		
-					sDescription	:= 'A',	
+					sObjectName		:= 'SiteA',		
+					sDescription	:= 'Site A',	
 					eDPADMode		:= E_BA_DPADMode.eInclude				
 				); 				
 //	Level 2 Gebäude 	
@@ -28,15 +28,15 @@ VAR
 		B			: FB_BA_View := (
 						iParent 		:= SiteA,
 						sObjectName		:= 'B',		
-						sDescription	:= 'B',	
+						sDescription	:= 'Building',	
 						eDPADMode		:= E_BA_DPADMode.eInclude					
 					);     
 // Level 3 ISP -> Informationsschwerpunkt
 // Level 3 IFP -> information focal point 	 	                                                                                   	
 			IFP			: FB_BA_View := (
 							iParent 		:= B,
-							sObjectName		:= 'I',		
-							sDescription	:= 'IFP',	
+							sObjectName		:= 'IFP',		
+							sDescription	:= 'Information focal point',	
 							eDPADMode		:= E_BA_DPADMode.eInclude				
 						);     
 // Level 4 Stockwerk 	->	O01 = Obergeschoss 01, U01 = Untergeschoss 01,  E00 = Ergeschoss
@@ -67,7 +67,7 @@ VAR
 // Level 5 Trade ventilation system                                                                                	
 					AC			: FB_BA_AC := (
 									iParent 		:= F01,
-									sObjectName		:= 'AC_',
+									sObjectName		:= 'AC',
 									sDescription	:= 'Air conditioning',
 									eDPADMode		:= E_BA_DPADMode.eInclude
 								);     	

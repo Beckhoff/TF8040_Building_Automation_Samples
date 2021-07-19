@@ -2873,6 +2873,51 @@
         "boolean"
       ]
     },
+    "TcHmi.BuildingAutomation.FourSidedColor": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "title": "FourSidedColor",
+      "propertiesMeta": [
+        {
+          "name": "left",
+          "displayName": "Left",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "top",
+          "displayName": "Top",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "right",
+          "displayName": "Right",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "bottom",
+          "displayName": "bottom",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "left": {
+          "$ref": "tchmi:framework#/definitions/SolidColor"
+        },
+        "top": {
+          "$ref": "tchmi:framework#/definitions/SolidColor"
+        },
+        "right": {
+          "$ref": "tchmi:framework#/definitions/SolidColor"
+        },
+        "bottom": {
+          "$ref": "tchmi:framework#/definitions/SolidColor"
+        }
+      }
+    },
     "TcHmi.BuildingAutomation.Orientation": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
@@ -3342,7 +3387,7 @@
       ],
       "options": [
         {
-          "label": "standard",
+          "label": "checkbox",
           "value": 0
         },
         {
@@ -5097,6 +5142,15 @@
             "defaultValueInternal": null
           },
           {
+            "name": "digits",
+            "category": "Common",
+            "displayName": "Digits",
+            "description": "Number of displayed digits.",
+            "displayPriority": 10,
+            "defaultValue": 1,
+            "defaultValueInternal": 1
+          },
+          {
             "name": "textColor",
             "category": "Colors",
             "displayName": "TextColor",
@@ -5127,6 +5181,9 @@
           },
           "unit": {
             "type": "string"
+          },
+          "digits": {
+            "type": "number"
           },
           "textColor": {
             "$ref": "tchmi:framework#/definitions/SolidColor"
@@ -5312,14 +5369,6 @@
           "description": "Flag if sun protection is active.",
           "defaultValue": null,
           "defaultValueInternal": null
-        },
-        {
-          "name": "thermalAutomatic",
-          "category": "Common",
-          "displayName": "Thermal Automatic",
-          "description": "Flag if thermal automatic is active.",
-          "defaultValue": null,
-          "defaultValueInternal": null
         }
       ],
       "properties": {
@@ -5333,9 +5382,6 @@
           "type": "boolean"
         },
         "sunProtection": {
-          "type": "boolean"
-        },
-        "thermalAutomatic": {
           "type": "boolean"
         }
       }
@@ -5432,24 +5478,6 @@
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
       "frameworkControlType": "Light",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
-    },
-    "TcHmi.BuildingAutomation.Controls.Light.BrightnessValue": {
-      "title": "BrightnessValue",
-      "engineeringDefaultDatatype": 0,
-      "anyOf": [
-        {
-          "type": "array",
-          "title": ""
-        },
-        {
-          "type": "number",
-          "title": "Dimmer"
-        },
-        {
-          "type": "boolean",
-          "title": "Switch"
-        }
-      ]
     },
     "TcHmi.BuildingAutomation.Controls.Light.DisplayMode": {
       "$schema": "http://json-schema.org/draft-04/schema",
@@ -6219,7 +6247,8 @@
       "type": "integer",
       "enum": [
         0,
-        1
+        1,
+        2
       ],
       "options": [
         {
@@ -6229,6 +6258,10 @@
         {
           "label": "fireDamper",
           "value": 1
+        },
+        {
+          "label": "shutOffValve",
+          "value": 2
         }
       ]
     },
