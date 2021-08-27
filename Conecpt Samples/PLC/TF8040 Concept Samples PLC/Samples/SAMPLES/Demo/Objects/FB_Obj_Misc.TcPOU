@@ -304,26 +304,6 @@ VAR
 													eLoggingType							:= E_BA_LoggingType.eCOV
 												))];
 	{endregion}
-	{region 'Event classes'}
-		EC										: FB_BA_View := (
-													iParent									:= THIS^,
-													sDescription							:= '{Event classes}'
-												);
-				 
-			EC_Test1							: FB_BA_EC := (
-													iParent									:= EC,
-													nInstanceID								:= 245,
-													sDescription							:= '{EC Sample 1}',
-													eEventType								:= E_BA_EventType.eDisturb,
-													eAlarmMode								:= E_BA_AlarmMode.eStandard
-												);	
-			EC_Test2							: FB_BA_EC := (
-													iParent									:= EC,
-													nInstanceID								:= 246,
-													sDescription							:= '{EC Sample 2}',
-													aAcknowledgeRequired					:= BA_Globals.aAckFlags_Extended
-												);
-	{endregion}
 END_VAR
 VAR			
 	_i											: INT;
@@ -404,12 +384,6 @@ Trends();
 FOR _i := 1 TO TREND_COUNT DO
 	Trend[_i]();
 END_FOR
-
-// Event classes:
-EC();
-
-EC_Test1();
-EC_Test2();
 ]]></ST>
     </Implementation>
     <LineIds Name="FB_Obj_Misc">
@@ -448,13 +422,7 @@ EC_Test2();
       <LineId Id="1028" Count="5" />
       <LineId Id="929" Count="0" />
       <LineId Id="931" Count="2" />
-      <LineId Id="753" Count="0" />
-      <LineId Id="934" Count="0" />
-      <LineId Id="730" Count="0" />
-      <LineId Id="755" Count="1" />
-      <LineId Id="731" Count="0" />
-      <LineId Id="729" Count="0" />
-      <LineId Id="754" Count="0" />
+      <LineId Id="753" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

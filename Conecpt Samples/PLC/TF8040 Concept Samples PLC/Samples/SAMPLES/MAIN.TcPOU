@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
   <POU Name="MAIN" Id="{7c15d84c-41a4-421d-9b24-c13041281be0}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
@@ -28,6 +28,7 @@ VAR
 				PubSubRm		: FB_Ref_PubSub_Remote	:= (iParent:=Ref,						sDescription:='Publisher and subscriber (Remote)');
 					 
 			Evt					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Event');
+				EvtCls			: FB_Evt_EventClasses	:= (iParent:=Evt,						sDescription:='Event classes');
 				Events			: FB_Evt_Events			:= (iParent:=Evt,						sDescription:='Events');
 				Ack				: FB_Evt_Ack			:= (iParent:=Evt,						sDescription:='Acknowledgement');
 					 
@@ -40,8 +41,8 @@ VAR
 	{region 'Templates'}
 		Tmpl					: FB_BA_View			:= (iParent:=Smpl,						sDescription:='Templates');
 			Gen					: FB_BA_View			:= (iParent:=Tmpl,						sDescription:='General');
-				Bld				: FB_BA_Bld01			:= (iParent:=Gen,						sDescription:='Building information');
-				EvtCls			: FB_BA_EC01			:= (iParent:=Gen,						sDescription:='Event Classes');
+				Bld01			: FB_BA_Bld01			:= (iParent:=Gen,						sDescription:='Building information');
+				EvtCls01		: FB_BA_EC01			:= (iParent:=Gen,						sDescription:='Event Classes');
 	{endregion}		
 END_VAR
 VAR		
@@ -67,6 +68,7 @@ PubSubLc();
 PubSubRm();
 
 Evt();
+EvtCls();
 Events();
 Ack();
 
@@ -80,8 +82,8 @@ PltCtrl();
 Tmpl();
 
 Gen();
-Bld();
-EvtCls();]]></ST>
+Bld01();
+EvtCls01();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="41" Count="5" />
@@ -93,7 +95,9 @@ EvtCls();]]></ST>
       <LineId Id="87" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="132" Count="1" />
-      <LineId Id="80" Count="1" />
+      <LineId Id="230" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="231" Count="0" />
       <LineId Id="52" Count="0" />
       <LineId Id="84" Count="0" />
       <LineId Id="65" Count="0" />
