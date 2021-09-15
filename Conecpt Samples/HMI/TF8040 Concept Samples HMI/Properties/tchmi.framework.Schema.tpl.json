@@ -1126,6 +1126,55 @@
         "color"
       ]
     },
+    "Sorting": {
+      "title": "Sorting",
+      "type": "array",
+      "items": {
+        "title": "Sorting criterion",
+        "type": "object",
+        "engineeringColumns": [
+          "name",
+          "order"
+        ],
+        "propertiesMeta": [
+          {
+            "name": "name",
+            "displayName": "Name",
+            "category": "General",
+            "displayPriority": 10,
+            "description": "Name of the property to sort by",
+            "defaultValue": null,
+            "defaultValueInternal": null
+          },
+          {
+            "name": "order",
+            "displayName": "Order",
+            "category": "General",
+            "displayPriority": 10,
+            "description": "Sort definition",
+            "defaultValue": null,
+            "defaultValueInternal": null
+          }
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "order": {
+            "type": "string",
+            "enum": [
+              "Ascending",
+              "Descending"
+            ],
+            "default": "Ascending"
+          }
+        },
+        "required": [
+          "order"
+        ],
+        "additionalProperties": false
+      }
+    },
     "StopPoint": {
       "title": "StopPoint definition",
       "type": "object",
@@ -5204,7 +5253,7 @@
       "items": {
         "type": "object",
         "title": "EventData",
-        "description": "Defines a event for the object.",
+        "description": "Defines an event for the object.",
         "propertiesMeta": [
           {
             "name": "activate",
@@ -5567,7 +5616,7 @@
           "value": 4
         },
         {
-          "label": "savetyPosition",
+          "label": "safetyPosition",
           "value": 5
         }
       ]
@@ -5624,7 +5673,7 @@
           "value": 4
         },
         {
-          "label": "savetyPosition",
+          "label": "safetyPosition",
           "value": 5
         }
       ]
@@ -5694,8 +5743,8 @@
                 "defaultValueInternal": null
               },
               {
-                "name": "resetHandMode",
-                "displayName": "ResetHandMode",
+                "name": "resetHandModeSym",
+                "displayName": "ResetHandModeSym",
                 "category": "Common",
                 "displayPriority": 10,
                 "description": "Symbol which is set to true if the hand mode was reseted.",
@@ -5834,8 +5883,8 @@
                 "defaultValueInternal": null
               },
               {
-                "name": "resetHandMode",
-                "displayName": "ResetHandMode",
+                "name": "resetHandModeSym",
+                "displayName": "ResetHandModeSym",
                 "category": "Common",
                 "displayPriority": 10,
                 "description": "Symbol which is set to true if the hand mode was reseted.",
@@ -5939,7 +5988,7 @@
               },
               {
                 "name": "currentTemp",
-                "displayName": "CurrentTemperature",
+                "displayName": "CurrentTemp",
                 "category": "Common",
                 "displayPriority": 10,
                 "description": "The current temperature.",
@@ -5948,7 +5997,7 @@
               },
               {
                 "name": "tempAdjust",
-                "displayName": "TemperatureAdjustment",
+                "displayName": "TempAdjustment",
                 "category": "Common",
                 "displayPriority": 10,
                 "description": "The adjustment for the current temperature setpoint.",
@@ -6130,8 +6179,8 @@
                 "defaultValueInternal": null
               },
               {
-                "name": "resetHandMode",
-                "displayName": "ResetHandMode",
+                "name": "resetHandModeSym",
+                "displayName": "ResetHandModeSym",
                 "category": "Common",
                 "displayPriority": 10,
                 "description": "Symbol which is set to true if the hand mode was reseted.",
@@ -6834,7 +6883,10 @@
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiDatagrid.DataDefinitionList"
     },
     "DGSorting": {
-      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiDatagrid.Sorting"
+      "$ref": "tchmi:framework#/definitions/Sorting"
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiDatagrid.Sorting": {
+      "$ref": "tchmi:framework#/definitions/Sorting"
     },
     "TcHmi.Controls.Beckhoff.TcHmiDatagrid": {
       "$schema": "http://json-schema.org/draft-04/schema",
@@ -6991,55 +7043,6 @@
         }
       ]
     },
-    "TcHmi.Controls.Beckhoff.TcHmiDatagrid.Sorting": {
-      "title": "Sorting",
-      "type": "array",
-      "items": {
-        "title": "Sorting criterion",
-        "type": "object",
-        "engineeringColumns": [
-          "name",
-          "order"
-        ],
-        "propertiesMeta": [
-          {
-            "name": "name",
-            "displayName": "Name",
-            "category": "General",
-            "displayPriority": 10,
-            "description": "Name of the column to sort",
-            "defaultValue": null,
-            "defaultValueInternal": null
-          },
-          {
-            "name": "order",
-            "displayName": "Order",
-            "category": "General",
-            "displayPriority": 10,
-            "description": "Sort definition",
-            "defaultValue": null,
-            "defaultValueInternal": null
-          }
-        ],
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "order": {
-            "type": "string",
-            "enum": [
-              "Ascending",
-              "Descending"
-            ],
-            "default": "Ascending"
-          }
-        },
-        "required": [
-          "order"
-        ],
-        "additionalProperties": false
-      }
-    },
     "TcHmiDatagrid": {
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiDatagrid"
     },
@@ -7047,7 +7050,7 @@
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "object",
       "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
-      "frameworkControlType": "TcHmiDatetTimePicker",
+      "frameworkControlType": "TcHmiDateTimePicker",
       "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
     },
     "TcHmiDateTimePicker": {
@@ -7307,6 +7310,15 @@
     },
     "TcHmiEventGrid": {
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiEventGrid"
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiEventLine": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkControlType": "TcHmiEventLine",
+      "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
+    },
+    "TcHmiEventLine": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiEventLine"
     },
     "TcHmi.Controls.Beckhoff.TcHmiHorizontalBarChart": {
       "$schema": "http://json-schema.org/draft-04/schema",
@@ -8009,7 +8021,7 @@
           "$ref": "tchmi:framework#/definitions/MeasurementValue"
         },
         "axisNameFontSizeUnit": {
-          "$ref": "tchmi:framework#/definitions/FontSizeUnit"
+          "$ref": "tchmi:framework#/definitions/PixelUnit"
         },
         "axisNameFontWeight": {
           "$ref": "tchmi:framework#/definitions/FontWeight"
@@ -8055,6 +8067,16 @@
     },
     "TcHmiPolygon": {
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiPolygon"
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiPolyline": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkControlType": "TcHmiPolyline",
+      "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
+    },
+    "TcHmiPolyline": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiPolyline"
     },
     "RadialGaugeLabelPosition": {
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiRadialGauge.LabelPosition"
@@ -8136,6 +8158,9 @@
       "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
       "frameworkControlType": "TcHmiTachometer",
       "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
+    },
+    "TcHmiTachometer": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiTachometer"
     },
     "TcHmi.Controls.Beckhoff.TcHmiTachometer.LabelPosition": {
       "title": "LabelPosition",
@@ -8696,7 +8721,7 @@
           "$ref": "tchmi:framework#/definitions/MeasurementValue"
         },
         "axisNameFontSizeUnit": {
-          "$ref": "tchmi:framework#/definitions/FontSizeUnit"
+          "$ref": "tchmi:framework#/definitions/PixelUnit"
         },
         "axisNameFontWeight": {
           "$ref": "tchmi:framework#/definitions/FontWeight"
@@ -8871,8 +8896,11 @@
     "TcHmi.Controls.Beckhoff.TcHmiDateTimeDisplay": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
-      "frameworkControlType": "TcHmiTime",
+      "frameworkControlType": "TcHmiDateTimeDisplay",
       "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
+    },
+    "TcHmiDateTimeDisplay": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiDateTimeDisplay"
     },
     "TcHmi.Controls.Beckhoff.TcHmiDateTimeDisplay.TimeDisplayLayout": {
       "type": "string",
@@ -8884,6 +8912,16 @@
         "DateTimeSingleLine",
         "DateTimeMultiLine"
       ]
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiToggleSwitch": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkControlType": "TcHmiToggleSwitch",
+      "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
+    },
+    "TcHmiToggleSwitch": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiToggleSwitch"
     },
     "TcHmi.Controls.Beckhoff.TcHmiInput": {
       "$schema": "http://json-schema.org/draft-04/schema",
@@ -8908,7 +8946,7 @@
     "TcHmi.Controls.Beckhoff.TcHmiPasswordInput": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.Controls.Beckhoff.TcHmiInput",
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
       "frameworkControlType": "TcHmiPasswordInput",
       "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
     },
@@ -8918,7 +8956,7 @@
     "TcHmi.Controls.Beckhoff.TcHmiSpinboxInput": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.Controls.Beckhoff.TcHmiNumericInput",
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
       "frameworkControlType": "TcHmiSpinboxInput",
       "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
     },
@@ -9012,6 +9050,9 @@
       "frameworkControlType": "TcHmiStateImage",
       "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
     },
+    "TcHmiStateImage": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiStateImage"
+    },
     "TcHmi.Controls.Beckhoff.TcHmiStateImage.StateList": {
       "title": "StateList",
       "description": "State List",
@@ -9060,6 +9101,24 @@
         "state",
         "stateIcon"
       ]
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiAdsState": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkControlType": "TcHmiAdsState",
+      "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
+    },
+    "TcHmiAdsState": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiAdsState"
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiUserManagement": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkControlType": "TcHmiUserManagement",
+      "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
+    },
+    "TcHmiUserManagement": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiUserManagement"
     },
     "TcHmi.Controls.System.TcHmiControl": {
       "$schema": "http://json-schema.org/draft-04/schema",
@@ -9960,6 +10019,9 @@
       "frameworkControlType": "TcHmiNavigationBar",
       "frameworkControlNamespace": "TcHmi.Controls.ResponsiveNavigation"
     },
+    "TcHmiNavigationBar": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.ResponsiveNavigation.TcHmiNavigationBar"
+    },
     "TcHmi.Controls.ResponsiveNavigation.TcHmiNavigationBar.Alignment": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "NavigationBarAlignment",
@@ -10383,11 +10445,17 @@
       "frameworkControlType": "TcHmiNavigationContent",
       "frameworkControlNamespace": "TcHmi.Controls.ResponsiveNavigation"
     },
+    "TcHmiNavigationContent": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.ResponsiveNavigation.TcHmiNavigationContent"
+    },
     "TcHmi.Controls.ResponsiveNavigation.TcHmiBreadcrumb": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
       "frameworkControlType": "TcHmiBreadcrumb",
       "frameworkControlNamespace": "TcHmi.Controls.ResponsiveNavigation"
+    },
+    "TcHmiBreadcrumb": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.ResponsiveNavigation.TcHmiBreadcrumb"
     },
     "TcHmi.Controls.ResponsiveNavigation.TcHmiBreadcrumb.Path": {
       "type": "array",

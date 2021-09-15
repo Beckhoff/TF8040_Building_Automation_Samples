@@ -11,6 +11,7 @@
     "CHECKSUMENABLED": true,
     "CHUNKSIZE": 1048576,
     "CLIENTCERTIFICATES": [],
+    "CLIENTPRIORITYLIST": [],
     "CLIENT_CACHE_MAX_AGE": 0,
     "CONFIGURATIONS": [
         "remote"
@@ -7150,13 +7151,14 @@
             "ENABLED": true,
             "NAME": "TcHmiAds",
             "PATH": "TcHmiAds\\",
+            "PROCESSID": -1,
             "REQUIRED": false,
             "STARTUPTYPE": 1
         },
         "TcHmiBaServerExtension": {
             "ENABLED": true,
             "NAME": "TcHmiBaServerExtension",
-            "PATH": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.ServerExtension.1.1.2\\runtimes\\any\\native\\",
+            "PATH": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.ServerExtension.1.1.3\\runtimes\\any\\native\\",
             "REQUIRED": false,
             "STARTUPTYPE": 1
         },
@@ -7534,7 +7536,7 @@
     "PERMESSAGEDEFLATEENABLED": true,
     "PLAINADMINISTRATIONENABLED": true,
     "PROJECTNAME": "TF8040 Concept Samples HMI",
-    "PROJECTVERSION": "1.0.0.0",
+    "PROJECTVERSION": "1.0.2.0",
     "REMOTEADMINISTRATIONENABLED": true,
     "REMOTESERVERS": {},
     "REMOTESERVERS_CERTIFICATES": [],
@@ -8235,6 +8237,44 @@
             },
             "USEMAPPING": true
         },
+        "Copy": {
+            "ACCESS": 3,
+            "DOMAIN": "TcHmiSrv",
+            "HIDDEN": true,
+            "MAPPING": "Copy",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true,
+                "writeValue": {
+                    "properties": {
+                        "configuration": {
+                            "default": "default",
+                            "doc": "Configuration name.",
+                            "type": "string"
+                        },
+                        "domain": {
+                            "doc": "Extension domain.",
+                            "type": "string"
+                        },
+                        "new": {
+                            "doc": "Path to the new entry.",
+                            "type": "string"
+                        },
+                        "old": {
+                            "doc": "Path to the old entry.",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "old",
+                        "new",
+                        "domain"
+                    ],
+                    "type": "object"
+                }
+            },
+            "USEMAPPING": true
+        },
         "CreateEvent": {
             "ACCESS": 3,
             "CUSTOMERDATA": "",
@@ -8864,6 +8904,10 @@
                             ],
                             "type": "string"
                         },
+                        "thirdParty": {
+                            "doc": "indicate the extension is a customer extension",
+                            "type": "boolean"
+                        },
                         "updated": {
                             "doc": "Shows last update time of the config.",
                             "format": "date-time",
@@ -8973,6 +9017,47 @@
                     ]
                 },
                 "type": "array"
+            },
+            "USEMAPPING": true
+        },
+        "ListFiles": {
+            "ACCESS": 3,
+            "DOMAIN": "TcHmiSrv",
+            "HIDDEN": true,
+            "MAPPING": "ListFiles",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "additionalProperties": {
+                    "properties": {
+                        "fileFlags": {
+                            "items": {
+                                "enum": [
+                                    "Directory",
+                                    "ReadOnly"
+                                ],
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "fileSize": {
+                            "displayClass": "kilobyte",
+                            "type": "number"
+                        },
+                        "modificationTime": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "modificationTime",
+                        "fileFlags"
+                    ],
+                    "type": "object"
+                },
+                "function": true,
+                "type": "object",
+                "writeValue": {
+                    "type": "string"
+                }
             },
             "USEMAPPING": true
         },
@@ -9869,6 +9954,7 @@
         },
         "TcHmiBaServerExtension.CheckBaDeviceMapping": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiBaServerExtension",
             "HIDDEN": true,
             "MAPPING": "CheckBaDeviceMapping",
@@ -10093,6 +10179,7 @@
         },
         "TcHmiBaServerExtension.GetBaObjectTexts": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiBaServerExtension",
             "HIDDEN": true,
             "MAPPING": "GetBaObjectTexts",
@@ -10311,27 +10398,61 @@
                                 ]
                             },
                             "numEvents": {
-                                "propertyOrder": 2,
+                                "propertyOrder": 3,
                                 "readOnly": true,
                                 "type": "integer"
                             },
                             "numEventsWithAlarmPayload": {
-                                "propertyOrder": 4,
+                                "propertyOrder": 7,
                                 "readOnly": true,
                                 "type": "integer"
                             },
                             "numEventsWithMessagePayload": {
-                                "propertyOrder": 3,
+                                "propertyOrder": 5,
                                 "readOnly": true,
                                 "type": "integer"
+                            },
+                            "numPersistentEvents": {
+                                "hidden": true,
+                                "propertyOrder": 4,
+                                "readOnly": true,
+                                "type": "integer"
+                            },
+                            "numPersistentEventsWithAlarmPayload": {
+                                "hidden": true,
+                                "propertyOrder": 8,
+                                "readOnly": true,
+                                "type": "integer"
+                            },
+                            "numPersistentEventsWithMessagePayload": {
+                                "hidden": true,
+                                "propertyOrder": 6,
+                                "readOnly": true,
+                                "type": "integer"
+                            },
+                            "persistentDatabaseSize": {
+                                "allOf": [
+                                    {
+                                        "$ref": "tchmi:general#/definitions/INT64"
+                                    },
+                                    {
+                                        "displayClass": "byte",
+                                        "propertyOrder": 2,
+                                        "readOnly": true
+                                    }
+                                ]
                             }
                         },
                         "readOnly": true,
                         "required": [
                             "databaseSize",
+                            "persistentDatabaseSize",
                             "numEvents",
+                            "numPersistentEvents",
                             "numEventsWithMessagePayload",
-                            "numEventsWithAlarmPayload"
+                            "numPersistentEventsWithMessagePayload",
+                            "numEventsWithAlarmPayload",
+                            "numPersistentEventsWithAlarmPayload"
                         ],
                         "type": "object"
                     },
@@ -10344,20 +10465,41 @@
                                     "type": "integer"
                                 },
                                 "numEventsWithAlarmPayload": {
-                                    "propertyOrder": 3,
+                                    "propertyOrder": 5,
                                     "readOnly": true,
                                     "type": "integer"
                                 },
                                 "numEventsWithMessagePayload": {
+                                    "propertyOrder": 3,
+                                    "readOnly": true,
+                                    "type": "integer"
+                                },
+                                "numPersistentEvents": {
+                                    "hidden": true,
                                     "propertyOrder": 2,
+                                    "readOnly": true,
+                                    "type": "integer"
+                                },
+                                "numPersistentEventsWithAlarmPayload": {
+                                    "hidden": true,
+                                    "propertyOrder": 6,
+                                    "readOnly": true,
+                                    "type": "integer"
+                                },
+                                "numPersistentEventsWithMessagePayload": {
+                                    "hidden": true,
+                                    "propertyOrder": 4,
                                     "readOnly": true,
                                     "type": "integer"
                                 }
                             },
                             "required": [
                                 "numEvents",
+                                "numPersistentEvents",
                                 "numEventsWithMessagePayload",
-                                "numEventsWithAlarmPayload"
+                                "numPersistentEventsWithMessagePayload",
+                                "numEventsWithAlarmPayload",
+                                "numPersistentEventsWithAlarmPayload"
                             ],
                             "type": "object"
                         },
@@ -10922,16 +11064,16 @@
     "USERSELECTTYPE": 0,
     "VIDEOSEGMENTSIZE": 1048576,
     "VIRTUALDIRECTORIES": {
-        "/": "C:\\GIT\\SharedComponents\\Source\\Samples\\Conecpt Samples\\HMI\\TF8040 Concept Samples HMI",
-        "/Beckhoff.TwinCAT.HMI.BA.Controls": "C:\\GIT\\SharedComponents\\Source\\Samples\\Conecpt Samples\\HMI\\Packages\\Beckhoff.TwinCAT.HMI.BA.Controls.1.1.2\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.BA.Framework": "C:\\GIT\\SharedComponents\\Source\\Samples\\Conecpt Samples\\HMI\\Packages\\Beckhoff.TwinCAT.HMI.BA.Framework.1.1.2\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.BA.Icons": "C:\\GIT\\SharedComponents\\Source\\Samples\\Conecpt Samples\\HMI\\Packages\\Beckhoff.TwinCAT.HMI.BA.Icons.1.1.2\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.BA.ServerExtension": "C:\\GIT\\SharedComponents\\Source\\Samples\\Conecpt Samples\\HMI\\Packages\\Beckhoff.TwinCAT.HMI.BA.ServerExtension.1.1.2",
-        "/Beckhoff.TwinCAT.HMI.Controls": "C:\\GIT\\SharedComponents\\Source\\Samples\\Conecpt Samples\\HMI\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.746.3\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.Functions": "C:\\GIT\\SharedComponents\\Source\\Samples\\Conecpt Samples\\HMI\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.746.3\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.ResponsiveNavigation": "C:\\GIT\\SharedComponents\\Source\\Samples\\Conecpt Samples\\HMI\\Packages\\Beckhoff.TwinCAT.HMI.ResponsiveNavigation.12.746.3\\runtimes\\native1.12-tchmi",
-        "/bin": "C:\\GIT\\SharedComponents\\Source\\Samples\\Conecpt Samples\\HMI\\TF8040 Concept Samples HMI\\bin\\",
-        "/bin/framework": "C:\\GIT\\SharedComponents\\Source\\Samples\\Conecpt Samples\\HMI\\TF8040 Concept Samples HMI\\bin\\framework",
-        "/framework": "C:\\GIT\\SharedComponents\\Source\\Samples\\Conecpt Samples\\HMI\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.746.3\\runtimes\\native1.12-tchmi"
+        "/": "..\\..\\TF8040 Concept Samples HMI\\",
+        "/Beckhoff.TwinCAT.HMI.BA.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Controls.1.1.3\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.Framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Framework.1.1.3\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.Icons": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Icons.1.1.3\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.ServerExtension": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.ServerExtension.1.1.3",
+        "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.748.0\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.748.0\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.ResponsiveNavigation": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.ResponsiveNavigation.12.748.0\\runtimes\\native1.12-tchmi",
+        "/bin": "..\\..\\TF8040 Concept Samples HMI\\bin\\",
+        "/bin/framework": "..\\..\\TF8040 Concept Samples HMI\\bin\\framework",
+        "/framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.748.0\\runtimes\\native1.12-tchmi"
     }
 }
