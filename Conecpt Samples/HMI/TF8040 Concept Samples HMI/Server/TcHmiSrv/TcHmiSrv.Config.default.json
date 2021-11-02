@@ -67,6 +67,16 @@
                 }
             ]
         },
+        "PLC1.BOOL(VOID)": {
+            "allOf": [
+                {
+                    "$ref": "tchmi:general#/definitions/BOOL"
+                },
+                {
+                    "function": true
+                }
+            ]
+        },
         "PLC1.FB_BA_Bld01": {
             "additionalProperties": false,
             "properties": {
@@ -271,6 +281,78 @@
             },
             "type": "object"
         },
+        "PLC1.FB_Evt_EventClasses": {
+            "additionalProperties": false,
+            "properties": {
+                "Children": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "Alm01": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
+                        },
+                        "Alm02": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
+                        },
+                        "EC_Cstm01": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_EC_13258"
+                        },
+                        "EC_Cstm02": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_EC_13258"
+                        },
+                        "EC_Cstm03": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_EC_13258"
+                        },
+                        "EC_Std01": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_EC_13258"
+                        },
+                        "EC_Std02": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_EC_13258"
+                        },
+                        "EC_Std03": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_EC_13258"
+                        },
+                        "SimpleAlm01": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
+                        }
+                    },
+                    "type": "object"
+                },
+                "PlcVariables": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "bAcknowledgeRm": {
+                            "$ref": "#/definitions/PLCVar.System.Boolean"
+                        },
+                        "nInstanceID": {
+                            "$ref": "#/definitions/PLCVar.System.UInt32"
+                        },
+                        "sDescription": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sInstDescription": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sInstObjectName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sObjectName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sSymbolName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sSymbolPath": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sTag": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
         "PLC1.FB_Evt_Events": {
             "additionalProperties": false,
             "properties": {
@@ -393,9 +475,6 @@
                     "properties": {
                         "Cals": {
                             "$ref": "#/definitions/PLC1.Samples.MAIN.Misc.Cals"
-                        },
-                        "EC": {
-                            "$ref": "#/definitions/PLC1.Samples.MAIN.Misc.EC"
                         },
                         "Loop": {
                             "$ref": "#/definitions/PLC1.Samples.MAIN.Misc.Loop"
@@ -562,50 +641,50 @@
                 "Children": {
                     "additionalProperties": false,
                     "properties": {
-                        "ColAV_Colect": {
+                        "ColectA": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Collector_12353"
                         },
-                        "ColAV_Op1": {
+                        "ColectB": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Collector_12353"
+                        },
+                        "ColectEnA": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Collector_12353"
+                        },
+                        "ColectEnB": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Collector_12353"
+                        },
+                        "ColectM": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Collector_12353"
+                        },
+                        "ValueA1": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_AV_Op_42323"
                         },
-                        "ColAV_Op2": {
+                        "ValueA2": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_AV_Op_42323"
                         },
-                        "ColBV_Colect": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Collector_12353"
-                        },
-                        "ColBV_Op1": {
+                        "ValueB1": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BV_Op_44338"
                         },
-                        "ColBV_Op2": {
+                        "ValueB2": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BV_Op_44338"
                         },
-                        "ColEn_ColectA": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Collector_12353"
+                        "ValueM1": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_MV_Op_44353"
                         },
-                        "ColEn_ColectB": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Collector_12353"
+                        "ValueM2": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_MV_Op_44353"
                         },
-                        "ColEn_View1": {
-                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.ColEn_View1"
+                        "View1": {
+                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.View1"
                         },
-                        "ColEn_View2": {
-                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.ColEn_View2"
+                        "View2": {
+                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.View2"
                         },
-                        "ColEn_View3.View": {
-                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.ColEn_View3.View"
+                        "View3.View": {
+                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.View3.View"
                         },
-                        "ColEn_View4": {
+                        "View4": {
                             "$ref": "#/definitions/PLC1.FB_SubNestedView"
-                        },
-                        "ColMV_Colect": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Collector_12353"
-                        },
-                        "ColMV_Op1": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_MV_Op_44353"
-                        },
-                        "ColMV_Op2": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_MV_Op_44353"
                         }
                     },
                     "type": "object"
@@ -800,15 +879,15 @@
                     "additionalProperties": false,
                     "properties": {
                         "Nested1a.View": {
-                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.ColEn_View3.View"
+                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.View3.View"
                         },
                         "Nested1b.View": {
-                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.ColEn_View3.View"
+                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.View3.View"
                         },
-                        "Nested2.En": {
+                        "Nested2.Enable": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BV_Op_44338"
                         },
-                        "Nested2.Val": {
+                        "Nested2.Value": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_AV_Op_42323"
                         }
                     },
@@ -857,7 +936,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "SubView.View": {
-                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.ColEn_View3.View"
+                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.View3.View"
                         }
                     },
                     "type": "object"
@@ -1105,6 +1184,159 @@
             },
             "type": "object"
         },
+        "PLC1.Samples.MAIN.Collect.View1": {
+            "additionalProperties": false,
+            "properties": {
+                "Children": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "Enable1": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BV_Op_44338"
+                        },
+                        "Value1": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_AV_Op_42323"
+                        }
+                    },
+                    "type": "object"
+                },
+                "PlcVariables": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "bAcknowledgeRm": {
+                            "$ref": "#/definitions/PLCVar.System.Boolean"
+                        },
+                        "nInstanceID": {
+                            "$ref": "#/definitions/PLCVar.System.UInt32"
+                        },
+                        "sDescription": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sInstDescription": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sInstObjectName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sObjectName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sSymbolName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sSymbolPath": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sTag": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "PLC1.Samples.MAIN.Collect.View2": {
+            "additionalProperties": false,
+            "properties": {
+                "Children": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "Enable01": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BV_Op_44338"
+                        },
+                        "Value01": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_AV_Op_42323"
+                        }
+                    },
+                    "type": "object"
+                },
+                "PlcVariables": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "bAcknowledgeRm": {
+                            "$ref": "#/definitions/PLCVar.System.Boolean"
+                        },
+                        "nInstanceID": {
+                            "$ref": "#/definitions/PLCVar.System.UInt32"
+                        },
+                        "sDescription": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sInstDescription": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sInstObjectName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sObjectName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sSymbolName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sSymbolPath": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sTag": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "PLC1.Samples.MAIN.Collect.View3.View": {
+            "additionalProperties": false,
+            "properties": {
+                "Children": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "Enable": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BV_Op_44338"
+                        },
+                        "Value": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_AV_Op_42323"
+                        }
+                    },
+                    "type": "object"
+                },
+                "PlcVariables": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "bAcknowledgeRm": {
+                            "$ref": "#/definitions/PLCVar.System.Boolean"
+                        },
+                        "nInstanceID": {
+                            "$ref": "#/definitions/PLCVar.System.UInt32"
+                        },
+                        "sDescription": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sInstDescription": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sInstObjectName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sObjectName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sSymbolName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sSymbolPath": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sTag": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
         "PLC1.Samples.MAIN.Demo": {
             "additionalProperties": false,
             "properties": {
@@ -1172,13 +1404,13 @@
                     "additionalProperties": false,
                     "properties": {
                         "BIAlmExt": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         },
                         "BIAlmSmpl": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         },
                         "BIAlmStd": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         }
                     },
                     "type": "object"
@@ -1226,13 +1458,13 @@
                     "additionalProperties": false,
                     "properties": {
                         "BIDstbExt": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         },
                         "BIDstbSmpl": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         },
                         "BIDstbStd": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         }
                     },
                     "type": "object"
@@ -1280,13 +1512,13 @@
                     "additionalProperties": false,
                     "properties": {
                         "BIMntnExt": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         },
                         "BIMntnSmpl": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         },
                         "BIMntnStd": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         }
                     },
                     "type": "object"
@@ -1334,10 +1566,10 @@
                     "additionalProperties": false,
                     "properties": {
                         "BINtfySmpl": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         },
                         "BINtfyStd": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         }
                     },
                     "type": "object"
@@ -1385,10 +1617,10 @@
                     "additionalProperties": false,
                     "properties": {
                         "BIOthrSmpl": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         },
                         "BIOthrStd": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         }
                     },
                     "type": "object"
@@ -1440,6 +1672,9 @@
                         },
                         "Events": {
                             "$ref": "#/definitions/PLC1.FB_Evt_Events"
+                        },
+                        "EvtCls": {
+                            "$ref": "#/definitions/PLC1.FB_Evt_EventClasses"
                         }
                     },
                     "type": "object"
@@ -1486,10 +1721,10 @@
                 "Children": {
                     "additionalProperties": false,
                     "properties": {
-                        "Bld": {
+                        "Bld01": {
                             "$ref": "#/definitions/PLC1.FB_BA_Bld01"
                         },
-                        "EvtCls": {
+                        "EvtCls01": {
                             "$ref": "#/definitions/PLC1.FB_BA_EC01"
                         }
                     },
@@ -1631,7 +1866,7 @@
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_Raw_33336"
                         },
                         "BI_Proc": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         },
                         "BI_Raw": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_Raw_33336"
@@ -1945,19 +2180,22 @@
                 "Children": {
                     "additionalProperties": false,
                     "properties": {
-                        "Loop_C1": {
+                        "Cool": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Loop_3356341"
                         },
-                        "Loop_C2": {
+                        "Heat1": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Loop_3356341"
                         },
-                        "Loop_H1": {
+                        "Heat2": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Loop_3356341"
                         },
-                        "Loop_H2": {
+                        "Heat3": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Loop_3356341"
                         },
-                        "SeqLink": {
+                        "Heat4": {
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Loop_3356341"
+                        },
+                        "TSeq": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_SequenceLink_13353"
                         }
                     },
@@ -2006,9 +2244,6 @@
                     "additionalProperties": false,
                     "properties": {
                         "Project": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Project_13257"
-                        },
-                        "ProjectUndef": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_Project_13257"
                         }
                     },
@@ -2189,7 +2424,7 @@
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_AI_30321"
                         },
                         "CovBI": {
-                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_32336"
+                            "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_BI_31336"
                         },
                         "CovMI": {
                             "$ref": "#/definitions/PLC1.Tc3_BA2.FB_BA_MI_28351"
@@ -2591,10 +2826,10 @@
                     "additionalProperties": false,
                     "properties": {
                         "Nested1a.View": {
-                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.ColEn_View3.View"
+                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.View3.View"
                         },
                         "Nested1b.View": {
-                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.ColEn_View3.View"
+                            "$ref": "#/definitions/PLC1.Samples.MAIN.Collect.View3.View"
                         }
                     },
                     "type": "object"
@@ -2870,9 +3105,9 @@
                         29,
                         30,
                         31,
-                        32,
-                        33,
-                        34
+                        10,
+                        31,
+                        22
                     ],
                     "options": [
                         {
@@ -2973,15 +3208,15 @@
                         },
                         {
                             "label": "First",
-                            "value": 32
+                            "value": 10
                         },
                         {
                             "label": "Last",
-                            "value": 33
+                            "value": 31
                         },
                         {
                             "label": "Count",
-                            "value": 34
+                            "value": 22
                         }
                     ]
                 },
@@ -3937,6 +4172,117 @@
                         },
                         "sTag": {
                             "$ref": "#/definitions/PLCVar.System.String"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "PLC1.Tc3_BA2.FB_BA_BI_31336": {
+            "additionalProperties": false,
+            "properties": {
+                "PlcVariables": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "aEventEnable": {
+                            "$ref": "#/definitions/PLCVar.System.Boolean"
+                        },
+                        "aEventTransitionText": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "bAcknowledgeRm": {
+                            "$ref": "#/definitions/PLCVar.System.Boolean"
+                        },
+                        "bAlarmValue": {
+                            "$ref": "#/definitions/PLCVar.System.Boolean"
+                        },
+                        "bEnOutOfService": {
+                            "$ref": "#/definitions/PLCVar.System.Boolean"
+                        },
+                        "bEvent": {
+                            "$ref": "#/definitions/PLCVar.System.Boolean"
+                        },
+                        "bEventDetectionEnable": {
+                            "$ref": "#/definitions/PLCVar.System.Boolean"
+                        },
+                        "bPresentValue": {
+                            "$ref": "#/definitions/PLCVar.System.Boolean"
+                        },
+                        "eAssignAsTrendRef": {
+                            "$ref": "#/definitions/PLCVar.Enum"
+                        },
+                        "eCommissioningState": {
+                            "$ref": "#/definitions/PLCVar.Enum"
+                        },
+                        "eEnPlantLock": {
+                            "$ref": "#/definitions/PLCVar.Enum"
+                        },
+                        "eEventState": {
+                            "$ref": "#/definitions/PLCVar.Enum"
+                        },
+                        "eReliability": {
+                            "$ref": "#/definitions/PLCVar.Enum"
+                        },
+                        "nActiveTimeElapsed": {
+                            "$ref": "#/definitions/PLCVar.System.UInt32"
+                        },
+                        "nEventClassID": {
+                            "$ref": "#/definitions/PLCVar.System.UInt32"
+                        },
+                        "nInstanceID": {
+                            "$ref": "#/definitions/PLCVar.System.UInt32"
+                        },
+                        "nStateChangeCount": {
+                            "$ref": "#/definitions/PLCVar.System.UInt32"
+                        },
+                        "sActiveText": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sDescription": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sDeviceType": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sInactiveText": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sInstDescription": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sInstObjectName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sObjectName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sSymbolName": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sSymbolPath": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "sTag": {
+                            "$ref": "#/definitions/PLCVar.System.String"
+                        },
+                        "stAckedTransitions": {
+                            "$ref": "#/definitions/PLCVar.Tc3_BA2_Common.ST_BA_EventTransitions"
+                        },
+                        "stActiveTimeResetPoint": {
+                            "$ref": "#/definitions/PLCVar.Tc3_BA2_Common.ST_BA_DateTime"
+                        },
+                        "stStateChangeResetPoint": {
+                            "$ref": "#/definitions/PLCVar.Tc3_BA2_Common.ST_BA_DateTime"
+                        },
+                        "stStateChangeTime": {
+                            "$ref": "#/definitions/PLCVar.Tc3_BA2_Common.ST_BA_DateTime"
+                        },
+                        "stStateFlags": {
+                            "$ref": "#/definitions/PLCVar.Beckhoff.BA.TerminalClient.Tc3.Tc3_BA2+IBaStatusFlagBits"
+                        },
+                        "stTimeDelay": {
+                            "$ref": "#/definitions/PLCVar.Tc3_BA2.ST_BA_TimeDelayParam"
                         }
                     },
                     "type": "object"
@@ -6212,10 +6558,10 @@
         "PLC1.Tc3_BA2.I_BA_Object": {
             "properties": {
                 "Error": {
-                    "$ref": "#/definitions/PLC1.BOOL(BOOL)"
+                    "$ref": "#/definitions/PLC1.BOOL(VOID)"
                 },
                 "Ready": {
-                    "$ref": "#/definitions/PLC1.BOOL(BOOL)"
+                    "$ref": "#/definitions/PLC1.BOOL(VOID)"
                 }
             },
             "type": "object"
@@ -6323,9 +6669,9 @@
                         1,
                         2,
                         3,
-                        4,
-                        5,
-                        6
+                        1,
+                        3,
+                        3
                     ],
                     "options": [
                         {
@@ -6346,15 +6692,15 @@
                         },
                         {
                             "label": "First",
-                            "value": 4
+                            "value": 1
                         },
                         {
                             "label": "Last",
-                            "value": 5
+                            "value": 3
                         },
                         {
                             "label": "Count",
-                            "value": 6
+                            "value": 3
                         }
                     ]
                 },
@@ -6406,9 +6752,9 @@
                         32,
                         33,
                         34,
-                        35,
-                        36,
-                        37
+                        1,
+                        31,
+                        31
                     ],
                     "options": [
                         {
@@ -6557,15 +6903,15 @@
                         },
                         {
                             "label": "First",
-                            "value": 35
+                            "value": 1
                         },
                         {
                             "label": "Last",
-                            "value": 36
+                            "value": 31
                         },
                         {
                             "label": "Count",
-                            "value": 37
+                            "value": 31
                         }
                     ]
                 },
@@ -6597,9 +6943,9 @@
                         12,
                         13,
                         14,
-                        15,
-                        16,
-                        17
+                        1,
+                        12,
+                        12
                     ],
                     "options": [
                         {
@@ -6668,15 +7014,15 @@
                         },
                         {
                             "label": "First",
-                            "value": 15
+                            "value": 1
                         },
                         {
                             "label": "Last",
-                            "value": 16
+                            "value": 12
                         },
                         {
                             "label": "Count",
-                            "value": 17
+                            "value": 12
                         }
                     ]
                 },
@@ -6788,9 +7134,9 @@
                         5,
                         6,
                         7,
-                        8,
-                        9,
-                        10
+                        1,
+                        7,
+                        7
                     ],
                     "options": [
                         {
@@ -6831,15 +7177,15 @@
                         },
                         {
                             "label": "First",
-                            "value": 8
+                            "value": 1
                         },
                         {
                             "label": "Last",
-                            "value": 9
+                            "value": 7
                         },
                         {
                             "label": "Count",
-                            "value": 10
+                            "value": 7
                         }
                     ]
                 },
@@ -7141,6 +7487,7 @@
     "DEFLATECOMPRESSIONLEVEL": 5,
     "DIAGNOSTICS_DOMAINS": [],
     "DISCOVERY": 2,
+    "ENABLE_SERVER_UPDATE": true,
     "ENDPOINTS": [
         "http://127.0.0.1:13001",
         "http://127.0.0.1:3001"
@@ -7158,7 +7505,7 @@
         "TcHmiBaServerExtension": {
             "ENABLED": true,
             "NAME": "TcHmiBaServerExtension",
-            "PATH": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.ServerExtension.1.1.3\\runtimes\\any\\native\\",
+            "PATH": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.ServerExtension.1.1.4\\runtimes\\any\\native\\",
             "REQUIRED": false,
             "STARTUPTYPE": 1
         },
@@ -7192,7 +7539,6 @@
     "GLOBALHTTPHEADERS": "{LASTMODIFIED}\nStrict-Transport-Security: max-age=31536000; includeSubDomains\nX-Content-Type-Options: nosniff\nX-Frame-Options: sameorigin",
     "GZIPENABLED": true,
     "GZIPMINSIZE": 800,
-    "INTERNALSTORAGE": {},
     "KEEP_ALIVE": "PT40S",
     "KEY": "LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV2Z0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktnd2dnU2tBZ0VBQW9JQkFRQy8zMWJFRXhyb2tIZmEKWE0xQ29kWm95aXlsS1lvYWd4dzdGUVRKSUlUMlozWFBmNVZzbUJ4N0ZMQ2R2OWVhV3o3aUV4RTA0TkY2cjUyVwpGWk5WOGU0ZHBGOUFWMm45WVdnaW9ENHFvZERycHMvWUtHdkpMT2I4VW9xY3lPWkc1SURzaStDOFdkalRyQ1FjCktYVCtBcTdkdWpNSWxoTGEzZ0RZV1Q2RDh5dEhQU2ZsOFEvWkxKektudlAyMy92QU9HNnhZWlJBb0FZYzNWaHgKTkdERFEvOEF5cHRXeW1lOWlJUmNaQmVQZzhyUldVOWZGZ1JnYVhNeld1bm84RXUzajNCWFc1ZHlYSHJ4R3FHTAoxZE92RWhsUFNCWmE0WjBqU0pJeHgxS3NhZHprdzZLTkhHVFBaa3cvQlJvbnp5dlB1ZmsvUlVYR0p4R2dqZFZuClJMNWVES29UQWdNQkFBRUNnZ0VCQUoxNWxDREEvV2k2aVdPeW50UjlOeGd5Tm9vbm1hMUF4ajdIZFhJTk9wTngKUG9QYTFxeVYrMm9aQlF1emxDU2ZsdkM5YlhYVXZwak80YXQ0Y2NBc0c1NUFkZHk4NGNTUDJZUHh1SlFNMHdkVgpsV2gzWkY5c2R2ZklWdk51LzNCWHdtaGlOVVRoQ05CUmpDR0E5UUEwKzRnSGRqTXAyTGZCVlRnN3BzOXRHS3dSCjNRcGZxZ0RJNHI5NmhKZENGVVpsamN5VmowQk4zVkNiWENBcm0zTTlNK3AxTDRSdHhhS0hvRlhzc09SeU9JYkcKbFBvanQ4VmkvQk9adXJNYTBLSjYzUXd6bmFVTkYvS2ZZeVQ5elE5UTJUUVdrSDFHNTUxcklPTS9NaHRldlRLVQpENWQ0M0ZUNWtqbDVqZWJzR0RQbmpUWnRRcmVqNWhGNG41NVI2cHNMcElFQ2dZRUE2YWozU0VQdHI4b0VwU2JIClNoQ3NpYVJsc2lzSXY5UldHZEJsdFdiNFV5dHZiSlRXajJiZ0VnTVV1UUVKbjdlYnFCRVVoV3FoSDFBQkdnVmIKMjBSUTc4ZmlqTUVoSjUzTWp1aXZzS2Nta0JrVFZpRlN2cFBnQktNWVhpcVVvRnJzQ3BGQWJNamd4aElVWnVnRQpnNStMbEg0bENxM00wV3RBZDQ3TDFsVGJWUEVDZ1lFQTBqZVZyWFlNWFNiWDdyMTc0TU9BNkxiK1lMdTZSdlQzCjlxRTZOeFZ2SkhvYWJROXk2WE8wR21nRmM1dFoxblJFOUtiR2ZTOHY1NlY5SGJZTnNRN1hlTzVIQlZ2TDZYOEUKeWN3WU5lUlpPcEFDRFB4UkVabEdvc1hwVVhtZnFXUEhvVGdtUmlEaE5xamJra0VzQUR6U3pFREREZ3d4ckYrNQpkUjFjeUlZZ1gwTUNnWUVBaG5uK1I1TUF1c2xUdnhFQVpYb1BNdkJ3cndmaGN6WHJqOVBHbFk1N29MSkE0SWNRCnJWdVIzZ3Z6NHozYm9oWnorVmhMTFRYZklUeFVSZnVMa0RoVE5JMGZyODUvSEdQUEZQaUtGT3MrWUhSdUVvWC8KTHp2QUZDc2huU0I0aFltT2k4NW8rN0xvMmxZUmMrQllxTUFyL3Z4U3FVQzV2bFV4dHgxeDV4clRXS0VDZ1lCOQpMSHdEL2ZiK3dOSnpab0VOSlZ6dE5ZbmpMK1dMdXZLcitQVWhON0ltbGs2R0FsejZoZHNJbmtnZ3ZyQ1A4a3ZkCklqR3UrUm9kWlgxSzQ4empVV01jcjBXNit4NUF1MUd1bDhrU3poWVR1UXgvanY3MjY3NFR6cVZQem93ejRTWk4KNlpGZzBOTktLT0lXQkppZXk1ajU1dFkrMXlQODhFTU9hWjJHQ2RmYzRRS0JnRDJRODJaT2ZVQnhVUlJSTEpTYgowOVkxWDRKTXFpcHFtdEthWG5SREt0U3lVVG4rSTFtSDhTYnA1NTU0R2Ira3JEZ2lVdEFDSGhkRUVHa1c5RDExClVoWG9EYkI4aE8yVVNTSldwQ2pDZW9lR1FQYXBDTXlJMDVkd2V6S1JEZlRUd1B0T0VuRnBEWWYvVDFvNm03a2oKb0JHLzUzdTBLVWNGRUhIZk03SnNIUjh4Ci0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0K",
     "KEYPASSWORD": "",
@@ -7532,12 +7878,9 @@
             "MIME_TYPE": "application/zip"
         }
     },
-    "NETWORKADAPTER": "",
     "PERMESSAGEDEFLATEENABLED": true,
-    "PLAINADMINISTRATIONENABLED": true,
     "PROJECTNAME": "TF8040 Concept Samples HMI",
-    "PROJECTVERSION": "1.0.2.0",
-    "REMOTEADMINISTRATIONENABLED": true,
+    "PROJECTVERSION": "1.0.3.0",
     "REMOTESERVERS": {},
     "REMOTESERVERS_CERTIFICATES": [],
     "REQUIREAUTH": 0,
@@ -7560,7 +7903,7 @@
             "SCHEMA": {
                 "function": true,
                 "writeValue": {
-                    "doc": "Ads runtime.",
+                    "description": "Ads runtime.",
                     "type": "string"
                 }
             },
@@ -7621,7 +7964,7 @@
                 "writeValue": {
                     "oneOf": [
                         {
-                            "doc": "Ads runtime.",
+                            "description": "Ads runtime.",
                             "type": "string"
                         },
                         {
@@ -7633,12 +7976,12 @@
                                         },
                                         {
                                             "const": 10000,
-                                            "doc": "Execute the request for a different ADS port"
+                                            "description": "Execute the request for a different ADS port"
                                         }
                                     ]
                                 },
                                 "Runtime": {
-                                    "doc": "Ads runtime.",
+                                    "description": "Ads runtime.",
                                     "type": "string"
                                 }
                             },
@@ -7891,7 +8234,10 @@
             "MAPPING": "GetSchema",
             "OPTIONS": {},
             "SCHEMA": {
-                "function": true
+                "function": true,
+                "writeValue": {
+                    "type": "string"
+                }
             },
             "USEMAPPING": true
         },
@@ -8054,7 +8400,7 @@
                 "writeValue": {
                     "properties": {
                         "domain": {
-                            "doc": "Domain name of the authentication extension",
+                            "description": "Domain name of the authentication extension",
                             "type": "string"
                         },
                         "parameters": {
@@ -8063,13 +8409,13 @@
                                     "$ref": "tchmi:general#/definitions/Any"
                                 },
                                 {
-                                    "doc": "Parameters that are forwarded to the authentication extension's AddUser function. Notice that the userName without the domain is forwarded automatically."
+                                    "description": "Parameters that are forwarded to the authentication extension's AddUser function. Notice that the userName without the domain is forwarded automatically."
                                 }
                             ]
                         },
                         "settings": {
                             "additionalProperties": false,
-                            "doc": "Changes to the USERGROUPUSERS entry of the user",
+                            "description": "Changes to the USERGROUPUSERS entry of the user",
                             "properties": {
                                 "autoLogoff": {
                                     "format": "timespan",
@@ -8091,7 +8437,7 @@
                             "type": "object"
                         },
                         "userName": {
-                            "doc": "Name of the user without domain prefix",
+                            "description": "Name of the user without domain prefix",
                             "type": "string"
                         }
                     },
@@ -8121,11 +8467,11 @@
                         {
                             "properties": {
                                 "AUTOMAP": {
-                                    "doc": "Automatically obtain symbol information",
+                                    "description": "Automatically obtain symbol information",
                                     "type": "boolean"
                                 },
                                 "NAME": {
-                                    "doc": "Name of the symbol",
+                                    "description": "Name of the symbol",
                                     "type": "string"
                                 }
                             },
@@ -8148,15 +8494,15 @@
                 "writeValue": {
                     "properties": {
                         "domain": {
-                            "doc": "Domain of the config value.",
+                            "description": "Domain of the config value.",
                             "type": "string"
                         },
                         "name": {
-                            "doc": "Name of the configuration.",
+                            "description": "Name of the configuration.",
                             "type": "string"
                         },
                         "path": {
-                            "doc": "Path of the config value.",
+                            "description": "Path of the config value.",
                             "type": "string"
                         }
                     },
@@ -8183,7 +8529,7 @@
                     "anyOf": [
                         {
                             "additionalProperties": false,
-                            "doc": "Changes to the USERGROUPUSERS entry of the current user",
+                            "description": "Changes to the USERGROUPUSERS entry of the current user",
                             "properties": {
                                 "changePassword": {
                                     "allOf": [
@@ -8191,7 +8537,7 @@
                                             "$ref": "tchmi:general#/definitions/Any"
                                         },
                                         {
-                                            "doc": "Parameters that are forwarded to the authentication extension's ChangePassword function."
+                                            "description": "Parameters that are forwarded to the authentication extension's ChangePassword function."
                                         }
                                     ]
                                 },
@@ -8213,7 +8559,7 @@
                                     "$ref": "tchmi:general#/definitions/VOID"
                                 },
                                 {
-                                    "doc": "Calling this method without writeValue will read the current settings."
+                                    "description": "Calling this method without writeValue will read the current settings."
                                 }
                             ]
                         }
@@ -8239,6 +8585,7 @@
         },
         "Copy": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
             "HIDDEN": true,
             "MAPPING": "Copy",
@@ -8249,26 +8596,25 @@
                     "properties": {
                         "configuration": {
                             "default": "default",
-                            "doc": "Configuration name.",
+                            "description": "Configuration name.",
                             "type": "string"
                         },
                         "domain": {
-                            "doc": "Extension domain.",
+                            "description": "Extension domain.",
                             "type": "string"
                         },
                         "new": {
-                            "doc": "Path to the new entry.",
+                            "description": "Path to the new entry.",
                             "type": "string"
                         },
                         "old": {
-                            "doc": "Path to the old entry.",
+                            "description": "Path to the old entry.",
                             "type": "string"
                         }
                     },
                     "required": [
                         "old",
-                        "new",
-                        "domain"
+                        "new"
                     ],
                     "type": "object"
                 }
@@ -8315,11 +8661,11 @@
                 "writeValue": {
                     "properties": {
                         "domain": {
-                            "doc": "Delete file form extension.",
+                            "description": "Delete file form extension.",
                             "type": "string"
                         },
                         "fileName": {
-                            "doc": "Name of the file to delete.",
+                            "description": "Name of the file to delete.",
                             "type": "string"
                         }
                     },
@@ -8377,6 +8723,12 @@
                         "readOnly": true,
                         "transient": true,
                         "type": "string"
+                    },
+                    "DISCOVERY_RUNNING": {
+                        "hidden": true,
+                        "readOnly": true,
+                        "transient": true,
+                        "type": "boolean"
                     },
                     "DOTNETCLASSICVERSIONS": {
                         "items": {
@@ -8546,25 +8898,25 @@
                 "writeValue": {
                     "anyOf": [
                         {
-                            "doc": "User name. The authentication domain can be specified by using 'Domain::UserName'. If no domain is specified all users with the given name will be logged out.",
+                            "description": "User name. The authentication domain can be specified by using 'Domain::UserName'. If no domain is specified all users with the given name will be logged out.",
                             "type": "string"
                         },
                         {
-                            "doc": "All users",
+                            "description": "All users",
                             "type": "null"
                         },
                         {
                             "properties": {
                                 "clientCertificate": {
-                                    "doc": "Thumbprint of the used client certificate",
+                                    "description": "Thumbprint of the used client certificate",
                                     "type": "string"
                                 },
                                 "clientIp": {
-                                    "doc": "IP address",
+                                    "description": "IP address",
                                     "type": "string"
                                 },
                                 "group": {
-                                    "doc": "User group",
+                                    "description": "User group",
                                     "type": "string"
                                 },
                                 "sessionId": {
@@ -8728,7 +9080,7 @@
                             "type": "string"
                         },
                         "symbol": {
-                            "doc": "Name of the symbol.",
+                            "description": "Name of the symbol.",
                             "type": "string"
                         },
                         "type": {
@@ -8803,7 +9155,10 @@
             "MAPPING": "Import",
             "OPTIONS": {},
             "SCHEMA": {
-                "function": true
+                "function": true,
+                "writeValue": {
+                    "$ref": "tchmi:general#/definitions/Any"
+                }
             },
             "USEMAPPING": true
         },
@@ -8861,38 +9216,38 @@
                 "additionalProperties": {
                     "properties": {
                         "authExtension": {
-                            "doc": "Shows if extension can be used for user management.",
+                            "description": "Shows if extension can be used for user management.",
                             "type": "boolean"
                         },
                         "configVersion": {
-                            "doc": "The version of the extension's configuration.",
+                            "description": "The version of the extension's configuration.",
                             "type": "string"
                         },
                         "error": {
                             "$ref": "tchmi:general#/definitions/errorDetails"
                         },
                         "extension": {
-                            "doc": "The name of the extension.",
+                            "description": "The name of the extension.",
                             "type": "string"
                         },
                         "guid": {
-                            "doc": "The globally unique identifier associated with the extension.",
+                            "description": "The globally unique identifier associated with the extension.",
                             "type": "string"
                         },
                         "licensed": {
-                            "doc": "indicate the extension is license status",
+                            "description": "indicate the extension is license status",
                             "type": "boolean"
                         },
                         "remote": {
-                            "doc": "Shows if the domain refers to a remote server.",
+                            "description": "Shows if the domain refers to a remote server.",
                             "type": "boolean"
                         },
                         "required": {
-                            "doc": "Shows if the extension is considered to be required.",
+                            "description": "Shows if the extension is considered to be required.",
                             "type": "boolean"
                         },
                         "state": {
-                            "doc": "Shows the current state of the extension.",
+                            "description": "Shows the current state of the extension.",
                             "enum": [
                                 "NotLoaded",
                                 "Loaded",
@@ -8905,20 +9260,20 @@
                             "type": "string"
                         },
                         "thirdParty": {
-                            "doc": "indicate the extension is a customer extension",
+                            "description": "indicate the extension is a customer extension",
                             "type": "boolean"
                         },
                         "updated": {
-                            "doc": "Shows last update time of the config.",
+                            "description": "Shows last update time of the config.",
                             "format": "date-time",
                             "type": "string"
                         },
                         "version": {
-                            "doc": "The version of the extension.",
+                            "description": "The version of the extension.",
                             "type": "string"
                         },
                         "visibility": {
-                            "doc": "Indicates under which circumstances the extension configuration should be visible.",
+                            "description": "Indicates under which circumstances the extension configuration should be visible.",
                             "enum": [
                                 "AlwaysShow",
                                 "AlwaysHide",
@@ -9022,6 +9377,7 @@
         },
         "ListFiles": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
             "HIDDEN": true,
             "MAPPING": "ListFiles",
@@ -9033,7 +9389,9 @@
                             "items": {
                                 "enum": [
                                     "Directory",
-                                    "ReadOnly"
+                                    "ReadOnly",
+                                    "UserAccessReadOnly",
+                                    "VirtualDirectory"
                                 ],
                                 "type": "string"
                             },
@@ -9043,12 +9401,14 @@
                             "displayClass": "kilobyte",
                             "type": "number"
                         },
+                        "link": {
+                            "type": "string"
+                        },
                         "modificationTime": {
                             "type": "string"
                         }
                     },
                     "required": [
-                        "modificationTime",
                         "fileFlags"
                     ],
                     "type": "object"
@@ -9056,7 +9416,14 @@
                 "function": true,
                 "type": "object",
                 "writeValue": {
-                    "type": "string"
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
                 }
             },
             "USEMAPPING": true
@@ -9082,12 +9449,27 @@
             "MAPPING": "ListSymbolNames",
             "OPTIONS": {},
             "SCHEMA": {
-                "doc": "List of mapped symbolnames.",
+                "description": "List of mapped symbol names.",
                 "function": true,
                 "items": {
                     "type": "string"
                 },
-                "type": "array"
+                "type": "array",
+                "writeValue": {
+                    "anyOf": [
+                        {
+                            "properties": {
+                                "domain": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/VOID"
+                        }
+                    ]
+                }
             },
             "USEMAPPING": true
         },
@@ -9115,7 +9497,7 @@
             "MAPPING": "ListUserNames",
             "OPTIONS": {},
             "SCHEMA": {
-                "doc": "List of usernames.",
+                "description": "List of usernames.",
                 "function": true,
                 "items": {
                     "type": "string"
@@ -9134,7 +9516,7 @@
             "SCHEMA": {
                 "function": true,
                 "items": {
-                    "doc": "List of all users and their permissions.",
+                    "description": "List of all users and their permissions.",
                     "properties": {
                         "domain": {
                             "type": "string"
@@ -9163,7 +9545,7 @@
             "MAPPING": "LocalizeText",
             "OPTIONS": {},
             "SCHEMA": {
-                "doc": "The localized text.",
+                "description": "The localized text.",
                 "function": true,
                 "type": "string",
                 "writeValue": {
@@ -9175,7 +9557,7 @@
                             "$ref": "tchmi:server#/definitions/message"
                         },
                         {
-                            "doc": "Localizable object.",
+                            "description": "Localizable object.",
                             "properties": {
                                 "domain": {
                                     "type": "string"
@@ -9207,7 +9589,7 @@
             "MAPPING": "Login",
             "OPTIONS": {},
             "SCHEMA": {
-                "doc": "The SessionId of the logged in user.",
+                "description": "The SessionId of the logged in user.",
                 "function": true,
                 "type": "string",
                 "writeValue": {
@@ -9244,9 +9626,7 @@
             "ACCESS": 3,
             "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiBaServerExtension",
-            "HIDDEN": false,
             "MAPPING": "PLC1",
-            "OPTIONS": {},
             "SCHEMA": {
                 "$ref": "tchmi:server#/definitions/PLC1"
             },
@@ -9474,6 +9854,63 @@
             },
             "USEMAPPING": true
         },
+        "PLC1.MAIN.Misc.SchedA.aCalendar": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "HIDDEN": true,
+            "MAPPING": "PLC1::MAIN::Misc::SchedA::aCalendar",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:server#/definitions/PLC1.Tc3_BA2.T_BA_SchedCalendar"
+                    },
+                    {
+                        "attributes": {
+                            "input_constant": "",
+                            "parameterCategory": "Value"
+                        }
+                    }
+                ]
+            }
+        },
+        "PLC1.MAIN.Misc.SchedA.aException": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "HIDDEN": true,
+            "MAPPING": "PLC1::MAIN::Misc::SchedA::aException",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:server#/definitions/PLC1.Tc3_BA2.T_BA_SchedExceptionList"
+                    },
+                    {
+                        "attributes": {
+                            "input_constant": "",
+                            "parameterCategory": "Value"
+                        }
+                    }
+                ]
+            }
+        },
+        "PLC1.MAIN.Misc.SchedA.aWeek": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "HIDDEN": true,
+            "MAPPING": "PLC1::MAIN::Misc::SchedA::aWeek",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:server#/definitions/PLC1.Tc3_BA2.T_BA_SchedWeek"
+                    },
+                    {
+                        "attributes": {
+                            "input_constant": "",
+                            "parameterCategory": "Value"
+                        }
+                    }
+                ]
+            }
+        },
         "PLC1.MAIN.Misc.SchedB.aCalendar": {
             "ACCESS": 3,
             "CUSTOMERDATA": "",
@@ -9661,15 +10098,15 @@
                     "properties": {
                         "configuration": {
                             "default": "default",
-                            "doc": "Configuration name.",
+                            "description": "Configuration name.",
                             "type": "string"
                         },
                         "domain": {
-                            "doc": "Extension domain.",
+                            "description": "Extension domain.",
                             "type": "string"
                         },
                         "path": {
-                            "doc": "Path to the entry.",
+                            "description": "Path to the entry.",
                             "type": "string"
                         },
                         "value": {}
@@ -9696,15 +10133,15 @@
                 "writeValue": {
                     "properties": {
                         "domain": {
-                            "doc": "Domain of the config value.",
+                            "description": "Domain of the config value.",
                             "type": "string"
                         },
                         "name": {
-                            "doc": "Name of the configuration.",
+                            "description": "Name of the configuration.",
                             "type": "string"
                         },
                         "path": {
-                            "doc": "Path of the config value.",
+                            "description": "Path of the config value.",
                             "type": "string"
                         }
                     },
@@ -9742,11 +10179,11 @@
                 "writeValue": {
                     "properties": {
                         "domain": {
-                            "doc": "Domain name of the authentication extension",
+                            "description": "Domain name of the authentication extension",
                             "type": "string"
                         },
                         "userName": {
-                            "doc": "Name of the user without domain prefix",
+                            "description": "Name of the user without domain prefix",
                             "type": "string"
                         }
                     },
@@ -9772,26 +10209,25 @@
                     "properties": {
                         "configuration": {
                             "default": "default",
-                            "doc": "Configuration name.",
+                            "description": "Configuration name.",
                             "type": "string"
                         },
                         "domain": {
-                            "doc": "Extension domain.",
+                            "description": "Extension domain.",
                             "type": "string"
                         },
                         "new": {
-                            "doc": "Path to the new entry.",
+                            "description": "Path to the new entry.",
                             "type": "string"
                         },
                         "old": {
-                            "doc": "Path to the old entry.",
+                            "description": "Path to the old entry.",
                             "type": "string"
                         }
                     },
                     "required": [
                         "old",
-                        "new",
-                        "domain"
+                        "new"
                     ],
                     "type": "object"
                 }
@@ -9908,7 +10344,7 @@
             "SCHEMA": {
                 "function": true,
                 "writeValue": {
-                    "doc": "The requestId of a subscription.",
+                    "description": "The requestId of a subscription.",
                     "type": "integer"
                 }
             },
@@ -10724,7 +11160,7 @@
             "SCHEMA": {
                 "function": true,
                 "writeValue": {
-                    "doc": "The requestId of a subscription.",
+                    "description": "The requestId of a subscription.",
                     "type": "integer"
                 }
             },
@@ -10740,7 +11176,7 @@
             "SCHEMA": {
                 "function": true,
                 "writeValue": {
-                    "doc": "The requestId of a subscription.",
+                    "description": "The requestId of a subscription.",
                     "type": "integer"
                 }
             },
@@ -10756,7 +11192,7 @@
             "SCHEMA": {
                 "function": true,
                 "writeValue": {
-                    "doc": "The requestId of a subscription.",
+                    "description": "The requestId of a subscription.",
                     "type": "integer"
                 }
             },
@@ -10775,7 +11211,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "checkSum": {
-                            "doc": "Checksum of the file as MD5 hexstring.",
+                            "description": "Checksum of the file as MD5 hexadecimal-string.",
                             "type": "string"
                         },
                         "chunkType": {
@@ -10789,16 +11225,16 @@
                             "type": "integer"
                         },
                         "data": {
-                            "doc": "Data of the file.",
+                            "description": "Data of the file.",
                             "format": "base64",
                             "type": "string"
                         },
                         "domain": {
-                            "doc": "Upload extension dll to remote filesystem.",
+                            "description": "Upload extension dll to remote filesystem.",
                             "type": "string"
                         },
                         "fileName": {
-                            "doc": "Name of the file.",
+                            "description": "Name of the file.",
                             "type": "string"
                         }
                     },
@@ -10926,6 +11362,7 @@
             "SYMBOLACCESS": 0,
             "SYMBOLS": {
                 "DefaultAuthExtension": 1,
+                "DefaultUserGroup": 1,
                 "GetCurrentUser": 3,
                 "GetSymbolAccess": 3,
                 "Heartbeat": 3,
@@ -10951,6 +11388,7 @@
                 "ConfirmAlarm": 3,
                 "CreateEvent": 3,
                 "DefaultAuthExtension": 1,
+                "DefaultUserGroup": 1,
                 "Diagnostics": 3,
                 "GetConfiguration": 3,
                 "GetCurrentUser": 3,
@@ -11065,15 +11503,15 @@
     "VIDEOSEGMENTSIZE": 1048576,
     "VIRTUALDIRECTORIES": {
         "/": "..\\..\\TF8040 Concept Samples HMI\\",
-        "/Beckhoff.TwinCAT.HMI.BA.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Controls.1.1.3\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.BA.Framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Framework.1.1.3\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.BA.Icons": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Icons.1.1.3\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.BA.ServerExtension": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.ServerExtension.1.1.3",
-        "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.748.0\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.748.0\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.ResponsiveNavigation": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.ResponsiveNavigation.12.748.0\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Controls.1.1.4\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.Framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Framework.1.1.4\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.Icons": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Icons.1.1.4\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.ServerExtension": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.ServerExtension.1.1.4",
+        "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.750.1\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.750.1\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.ResponsiveNavigation": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.ResponsiveNavigation.12.750.1\\runtimes\\native1.12-tchmi",
         "/bin": "..\\..\\TF8040 Concept Samples HMI\\bin\\",
         "/bin/framework": "..\\..\\TF8040 Concept Samples HMI\\bin\\framework",
-        "/framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.748.0\\runtimes\\native1.12-tchmi"
+        "/framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.750.1\\runtimes\\native1.12-tchmi"
     }
 }
