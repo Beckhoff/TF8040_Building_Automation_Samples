@@ -10,9 +10,9 @@ namespace S02_ReadCyclic
         static void Main(string[] args)
         {
             // Settings:
-            string sDevNetID = "127.0.0.1.1.1:851";
-            string sObjectPath = "MyPlcProject.MAIN.AnalogValue";
-            Tc3_BA2.BaPlcVariableID bVariableID = Tc3_BA2.BaPlcVariableID.ePresentValue;
+            var sDevNetID = "127.0.0.1.1.1:851";
+            var sObjectPath = "MyPlcProject.MAIN.AnalogValue";
+            var bVariableID = Tc3_BA2.BaPlcVariableID.ePresentValue;
 
             // Initialize:
             BaApi.BaSite.OnLog += OnLog;
@@ -26,7 +26,7 @@ namespace S02_ReadCyclic
             if (BaApi.BaSite.Connection)
             {
                 // Find object:
-                BaApi.BaSite.BaBasicObject bObject = BaApi.BaSite.FindObject(sObjectPath);
+                var bObject = BaApi.BaSite.FindObject(sObjectPath);
                 if (bObject == null)
                     Console.WriteLine(string.Format("Object '{0}' not found!", sObjectPath));
                 else
@@ -47,9 +47,9 @@ namespace S02_ReadCyclic
 
 
         #region Events
-        private static void OnLog(BaApi.BaLogType eIcon, string sStackTrace, string sMessage, string sProcess = "", object oResult = null)
+        private static void OnLog(BaApi.BaLogType bIcon, string sCode, object oEvent, string sProcess = "")
         {
-            Console.WriteLine(sMessage);
+            Console.WriteLine(oEvent.ToString());
         }
         private static void OnCyclicRead(BaApi.BaSumCommand sCommand, Object oTag)
         {
