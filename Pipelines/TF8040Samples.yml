@@ -1,0 +1,114 @@
+resources:
+ repositories:
+   - repository: BuildTemplates
+     type: git
+     name: 'Common/BuildTemplates'
+
+trigger: none
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Variables
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+variables:
+
+# Major
+- name: major
+  value: '1'
+# Minor
+- name: minor
+  value: '5'
+
+# Patch is automatically calculated
+- name: patch
+  value: $[ counter('$(major)$(minor)', 0) ]
+- name: fullVersion
+  ${{ if eq( variables['Build.SourceBranchName'], 'master' ) }}: 
+    value: $(major).$(minor).0
+  ${{ if ne( variables['Build.SourceBranchName'], 'master' ) }}: 
+    value: $(major).$(minor).$(patch)-$(Build.SourceBranchName)
+
+jobs:
+        
+- job: CreateTF8040Samples
+  pool:
+    name: TwinCAT-Builds
+    demands:
+      - MD_VS_BUILD_TOOLS_2019
+      - MD_SMALL
+  steps:
+  
+  #------------------------------------------------------------------------------------
+  # Overview
+  #------------------------------------------------------------------------------------
+  - powershell: |
+      echo "Samples version: $(fullVersion)"
+      echo "From branch: $(Build.SourceBranchName)"
+      
+      [string]$runName = "$(fullVersion)"
+
+      if ('$(Build.Reason)' -eq 'Schedule') {
+        $runName += "_Daily"
+      } elseif ('$(Build.Reason)' -eq 'Manual') {
+        $runName += "_Manual"
+      } elseif ('$(Build.Reason)' -eq 'PullRequest') {
+        $runName += "_PR"
+      }
+
+      Write-Output "##vso[build.updatebuildnumber]$runName"
+    displayName: 'Overview'
+
+  #------------------------------------------------------------------------------------
+  # Pull repository
+  #------------------------------------------------------------------------------------
+  - checkout: self
+    path: 's'
+    lfs: false
+    clean: true
+    persistCredentials: true
+    displayName: 'Pull repository'
+
+  #------------------------------------------------------------------------------------
+  # Set versions
+  #------------------------------------------------------------------------------------
+  - task: PythonScript@0
+    displayName: 'Set versions'
+    inputs:
+      scriptPath: Pipelines/set_versions.py
+      arguments: $(fullVersion)
+      workingDirectory: Pipelines
+
+  #------------------------------------------------------------------------------------
+  # Create Concept Samples
+  #------------------------------------------------------------------------------------
+  - template: CreateSampleArchive.yml
+    parameters:
+      sampleName: Conecpt Samples
+      version: $(fullVersion)
+
+  #------------------------------------------------------------------------------------
+  # Create Template Samples
+  #------------------------------------------------------------------------------------
+  - template: CreateSampleArchive.yml
+    parameters:
+      sampleName: Template Samples
+      version: $(fullVersion)
+      
+  #------------------------------------------------------------------------------------
+  # Archive all archives
+  #------------------------------------------------------------------------------------
+  - task: ArchiveFiles@2
+    displayName: Archive all archives
+    inputs:
+      rootFolderOrFile: ./archives
+      includeRootFolder: false
+      archiveType: zip
+      archiveFile: $(Build.ArtifactStagingDirectory)/TF8040 Samples V1.$(fullVersion).zip
+        
+  #------------------------------------------------------------------------------------
+  # Save all archives
+  #------------------------------------------------------------------------------------
+  - task: PublishBuildArtifacts@1
+    displayName: Save all archives
+    inputs:
+      pathToPublish: $(Build.ArtifactStagingDirectory)/TF8040 Samples V1.$(fullVersion).zip
+      artifactName: Samples

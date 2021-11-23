@@ -1,0 +1,33 @@
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Parameters
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+parameters:
+
+- name: version
+  type: string
+- name: sampleName
+  type: string
+
+steps:
+
+#------------------------------------------------------------------------------------
+# Archive HMI project
+#------------------------------------------------------------------------------------
+- task: ArchiveFiles@2
+  displayName: Archive HMI of ${{parameters.sampleName}}
+  inputs:
+    rootFolderOrFile: ./${{parameters.sampleName}}/HMI
+    includeRootFolder: false
+    archiveType: zip
+    archiveFile: archives/${{parameters.sampleName}}/HMI/TF8040 ${{parameters.sampleName}} HMI V1.$(fullVersion).zip
+
+#------------------------------------------------------------------------------------
+# Archive PLC project
+#------------------------------------------------------------------------------------
+- task: ArchiveFiles@2
+  displayName: Archive PLC of ${{parameters.sampleName}}
+  inputs:
+    rootFolderOrFile: ./${{parameters.sampleName}}/PLC
+    includeRootFolder: false
+    archiveType: zip
+    archiveFile: archives/${{parameters.sampleName}}/PLC/TF8040 ${{parameters.sampleName}} PLC V1.$(fullVersion).zip
