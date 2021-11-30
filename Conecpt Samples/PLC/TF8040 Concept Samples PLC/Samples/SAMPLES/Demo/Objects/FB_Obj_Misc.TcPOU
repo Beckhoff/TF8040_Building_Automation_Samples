@@ -32,37 +32,24 @@ VAR
 												);
 				 
 			fLoop_Setpoint						: REAL										:= 20;								// Temperature setpoint.
-			fLoop_Deadband						: REAL										:= 1.0;								// Deadband between heating- and cooling-loops.
 			fLoop_CtrlVal						: REAL										:= 16;								// Simulation of controlled variable value.
-				 
-			// Intention:						Sequence of loops
-			// Initialization:					Via sequence linker
-			Heat2_En							: REFERENCE TO BOOL							REF= Heat2.bEn;
-			Heat2_EnSync						: REFERENCE TO BOOL							REF= Heat2.bEnSync;
-			Heat2_ValSync						: REFERENCE TO REAL							REF= Heat2.fValSync;
-			Heat2_Y								: REFERENCE TO REAL							REF= Heat2.fPresentValue;
-			Heat2								: FB_BA_Loop := (
+
+			// Initialization:					Single loop for heating.
+			Heat_En								: REFERENCE TO BOOL							REF= Heat.bEn;
+			Heat_EnSync							: REFERENCE TO BOOL							REF= Heat.bEnSync;
+			Heat_ValSync						: REFERENCE TO REAL							REF= Heat.fValSync;
+			Heat_Y								: REFERENCE TO REAL							REF= Heat.fPresentValue;
+			Heat								: FB_BA_Loop := (
 													iParent									:= Loop,
-													sDescription							:= '{Heating Loop 2}',
+													sDescription							:= '{Heating Loop}',
 													eOutputUnit								:= E_BA_Unit.eOther_Percent,
 													bEn										:= TRUE,
 													eActionRm								:= E_BA_Action.eReverse,
 													fProportionalConstant					:= 3.0,
 													fIntegralConstant						:= 180
 												);
-			Heat1_En							: REFERENCE TO BOOL							REF= Heat1.bEn;
-			Heat1_EnSync						: REFERENCE TO BOOL							REF= Heat1.bEnSync;
-			Heat1_ValSync						: REFERENCE TO REAL							REF= Heat1.fValSync;
-			Heat1_Y								: REFERENCE TO REAL							REF= Heat1.fPresentValue;
-			Heat1								: FB_BA_Loop := (
-													iParent									:= Loop,
-													sDescription							:= '{Heating Loop 1}',
-													eOutputUnit								:= E_BA_Unit.eOther_Percent,
-													bEn										:= TRUE,
-													eActionRm								:= E_BA_Action.eReverse,
-													fProportionalConstant					:= 5.0,
-													fIntegralConstant						:= 120
-												);
+
+			// Initialization:					Single loop for heating.
 			Cool_En								: REFERENCE TO BOOL							REF= Cool.bEn;
 			Cool_EnSync							: REFERENCE TO BOOL							REF= Cool.bEnSync;
 			Cool_ValSync						: REFERENCE TO REAL							REF= Cool.fValSync;
@@ -73,44 +60,6 @@ VAR
 													eOutputUnit								:= E_BA_Unit.eOther_Percent,
 													bEn										:= TRUE,
 													eActionRm								:= E_BA_Action.eDirect,
-													fProportionalConstant					:= 5.0,
-													fIntegralConstant						:= 180
-												);
-			TSeq_En								: REFERENCE TO BOOL							REF= TSeq.bEn;
-			TSeq_Step							: REFERENCE TO STRING						REF= TSeq.sStep;
-			TSeq								: FB_BA_SequenceLink := (
-													iParent									:= Loop,
-													sDescription							:= '{Temperature sequence}',
-													iReference								:= [ Heat2, Heat1, Cool ]
-												);
-													
-			// Intention:						Sequence of loops
-			// Initialization:					Manual
-			// Parameter:						iNextSequenceRef = [reference to next loop]
-			Heat3_En							: REFERENCE TO BOOL							REF= Heat3.bEn;
-			Heat3_EnSync						: REFERENCE TO BOOL							REF= Heat3.bEnSync;
-			Heat3_ValSync						: REFERENCE TO REAL							REF= Heat3.fValSync;
-			Heat3_Y								: REFERENCE TO REAL							REF= Heat3.fPresentValue;
-			Heat3								: FB_BA_Loop := (
-													iParent									:= Loop,
-													iNextSequenceRef						:= Heat4,
-													sDescription							:= '{Heating Loop 3}',
-													eOutputUnit								:= E_BA_Unit.eOther_Percent,
-													bEn										:= TRUE,
-													eActionRm								:= E_BA_Action.eReverse,
-													fProportionalConstant					:= 3.0,
-													fIntegralConstant						:= 180
-												);
-			Heat4_En							: REFERENCE TO BOOL							REF= Heat4.bEn;
-			Heat4_EnSync						: REFERENCE TO BOOL							REF= Heat4.bEnSync;
-			Heat4_ValSync						: REFERENCE TO REAL							REF= Heat4.fValSync;
-			Heat4_Y								: REFERENCE TO REAL							REF= Heat4.fPresentValue;
-			Heat4								: FB_BA_Loop := (
-													iParent									:= Loop,
-													sDescription							:= '{Heating Loop 3}',
-													eOutputUnit								:= E_BA_Unit.eOther_Percent,
-													bEn										:= TRUE,
-													eActionRm								:= E_BA_Action.eReverse,
 													fProportionalConstant					:= 3.0,
 													fIntegralConstant						:= 180
 												);
@@ -307,8 +256,6 @@ VAR
 END_VAR
 VAR			
 	_i											: INT;
-	_fSpH										: REAL;
-	_fSpC										: REAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -334,31 +281,14 @@ SchedB();
 SchedM();
 
 // Loop:
-_fSpH := (fLoop_Setpoint - (fLoop_Deadband / 2));
-_fSpC := (fLoop_Setpoint + (fLoop_Deadband / 2));
-
 Loop();
 
-Heat2(
-	fSetpoint := _fSpH,
-	fCtrlVal := fLoop_CtrlVal
-);
-Heat1(
-	fSetpoint := _fSpH,
+Heat(
+	fSetpoint := fLoop_Setpoint,
 	fCtrlVal := fLoop_CtrlVal
 );
 Cool(
-	fSetpoint := _fSpC,
-	fCtrlVal := fLoop_CtrlVal
-);
-TSeq();
-
-Heat3(
-	fSetpoint := _fSpH,
-	fCtrlVal := fLoop_CtrlVal
-);
-Heat4(
-	fSetpoint := _fSpH,
+	fSetpoint := fLoop_Setpoint,
 	fCtrlVal := fLoop_CtrlVal
 );
 
@@ -401,16 +331,13 @@ END_FOR
       <LineId Id="872" Count="0" />
       <LineId Id="875" Count="1" />
       <LineId Id="813" Count="0" />
-      <LineId Id="751" Count="0" />
-      <LineId Id="1807" Count="1" />
       <LineId Id="1806" Count="0" />
       <LineId Id="757" Count="1" />
-      <LineId Id="713" Count="7" />
-      <LineId Id="725" Count="3" />
-      <LineId Id="627" Count="0" />
-      <LineId Id="1422" Count="7" />
-      <LineId Id="882" Count="0" />
+      <LineId Id="713" Count="2" />
+      <LineId Id="720" Count="0" />
+      <LineId Id="725" Count="2" />
       <LineId Id="1430" Count="0" />
+      <LineId Id="2149" Count="0" />
       <LineId Id="881" Count="0" />
       <LineId Id="888" Count="0" />
       <LineId Id="948" Count="0" />
