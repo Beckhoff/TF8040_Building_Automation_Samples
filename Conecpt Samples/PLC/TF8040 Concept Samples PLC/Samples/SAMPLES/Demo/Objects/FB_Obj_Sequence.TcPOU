@@ -137,7 +137,7 @@ VAR
 			Seq2								: FB_BA_SequenceLink := (
 													iParent									:= Loop,
 													sDescription							:= '{Heating sequence}',
-													iReference								:= [ Seq2Heat1, Seq2Heat2, Seq2Heat3 ]
+													iReference								:= [ Seq2Heat3, Seq2Heat2, Seq2Heat1 ]
 												);
 						
 			// [Sample 2.2]							
@@ -152,18 +152,18 @@ VAR
 			// [Sample 3.1]
 			// Intention:						Sequence of equal loops (Cooling)
 			// Initialization:					Via sequence linker
-			Seq3Cool3_En						: REFERENCE TO BOOL							REF= Seq3Cool3.bEn;
-			Seq3Cool3_EnSync					: REFERENCE TO BOOL							REF= Seq3Cool3.bEnSync;
-			Seq3Cool3_ValSync					: REFERENCE TO REAL							REF= Seq3Cool3.fValSync;
-			Seq3Cool3_Y							: REFERENCE TO REAL							REF= Seq3Cool3.fPresentValue;
-			Seq3Cool3							: FB_BA_Loop := (
+			Seq3Cool1_En						: REFERENCE TO BOOL							REF= Seq3Cool1.bEn;
+			Seq3Cool1_EnSync					: REFERENCE TO BOOL							REF= Seq3Cool1.bEnSync;
+			Seq3Cool1_ValSync					: REFERENCE TO REAL							REF= Seq3Cool1.fValSync;
+			Seq3Cool1_Y							: REFERENCE TO REAL							REF= Seq3Cool1.fPresentValue;
+			Seq3Cool1							: FB_BA_Loop := (
 													iParent									:= Loop,
-													sDescription							:= '{Cooling Loop 3}',
+													sDescription							:= '{Cooling Loop 1}',
 													eOutputUnit								:= E_BA_Unit.eOther_Percent,
 													bEn										:= TRUE,
 													eActionRm								:= E_BA_Action.eDirect,
-													fProportionalConstant					:= 1.0,
-													fIntegralConstant						:= 180
+													fProportionalConstant					:= 3.0,
+													fIntegralConstant						:= 60
 												);
 			Seq3Cool2_En						: REFERENCE TO BOOL							REF= Seq3Cool2.bEn;
 			Seq3Cool2_EnSync					: REFERENCE TO BOOL							REF= Seq3Cool2.bEnSync;
@@ -178,18 +178,18 @@ VAR
 													fProportionalConstant					:= 2.0,
 													fIntegralConstant						:= 120
 												);
-			Seq3Cool1_En						: REFERENCE TO BOOL							REF= Seq3Cool1.bEn;
-			Seq3Cool1_EnSync					: REFERENCE TO BOOL							REF= Seq3Cool1.bEnSync;
-			Seq3Cool1_ValSync					: REFERENCE TO REAL							REF= Seq3Cool1.fValSync;
-			Seq3Cool1_Y							: REFERENCE TO REAL							REF= Seq3Cool1.fPresentValue;
-			Seq3Cool1							: FB_BA_Loop := (
+			Seq3Cool3_En						: REFERENCE TO BOOL							REF= Seq3Cool3.bEn;
+			Seq3Cool3_EnSync					: REFERENCE TO BOOL							REF= Seq3Cool3.bEnSync;
+			Seq3Cool3_ValSync					: REFERENCE TO REAL							REF= Seq3Cool3.fValSync;
+			Seq3Cool3_Y							: REFERENCE TO REAL							REF= Seq3Cool3.fPresentValue;
+			Seq3Cool3							: FB_BA_Loop := (
 													iParent									:= Loop,
-													sDescription							:= '{Cooling Loop 1}',
+													sDescription							:= '{Cooling Loop 3}',
 													eOutputUnit								:= E_BA_Unit.eOther_Percent,
 													bEn										:= TRUE,
 													eActionRm								:= E_BA_Action.eDirect,
-													fProportionalConstant					:= 3.0,
-													fIntegralConstant						:= 60
+													fProportionalConstant					:= 1.0,
+													fIntegralConstant						:= 180
 												);
 			Seq3_En								: REFERENCE TO BOOL							REF= Seq3.bEn;
 			Seq3_Step							: REFERENCE TO STRING						REF= Seq3.sStep;
@@ -203,9 +203,9 @@ VAR
 			// Initialization:					Manual (No sequence linker used)
 			// Parameter:						iNextSequenceRef = [reference to next loop]
 			(*
-			Seq3Cool3							: FB_BA_Loop								:= (iNextSequenceRef := Seq3Cool2);
-			Seq3Cool2							: FB_BA_Loop								:= (iNextSequenceRef := Seq3Cool1);
-			Seq3Cool1							: FB_BA_Loop;
+			Seq3Cool1							: FB_BA_Loop								:= (iNextSequenceRef := Seq3Cool2);
+			Seq3Cool2							: FB_BA_Loop								:= (iNextSequenceRef := Seq3Cool3);
+			Seq3Cool3							: FB_BA_Loop;
 			*)
 	{endregion}
 END_VAR
