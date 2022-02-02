@@ -11,21 +11,23 @@ trigger: none
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 variables:
 
-# Major
-- name: major
-  value: '1'
-# Minor
-- name: minor
-  value: '5'
+- template: GlobalVars.yml
 
-# Patch is automatically calculated
-- name: patch
-  value: $[ counter('$(major)$(minor)', 0) ]
-- name: fullVersion
-  ${{ if eq( variables['Build.SourceBranchName'], 'master' ) }}: 
-    value: $(major).$(minor).0
-  ${{ if ne( variables['Build.SourceBranchName'], 'master' ) }}: 
-    value: $(major).$(minor).$(patch)-$(Build.SourceBranchName)
+- name: useSourceBranchName
+  ${{ if eq( variables['Build.SourceBranch'], variables['BetaBranch'] ) }}:
+    value: false
+  ${{ if ne( variables['Build.SourceBranch'], variables['BetaBranch'] ) }}:
+    value: true
+
+- template: Setup/VersionVars.yml@BuildTemplates
+  parameters:
+    VersionMajor: ${{variables.Major}}
+    VersionMinor: ${{variables.Minor}}
+    VersionPatchDefault: ${{variables.Patch}}
+    MainBranch: ${{variables.MainBranch}}
+    UseSourceBranchName: ${{variables.useSourceBranchName}}
+    AutoPatch: false
+    PreReleaseName: ${{variables.PreReleaseName}})
 
 jobs:
         
@@ -36,15 +38,20 @@ jobs:
       - MD_VS_BUILD_TOOLS_2019
       - MD_SMALL
   steps:
+
+  - template: Setup/VersionVarsValidateManualPatch.yml@BuildTemplates
+    parameters:      
+      MainBranch: ${{variables.MainBranch}}        
+  - template: Setup/VersionVarsSetPipelineName.yml@BuildTemplates
   
   #------------------------------------------------------------------------------------
   # Overview
   #------------------------------------------------------------------------------------
   - powershell: |
-      echo "Samples version: $(fullVersion)"
+      echo "Samples version: $(Version.NuGetVersion)"
       echo "From branch: $(Build.SourceBranchName)"
       
-      [string]$runName = "$(fullVersion)"
+      [string]$runName = "$(Version.NuGetVersion)"
 
       if ('$(Build.Reason)' -eq 'Schedule') {
         $runName += "_Daily"
@@ -74,7 +81,7 @@ jobs:
     displayName: 'Set versions'
     inputs:
       scriptPath: Pipelines/set_versions.py
-      arguments: $(fullVersion)
+      arguments: $(Version.NuGetVersion)
       workingDirectory: Pipelines
 
   #------------------------------------------------------------------------------------
@@ -83,7 +90,7 @@ jobs:
   - template: CreateSampleArchive.yml
     parameters:
       sampleName: Conecpt Samples
-      version: $(fullVersion)
+      version: $(Version.NuGetVersion)
 
   #------------------------------------------------------------------------------------
   # Create Template Samples
@@ -91,7 +98,7 @@ jobs:
   - template: CreateSampleArchive.yml
     parameters:
       sampleName: Template Samples
-      version: $(fullVersion)
+      version: $(Version.NuGetVersion)
       
   #------------------------------------------------------------------------------------
   # Archive all archives
@@ -102,7 +109,7 @@ jobs:
       rootFolderOrFile: ./archives
       includeRootFolder: false
       archiveType: zip
-      archiveFile: $(Build.ArtifactStagingDirectory)/TF8040 Samples V1.$(fullVersion).zip
+      archiveFile: $(Build.ArtifactStagingDirectory)/TF8040 Samples V1.$(Version.NuGetVersion).zip
         
   #------------------------------------------------------------------------------------
   # Save all archives
@@ -110,5 +117,5 @@ jobs:
   - task: PublishBuildArtifacts@1
     displayName: Save all archives
     inputs:
-      pathToPublish: $(Build.ArtifactStagingDirectory)/TF8040 Samples V1.$(fullVersion).zip
+      pathToPublish: $(Build.ArtifactStagingDirectory)/TF8040 Samples V1.$(Version.NuGetVersion).zip
       artifactName: Samples
