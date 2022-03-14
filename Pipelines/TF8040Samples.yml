@@ -3,8 +3,22 @@ resources:
    - repository: BuildTemplates
      type: git
      name: 'Common/BuildTemplates'
+   - repository: BuildHmiFrameworkProject
+     type: git
+     name: 'Common/BuildTemplates'
+     ref: 'DanielN/BuildTcHmiFrameworkProject'
 
 trigger: none
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Parameters
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+parameters:
+
+- name: createTag
+  displayName: Create GIT tag
+  type: boolean
+  default: false
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Variables
@@ -118,4 +132,12 @@ jobs:
     displayName: Save all archives
     inputs:
       pathToPublish: $(Build.ArtifactStagingDirectory)/TF8040 Samples V1.$(Version.NuGetVersion).zip
-      artifactName: Samples
+      artifactName: Samples      
+      
+  - ${{ if eq(parameters.createTag, 'true') }}:
+    #------------------------------------------------------------------------------------
+    # Add a tag to the commit
+    #------------------------------------------------------------------------------------
+    - template: AddVersionTagToCommit.yml@BuildHmiFrameworkProject
+      parameters:
+        version: $(Version.NuGetVersion)

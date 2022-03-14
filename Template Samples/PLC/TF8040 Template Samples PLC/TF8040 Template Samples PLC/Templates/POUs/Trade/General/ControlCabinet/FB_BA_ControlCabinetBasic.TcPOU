@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="FB_BA_ControlCabinetBasic" Id="{1161a53a-c10a-4cfa-be73-b8db629377b6}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_BA_ControlCabinetBasic" Id="{604963d2-3a97-4043-94de-95d3b4db0240}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '0.0.1.0'}
+	{attribute 'Version' := '1.2.1.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "General, Cabinet, Control cabinet, Acknowledgement"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "General, Cabinet, Control cabinet, Acknowledgement"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "EC_AMEV"'}
 	{attribute 'Description' := '"LCID": "1031", "Text": "Schaltschrank Quittierung"'}
 	{attribute 'Description' := '"LCID": "1033", "Text": "Control cabinet acknowledgement"'}
 {endregion}
@@ -32,8 +33,7 @@ VAR
 	bTrigRstSwi				: BOOL;
 	rtrigRstButton			: R_TRIG;
 	bTrigRstButton			: BOOL;	
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <CFC>
         <XmlArchive>
@@ -658,7 +658,7 @@ END_VAR
                           <n n="ElementGroupId" />
                           <v n="Identifier">"Cmd"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelFunctions.SwitchingCommand, iProfile := Profiles.BEvt_DisExt_DisturbedNoneNormal_Command, sObjectName := '{Idx=01}', ePolarity := E_BA_Polarity.eNormal, eFeedbackPolarity := E_BA_Polarity.eNormal, eOverriddenPolarity := E_BA_Polarity.eNormal, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eNoLock)"</v>
+                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelFunctions.SwitchingCommand, iProfile := Profiles.BEvt_DisExt_DisturbedNoneNormal_Command, sObjectName := '[Idx=01]', ePolarity := E_BA_Polarity.eNormal, eFeedbackPolarity := E_BA_Polarity.eNormal, eOverriddenPolarity := E_BA_Polarity.eNormal, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eNoLock)"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -1829,7 +1829,7 @@ END_VAR
                           <n n="ElementGroupId" />
                           <v n="Identifier">"Cmd"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelFunctions.SwitchingCommand, iProfile := Profiles.BEvt_DisExt_DisturbedNoneNormal_Command, sObjectName := '{Idx=01}', ePolarity := E_BA_Polarity.eNormal, eFeedbackPolarity := E_BA_Polarity.eNormal, eOverriddenPolarity := E_BA_Polarity.eNormal, bEventDetectionEnable := FALSE, eEnPlantLock := E_BA_LockPriority.eNoLock)"</v>
+                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelFunctions.SwitchingCommand, iProfile := Profiles.BEvt_DisExt_DisturbedNoneNormal_Command, sObjectName := '[Idx=01]', ePolarity := E_BA_Polarity.eNormal, eFeedbackPolarity := E_BA_Polarity.eNormal, eOverriddenPolarity := E_BA_Polarity.eNormal, bEventDetectionEnable := FALSE, eEnPlantLock := E_BA_LockPriority.eNoLock)"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -1997,8 +1997,8 @@ END_VAR
                 </l2>
               </o>
               <o n="ParameterInitializationMethodGenerator" t="CFCParameterInitializationMethodObject">
-                <v n="GuidPOU">{7bd49a2c-302a-4348-87f7-45861d4612fa}</v>
-                <v n="GuidParentObject">{1161a53a-c10a-4cfa-be73-b8db629377b6}</v>
+                <v n="GuidPOU">{312452b7-47eb-4167-803f-cb2f4997bf14}</v>
+                <v n="GuidParentObject">{604963d2-3a97-4043-94de-95d3b4db0240}</v>
                 <v n="MethodName">"__InitializeParameters_FB_BA_ControlCabinetBasic"</v>
                 <v n="ReturnType">"BOOL"</v>
               </o>
@@ -2529,9 +2529,9 @@ END_VAR
         </XmlArchive>
       </CFC>
     </Implementation>
-    <Folder Name="[Private]" Id="{024b046a-664d-49d2-bb07-97be0eadde0d}" />
-    <Folder Name="[Protected] Management" Id="{85912088-ad90-47de-97a7-570e488812bc}" />
-    <Method Name="Ack" Id="{af109ea4-070e-4e58-b5ce-40236a2c408d}" FolderPath="[Private]\">
+    <Folder Name="[Private]" Id="{3a323497-da88-4433-8f0f-c85eda61d4c2}" />
+    <Folder Name="[Protected] Management" Id="{ee78fcf5-c643-4757-b0a9-d427f9ffb85f}" />
+    <Method Name="Ack" Id="{9a3dc274-d6d8-40f3-b953-00a8d78f8fc2}" FolderPath="[Private]\">
       <Declaration><![CDATA[METHOD PRIVATE Ack
 VAR_INPUT
 	iView			: I_BA_View;
@@ -2542,7 +2542,7 @@ END_VAR]]></Declaration>
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="EventEvaluation" Id="{a7916a83-24ce-43a5-9205-f7f86645c89c}" FolderPath="[Private]\">
+    <Method Name="EventEvaluation" Id="{c70da550-f453-4d8a-a859-47362e714857}" FolderPath="[Private]\">
       <Declaration><![CDATA[METHOD PRIVATE EventEvaluation
 VAR
 	_iView			: I_BA_View;
@@ -2573,7 +2573,7 @@ tAlmLampImpuls();
 bBlink := tAlmLampImpuls.bQ;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="FB_init" Id="{12d1fc59-1c6e-471b-895f-17582d0de6f1}">
+    <Method Name="FB_init" Id="{61127a31-571a-454d-b17b-f86e862d8456}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -2590,13 +2590,13 @@ LampFault.Cmd.sObjectName					:= '{Idx=01}';
 LampFault.Cmd.ePolarity						:= E_BA_Polarity.eNormal;
 LampFault.Cmd.eFeedbackPolarity				:= E_BA_Polarity.eNormal;
 LampFault.Cmd.eOverriddenPolarity			:= E_BA_Polarity.eReverse;
-LampFault.Cmd.sActiveText 					:= Texts.txtOn;
-LampFault.Cmd.sInactiveText 				:= Texts.txtOff;
-LampFault.Cmd.nEventClassID					:= EventClasses.DisturbanceExtended;
-LampFault.Cmd.aEventTransitionText[1]		:= Texts.txtDisturb;
-LampFault.Cmd.aEventTransitionText[2]		:= Texts.txtNone;
-LampFault.Cmd.aEventTransitionText[3]		:= Texts.txtNormal;
-LampFault.Cmd.bEventDetectionEnable			:= TRUE;
+LampFault.Cmd.sActiveText 					:= txtEvent_On;
+LampFault.Cmd.sInactiveText 				:= txtEvent_Off;
+LampFault.Cmd.nEventClassID					:= EC_ID.NC40;
+LampFault.Cmd.aEventTransitionText[1]		:= txtEvent_Disturb;
+LampFault.Cmd.aEventTransitionText[2]		:= txtEvent_None;
+LampFault.Cmd.aEventTransitionText[3]		:= txtEvent_Normal;
+LampFault.Cmd.bEventDetectionEnable			:= FALSE;
 LampFault.Cmd.eEnPlantLock					:= E_BA_LockPriority.eNoLock;	
 
 AckButton.iParent							:= THIS^;		
@@ -2605,6 +2605,7 @@ AckButton.sObjectName						:= '{Idx=01}';
 AckButton.eDPADMode							:= E_BA_DPADMode.eInclude;																						
 AckButton.Input.iLabel						:= LblCmpGeneral.ControlCabinet_AckButton_Input;
 AckButton.Input.ePolarity					:= E_BA_Polarity.eNormal;
+AckButton.Input.bEventDetectionEnable		:= FALSE;
 AckButton.Value.iLabel						:= LblCmpGeneral.ControlCabinet_AckButton_Value;
 AckButton.Value.eToggleMode 				:= E_BA_ToggleMode.ePushButton;									
 
@@ -2617,13 +2618,13 @@ RstHw.Cmd.sObjectName						:= '{Idx=01}';
 RstHw.Cmd.ePolarity							:= E_BA_Polarity.eNormal;
 RstHw.Cmd.eFeedbackPolarity					:= E_BA_Polarity.eNormal;
 RstHw.Cmd.eOverriddenPolarity				:= E_BA_Polarity.eReverse;
-RstHw.Cmd.sActiveText 						:= Texts.txtOn;
-RstHw.Cmd.sInactiveText 					:= Texts.txtOff;
-RstHw.Cmd.nEventClassID						:= EventClasses.DisturbanceExtended;
-RstHw.Cmd.aEventTransitionText[1]			:= Texts.txtDisturb;
-RstHw.Cmd.aEventTransitionText[2]			:= Texts.txtNone;
-RstHw.Cmd.aEventTransitionText[3]			:= Texts.txtNormal;
-RstHw.Cmd.bEventDetectionEnable				:= TRUE;
+RstHw.Cmd.sActiveText 						:= txtEvent_On;
+RstHw.Cmd.sInactiveText 					:= txtEvent_Off;
+RstHw.Cmd.nEventClassID						:= EC_ID.NC40;
+RstHw.Cmd.aEventTransitionText[1]			:= txtEvent_Disturb;
+RstHw.Cmd.aEventTransitionText[2]			:= txtEvent_None;
+RstHw.Cmd.aEventTransitionText[3]			:= txtEvent_Normal;
+RstHw.Cmd.bEventDetectionEnable				:= FALSE;
 RstHw.Cmd.eEnPlantLock						:= E_BA_LockPriority.eNoLock;	
 
 tAlmLampImpuls.bEn							:=	TRUE; 
@@ -2631,7 +2632,7 @@ tAlmLampImpuls.nTiOn						:=	800;
 tAlmLampImpuls.nTiOff						:=	800;]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetErrors" Id="{7d4cdfdd-7941-4230-96bd-fd54056feeea}" FolderPath="[Private]\">
+    <Method Name="GetErrors" Id="{5b168de7-bf2c-4a2e-88bc-5dd9fb1e29ea}" FolderPath="[Private]\">
       <Declaration><![CDATA[METHOD PRIVATE GetErrors
 VAR_INPUT
 	iView			: I_BA_View;
@@ -2658,7 +2659,7 @@ END_VAR]]></Declaration>
 END_IF]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Reset" Id="{4b7e996f-2b2c-4a34-8b96-5546044e48cc}" FolderPath="[Protected] Management\">
+    <Method Name="Reset" Id="{b1e7e7cc-326e-425e-b8f2-73072c84f153}" FolderPath="[Protected] Management\">
       <Declaration><![CDATA[METHOD PROTECTED Reset
 VAR_INPUT
 	bUnregister			: BOOL			:= FALSE;
@@ -2691,6 +2692,7 @@ SUPER^.Reset(bUnregister);]]></ST>
       <LineId Id="139" Count="0" />
       <LineId Id="85" Count="0" />
       <LineId Id="91" Count="0" />
+      <LineId Id="151" Count="0" />
       <LineId Id="84" Count="0" />
       <LineId Id="78" Count="0" />
       <LineId Id="49" Count="3" />

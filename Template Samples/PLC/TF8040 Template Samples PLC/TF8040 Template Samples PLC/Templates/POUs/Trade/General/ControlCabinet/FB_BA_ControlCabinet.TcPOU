@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="FB_BA_ControlCabinet" Id="{cf2d0022-b08f-4e49-bbbc-b20036821dd4}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_BA_ControlCabinet" Id="{590e0131-10bc-49bc-b8fd-be0c20d77b39}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '0.0.1.0'}
+	{attribute 'Version' := '1.2.1.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "General, Cabinet, Control cabinet"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "General, Cabinet, Control cabinet"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "EC_AMEV"'}
 	{attribute 'Description' := '"LCID": "1031", "Text": "Schaltschrank Ereignisse"'}
 	{attribute 'Description' := '"LCID": "1033", "Text": "Control cabinet events"'}
 {endregion}
@@ -13,8 +14,7 @@ VAR_INPUT CONSTANT
 	Fuse01					: FB_BA_SensorBinary_IO;		
 	Fuse02					: FB_BA_SensorBinary_IO;	
 	Fuse03					: FB_BA_SensorBinary_IO;	
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <CFC>
         <XmlArchive>
@@ -54,7 +54,7 @@ END_VAR
                           <n n="ElementGroupId" />
                           <v n="Identifier">"Fuses"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.Fuse, sObjectName := '{Idx=01}', eDPADMode := E_BA_DPADMode.eInclude)"</v>
+                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.Fuse, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude)"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -78,7 +78,7 @@ END_VAR
                           <n n="ElementGroupId" />
                           <v n="Identifier">"RstHw"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.AcknowledgeCommand, sObjectName := '{Idx=01}', Cmd := STRUCT(iLabel := LabelFunctions.SwitchingCommand, iProfile := Profiles.BEvt_DisExt_DisturbedNoneNormal_Command, sObjectName := '{Idx=01}', ePolarity := E_BA_Polarity.eNormal, eFeedbackPolarity := E_BA_Polarity.eNormal, eOverriddenPolarity := E_BA_Polarity.eNormal, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eNoLock))"</v>
+                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.AcknowledgeCommand, sObjectName := '[Idx=01]', Cmd := STRUCT(iLabel := LabelFunctions.SwitchingCommand, iProfile := Profiles.BEvt_DisExt_DisturbedNoneNormal_Command, sObjectName := '[Idx=01]', ePolarity := E_BA_Polarity.eNormal, eFeedbackPolarity := E_BA_Polarity.eNormal, eOverriddenPolarity := E_BA_Polarity.eNormal, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eNoLock))"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -102,7 +102,7 @@ END_VAR
                           <n n="ElementGroupId" />
                           <v n="Identifier">"RstRm"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregatesFunction.RemoteAcknowledgementButton, sObjectName := '{Idx=01,Idx=02}', sInactiveText := Texts.txtOff, sActiveText := Texts.txtOn, bValueRm := FALSE, bEnPublish := FALSE, eToggleMode := E_BA_ToggleMode.ePushButton)"</v>
+                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregatesFunction.RemoteAcknowledgementButton, sObjectName := '[Idx=01,Idx=02]', sInactiveText := Texts.txtOff, sActiveText := Texts.txtOn, bValueRm := FALSE, bEnPublish := FALSE, eToggleMode := E_BA_ToggleMode.ePushButton)"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -126,7 +126,7 @@ END_VAR
                           <n n="ElementGroupId" />
                           <v n="Identifier">"RstSwi"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.LocalAcknowledgement, sObjectName := '{Idx=02}', BI_IO := STRUCT(iParent := THIS^, iLabel := LabelFunctions.Button, iProfile := Profiles.BEvt_NotificationSimple_OffOn, sObjectName := '{Idx=01}', ePolarity := E_BA_Polarity.eNormal, bEventDetectionEnable := FALSE, eEnPlantLock := E_BA_LockPriority.eNoLock))"</v>
+                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.LocalAcknowledgement, sObjectName := '[Idx=02]', BI_IO := STRUCT(iParent := THIS^, iLabel := LabelFunctions.Button, iProfile := Profiles.BEvt_NotificationSimple_OffOn, sObjectName := '[Idx=01]', ePolarity := E_BA_Polarity.eNormal, bEventDetectionEnable := FALSE, eEnPlantLock := E_BA_LockPriority.eNoLock))"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -150,7 +150,7 @@ END_VAR
                           <n n="ElementGroupId" />
                           <v n="Identifier">"LampFault"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.EventIndicationLamp, sObjectName := '{Idx=01}', Cmd := STRUCT(iLabel := LabelFunctions.SwitchingCommand, iProfile := Profiles.BEvt_DisExt_DisturbedNoneNormal_Command, sObjectName := '{Idx=01}', ePolarity := E_BA_Polarity.eNormal, eFeedbackPolarity := E_BA_Polarity.eNormal, eOverriddenPolarity := E_BA_Polarity.eNormal, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eNoLock))"</v>
+                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.EventIndicationLamp, sObjectName := '[Idx=01]', Cmd := STRUCT(iLabel := LabelFunctions.SwitchingCommand, iProfile := Profiles.BEvt_DisExt_DisturbedNoneNormal_Command, sObjectName := '[Idx=01]', ePolarity := E_BA_Polarity.eNormal, eFeedbackPolarity := E_BA_Polarity.eNormal, eOverriddenPolarity := E_BA_Polarity.eNormal, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eNoLock))"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -388,7 +388,7 @@ END_VAR
                           <n n="ElementGroupId" />
                           <v n="Identifier">"Input"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabSensor.Binary_Input, iProfile := Profiles.BEvt_AlmTechExt_TriggeredErrorNormal, sObjectName := '{Idx=01}', ePolarity := E_BA_Polarity.eReverse, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eLocalMedium)"</v>
+                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabSensor.Binary_Input, iProfile := Profiles.BEvt_AlmTechExt_TriggeredErrorNormal, sObjectName := '[Idx=01]', ePolarity := E_BA_Polarity.eReverse, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eLocalMedium)"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -626,7 +626,7 @@ END_VAR
                           <n n="ElementGroupId" />
                           <v n="Identifier">"Input"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabSensor.Binary_Input, iProfile := Profiles.BEvt_AlmTechExt_TriggeredErrorNormal, sObjectName := '{Idx=01}', ePolarity := E_BA_Polarity.eReverse, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eLocalMedium)"</v>
+                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabSensor.Binary_Input, iProfile := Profiles.BEvt_AlmTechExt_TriggeredErrorNormal, sObjectName := '[Idx=01]', ePolarity := E_BA_Polarity.eReverse, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eLocalMedium)"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -864,7 +864,7 @@ END_VAR
                           <n n="ElementGroupId" />
                           <v n="Identifier">"Input"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabSensor.Binary_Input, iProfile := Profiles.BEvt_AlmTechExt_TriggeredErrorNormal, sObjectName := '{Idx=01}', ePolarity := E_BA_Polarity.eReverse, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eLocalMedium)"</v>
+                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabSensor.Binary_Input, iProfile := Profiles.BEvt_AlmTechExt_TriggeredErrorNormal, sObjectName := '[Idx=01]', ePolarity := E_BA_Polarity.eReverse, bEventDetectionEnable := TRUE, eEnPlantLock := E_BA_LockPriority.eLocalMedium)"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -1056,8 +1056,8 @@ END_VAR
                 </l2>
               </o>
               <o n="ParameterInitializationMethodGenerator" t="CFCParameterInitializationMethodObject">
-                <v n="GuidPOU">{a5ab4f52-1317-444d-ad56-f8e9440e52c2}</v>
-                <v n="GuidParentObject">{cf2d0022-b08f-4e49-bbbc-b20036821dd4}</v>
+                <v n="GuidPOU">{86596142-28f8-48b1-84e8-f2e9830ccecb}</v>
+                <v n="GuidParentObject">{590e0131-10bc-49bc-b8fd-be0c20d77b39}</v>
                 <v n="MethodName">"__InitializeParameters_FB_BA_ControlCabinet"</v>
                 <v n="ReturnType">"BOOL"</v>
               </o>
@@ -1098,7 +1098,7 @@ END_VAR
         </XmlArchive>
       </CFC>
     </Implementation>
-    <Method Name="FB_init" Id="{907425df-4e48-49e5-919a-3e08157b204c}">
+    <Method Name="FB_init" Id="{9094676e-9e13-4c8b-baeb-e793e496ccfc}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -1113,13 +1113,16 @@ Fuse01.eDPADMode							:= E_BA_DPADMode.eInclude;
 Fuse01.Input.iLabel							:= LblCmpGeneral.ControlCabinet_Fuse_Input;	
 Fuse01.Input.sObjectName					:= '{Idx=01}';	
 Fuse01.Input.ePolarity						:= E_BA_Polarity.eReverse;
-Fuse01.Input.sActiveText 					:= Texts.txtTriggered;
-Fuse01.Input.sInactiveText 					:= Texts.txtNormal;
-Fuse01.Input.nEventClassID					:= EventClasses.AlarmTechnicalExtended;
-Fuse01.Input.aEventTransitionText[1]		:= Texts.txtTriggered;
-Fuse01.Input.aEventTransitionText[2]		:= Texts.txtError;
-Fuse01.Input.aEventTransitionText[3]		:= Texts.txtNormal;
+Fuse01.Input.sActiveText 					:= txtEvent_Triggered;
+Fuse01.Input.sInactiveText 					:= txtEvent_Normal;
+Fuse01.Input.nEventClassID					:= EC_ID.NC30;
+Fuse01.Input.aEventTransitionText[1]		:= txtEvent_Triggered;
+Fuse01.Input.aEventTransitionText[2]		:= txtEvent_Error;
+Fuse01.Input.aEventTransitionText[3]		:= txtEvent_Normal;
 Fuse01.Input.bEventDetectionEnable			:= TRUE;
+Fuse01.Input.aEventEnable[1]				:= TRUE;			//	to_offnormal
+Fuse01.Input.aEventEnable[2]				:= TRUE;			//	to_fault
+Fuse01.Input.aEventEnable[3]				:= TRUE;			//	to_normal
 Fuse01.Input.eEnPlantLock					:= E_BA_LockPriority.eNoLock;	
 								 
 Fuse02.iParent								:= THIS^;		
@@ -1129,45 +1132,55 @@ Fuse02.eDPADMode							:= E_BA_DPADMode.eInclude;
 Fuse02.Input.iLabel							:= LblCmpGeneral.ControlCabinet_Fuse_Input;	
 Fuse02.Input.sObjectName					:= '{Idx=02}';	
 Fuse02.Input.ePolarity						:= E_BA_Polarity.eReverse;
-Fuse02.Input.sActiveText 					:= Texts.txtTriggered;
-Fuse02.Input.sInactiveText 					:= Texts.txtNormal;
-Fuse02.Input.nEventClassID					:= EventClasses.AlarmTechnicalExtended;
-Fuse02.Input.aEventTransitionText[1]		:= Texts.txtTriggered;
-Fuse02.Input.aEventTransitionText[2]		:= Texts.txtError;
-Fuse02.Input.aEventTransitionText[3]		:= Texts.txtNormal;
+Fuse02.Input.sActiveText 					:= txtEvent_Triggered;
+Fuse02.Input.sInactiveText 					:= txtEvent_Normal;
+Fuse02.Input.nEventClassID					:= EC_ID.NC30;
+Fuse02.Input.aEventTransitionText[2]		:= txtEvent_Error;
+Fuse02.Input.aEventTransitionText[3]		:= txtEvent_Normal;
 Fuse02.Input.bEventDetectionEnable			:= TRUE;
+Fuse02.Input.aEventEnable[1]				:= TRUE;			//	to_offnormal
+Fuse02.Input.aEventEnable[2]				:= TRUE;			//	to_fault
+Fuse02.Input.aEventEnable[3]				:= TRUE;			//	to_normal
 Fuse02.Input.eEnPlantLock					:= E_BA_LockPriority.eNoLock;	
 										 
 Fuse03.iParent								:= THIS^;		
 Fuse03.iLabel 								:= LblCmpGeneral.ControlCabinet_Fuse;	
 Fuse03.sObjectName							:= '{Idx=03}';
 Fuse03.eDPADMode							:= E_BA_DPADMode.eInclude;																						
-Fuse02.Input.iLabel							:= LblCmpGeneral.ControlCabinet_Fuse_Input;	
-Fuse02.Input.sObjectName					:= '{Idx=03}';	
-Fuse02.Input.ePolarity						:= E_BA_Polarity.eReverse;
-Fuse02.Input.sActiveText 					:= Texts.txtTriggered;
-Fuse02.Input.sInactiveText 					:= Texts.txtNormal;
-Fuse02.Input.nEventClassID					:= EventClasses.AlarmTechnicalExtended;
-Fuse02.Input.aEventTransitionText[1]		:= Texts.txtTriggered;
-Fuse02.Input.aEventTransitionText[2]		:= Texts.txtError;
-Fuse02.Input.aEventTransitionText[3]		:= Texts.txtNormal;
-Fuse02.Input.bEventDetectionEnable			:= TRUE;
-Fuse02.Input.eEnPlantLock					:= E_BA_LockPriority.eNoLock;	]]></ST>
+Fuse03.Input.iLabel							:= LblCmpGeneral.ControlCabinet_Fuse_Input;	
+Fuse03.Input.sObjectName					:= '{Idx=03}';	
+Fuse03.Input.ePolarity						:= E_BA_Polarity.eReverse;
+Fuse03.Input.sActiveText 					:= txtEvent_Triggered;
+Fuse03.Input.sInactiveText 					:= txtEvent_Normal;
+Fuse03.Input.nEventClassID					:= EC_ID.NC30;
+Fuse03.Input.aEventTransitionText[1]		:= txtEvent_Triggered;
+Fuse03.Input.aEventTransitionText[2]		:= txtEvent_Error;
+Fuse03.Input.aEventTransitionText[3]		:= txtEvent_Normal;
+Fuse03.Input.bEventDetectionEnable			:= TRUE;
+Fuse03.Input.aEventEnable[1]				:= TRUE;			//	to_offnormal
+Fuse03.Input.aEventEnable[2]				:= TRUE;			//	to_fault
+Fuse03.Input.aEventEnable[3]				:= TRUE;			//	to_normal
+Fuse03.Input.eEnPlantLock					:= E_BA_LockPriority.eNoLock;	]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_BA_ControlCabinet.FB_init">
       <LineId Id="9" Count="2" />
       <LineId Id="97" Count="0" />
       <LineId Id="61" Count="9" />
+      <LineId Id="107" Count="1" />
+      <LineId Id="106" Count="0" />
       <LineId Id="57" Count="0" />
       <LineId Id="47" Count="0" />
       <LineId Id="23" Count="2" />
       <LineId Id="98" Count="0" />
-      <LineId Id="71" Count="9" />
+      <LineId Id="71" Count="5" />
+      <LineId Id="78" Count="2" />
+      <LineId Id="109" Count="2" />
       <LineId Id="32" Count="0" />
       <LineId Id="36" Count="3" />
       <LineId Id="99" Count="0" />
       <LineId Id="81" Count="9" />
+      <LineId Id="113" Count="2" />
       <LineId Id="46" Count="0" />
     </LineIds>
   </POU>

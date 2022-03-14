@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="FB_BA_BuildingAlarms" Id="{d0beb4bc-b45b-466d-b846-c006f3855f38}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_BA_BuildingAlarms" Id="{c12ab7a9-e8e1-4393-833e-3511e1678564}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '0.0.1.0'}
+	{attribute 'Version' := '1.2.1.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "General, Alarms"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "General, Alarms"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "BA2_Param"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "EC_AMEV"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_BuildingAlarms"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Gebäude Alarme"'}
 	{attribute 'Description' := '"LCID": "1031", "Text": "Gebäude Alarme"'}
 	{attribute 'Description' := '"LCID": "1033", "Text": "Building alarms"'}
 {endregion}
@@ -16,8 +20,7 @@ VAR_INPUT CONSTANT
 END_VAR	
 VAR		
 	BuildingAlarms		: FB_BA_RawPublisher;
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <CFC>
         <XmlArchive>
@@ -1692,8 +1695,8 @@ END_VAR
                 </l2>
               </o>
               <o n="ParameterInitializationMethodGenerator" t="CFCParameterInitializationMethodObject">
-                <v n="GuidPOU">{226c9404-be45-4cd3-9ace-89643509404f}</v>
-                <v n="GuidParentObject">{d0beb4bc-b45b-466d-b846-c006f3855f38}</v>
+                <v n="GuidPOU">{a5290c89-10a3-4566-918f-bea302ab98f1}</v>
+                <v n="GuidParentObject">{c12ab7a9-e8e1-4393-833e-3511e1678564}</v>
                 <v n="MethodName">"__InitializeParameters_FB_BA_BuildingAlarms"</v>
                 <v n="ReturnType">"BOOL"</v>
               </o>
@@ -1905,7 +1908,7 @@ END_VAR
         </XmlArchive>
       </CFC>
     </Implementation>
-    <Method Name="FB_init" Id="{39f1271e-6f25-4598-a934-0a61818333fc}">
+    <Method Name="FB_init" Id="{f5460746-b55f-44b4-b4d4-8e07936e6610}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -1919,19 +1922,22 @@ FireAlert.sObjectName					:= '{Idx=01}';
 FireAlert.sDeviceType					:= '';
 FireAlert.bEnOutOfService				:= FALSE;
 FireAlert.ePolarity						:= E_BA_Polarity.eReverse;
-FireAlert.sActiveText 					:= Texts.txtOn;
-FireAlert.sInactiveText 				:= Texts.txtAlert;
+FireAlert.sActiveText 					:= txtEvent_On;
+FireAlert.sInactiveText 				:= txtEvent_Alert;
 FireAlert.nStateChangeCount				:= 0;
 FireAlert.nActiveTimeElapsed			:= 0;
-FireAlert.nEventClassID					:= EventClasses.LifeSafetySimple;
+FireAlert.nEventClassID					:= EC_ID.NC10;
 FireAlert.stTimeDelay.nToNormal			:= BA2_Param.nDefTimeDelay_ToNormal;
 FireAlert.stTimeDelay.nToAbnormal		:= BA2_Param.nDefTimeDelay_ToAbnormal;
 FireAlert.bAlarmValue					:= TRUE;
 FireAlert.bAcknowledgeRm				:= FALSE;	
-FireAlert.aEventTransitionText[1]		:= Texts.txtAlert;
-FireAlert.aEventTransitionText[2]		:= Texts.txtNone;
-FireAlert.aEventTransitionText[3]		:= Texts.txtNormal;
+FireAlert.aEventTransitionText[1]		:= txtEvent_Alert;
+FireAlert.aEventTransitionText[2]		:= txtEvent_None;
+FireAlert.aEventTransitionText[3]		:= txtEvent_Normal;
 FireAlert.bEventDetectionEnable			:= TRUE;
+FireAlert.aEventEnable[1]				:= TRUE;			//	to_offnormal
+FireAlert.aEventEnable[2]				:= TRUE;			//	to_fault
+FireAlert.aEventEnable[3]				:= TRUE;			//	to_normal
 FireAlert.eEnPlantLock					:= E_BA_LockPriority.eNoLock;	
 
 Bgly.iParent							:= THIS^;
@@ -1940,26 +1946,29 @@ Bgly.sObjectName						:= '{Idx=02}';
 Bgly.sDeviceType						:= '';
 Bgly.bEnOutOfService					:= FALSE;
 Bgly.ePolarity							:= E_BA_Polarity.eReverse;
-Bgly.sActiveText 						:= Texts.txtOn;
-Bgly.sInactiveText 						:= Texts.txtAlert;
+Bgly.sActiveText 						:= txtEvent_On;
+Bgly.sInactiveText 						:= txtEvent_Alert;
 Bgly.nStateChangeCount					:= 0;
 Bgly.nActiveTimeElapsed					:= 0;
-Bgly.nEventClassID						:= EventClasses.LifeSafetySimple;
+Bgly.nEventClassID						:= EC_ID.NC10;
 Bgly.stTimeDelay.nToNormal				:= BA2_Param.nDefTimeDelay_ToNormal;
 Bgly.stTimeDelay.nToAbnormal			:= BA2_Param.nDefTimeDelay_ToAbnormal;
 Bgly.bAlarmValue						:= TRUE;
 Bgly.bAcknowledgeRm						:= FALSE;	
-Bgly.aEventTransitionText[1]			:= Texts.txtAlert;
-Bgly.aEventTransitionText[2]			:= Texts.txtNone;
-Bgly.aEventTransitionText[3]			:= Texts.txtNormal; 
+Bgly.aEventTransitionText[1]			:= txtEvent_Alert;
+Bgly.aEventTransitionText[2]			:= txtEvent_None;
+Bgly.aEventTransitionText[3]			:= txtEvent_Normal; 
 Bgly.bEventDetectionEnable				:= TRUE;
+Bgly.aEventEnable[1]					:= TRUE;			//	to_offnormal
+Bgly.aEventEnable[2]					:= TRUE;			//	to_fault
+Bgly.aEventEnable[3]					:= TRUE;			//	to_normal
 Bgly.eEnPlantLock						:= E_BA_LockPriority.eNoLock;	
                        	
 CentSwiOff.iParent						:= THIS^;
 CentSwiOff.iLabel 						:= LblCmpGeneral.BuildingAlarms_CentSwiOff;	
 CentSwiOff.sObjectName					:= '{Idx=01}';
-CentSwiOff.sInactiveText				:= Texts.txtOff;
-CentSwiOff.sActiveText					:= Texts.txtOn;
+CentSwiOff.sInactiveText				:= txtEvent_Off;
+CentSwiOff.sActiveText					:= txtEvent_On;
 CentSwiOff.bValueRm						:= FALSE;
 CentSwiOff.eToggleMode					:= E_BA_ToggleMode.ePushButton;    ]]></ST>
       </Implementation>
@@ -1978,6 +1987,8 @@ CentSwiOff.eToggleMode					:= E_BA_ToggleMode.ePushButton;    ]]></ST>
       <LineId Id="151" Count="0" />
       <LineId Id="84" Count="1" />
       <LineId Id="157" Count="0" />
+      <LineId Id="167" Count="1" />
+      <LineId Id="166" Count="0" />
       <LineId Id="114" Count="0" />
       <LineId Id="98" Count="3" />
       <LineId Id="140" Count="0" />
@@ -1993,6 +2004,8 @@ CentSwiOff.eToggleMode					:= E_BA_ToggleMode.ePushButton;    ]]></ST>
       <LineId Id="107" Count="0" />
       <LineId Id="53" Count="0" />
       <LineId Id="160" Count="0" />
+      <LineId Id="170" Count="1" />
+      <LineId Id="169" Count="0" />
       <LineId Id="158" Count="0" />
       <LineId Id="86" Count="0" />
       <LineId Id="54" Count="2" />

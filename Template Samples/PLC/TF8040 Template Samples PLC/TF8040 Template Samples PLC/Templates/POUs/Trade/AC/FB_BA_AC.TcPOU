@@ -1,23 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="FB_BA_AC" Id="{64a285cf-7d7b-43d8-885b-5c83d394657c}" SpecialFunc="None">
+  <POU Name="FB_BA_AC" Id="{bdc7bc27-4147-48f1-9968-568ce857494b}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Category' := 'Trade'}
-	{attribute 'Version' := '0.0.1.0'}
-	{attribute 'Tags' := 'Trade, Plant, AC'}
-	{attribute 'Description' := 'Aufruf der Anlagen des Gewerks Klimaanlagen	// Calling the plants of the trade air conditioning'}
+	{attribute 'Version' := '1.2.1.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "Trade, Plant, AC"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "Trade, Plant, AC"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "Site"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Aufruf der Anlagen des Gewerks Klimaanlagen"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Calling the plants of the trade air conditioning"'}
 {endregion}
 FUNCTION_BLOCK FB_BA_AC EXTENDS FB_BA_View
 VAR_INPUT CONSTANT
-	AHU01				: FB_BA_AHU_1St_PrHtr_ErcPl_Col;
+	AHU01				: FB_BA_AHU_1st_10;	
 END_VAR
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-END_VAR
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
       <CFC>
         <XmlArchive>
@@ -25,875 +26,6 @@ END_VAR
             <o xml:space="preserve" t="CFCImplementationObject">
               <o n="Items" t="CFCItemList">
                 <l2 n="InnerList" cet="CFCBoxElement">
-                  <o>
-                    <o n="Inputs" t="CFCItemList">
-                      <l2 n="InnerList" />
-                    </o>
-                    <o n="Outputs" t="CFCItemList">
-                      <l2 n="InnerList" />
-                    </o>
-                    <o n="Texts" t="CFCItemList">
-                      <l2 n="InnerList" cet="CFCText">
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Text">"FB_BA_AHU_1St_PrHtr_ErcPl_Col"</v>
-                          <v n="Modifiable">true</v>
-                          <v n="Id">34L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Text">"AHU01"</v>
-                          <v n="Modifiable">true</v>
-                          <v n="Id">35L</v>
-                        </o>
-                      </l2>
-                    </o>
-                    <o n="Parameters" t="CFCItemList">
-                      <l2 n="InnerList" cet="CFCParameter">
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"PlantCtrl"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">15</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_PlantCtrl"</v>
-                            </o>
-                            <v n="SignatureId">5785</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">36L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"TSeqLink"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iReference := [PreHtr.TSuACtrl.Ctrl, Erc.TSuACtrl.Ctrl, Col.TSuACtrl.Ctrl])"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SequenceLink"</v>
-                            </o>
-                            <v n="SignatureId">5888</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">37L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"FiltExtA"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.AirFilterExtractAir, sObjectName := '[Idx=02]', eDPADMode := E_BA_DPADMode.eInclude, On := STRUCT(eUnit := E_BA_Unit.ePressure_Pascals, fValueRm := 350), Off := STRUCT(eUnit := E_BA_Unit.ePressure_Pascals, fValueRm := 300), Q := STRUCT(iLabel := LabelFunctions.Fault, iProfile := Profiles.BEvt_MntnSimple_DisturbedNoneNormal, bEventDetectionEnable := TRUE))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">12</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_Hys_01"</v>
-                            </o>
-                            <v n="SignatureId">5932</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">38L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"DiffPrssExtAFilt"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.PressureDifferentialExhaustAirFilter, sObjectName := '[Idx=04]', MV := STRUCT(eUnit := E_BA_Unit.ePressure_Pascals, eEnPlantLock := E_BA_LockPriority.eNoLock, fResolution := 0.03051851, fScaleOffset := 0))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SensorAnalog"</v>
-                            </o>
-                            <v n="SignatureId">4129</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">39L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"FiltOuA"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.AirFilterOutsideAir, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude, On := STRUCT(eUnit := E_BA_Unit.ePressure_Pascals, fValueRm := 350), Off := STRUCT(eUnit := E_BA_Unit.ePressure_Pascals, fValueRm := 300), Q := STRUCT(iLabel := LabelFunctions.Fault, iProfile := Profiles.BEvt_MntnSimple_DisturbedNoneNormal, bEventDetectionEnable := TRUE))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">12</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_Hys_01"</v>
-                            </o>
-                            <v n="SignatureId">5932</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">40L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"DiffPrssOuAFilt"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.PressureDifferentialOutsideAirFilter, sObjectName := '[Idx=03]', MV := STRUCT(eUnit := E_BA_Unit.ePressure_Pascals, eEnPlantLock := E_BA_LockPriority.eNoLock, fResolution := 0.03051851, fScaleOffset := 0))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SensorAnalog"</v>
-                            </o>
-                            <v n="SignatureId">4129</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">41L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"SumNgtCol"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.SummerNightCooling, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_AC_SumNgtCol"</v>
-                            </o>
-                            <v n="SignatureId">5556</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">42L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"TCasCtrl"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.CascadeSupplyAirControl, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">20</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_AC_TCasCtrl_01"</v>
-                            </o>
-                            <v n="SignatureId">6510</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">43L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"SpTRm"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.SetpointCalculation, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">17</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_AC_SpTRm_01"</v>
-                            </o>
-                            <v n="SignatureId">6525</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">44L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"OpMod"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.OperationMode, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">17</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_AC_OpMod1St"</v>
-                            </o>
-                            <v n="SignatureId">5537</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">45L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Col"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.Cooler, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eIncludeDescription)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">16</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_AC_ColT_02"</v>
-                            </o>
-                            <v n="SignatureId">6784</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">46L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Erc"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.EnergyRecovery, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eIncludeDescription)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">17</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_AC_ErcPl_02"</v>
-                            </o>
-                            <v n="SignatureId">6796</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">47L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"PreHtr"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.PreHeater, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eIncludeDescription)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">15</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_AC_PreHtr"</v>
-                            </o>
-                            <v n="SignatureId">6395</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">48L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"ExtADiffPrssMonit"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.DifferencePressureMonitoringExtractAirFan, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">15</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_FdbAnalog"</v>
-                            </o>
-                            <v n="SignatureId">5981</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">49L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"ExtAFan"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.FanExtractAir, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">15</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_MotCtlExt"</v>
-                            </o>
-                            <v n="SignatureId">6282</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">50L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"ExtADiffPrss"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.PressureDifferentialExtractAirFan, sObjectName := '[Idx=02]', MV := STRUCT(eUnit := E_BA_Unit.ePressure_Pascals, eEnPlantLock := E_BA_LockPriority.eNoLock, fResolution := 0.03051851, fScaleOffset := 0))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SensorAnalog"</v>
-                            </o>
-                            <v n="SignatureId">4129</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">51L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"ExtAPrss"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.PressureExtractAir, sObjectName := '[Idx=01]', MV := STRUCT(eUnit := E_BA_Unit.ePressure_Pascals, eEnPlantLock := E_BA_LockPriority.eNoLock, fResolution := 0.03051851, fScaleOffset := 0))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SensorAnalog"</v>
-                            </o>
-                            <v n="SignatureId">4129</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">52L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"SuADiffPrssMonit"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.DifferencePressureMonitoringSupplyAirFan, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">15</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_FdbAnalog"</v>
-                            </o>
-                            <v n="SignatureId">5981</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">53L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"SuAFan"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.FanSupplyAir, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">15</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_MotCtlExt"</v>
-                            </o>
-                            <v n="SignatureId">6282</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">54L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"SuADiffPrss"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.PressureDifferentialSupplyAirFan, sObjectName := '[Idx=01]', MV := STRUCT(eUnit := E_BA_Unit.ePressure_Pascals, eEnPlantLock := E_BA_LockPriority.eNoLock, fResolution := 0.03051851, fScaleOffset := 0))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SensorAnalog"</v>
-                            </o>
-                            <v n="SignatureId">4129</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">55L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"SuAPrss"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.PressureSupplyAir, sObjectName := '[Idx=01]', MV := STRUCT(eUnit := E_BA_Unit.ePressure_Pascals, eEnPlantLock := E_BA_LockPriority.eNoLock, fResolution := 0.03051851, fScaleOffset := 0))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SensorAnalog"</v>
-                            </o>
-                            <v n="SignatureId">4129</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">56L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"ExhADmp"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.VentilationDamperExhaustAir, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">11</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_Dmp2P"</v>
-                            </o>
-                            <v n="SignatureId">6218</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">57L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"OuADmp"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.VentilationDamperOutsideAir, sObjectName := '[Idx=01]', eDPADMode := E_BA_DPADMode.eInclude)"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">11</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_Dmp2P"</v>
-                            </o>
-                            <v n="SignatureId">6218</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">58L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"TRm"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.TemperatureRoomAir, sObjectName := '[Idx=01]', MV := STRUCT(eUnit := E_BA_Unit.eTemperature_DegreesCelsius, eEnPlantLock := E_BA_LockPriority.eNoLock, fResolution := 0.01, fScaleOffset := 0))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SensorAnalog"</v>
-                            </o>
-                            <v n="SignatureId">4129</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">59L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"TExtA"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.TemperatureExtractAir, sObjectName := '[Idx=01]', MV := STRUCT(eUnit := E_BA_Unit.eTemperature_DegreesCelsius, eEnPlantLock := E_BA_LockPriority.eNoLock, fResolution := 0.01, fScaleOffset := 0))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SensorAnalog"</v>
-                            </o>
-                            <v n="SignatureId">4129</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">60L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"TSuA"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.TemperatureSupplyAir, sObjectName := '[Idx=01]', MV := STRUCT(eUnit := E_BA_Unit.eTemperature_DegreesCelsius, eEnPlantLock := E_BA_LockPriority.eMedium, fResolution := 0.01, fScaleOffset := 0))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SensorAnalog"</v>
-                            </o>
-                            <v n="SignatureId">4129</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">61L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"TExhA"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.TemperatureExhaustAir, sObjectName := '[Idx=01]', MV := STRUCT(eUnit := E_BA_Unit.eTemperature_DegreesCelsius, eEnPlantLock := E_BA_LockPriority.eNoLock, fResolution := 0.01, fScaleOffset := 0))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SensorAnalog"</v>
-                            </o>
-                            <v n="SignatureId">4129</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">62L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"TOuA"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LabelAggregates.TemperatureOutside, sObjectName := '[Idx=01]', MV := STRUCT(eUnit := E_BA_Unit.eTemperature_DegreesCelsius, eEnPlantLock := E_BA_LockPriority.eNoLock, fResolution := 0.01, fScaleOffset := 0))"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_SensorAnalog"</v>
-                            </o>
-                            <v n="SignatureId">4129</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">63L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"bRebuildSegments"</v>
-                          <n n="Value" />
-                          <n n="InitialValue" />
-                          <o n="Type" t="BoolType">
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">64L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"bAcknowledgeRm"</v>
-                          <n n="Value" />
-                          <n n="InitialValue" />
-                          <o n="Type" t="BoolType">
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">65L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"eNodeType"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"E_BA_NodeType.Automatic"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">13</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"E_BA_NodeType"</v>
-                            </o>
-                            <v n="SignatureId">1058</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">66L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"sDescription"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">11</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"T_MaxString"</v>
-                            </o>
-                            <v n="SignatureId">7450</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">67L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"sObjectName"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">11</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"T_MaxString"</v>
-                            </o>
-                            <v n="SignatureId">7450</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">68L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"eAssignAsTrendRef"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"E_BA_AssignRefMode.eInitByProfile"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">18</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"E_BA_AssignRefMode"</v>
-                            </o>
-                            <v n="SignatureId">1054</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">69L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"sDeviceType"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
-                          <o n="Type" t="StringType">
-                            <n n="SizeExpression" />
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">70L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"nInstanceID"</v>
-                          <n n="Value" />
-                          <n n="InitialValue" />
-                          <o n="Type" t="UDIntType">
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">71L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"bEnShare"</v>
-                          <n n="Value" />
-                          <n n="InitialValue" />
-                          <o n="Type" t="BoolType">
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">72L</v>
-                        </o>
-                      </l2>
-                    </o>
-                    <n n="PreparedParameters" />
-                    <v n="PageArea">0</v>
-                    <v n="Bounds">"8, 8, 0, 0"</v>
-                    <n n="ElementGroupId" />
-                    <v n="EnEno">false</v>
-                    <v n="KindOfCall" t="KindOfCall">FunctionBlock</v>
-                    <v n="ContainsExtensibleInputs">false</v>
-                    <v n="Forced">false</v>
-                    <v n="OwningPageId">-1L</v>
-                    <v n="Id">33L</v>
-                  </o>
                   <o>
                     <o n="Inputs" t="CFCItemList">
                       <l2 n="InnerList" />
@@ -1031,11 +163,952 @@ END_VAR
                     <v n="OwningPageId">-1L</v>
                     <v n="Id">9L</v>
                   </o>
+                  <o>
+                    <o n="Inputs" t="CFCItemList">
+                      <l2 n="InnerList" />
+                    </o>
+                    <o n="Outputs" t="CFCItemList">
+                      <l2 n="InnerList" />
+                    </o>
+                    <o n="Texts" t="CFCItemList">
+                      <l2 n="InnerList" cet="CFCText">
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Text">"FB_BA_AHU_1st_10"</v>
+                          <v n="Modifiable">true</v>
+                          <v n="Id">42L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Text">"AHU01"</v>
+                          <v n="Modifiable">true</v>
+                          <v n="Id">43L</v>
+                        </o>
+                      </l2>
+                    </o>
+                    <o n="Parameters" t="CFCItemList">
+                      <l2 n="InnerList" cet="CFCParameter">
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"stGeneralSettings"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"ST_BA_GeneralSettings"</v>
+                            </o>
+                            <v n="SignatureId">2421</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">124L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"GeneralSettings"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">19</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_RawSubscriber"</v>
+                            </o>
+                            <v n="SignatureId">12622</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">125L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"PlantCtrl"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">15</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_PlantCtrl"</v>
+                            </o>
+                            <v n="SignatureId">12583</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">126L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"Col"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">16</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_AC_ColT_02"</v>
+                            </o>
+                            <v n="SignatureId">14516</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">127L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"Erc"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">17</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_AC_ErcPl_02"</v>
+                            </o>
+                            <v n="SignatureId">14534</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">128L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"PreHtr"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">15</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_AC_PreHtr"</v>
+                            </o>
+                            <v n="SignatureId">14546</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">129L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"TSeqLink"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">18</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SequenceLink"</v>
+                            </o>
+                            <v n="SignatureId">12625</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">130L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"TCasCtrl"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">20</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_AC_TCasCtrl_01"</v>
+                            </o>
+                            <v n="SignatureId">14570</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">131L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"SpTRm"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">17</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_AC_SpTRm_01"</v>
+                            </o>
+                            <v n="SignatureId">14574</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">132L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"ExtADiffPrssMonit"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">15</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_FdbAnalog"</v>
+                            </o>
+                            <v n="SignatureId">14577</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">133L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"ExtAFan"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">15</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_MotCtlExt"</v>
+                            </o>
+                            <v n="SignatureId">14580</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">134L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"ExtADiffPrss"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SensorAnalog_IO"</v>
+                            </o>
+                            <v n="SignatureId">14531</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">135L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"ExtAPrss"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SensorAnalog_IO"</v>
+                            </o>
+                            <v n="SignatureId">14531</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">136L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"ExhADmp"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">11</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_Dmp2P"</v>
+                            </o>
+                            <v n="SignatureId">14583</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">137L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"SuADiffPrssMonit"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">15</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_FdbAnalog"</v>
+                            </o>
+                            <v n="SignatureId">14577</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">138L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"SuAFan"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">15</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_MotCtlExt"</v>
+                            </o>
+                            <v n="SignatureId">14580</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">139L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"SuADiffPrss"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SensorAnalog_IO"</v>
+                            </o>
+                            <v n="SignatureId">14531</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">140L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"SuAPrss"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SensorAnalog_IO"</v>
+                            </o>
+                            <v n="SignatureId">14531</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">141L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"OuADmp"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">11</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_Dmp2P"</v>
+                            </o>
+                            <v n="SignatureId">14583</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">142L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"OpMod"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">17</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_AC_OpMod1St"</v>
+                            </o>
+                            <v n="SignatureId">14589</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">143L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"SumNgtCol"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">18</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_AC_SumNgtCol"</v>
+                            </o>
+                            <v n="SignatureId">14594</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">144L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"FiltExtAMonit"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">12</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_Hys_21"</v>
+                            </o>
+                            <v n="SignatureId">14597</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">145L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"DiffPrssExtAFilt"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SensorAnalog_IO"</v>
+                            </o>
+                            <v n="SignatureId">14531</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">146L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"FiltOuAMonit"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">12</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_Hys_21"</v>
+                            </o>
+                            <v n="SignatureId">14597</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">147L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"DiffPrssOuAFilt"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SensorAnalog_IO"</v>
+                            </o>
+                            <v n="SignatureId">14531</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">148L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"TRm"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SensorAnalog_IO"</v>
+                            </o>
+                            <v n="SignatureId">14531</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">149L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"TExtA"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SensorAnalog_IO"</v>
+                            </o>
+                            <v n="SignatureId">14531</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">150L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"TSuA"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SensorAnalog_IO"</v>
+                            </o>
+                            <v n="SignatureId">14531</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">151L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"TExhA"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SensorAnalog_IO"</v>
+                            </o>
+                            <v n="SignatureId">14531</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">152L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"TOuA"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">21</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_SensorAnalog_IO"</v>
+                            </o>
+                            <v n="SignatureId">14531</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">153L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bRebuildSegments"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">154L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bAcknowledgeRm"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">155L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"eNodeType"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"E_BA_NodeType.Automatic"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">13</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"E_BA_NodeType"</v>
+                            </o>
+                            <v n="SignatureId">-1</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">156L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sTag"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="StringType">
+                            <n n="SizeExpression" />
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">157L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sDescription"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">11</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_MaxString"</v>
+                            </o>
+                            <v n="SignatureId">-1</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">158L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sObjectName"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">11</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_MaxString"</v>
+                            </o>
+                            <v n="SignatureId">-1</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">159L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"eAssignAsTrendRef"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"E_BA_AssignRefMode.eInitByProfile"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">18</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"E_BA_AssignRefMode"</v>
+                            </o>
+                            <v n="SignatureId">-1</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">160L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sDeviceType"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">16</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_BA_SmallString"</v>
+                            </o>
+                            <v n="SignatureId">-1</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">161L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"nInstanceID"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UDIntType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">162L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bEnPublish"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">163L</v>
+                        </o>
+                      </l2>
+                    </o>
+                    <n n="PreparedParameters" />
+                    <v n="PageArea">0</v>
+                    <v n="Bounds">"11, 5, 0, 0"</v>
+                    <n n="ElementGroupId" />
+                    <v n="EnEno">false</v>
+                    <v n="KindOfCall" t="KindOfCall">FunctionBlock</v>
+                    <v n="ContainsExtensibleInputs">false</v>
+                    <v n="Forced">false</v>
+                    <v n="OwningPageId">-1L</v>
+                    <v n="Id">35L</v>
+                  </o>
                 </l2>
               </o>
               <o n="ParameterInitializationMethodGenerator" t="CFCParameterInitializationMethodObject">
-                <v n="GuidPOU">{8bf1e27f-8f89-4e6f-ad71-1edf9aef2f22}</v>
-                <v n="GuidParentObject">{64a285cf-7d7b-43d8-885b-5c83d394657c}</v>
+                <v n="GuidPOU">{9629a5d3-2323-4b7c-ab56-886ffc380f2f}</v>
+                <v n="GuidParentObject">{bdc7bc27-4147-48f1-9968-568ce857494b}</v>
                 <v n="MethodName">"__InitializeParameters_FB_BA_AC"</v>
                 <v n="ReturnType">"BOOL"</v>
               </o>
@@ -1043,8 +1116,8 @@ END_VAR
                 <d2 n="InnerDictionary" />
               </o>
               <v n="AutoSizeCanvas">true</v>
-              <v n="CanvasWidth">24</v>
-              <v n="CanvasHeight">14</v>
+              <v n="CanvasWidth">23</v>
+              <v n="CanvasHeight">11</v>
             </o>
           </Data>
           <TypeList>
@@ -1082,19 +1155,18 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[AHU01.iParent 					:= THIS^;	
-AHU01.sObjectName				:= CONCAT(TxTPlant_Air_handling_unit_sObjectName,'01');											
-AHU01.sDescription				:= TxTPlant_Air_handling_unit_sDescription;							
-AHU01.eDPADMode					:= E_BA_DPADMode.eInclude;
+        <ST><![CDATA[AHU01.iParent 				:= THIS^;	
+AHU01.sObjectName				:= '{PAC01}';											
+AHU01.sDescription			:= '{Partial air-conditioning system}';							
+AHU01.eDPADMode				:= E_BA_DPADMode.eInclude;
 
 AHU01.GeneralSettings.Subject	:= Site.GeneralSettings_Subject;
-AHU01.GeneralSettings.sTarget	:= Site.GeneralSettings_NetId;
-]]></ST>
+AHU01.GeneralSettings.sTarget	:= Site.GeneralSettings_NetId;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_BA_AC.FB_init">
-      <LineId Id="92" Count="6" />
-      <LineId Id="86" Count="0" />
+      <LineId Id="107" Count="5" />
+      <LineId Id="94" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

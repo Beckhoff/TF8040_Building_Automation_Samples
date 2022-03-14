@@ -17,21 +17,21 @@
               "displayName": "Access right",
               "category": "General",
               "displayPriority": 10,
-              "description": "Name of the access right."
+              "description": "Right which this rule defines."
             },
             {
               "name": "group",
               "displayName": "Group",
               "category": "General",
               "displayPriority": 10,
-              "description": "Name of the user group."
+              "description": "Group to which this access right is given."
             },
             {
               "name": "permission",
               "displayName": "Permission",
               "category": "General",
               "displayPriority": 10,
-              "description": "Name of the permission described by this rule."
+              "description": "Permission for this access rule. \nAllow of one group overrides Deny/Inherit of another group. \nDeny will result in deny if we have no Allow of another group. \nInherit will ask parent control when we got no Allow/Deny. If the parent does not define something there will be a specified default."
             }
           ],
           "properties": {
@@ -2530,21 +2530,23 @@
         ],
         "properties": {
           "virtualControlRight": {
-            "description": "Name of the virtual control right.",
+            "description": "Name of the right which is configured on a parent control (aka outer right).",
             "type": "string",
             "minLength": 1
           },
           "controlRight": {
-            "description": "Real control right.",
+            "description": "Name of the right which is working on this control (aka inner right).",
             "type": "string",
             "minLength": 1
           }
         },
+        "description": "Allows a mapping of rights to parent control virtual rights. For example the 'operate' right of this control can be configured to react on a custom 'canStartPump' right of a parent control.",
         "required": [
           "controlRight",
           "virtualControlRight"
         ]
-      }
+      },
+      "description": "Allows a mapping of rights to parent control virtual rights. For example the 'operate' right of this control can be configured to react on a custom 'canStartPump' right of a parent control."
     },
     "Visibility": {
       "type": "string",
@@ -2762,11 +2764,11 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.BaseControl": {
+    "TcHmi.BuildingAutomation.Controls.System.BaseControl": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
       "frameworkControlType": "BaseControl",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.System"
     },
     "TcHmi.BuildingAutomation.ICoordinateXY": {
       "type": "object",
@@ -3310,13 +3312,19 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.TextControl": {
+    "TcHmi.BuildingAutomation.Controls.System.BaseTemplate": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
-      "frameworkControlType": "TextControl",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkControlType": "BaseTemplate",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.System"
     },
-    "TcHmi.BuildingAutomation.Controls.TextControl.TextDecorationLine": {
+    "TcHmi.BuildingAutomation.Controls.System.TextControl": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
+      "frameworkControlType": "TextControl",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.System"
+    },
+    "TcHmi.BuildingAutomation.Controls.System.TextControl.TextDecorationLine": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -3328,7 +3336,7 @@
         "inherit"
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.TextControl.TextDecorationStyle": {
+    "TcHmi.BuildingAutomation.Controls.System.TextControl.TextDecorationStyle": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -3341,7 +3349,7 @@
         "inherit"
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.TextControl.UserSelect": {
+    "TcHmi.BuildingAutomation.Controls.System.TextControl.UserSelect": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -3351,7 +3359,7 @@
         "all"
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.TextControl.TextOverflow": {
+    "TcHmi.BuildingAutomation.Controls.System.TextControl.TextOverflow": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "integer",
       "enum": [
@@ -3374,15 +3382,21 @@
         }
       ]
     },
+    "TcHmi.BuildingAutomation.Controls.System.BaseRoomControl": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
+      "frameworkControlType": "BaseRoomControl",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.System"
+    },
     "TcHmi.BuildingAutomation.Controls.Button": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.TextControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "Button",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
     "TcHmi.BuildingAutomation.Controls.Checkbox": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.TextControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "Checkbox",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -3411,7 +3425,7 @@
     },
     "TcHmi.BuildingAutomation.Controls.ColorPicker": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
       "frameworkControlType": "ColorPicker",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -3547,7 +3561,7 @@
     },
     "TcHmi.BuildingAutomation.Controls.Combobox": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.TextControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "Combobox",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -3597,13 +3611,13 @@
     },
     "TcHmi.BuildingAutomation.Controls.DateTimeField": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.TextControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "DateTimeField",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
     "TcHmi.BuildingAutomation.Controls.InputBox": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.TextControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "InputBox",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -3645,7 +3659,7 @@
     },
     "TcHmi.BuildingAutomationAutomation.Controls.Slider": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.TextControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "Slider",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -3717,7 +3731,7 @@
     },
     "TcHmi.BuildingAutomation.Controls.TabWindow": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "TabWindow",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -3773,13 +3787,13 @@
     },
     "TcHmi.BuildingAutomation.Controls.Textblock": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.TextControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "Textblock",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
     "TcHmi.BuildingAutomation.Controls.Calendar": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "Calendar",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -3801,19 +3815,19 @@
     },
     "TcHmi.BuildingAutomation.Controls.Trend": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "Trend",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
     "TcHmi.BuildingAutomation.Controls.ValueField": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.TextControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "ValueField",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
     "TcHmi.BuildingAutomation.Controls.Scale": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "Scale",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -5076,13 +5090,13 @@
     },
     "TcHmi.BuildingAutomation.Controls.EventList": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "EventList",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
     "TcHmi.BuildingAutomation.Controls.Schedule": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "Schedule",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -5396,15 +5410,15 @@
         ]
       }
     },
-    "TcHmi.BuildingAutomation.Controls": {
+    "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.UiIcon",
       "frameworkControlType": "UiIconFdbStp",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.System"
     },
     "TcHmi.BuildingAutomation.Controls.ProjectNavigationTextual": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "ProjectNavigationTextual",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -5492,7 +5506,7 @@
     },
     "TcHmi.BuildingAutomation.Controls.BulletPointList": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.TextControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "BulletPointList",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -5504,23 +5518,577 @@
         "$ref": "tchmi:general#/definitions/String"
       }
     },
+    "TcHmi.BuildingAutomation.Templates.Universal.Damper": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp",
+      "frameworkControlType": "Damper",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Damper.DisplayMode": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "Type",
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        {
+          "label": "damper",
+          "value": 0
+        },
+        {
+          "label": "fireDamper",
+          "value": 1
+        },
+        {
+          "label": "shutOffValve",
+          "value": 2
+        }
+      ]
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Damper.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "feedback",
+          "displayName": "Feedback",
+          "description": "The feedback of the damper.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "feedback": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "feedback"
+      ]
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Damper.SubTemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "SubTemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "identifier",
+          "displayName": "Identifier",
+          "description": "Identifier of the damper.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "subTemplate",
+          "displayName": "Damper",
+          "description": "The template description of the damper.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "identifier": {
+          "type": "string"
+        },
+        "subTemplate": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Damper.TemplateDescription"
+        }
+      }
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Motor": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp",
+      "frameworkControlType": "Motor",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Motor.DisplayMode": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "Type",
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        {
+          "label": "fan",
+          "value": 0
+        },
+        {
+          "label": "motor",
+          "value": 1
+        },
+        {
+          "label": "pump",
+          "value": 2
+        }
+      ]
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Motor.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "feedback",
+          "displayName": "Feedback",
+          "description": "The feedback of the motor.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "command",
+          "displayName": "Command",
+          "description": "The command of the motor.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "feedback": {
+          "type": "string"
+        },
+        "command": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "command"
+      ]
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Motor.SubTemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "SubTemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "identifier",
+          "displayName": "Identifier",
+          "description": "Identifier of the motor.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "subTemplate",
+          "displayName": "Motor",
+          "description": "The template description of the motor.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "identifier": {
+          "type": "string"
+        },
+        "subTemplate": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Motor.TemplateDescription"
+        }
+      }
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Pump": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp",
+      "frameworkControlType": "Pump",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Pump.DisplayMode": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "Type",
+      "type": "integer",
+      "enum": [
+        0
+      ],
+      "options": [
+        {
+          "label": "pu1st",
+          "value": 0
+        }
+      ]
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Pump.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "feedback",
+          "displayName": "Feedback",
+          "description": "The feedback of the pump.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "command",
+          "displayName": "Command",
+          "description": "The command of the pump.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "feedback": {
+          "type": "string"
+        },
+        "command": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "command"
+      ]
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Pump.SubTemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "SubTemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "identifier",
+          "displayName": "Identifier",
+          "description": "Identifier of the pump.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "subTemplate",
+          "displayName": "Pump",
+          "description": "The template description of the pump.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "identifier": {
+          "type": "string"
+        },
+        "subTemplate": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Pump.TemplateDescription"
+        }
+      }
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Valve": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp",
+      "frameworkControlType": "Valve",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Valve.DisplayMode": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "Type",
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "options": [
+        {
+          "label": "twoDirection_0",
+          "value": 0
+        },
+        {
+          "label": "twoDirection_1",
+          "value": 1
+        },
+        {
+          "label": "twoDirection_2",
+          "value": 2
+        },
+        {
+          "label": "twoDirection_3",
+          "value": 3
+        },
+        {
+          "label": "threeDirection_0",
+          "value": 4
+        },
+        {
+          "label": "threeDirection_1",
+          "value": 5
+        },
+        {
+          "label": "threeDirection_2",
+          "value": 6
+        },
+        {
+          "label": "threeDirection_3",
+          "value": 7
+        }
+      ]
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Valve.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "feedback",
+          "displayName": "Feedback",
+          "description": "The feedback of the valve.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "setpoint",
+          "displayName": "Setpoint",
+          "description": "The setpoint of the valve.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "feedback": {
+          "type": "string"
+        },
+        "setpoint": {
+          "type": "string"
+        }
+      }
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.Valve.SubTemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "SubTemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "identifier",
+          "displayName": "Identifier",
+          "description": "Identifier of the sensor.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "subTemplate",
+          "displayName": "Valve",
+          "description": "The template description of the valve.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "identifier": {
+          "type": "string"
+        },
+        "subTemplate": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Valve.TemplateDescription"
+        }
+      }
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp",
+      "frameworkControlType": "SensorAnalog",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.DisplayMode": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "Type",
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        {
+          "label": "temperature",
+          "value": 0
+        },
+        {
+          "label": "pressure",
+          "value": 1
+        },
+        {
+          "label": "humidity",
+          "value": 2
+        }
+      ]
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "feedback",
+          "displayName": "Feedback",
+          "description": "The feedback of the sensor.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "feedback": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "feedback"
+      ]
+    },
+    "TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "SubTemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "identifier",
+          "displayName": "Identifier",
+          "description": "Identifier of the sensor.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "subTemplate",
+          "displayName": "Sensor Analog",
+          "description": "The template description of the sensor.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "identifier": {
+          "type": "string"
+        },
+        "subTemplate": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.TemplateDescription"
+        }
+      }
+    },
     "TcHmi.BuildingAutomation.Templates.AC.Aggregates.Cooler.FB_BA_AC_ColT_02": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseTemplate",
       "frameworkControlType": "FB_BA_AC_ColT_02",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.AC.Aggregates.Cooler"
     },
+    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.Cooler.FB_BA_AC_ColT_02.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "tempFlow",
+          "displayName": "Flow temperature sensor",
+          "description": "The flow temperature sensor of the cooler.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "tempReturn",
+          "displayName": "Return temperature sensor",
+          "description": "The return temperature sensor of the cooler.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "valve",
+          "displayName": "Valve",
+          "description": "The valve of the cooler.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "tempFlow": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+        },
+        "tempReturn": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+        },
+        "valve": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Valve.SubTemplateDescription"
+        }
+      }
+    },
     "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC.FB_BA_AC_ErcPl_02": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseTemplate",
       "frameworkControlType": "FB_BA_AC_ErcPl_02",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC"
     },
+    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC.FB_BA_AC_ErcPl_02.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "damper",
+          "displayName": "Damper",
+          "description": "The damper of the energy recovery.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "damperBy",
+          "displayName": "Damper Bypass",
+          "description": "The damper bypass of the energy recovery.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "diffPrssSwi",
+          "displayName": "Differential pressure",
+          "description": "The differential pressure of the energy recovery.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "damper": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Damper.SubTemplateDescription"
+        },
+        "damperBy": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Damper.SubTemplateDescription"
+        },
+        "diffPrssSwi": {
+          "type": "string"
+        }
+      }
+    },
     "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC.FB_BA_AC_ErcRot_01": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseTemplate",
       "frameworkControlType": "FB_BA_AC_ErcRot_01",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC"
+    },
+    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC.FB_BA_AC_ErcRot_01.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "diffPrssSwi",
+          "displayName": "Differential pressure",
+          "description": "The differential pressure of the energy recovery.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "motorFdb",
+          "displayName": "Motor feedback",
+          "description": "The motor feedback of the energy recovery.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "diffPrssSwi": {
+          "type": "string"
+        },
+        "motorFdb": {
+          "type": "string"
+        }
+      }
     },
     "TcHmi.BuildingAutomation.Templates.HeatingSystem.Distribution.HeatingCircuit.FB_BA_H_HtgCir01": {
       "type": "object",
@@ -5528,21 +6096,198 @@
       "frameworkControlType": "FB_BA_H_HtgCir01",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.HeatingSystem.Distribution.HeatingCircuit"
     },
-    "TcHmi.BuildingAutomation.Controls.FB_BA_AC_PreHtr": {
+    "TcHmi.BuildingAutomation.Templates.HeatingSystem.Distribution.HeatingCircuit.FB_BA_H_HtgCir01.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "tempFlow",
+          "displayName": "Flow temperature sensor",
+          "description": "The flow temperature sensor of the heating circuit.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "tempReturn",
+          "displayName": "Return temperature sensor",
+          "description": "The return temperature sensor of the heating circuit.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "valve",
+          "displayName": "Valve",
+          "description": "The valve of the heating circuit.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "pump",
+          "displayName": "Pump",
+          "description": "The pump of the heating circuit.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "tempFlowSp",
+          "displayName": "Flow temperature sensor setpoint",
+          "description": "Flow temperature sensor setpoint of the heating circuit.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "tempFlow": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+        },
+        "tempReturn": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+        },
+        "valve": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Valve.SubTemplateDescription"
+        },
+        "pump": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Pump.SubTemplateDescription"
+        },
+        "tempFlowSp": {
+          "type": "string"
+        }
+      }
+    },
+    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.FB_BA_AC_PreHtr": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Templates.HeatingSystem.Distribution.HeatingCircuit.FB_BA_H_HtgCir01",
       "frameworkControlType": "FB_BA_AC_PreHtr",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.AC.Aggregates.PreHeater"
     },
+    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.PreHeater.FB_BA_AC_PreHtr.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "tempFlow",
+          "displayName": "Flow temperature sensor",
+          "description": "The flow temperature sensor of the pre-heater.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "tempReturn",
+          "displayName": "Return temperature sensor",
+          "description": "The return temperature sensor of the pre-heater.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "valve",
+          "displayName": "Valve",
+          "description": "The valve of the pre-heater.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "pump",
+          "displayName": "Pump",
+          "description": "The pump of the pre-heater.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "frostThermostat",
+          "displayName": "Frost thermostat",
+          "description": "The frost thermostat of the pre-heater.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "tFrost",
+          "displayName": "Temperature frost",
+          "description": "The temperature frost of the pre-heater.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "tempFlow": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+        },
+        "tempReturn": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+        },
+        "valve": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Valve.SubTemplateDescription"
+        },
+        "pump": {
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Pump.SubTemplateDescription"
+        },
+        "frostThermostat": {
+          "type": "string"
+        },
+        "tFrost": {
+          "type": "string"
+        }
+      }
+    },
     "TcHmi.BuildingAutomation.Controls.AirConditioning": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseRoomControl",
       "frameworkControlType": "AirConditioning",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
+    "TcHmi.BuildingAutomation.Controls.AirConditioning.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "currentTemperature",
+          "displayName": "Current temperature",
+          "description": "The current temperature.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "temperatureAdjust",
+          "displayName": "Temperature adjustment",
+          "description": "The adjustment of the temperature setpoint.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "controlHeating",
+          "displayName": "Heating controller",
+          "description": "The controller for heating mode.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "controlCooling",
+          "displayName": "Cooling controller",
+          "description": "The controller for cooling mode.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "currentTemperature": {
+          "type": "string"
+        },
+        "temperatureAdjust": {
+          "type": "string"
+        },
+        "controlHeating": {
+          "type": "string"
+        },
+        "controlCooling": {
+          "type": "string"
+        }
+      }
+    },
     "TcHmi.BuildingAutomation.Controls.Light": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseRoomControl",
       "frameworkControlType": "Light",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -5592,9 +6337,58 @@
         }
       ]
     },
+    "TcHmi.BuildingAutomation.Controls.Light.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "command",
+          "displayName": "Command",
+          "description": "The command for the light.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "feedback",
+          "displayName": "Feedback",
+          "description": "The feedback for the light.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "reset",
+          "displayName": "Reset",
+          "description": "The object to reset the light into automatic mode.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "state",
+          "displayName": "State",
+          "description": "The state of the light (autoActive, hand, autoInactive).",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "command": {
+          "type": "string"
+        },
+        "feedback": {
+          "type": "string"
+        },
+        "reset": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        }
+      }
+    },
     "TcHmi.BuildingAutomation.Controls.Sunblind": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseRoomControl",
       "frameworkControlType": "Sunblind",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -5639,9 +6433,68 @@
         }
       ]
     },
+    "TcHmi.BuildingAutomation.Controls.Sunblind.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "positionFeedback",
+          "displayName": "Position feedback",
+          "description": "The position feedback of the sunblind.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "positionCommand",
+          "displayName": "Position command",
+          "description": "The command to set the position of the sunblind.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "angleFeedback",
+          "displayName": "Angle feedback",
+          "description": "The angle feedback of the sunblind.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "angleCommand",
+          "displayName": "Angle command",
+          "description": "The command to set the angle of the sunblind.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "startCommand",
+          "displayName": "Start command",
+          "description": "The command to start the sunblind to move to the angle and position command.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "positionFeedback": {
+          "type": "string"
+        },
+        "positionCommand": {
+          "type": "string"
+        },
+        "angleFeedback": {
+          "type": "string"
+        },
+        "angleCommand": {
+          "type": "string"
+        },
+        "startCommand": {
+          "type": "string"
+        }
+      }
+    },
     "TcHmi.BuildingAutomation.Controls.Window": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseRoomControl",
       "frameworkControlType": "Window",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -5696,9 +6549,48 @@
         }
       ]
     },
+    "TcHmi.BuildingAutomation.Controls.Window.TemplateDescription": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "TemplateDescription",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "commandOpen",
+          "displayName": "Command open",
+          "description": "The command that opens the window.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "commandClose",
+          "displayName": "Command close",
+          "description": "The command that closes the window.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "feedback",
+          "displayName": "Feedback",
+          "description": "The feedback for the window.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "commandOpen": {
+          "type": "string"
+        },
+        "commandClose": {
+          "type": "string"
+        },
+        "feedback": {
+          "type": "string"
+        }
+      }
+    },
     "TcHmi.BuildingAutomation.Controls.RoomControl": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.BaseControl",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "RoomControl",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
@@ -5721,6 +6613,15 @@
                 "category": "BA",
                 "displayPriority": 1,
                 "description": "BaView of the light.",
+                "defaultValue": null,
+                "defaultValueInternal": null
+              },
+              {
+                "name": "baInterface",
+                "displayName": "BaInterface",
+                "category": "BA",
+                "displayPriority": 1,
+                "description": "BaInterface of the light.",
                 "defaultValue": null,
                 "defaultValueInternal": null
               },
@@ -5772,6 +6673,12 @@
             ],
             "properties": {
               "baObject": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "baInterface": {
                 "type": [
                   "string",
                   "null"
@@ -5834,6 +6741,15 @@
                 "category": "BA",
                 "displayPriority": 1,
                 "description": "BaView of the sunblind.",
+                "defaultValue": null,
+                "defaultValueInternal": null
+              },
+              {
+                "name": "baInterface",
+                "displayName": "BaInterface",
+                "category": "BA",
+                "displayPriority": 1,
+                "description": "BaInterface of the sunblind.",
                 "defaultValue": null,
                 "defaultValueInternal": null
               },
@@ -5912,6 +6828,12 @@
             ],
             "properties": {
               "baObject": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "baInterface": {
                 "type": [
                   "string",
                   "null"
@@ -5996,6 +6918,15 @@
                 "defaultValueInternal": null
               },
               {
+                "name": "baInterface",
+                "displayName": "BaInterface",
+                "category": "BA",
+                "displayPriority": 1,
+                "description": "BaInterface of the air conditioning.",
+                "defaultValue": null,
+                "defaultValueInternal": null
+              },
+              {
                 "name": "name",
                 "displayName": "Name",
                 "category": "Common",
@@ -6075,6 +7006,12 @@
                   "null"
                 ]
               },
+              "baInterface": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "name": {
                 "type": [
                   "string",
@@ -6147,7 +7084,16 @@
                 "displayName": "BaObject",
                 "category": "BA",
                 "displayPriority": 1,
-                "description": "BaView of the light.",
+                "description": "BaView of the window.",
+                "defaultValue": null,
+                "defaultValueInternal": null
+              },
+              {
+                "name": "baInterface",
+                "displayName": "BaInterface",
+                "category": "BA",
+                "displayPriority": 1,
+                "description": "BaInterface of the window.",
                 "defaultValue": null,
                 "defaultValueInternal": null
               },
@@ -6231,6 +7177,12 @@
                   "null"
                 ]
               },
+              "baInterface": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
               "name": {
                 "type": [
                   "string",
@@ -6301,176 +7253,6 @@
           }
         ]
       }
-    },
-    "TcHmi.BuildingAutomation.Templates.Universal.Damper": {
-      "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.UiIcon",
-      "frameworkControlType": "Damper",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
-    },
-    "TcHmi.BuildingAutomation.Templates.Universal.Damper.Type": {
-      "$schema": "http://json-schema.org/draft-04/schema",
-      "title": "Type",
-      "type": "integer",
-      "enum": [
-        0,
-        1,
-        2
-      ],
-      "options": [
-        {
-          "label": "damper",
-          "value": 0
-        },
-        {
-          "label": "fireDamper",
-          "value": 1
-        },
-        {
-          "label": "shutOffValve",
-          "value": 2
-        }
-      ]
-    },
-    "TcHmi.BuildingAutomation.Templates.Universal.Motor": {
-      "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.UiIcon",
-      "frameworkControlType": "Motor",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
-    },
-    "TcHmi.BuildingAutomation.Templates.Universal.Motor.DisplayMode": {
-      "$schema": "http://json-schema.org/draft-04/schema",
-      "title": "Type",
-      "type": "integer",
-      "enum": [
-        0,
-        1,
-        2
-      ],
-      "options": [
-        {
-          "label": "fan",
-          "value": 0
-        },
-        {
-          "label": "pump",
-          "value": 1
-        },
-        {
-          "label": "motor",
-          "value": 2
-        }
-      ]
-    },
-    "TcHmi.BuildingAutomation.Templates.Universal.Pump": {
-      "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.UiIcon",
-      "frameworkControlType": "Pump",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
-    },
-    "TcHmi.BuildingAutomation.Templates.Universal.Pump.Type": {
-      "$schema": "http://json-schema.org/draft-04/schema",
-      "title": "Type",
-      "type": "integer",
-      "enum": [
-        0,
-        1
-      ],
-      "options": [
-        {
-          "label": "pu1st[Ex]",
-          "value": 0
-        },
-        {
-          "label": "puCtl",
-          "value": 1
-        }
-      ]
-    },
-    "TcHmi.BuildingAutomation.Templates.Universal.Valve": {
-      "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.UiIconFdbStp",
-      "frameworkControlType": "Valve",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
-    },
-    "TcHmi.BuildingAutomation.Templates.Universal.Valve.DisplayMode": {
-      "$schema": "http://json-schema.org/draft-04/schema",
-      "title": "Type",
-      "type": "integer",
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7
-      ],
-      "options": [
-        {
-          "label": "twoPoint_0",
-          "value": 0
-        },
-        {
-          "label": "twoPoint_1",
-          "value": 1
-        },
-        {
-          "label": "twoPoint_2",
-          "value": 2
-        },
-        {
-          "label": "twoPoint_3",
-          "value": 3
-        },
-        {
-          "label": "threePoint_0",
-          "value": 4
-        },
-        {
-          "label": "threePoint_1",
-          "value": 5
-        },
-        {
-          "label": "threePoint_2",
-          "value": 6
-        },
-        {
-          "label": "threePoint_3",
-          "value": 7
-        }
-      ]
-    },
-    "TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog": {
-      "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.UiIconFdbStp",
-      "frameworkControlType": "SensorAnalog",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
-    },
-    "TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.DisplayMode": {
-      "$schema": "http://json-schema.org/draft-04/schema",
-      "title": "Type",
-      "type": "integer",
-      "enum": [
-        0,
-        1,
-        2
-      ],
-      "options": [
-        {
-          "label": "Temperature",
-          "value": 0
-        },
-        {
-          "label": "Pressure",
-          "value": 1
-        },
-        {
-          "label": "Humidity",
-          "value": 2
-        }
-      ]
     },
     "TcHmi.BuildingAutomation.Controls.Paginator": {
       "type": "object",
@@ -6870,18 +7652,18 @@
       "description": "List Item List",
       "type": "object",
       "engineeringColumns": [
-        "index",
+        "id",
         "text",
         "value",
         "category"
       ],
       "propertiesMeta": [
         {
-          "name": "index",
-          "displayName": "Index",
+          "name": "id",
+          "displayName": "ID",
           "category": "General",
           "displayPriority": 10,
-          "description": "Index for this entry",
+          "description": "Numerical ID for this entry. Can be chosen freely, but must be unique.",
           "defaultValue": null,
           "defaultValueInternal": null
         },
@@ -6914,7 +7696,7 @@
         }
       ],
       "properties": {
-        "index": {
+        "id": {
           "type": "number"
         },
         "text": {
@@ -7593,6 +8375,30 @@
     },
     "TcHmiEventLine": {
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiEventLine"
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiFileExplorer": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkControlType": "TcHmiFileExplorer",
+      "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiFileExplorer.MenuBarPosition": {
+      "type": "string",
+      "enum": [
+        "Top",
+        "Bottom"
+      ],
+      "default": "Top"
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiFileExplorer.NameArray": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "TcHmiFileExplorer": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiFileExplorer"
     },
     "TcHmi.Controls.Beckhoff.TcHmiHorizontalBarChart": {
       "$schema": "http://json-schema.org/draft-04/schema",

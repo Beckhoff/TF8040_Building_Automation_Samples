@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="FB_BA_CombinationBI_BV" Id="{db85824a-afeb-434e-914f-ee9f2a087abc}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_BA_CombinationBI_BV" Id="{508d4e5b-5bfa-4bc6-bdfb-44d09179e178}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '0.0.1.0'}
+	{attribute 'Version' := '1.2.1.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "Universal, Sensor, BI, BV"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "Universal, Sensor, BI, BV"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "EC_AMEV"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "BA2_Param"'}
 	{attribute 'Description' := '"LCID": "1031", "Text": "Kombination aus BV BI"'}
 	{attribute 'Description' := '"LCID": "1033", "Text": "Combination of BV BI"'}
 {endregion}	 
@@ -488,8 +490,8 @@ END_VAR]]></Declaration>
                 </l2>
               </o>
               <o n="ParameterInitializationMethodGenerator" t="CFCParameterInitializationMethodObject">
-                <v n="GuidPOU">{e0610c12-91d2-4d9f-a44b-9f6048d5af88}</v>
-                <v n="GuidParentObject">{db85824a-afeb-434e-914f-ee9f2a087abc}</v>
+                <v n="GuidPOU">{4fe9d23f-2a01-4da7-b52c-853b49bd4cfa}</v>
+                <v n="GuidParentObject">{508d4e5b-5bfa-4bc6-bdfb-44d09179e178}</v>
                 <v n="MethodName">"__InitializeParameters_FB_BA_CombinationBI_BV"</v>
                 <v n="ReturnType">"BOOL"</v>
               </o>
@@ -595,7 +597,7 @@ END_VAR]]></Declaration>
         </XmlArchive>
       </CFC>
     </Implementation>
-    <Method Name="FB_init" Id="{62af4ccf-a83f-474b-92f1-193c092f017d}">
+    <Method Name="FB_init" Id="{c4ebce43-1cde-4c84-af0d-abf189858639}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -604,31 +606,34 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Input.iParent						:= THIS^;
-Input.iLabel						:= LblFunctions.Button;	
+Input.iLabel						:= LblFunctions_Button;	
 Input.sObjectName					:= '{Idx=01}';
 Input.sDeviceType					:= '';	
 Input.bEnOutOfService				:= FALSE;
 Input.ePolarity						:= E_BA_Polarity.eReverse;
-Input.sActiveText 					:= Texts.txtOn;
-Input.sInactiveText 				:= Texts.txtOff;
+Input.sActiveText 					:= txtEvent_On;
+Input.sInactiveText 				:= txtEvent_Off;
 Input.nStateChangeCount				:= 0;
 Input.nActiveTimeElapsed			:= 0;
-Input.nEventClassID					:= EventClasses.NotificationSimple;
+Input.nEventClassID					:= EC_ID.NC80;
 Input.stTimeDelay.nToNormal			:= BA2_Param.nDefTimeDelay_ToNormal;
 Input.stTimeDelay.nToAbnormal		:= BA2_Param.nDefTimeDelay_ToAbnormal;
 Input.bAlarmValue					:= TRUE;
 Input.bAcknowledgeRm				:= FALSE;		
-Input.aEventTransitionText[1]		:= Texts.txtOff;
-Input.aEventTransitionText[2]		:= Texts.txtNone;
-Input.aEventTransitionText[3]		:= Texts.txtOn;
+Input.aEventTransitionText[1]		:= txtEvent_Off;
+Input.aEventTransitionText[2]		:= txtEvent_None;
+Input.aEventTransitionText[3]		:= txtEvent_On;
 Input.bEventDetectionEnable			:= FALSE;
+Input.aEventEnable[1]				:= TRUE;			//	to_offnormal
+Input.aEventEnable[2]				:= TRUE;			//	to_fault
+Input.aEventEnable[3]				:= TRUE;			//	to_normal
 Input.eEnPlantLock					:= E_BA_LockPriority.eNoLock;	
 
 Value.iParent						:= THIS^;		
-Value.iLabel 						:= LblFunctions.Button;	
+Value.iLabel 						:= LblFunctions_Button;	
 Value.sObjectName					:= '{Idx=02}';	
-Value.sActiveText					:= Texts.txtOn;
-Value.sInactiveText					:= Texts.txtOff;
+Value.sActiveText					:= txtEvent_On;
+Value.sInactiveText					:= txtEvent_Off;
 Value.bValueRm						:= FALSE;
 Value.eToggleMode 					:= E_BA_ToggleMode.eSwitch;	]]></ST>
       </Implementation>
@@ -644,6 +649,8 @@ Value.eToggleMode 					:= E_BA_ToggleMode.eSwitch;	]]></ST>
       <LineId Id="156" Count="0" />
       <LineId Id="114" Count="2" />
       <LineId Id="160" Count="0" />
+      <LineId Id="350" Count="1" />
+      <LineId Id="349" Count="0" />
       <LineId Id="103" Count="0" />
       <LineId Id="124" Count="0" />
       <LineId Id="89" Count="2" />

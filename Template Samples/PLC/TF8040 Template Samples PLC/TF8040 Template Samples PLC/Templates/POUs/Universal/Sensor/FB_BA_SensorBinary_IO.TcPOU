@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="FB_BA_SensorBinary_IO" Id="{76c0595d-8ad6-4d23-9130-71f93f5c28a2}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_BA_SensorBinary_IO" Id="{351c177c-9a4e-4a8e-aadf-6eb9f0c15671}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '0.0.1.0'}
+	{attribute 'Version' := '1.2.1.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "Universal, Sensor, BI"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "Universal, Sensor, BI"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "EC_AMEV"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "BA2_Param"'}
 	{attribute 'Description' := '"LCID": "1031", "Text": "BI mit IO"'}
 	{attribute 'Description' := '"LCID": "1033", "Text": "BI with IO"'}
 {endregion}		 
@@ -241,7 +243,7 @@ END_VAR]]></Declaration>
         </XmlArchive>
       </CFC>
     </Implementation>
-    <Method Name="FB_init" Id="{2dbb9e34-6250-448e-8ddc-49479a7d4711}">
+    <Method Name="FB_init" Id="{5723bee6-d90c-439c-b89b-12c34b11abea}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -255,19 +257,22 @@ Input.sObjectName					:= '{Idx=01}';
 Input.sDeviceType					:= '';
 Input.bEnOutOfService				:= FALSE;
 Input.ePolarity						:= E_BA_Polarity.eReverse;
-Input.sActiveText 					:= Texts.txtTriggered;
-Input.sInactiveText 				:= Texts.txtNormal;
+Input.sActiveText 					:= txtEvent_Triggered;
+Input.sInactiveText 				:= txtEvent_Normal;
 Input.nStateChangeCount				:= 0;
 Input.nActiveTimeElapsed			:= 0;
-Input.nEventClassID					:= EventClasses.AlarmTechnicalExtended;
+Input.nEventClassID					:= EC_ID.NC30;
 Input.stTimeDelay.nToNormal			:= BA2_Param.nDefTimeDelay_ToNormal;
 Input.stTimeDelay.nToAbnormal		:= BA2_Param.nDefTimeDelay_ToAbnormal;
 Input.bAlarmValue					:= TRUE;
 Input.bAcknowledgeRm				:= FALSE;		
-Input.aEventTransitionText[1]		:= Texts.txtTriggered;
-Input.aEventTransitionText[2]		:= Texts.txtError;
-Input.aEventTransitionText[3]		:= Texts.txtNormal;
+Input.aEventTransitionText[1]		:= txtEvent_Triggered;
+Input.aEventTransitionText[2]		:= txtEvent_Error;
+Input.aEventTransitionText[3]		:= txtEvent_Normal;
 Input.bEventDetectionEnable			:= TRUE;
+Input.aEventEnable[1]				:= TRUE;			//	to_offnormal
+Input.aEventEnable[2]				:= TRUE;			//	to_fault
+Input.aEventEnable[3]				:= TRUE;			//	to_normal
 Input.eEnPlantLock					:= E_BA_LockPriority.eNoLock;	]]></ST>
       </Implementation>
     </Method>
@@ -287,6 +292,8 @@ Input.eEnPlantLock					:= E_BA_LockPriority.eNoLock;	]]></ST>
       <LineId Id="514" Count="0" />
       <LineId Id="345" Count="0" />
       <LineId Id="349" Count="2" />
+      <LineId Id="521" Count="1" />
+      <LineId Id="520" Count="0" />
       <LineId Id="348" Count="0" />
     </LineIds>
   </POU>

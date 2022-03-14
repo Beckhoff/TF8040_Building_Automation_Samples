@@ -1,21 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="FB_BA_EvtGroups" Id="{bda43ea1-9ea6-4806-bc94-d4e5318a7eba}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_BA_EvtGroups" Id="{a16d9c8f-b06b-4288-928b-c49f378d4c72}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '0.0.1.0'}
+	{attribute 'Version' := '1.2.2.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "General, Cabinet, Control cabinet, Event groups, Categories, Notification classes, Event classes"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "General, Cabinet, Control cabinet, Event groups, Categories, Notification classes, Event classes"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "EC_AMEV"'}
 	{attribute 'Description' := '"LCID": "1031", "Text": "Ereignisgruppen, Kategorien"'}
 	{attribute 'Description' := '"LCID": "1033", "Text": "Event groups, categories"'}
 {endregion}
 FUNCTION_BLOCK FB_BA_EvtGroups EXTENDS FB_BA_View
 VAR_INPUT CONSTANT
-	LifeSafety						: FB_BA_EvtCategory_SimpStandExt;
-	AlarmTechnical					: FB_BA_EvtCategory_SimpStandExt;
-	Disturbance						: FB_BA_EvtCategory_SimpStandExt;
-	Maintenance						: FB_BA_EvtCategory_SimpStandExt;
-	Notification					: FB_BA_EvtCategory_SimpStand;
-	Other							: FB_BA_EvtCategory_SimpStand;
+	LifeSafety						: FB_BA_EvtCategory;
+	SafetyMsg						: FB_BA_EvtCategory;
+	AlarmMsg						: FB_BA_EvtCategory;
+	FaultMsg						: FB_BA_EvtCategory;
+	MaintenanceMsg01				: FB_BA_EvtCategory;
+	MaintenanceMsg02				: FB_BA_EvtCategory;
+	SystemMsg						: FB_BA_EvtCategory;
+	ManualOp						: FB_BA_EvtCategory;
+	OtherMsg						: FB_BA_EvtCategory;
 END_VAR]]></Declaration>
     <Implementation>
       <CFC>
@@ -184,7 +188,7 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"FB_BA_EvtCategory_SimpStandExt"</v>
+                          <v n="Text">"FB_BA_EvtCategory"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">2888L</v>
                         </o>
@@ -202,9 +206,9 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Identifier">"Extended"</v>
+                          <v n="Identifier">"EC"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassExtended, nInstanceID := EventClasses.LifeSafetyExtended, sObjectName := 'Idx=10]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eExtended, aPriority := [16, 17, 18])"</v>
+                          <n n="InitialValue" />
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -216,60 +220,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"FB_BA_EC"</v>
                             </o>
-                            <v n="SignatureId">6969</v>
+                            <v n="SignatureId">7910</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2890L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Standard"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassStandard, nInstanceID := EventClasses.LifeSafetyStandard, sObjectName := 'Idx=11]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eStandard, aPriority := [13, 14, 15])"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">8</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_EC"</v>
-                            </o>
-                            <v n="SignatureId">6969</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2891L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Simple"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassSimple, nInstanceID := EventClasses.LifeSafetySimple, sObjectName := 'Idx=12]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eSimple, aPriority := [10, 11, 12])"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">8</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_EC"</v>
-                            </o>
-                            <v n="SignatureId">6969</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2892L</v>
+                          <v n="Id">3259L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -281,7 +237,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2893L</v>
+                          <v n="Id">3260L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -293,7 +249,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2894L</v>
+                          <v n="Id">3261L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -312,12 +268,25 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_NodeType"</v>
                             </o>
-                            <v n="SignatureId">1263</v>
+                            <v n="SignatureId">1565</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2895L</v>
+                          <v n="Id">3262L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sTag"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="StringType">
+                            <n n="SizeExpression" />
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3263L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -336,12 +305,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2896L</v>
+                          <v n="Id">3264L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -360,12 +329,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2897L</v>
+                          <v n="Id">3265L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -384,12 +353,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_AssignRefMode"</v>
                             </o>
-                            <v n="SignatureId">1233</v>
+                            <v n="SignatureId">1561</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2898L</v>
+                          <v n="Id">3266L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -397,12 +366,23 @@ END_VAR]]></Declaration>
                           <v n="Identifier">"sDeviceType"</v>
                           <n n="Value" />
                           <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
-                          <o n="Type" t="StringType">
-                            <n n="SizeExpression" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">16</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_BA_SmallString"</v>
+                            </o>
+                            <v n="SignatureId">3726</v>
+                            <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2899L</v>
+                          <v n="Id">3267L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -414,7 +394,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2900L</v>
+                          <v n="Id">3268L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -426,7 +406,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">2901L</v>
+                          <v n="Id">3269L</v>
                         </o>
                       </l2>
                     </o>
@@ -453,14 +433,14 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"FB_BA_EvtCategory_SimpStandExt"</v>
+                          <v n="Text">"FB_BA_EvtCategory"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">3074L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"AlarmTechnical"</v>
+                          <v n="Text">"SafetyMsg"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">3075L</v>
                         </o>
@@ -471,9 +451,9 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Identifier">"Extended"</v>
+                          <v n="Identifier">"EC"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassExtended, nInstanceID := EventClasses.LifeSafetyExtended, sObjectName := 'Idx=10]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eExtended, aPriority := [16, 17, 18])"</v>
+                          <n n="InitialValue" />
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -485,60 +465,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"FB_BA_EC"</v>
                             </o>
-                            <v n="SignatureId">6969</v>
+                            <v n="SignatureId">7910</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3076L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Standard"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassStandard, nInstanceID := EventClasses.LifeSafetyStandard, sObjectName := 'Idx=11]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eStandard, aPriority := [13, 14, 15])"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">8</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_EC"</v>
-                            </o>
-                            <v n="SignatureId">6969</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3077L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Simple"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassSimple, nInstanceID := EventClasses.LifeSafetySimple, sObjectName := 'Idx=12]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eSimple, aPriority := [10, 11, 12])"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">8</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_EC"</v>
-                            </o>
-                            <v n="SignatureId">6969</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3078L</v>
+                          <v n="Id">3293L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -550,7 +482,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3079L</v>
+                          <v n="Id">3294L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -562,7 +494,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3080L</v>
+                          <v n="Id">3295L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -581,12 +513,25 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_NodeType"</v>
                             </o>
-                            <v n="SignatureId">1263</v>
+                            <v n="SignatureId">1565</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3081L</v>
+                          <v n="Id">3296L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sTag"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="StringType">
+                            <n n="SizeExpression" />
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3297L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -605,12 +550,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3082L</v>
+                          <v n="Id">3298L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -629,12 +574,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3083L</v>
+                          <v n="Id">3299L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -653,12 +598,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_AssignRefMode"</v>
                             </o>
-                            <v n="SignatureId">1233</v>
+                            <v n="SignatureId">1561</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3084L</v>
+                          <v n="Id">3300L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -666,12 +611,23 @@ END_VAR]]></Declaration>
                           <v n="Identifier">"sDeviceType"</v>
                           <n n="Value" />
                           <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
-                          <o n="Type" t="StringType">
-                            <n n="SizeExpression" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">16</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_BA_SmallString"</v>
+                            </o>
+                            <v n="SignatureId">3726</v>
+                            <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3085L</v>
+                          <v n="Id">3301L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -683,7 +639,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3086L</v>
+                          <v n="Id">3302L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -695,7 +651,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3087L</v>
+                          <v n="Id">3303L</v>
                         </o>
                       </l2>
                     </o>
@@ -722,14 +678,14 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"FB_BA_EvtCategory_SimpStandExt"</v>
+                          <v n="Text">"FB_BA_EvtCategory"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">3104L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"Disturbance"</v>
+                          <v n="Text">"AlarmMsg"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">3105L</v>
                         </o>
@@ -740,9 +696,9 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Identifier">"Extended"</v>
+                          <v n="Identifier">"EC"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassExtended, nInstanceID := EventClasses.LifeSafetyExtended, sObjectName := 'Idx=10]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eExtended, aPriority := [16, 17, 18])"</v>
+                          <n n="InitialValue" />
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -754,60 +710,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"FB_BA_EC"</v>
                             </o>
-                            <v n="SignatureId">6969</v>
+                            <v n="SignatureId">7910</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3106L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Standard"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassStandard, nInstanceID := EventClasses.LifeSafetyStandard, sObjectName := 'Idx=11]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eStandard, aPriority := [13, 14, 15])"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">8</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_EC"</v>
-                            </o>
-                            <v n="SignatureId">6969</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3107L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Simple"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassSimple, nInstanceID := EventClasses.LifeSafetySimple, sObjectName := 'Idx=12]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eSimple, aPriority := [10, 11, 12])"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">8</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_EC"</v>
-                            </o>
-                            <v n="SignatureId">6969</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3108L</v>
+                          <v n="Id">3425L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -819,7 +727,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3109L</v>
+                          <v n="Id">3426L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -831,7 +739,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3110L</v>
+                          <v n="Id">3427L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -850,12 +758,25 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_NodeType"</v>
                             </o>
-                            <v n="SignatureId">1263</v>
+                            <v n="SignatureId">1565</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3111L</v>
+                          <v n="Id">3428L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sTag"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="StringType">
+                            <n n="SizeExpression" />
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3429L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -874,12 +795,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3112L</v>
+                          <v n="Id">3430L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -898,12 +819,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3113L</v>
+                          <v n="Id">3431L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -922,12 +843,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_AssignRefMode"</v>
                             </o>
-                            <v n="SignatureId">1233</v>
+                            <v n="SignatureId">1561</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3114L</v>
+                          <v n="Id">3432L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -935,12 +856,23 @@ END_VAR]]></Declaration>
                           <v n="Identifier">"sDeviceType"</v>
                           <n n="Value" />
                           <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
-                          <o n="Type" t="StringType">
-                            <n n="SizeExpression" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">16</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_BA_SmallString"</v>
+                            </o>
+                            <v n="SignatureId">3726</v>
+                            <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3115L</v>
+                          <v n="Id">3433L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -952,7 +884,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3116L</v>
+                          <v n="Id">3434L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -964,7 +896,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3117L</v>
+                          <v n="Id">3435L</v>
                         </o>
                       </l2>
                     </o>
@@ -991,14 +923,14 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"FB_BA_EvtCategory_SimpStandExt"</v>
+                          <v n="Text">"FB_BA_EvtCategory"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">3089L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"Maintenance"</v>
+                          <v n="Text">"FaultMsg"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">3090L</v>
                         </o>
@@ -1009,9 +941,9 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Identifier">"Extended"</v>
+                          <v n="Identifier">"EC"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassExtended, nInstanceID := EventClasses.LifeSafetyExtended, sObjectName := 'Idx=10]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eExtended, aPriority := [16, 17, 18])"</v>
+                          <n n="InitialValue" />
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -1023,60 +955,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"FB_BA_EC"</v>
                             </o>
-                            <v n="SignatureId">6969</v>
+                            <v n="SignatureId">7910</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3091L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Standard"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassStandard, nInstanceID := EventClasses.LifeSafetyStandard, sObjectName := 'Idx=11]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eStandard, aPriority := [13, 14, 15])"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">8</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_EC"</v>
-                            </o>
-                            <v n="SignatureId">6969</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3092L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Simple"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassSimple, nInstanceID := EventClasses.LifeSafetySimple, sObjectName := 'Idx=12]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eSimple, aPriority := [10, 11, 12])"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">8</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_EC"</v>
-                            </o>
-                            <v n="SignatureId">6969</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3093L</v>
+                          <v n="Id">3392L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1088,7 +972,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3094L</v>
+                          <v n="Id">3393L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1100,7 +984,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3095L</v>
+                          <v n="Id">3394L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1119,12 +1003,25 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_NodeType"</v>
                             </o>
-                            <v n="SignatureId">1263</v>
+                            <v n="SignatureId">1565</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3096L</v>
+                          <v n="Id">3395L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sTag"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="StringType">
+                            <n n="SizeExpression" />
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3396L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1143,12 +1040,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3097L</v>
+                          <v n="Id">3397L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1167,12 +1064,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3098L</v>
+                          <v n="Id">3398L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1191,12 +1088,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_AssignRefMode"</v>
                             </o>
-                            <v n="SignatureId">1233</v>
+                            <v n="SignatureId">1561</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3099L</v>
+                          <v n="Id">3399L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1204,12 +1101,23 @@ END_VAR]]></Declaration>
                           <v n="Identifier">"sDeviceType"</v>
                           <n n="Value" />
                           <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
-                          <o n="Type" t="StringType">
-                            <n n="SizeExpression" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">16</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_BA_SmallString"</v>
+                            </o>
+                            <v n="SignatureId">3726</v>
+                            <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3100L</v>
+                          <v n="Id">3400L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1221,7 +1129,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3101L</v>
+                          <v n="Id">3401L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1233,7 +1141,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3102L</v>
+                          <v n="Id">3402L</v>
                         </o>
                       </l2>
                     </o>
@@ -1260,14 +1168,14 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"FB_BA_EvtCategory_SimpStand"</v>
+                          <v n="Text">"FB_BA_EvtCategory"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">3119L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"Notification"</v>
+                          <v n="Text">"MaintenanceMsg01"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">3120L</v>
                         </o>
@@ -1278,9 +1186,9 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Identifier">"Standard"</v>
+                          <v n="Identifier">"EC"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassStandard, nInstanceID := EventClasses.LifeSafetyStandard, sObjectName := 'Idx=11]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eStandard, aPriority := [13, 14, 15])"</v>
+                          <n n="InitialValue" />
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -1292,36 +1200,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"FB_BA_EC"</v>
                             </o>
-                            <v n="SignatureId">6969</v>
+                            <v n="SignatureId">7910</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3170L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Simple"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassSimple, nInstanceID := EventClasses.LifeSafetySimple, sObjectName := 'Idx=12]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eSimple, aPriority := [10, 11, 12])"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">8</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_EC"</v>
-                            </o>
-                            <v n="SignatureId">6969</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3171L</v>
+                          <v n="Id">3359L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1333,7 +1217,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3172L</v>
+                          <v n="Id">3360L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1345,7 +1229,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3173L</v>
+                          <v n="Id">3361L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1364,12 +1248,25 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_NodeType"</v>
                             </o>
-                            <v n="SignatureId">1263</v>
+                            <v n="SignatureId">1565</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3174L</v>
+                          <v n="Id">3362L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sTag"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="StringType">
+                            <n n="SizeExpression" />
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3363L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1388,12 +1285,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3175L</v>
+                          <v n="Id">3364L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1412,12 +1309,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3176L</v>
+                          <v n="Id">3365L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1436,12 +1333,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_AssignRefMode"</v>
                             </o>
-                            <v n="SignatureId">1233</v>
+                            <v n="SignatureId">1561</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3177L</v>
+                          <v n="Id">3366L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1449,12 +1346,23 @@ END_VAR]]></Declaration>
                           <v n="Identifier">"sDeviceType"</v>
                           <n n="Value" />
                           <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
-                          <o n="Type" t="StringType">
-                            <n n="SizeExpression" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">16</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_BA_SmallString"</v>
+                            </o>
+                            <v n="SignatureId">3726</v>
+                            <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3178L</v>
+                          <v n="Id">3367L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1466,7 +1374,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3179L</v>
+                          <v n="Id">3368L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1478,13 +1386,13 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3180L</v>
+                          <v n="Id">3369L</v>
                         </o>
                       </l2>
                     </o>
                     <n n="PreparedParameters" />
                     <v n="PageArea">0</v>
-                    <v n="Bounds">"3, 28, 0, 0"</v>
+                    <v n="Bounds">"3, 29, 0, 0"</v>
                     <n n="ElementGroupId" />
                     <v n="EnEno">false</v>
                     <v n="KindOfCall" t="KindOfCall">FunctionBlock</v>
@@ -1505,14 +1413,14 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"FB_BA_EvtCategory_SimpStand"</v>
+                          <v n="Text">"FB_BA_EvtCategory"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">3134L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"Other"</v>
+                          <v n="Text">"MaintenanceMsg02"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">3135L</v>
                         </o>
@@ -1523,9 +1431,9 @@ END_VAR]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Identifier">"Standard"</v>
+                          <v n="Identifier">"EC"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassStandard, nInstanceID := EventClasses.LifeSafetyStandard, sObjectName := 'Idx=11]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eStandard, aPriority := [13, 14, 15])"</v>
+                          <n n="InitialValue" />
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -1537,36 +1445,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"FB_BA_EC"</v>
                             </o>
-                            <v n="SignatureId">6969</v>
+                            <v n="SignatureId">7910</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3203L</v>
-                        </o>
-                        <o>
-                          <v n="Bounds">"0, 0, 0, 0"</v>
-                          <n n="ElementGroupId" />
-                          <v n="Identifier">"Simple"</v>
-                          <n n="Value" />
-                          <v n="InitialValue">"STRUCT(iParent := THIS^, iLabel := LblControl.EvtClassSimple, nInstanceID := EventClasses.LifeSafetySimple, sObjectName := 'Idx=12]', eEventType := E_BA_EventType.eAlarm, eAlarmMode := E_BA_AlarmMode.eSimple, aPriority := [10, 11, 12])"</v>
-                          <o n="Type" t="UserdefType">
-                            <o n="TypeDef" t="VariableExpression">
-                              <n n="Type" />
-                              <v n="Length" t="Int16">8</v>
-                              <v n="VariableId">-1</v>
-                              <v n="SignatureId">-1</v>
-                              <v n="ScopeId">-1</v>
-                              <v n="PositionToSave">-1L</v>
-                              <a n="MessagesToSave" et="CompilerMessage" />
-                              <v n="Name">"FB_BA_EC"</v>
-                            </o>
-                            <v n="SignatureId">6969</v>
-                            <v n="ScopeId">-1</v>
-                            <v n="Compiled">false</v>
-                          </o>
-                          <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3204L</v>
+                          <v n="Id">3326L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1578,7 +1462,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3205L</v>
+                          <v n="Id">3327L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1590,7 +1474,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3206L</v>
+                          <v n="Id">3328L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1609,12 +1493,25 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_NodeType"</v>
                             </o>
-                            <v n="SignatureId">1263</v>
+                            <v n="SignatureId">1565</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3207L</v>
+                          <v n="Id">3329L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sTag"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="StringType">
+                            <n n="SizeExpression" />
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3330L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1633,12 +1530,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3208L</v>
+                          <v n="Id">3331L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1657,12 +1554,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">3632</v>
+                            <v n="SignatureId">4553</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3209L</v>
+                          <v n="Id">3332L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1681,12 +1578,12 @@ END_VAR]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_AssignRefMode"</v>
                             </o>
-                            <v n="SignatureId">1233</v>
+                            <v n="SignatureId">1561</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3210L</v>
+                          <v n="Id">3333L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1694,12 +1591,23 @@ END_VAR]]></Declaration>
                           <v n="Identifier">"sDeviceType"</v>
                           <n n="Value" />
                           <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
-                          <o n="Type" t="StringType">
-                            <n n="SizeExpression" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">16</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_BA_SmallString"</v>
+                            </o>
+                            <v n="SignatureId">3726</v>
+                            <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3211L</v>
+                          <v n="Id">3334L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1711,7 +1619,7 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3212L</v>
+                          <v n="Id">3335L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1723,13 +1631,13 @@ END_VAR]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">3213L</v>
+                          <v n="Id">3336L</v>
                         </o>
                       </l2>
                     </o>
                     <n n="PreparedParameters" />
                     <v n="PageArea">0</v>
-                    <v n="Bounds">"3, 33, 0, 0"</v>
+                    <v n="Bounds">"3, 34, 0, 0"</v>
                     <n n="ElementGroupId" />
                     <v n="EnEno">false</v>
                     <v n="KindOfCall" t="KindOfCall">FunctionBlock</v>
@@ -1738,11 +1646,746 @@ END_VAR]]></Declaration>
                     <v n="OwningPageId">-1L</v>
                     <v n="Id">3133L</v>
                   </o>
+                  <o>
+                    <o n="Inputs" t="CFCItemList">
+                      <l2 n="InnerList" />
+                    </o>
+                    <o n="Outputs" t="CFCItemList">
+                      <l2 n="InnerList" />
+                    </o>
+                    <o n="Texts" t="CFCItemList">
+                      <l2 n="InnerList" cet="CFCText">
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Text">"FB_BA_EvtCategory"</v>
+                          <v n="Modifiable">true</v>
+                          <v n="Id">3437L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Text">"SystemMsg"</v>
+                          <v n="Modifiable">true</v>
+                          <v n="Id">3438L</v>
+                        </o>
+                      </l2>
+                    </o>
+                    <o n="Parameters" t="CFCItemList">
+                      <l2 n="InnerList" cet="CFCParameter">
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"EC"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">8</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_EC"</v>
+                            </o>
+                            <v n="SignatureId">7910</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3439L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bRebuildSegments"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3440L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bAcknowledgeRm"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3441L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"eNodeType"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"E_BA_NodeType.Automatic"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">13</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"E_BA_NodeType"</v>
+                            </o>
+                            <v n="SignatureId">1565</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3442L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sTag"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="StringType">
+                            <n n="SizeExpression" />
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3443L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sDescription"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">11</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_MaxString"</v>
+                            </o>
+                            <v n="SignatureId">4553</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3444L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sObjectName"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">11</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_MaxString"</v>
+                            </o>
+                            <v n="SignatureId">4553</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3445L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"eAssignAsTrendRef"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"E_BA_AssignRefMode.eInitByProfile"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">18</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"E_BA_AssignRefMode"</v>
+                            </o>
+                            <v n="SignatureId">1561</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3446L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sDeviceType"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">16</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_BA_SmallString"</v>
+                            </o>
+                            <v n="SignatureId">3726</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3447L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"nInstanceID"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UDIntType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3448L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bEnPublish"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3449L</v>
+                        </o>
+                      </l2>
+                    </o>
+                    <n n="PreparedParameters" />
+                    <v n="PageArea">0</v>
+                    <v n="Bounds">"3, 39, 0, 0"</v>
+                    <n n="ElementGroupId" />
+                    <v n="EnEno">false</v>
+                    <v n="KindOfCall" t="KindOfCall">FunctionBlock</v>
+                    <v n="ContainsExtensibleInputs">false</v>
+                    <v n="Forced">false</v>
+                    <v n="OwningPageId">-1L</v>
+                    <v n="Id">3436L</v>
+                  </o>
+                  <o>
+                    <o n="Inputs" t="CFCItemList">
+                      <l2 n="InnerList" />
+                    </o>
+                    <o n="Outputs" t="CFCItemList">
+                      <l2 n="InnerList" />
+                    </o>
+                    <o n="Texts" t="CFCItemList">
+                      <l2 n="InnerList" cet="CFCText">
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Text">"FB_BA_EvtCategory"</v>
+                          <v n="Modifiable">true</v>
+                          <v n="Id">3453L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Text">"ManualOp"</v>
+                          <v n="Modifiable">true</v>
+                          <v n="Id">3454L</v>
+                        </o>
+                      </l2>
+                    </o>
+                    <o n="Parameters" t="CFCItemList">
+                      <l2 n="InnerList" cet="CFCParameter">
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"EC"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">8</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_EC"</v>
+                            </o>
+                            <v n="SignatureId">7910</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3455L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bRebuildSegments"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3456L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bAcknowledgeRm"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3457L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"eNodeType"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"E_BA_NodeType.Automatic"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">13</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"E_BA_NodeType"</v>
+                            </o>
+                            <v n="SignatureId">1565</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3458L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sTag"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="StringType">
+                            <n n="SizeExpression" />
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3459L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sDescription"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">11</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_MaxString"</v>
+                            </o>
+                            <v n="SignatureId">4553</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3460L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sObjectName"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">11</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_MaxString"</v>
+                            </o>
+                            <v n="SignatureId">4553</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3461L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"eAssignAsTrendRef"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"E_BA_AssignRefMode.eInitByProfile"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">18</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"E_BA_AssignRefMode"</v>
+                            </o>
+                            <v n="SignatureId">1561</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3462L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sDeviceType"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">16</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_BA_SmallString"</v>
+                            </o>
+                            <v n="SignatureId">3726</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3463L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"nInstanceID"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UDIntType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3464L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bEnPublish"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3465L</v>
+                        </o>
+                      </l2>
+                    </o>
+                    <n n="PreparedParameters" />
+                    <v n="PageArea">0</v>
+                    <v n="Bounds">"3, 44, 0, 0"</v>
+                    <n n="ElementGroupId" />
+                    <v n="EnEno">false</v>
+                    <v n="KindOfCall" t="KindOfCall">FunctionBlock</v>
+                    <v n="ContainsExtensibleInputs">false</v>
+                    <v n="Forced">false</v>
+                    <v n="OwningPageId">-1L</v>
+                    <v n="Id">3452L</v>
+                  </o>
+                  <o>
+                    <o n="Inputs" t="CFCItemList">
+                      <l2 n="InnerList" />
+                    </o>
+                    <o n="Outputs" t="CFCItemList">
+                      <l2 n="InnerList" />
+                    </o>
+                    <o n="Texts" t="CFCItemList">
+                      <l2 n="InnerList" cet="CFCText">
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Text">"FB_BA_EvtCategory"</v>
+                          <v n="Modifiable">true</v>
+                          <v n="Id">3467L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Text">"OtherMsg"</v>
+                          <v n="Modifiable">true</v>
+                          <v n="Id">3468L</v>
+                        </o>
+                      </l2>
+                    </o>
+                    <o n="Parameters" t="CFCItemList">
+                      <l2 n="InnerList" cet="CFCParameter">
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"EC"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">8</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"FB_BA_EC"</v>
+                            </o>
+                            <v n="SignatureId">7910</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3469L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bRebuildSegments"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3470L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bAcknowledgeRm"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3471L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"eNodeType"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"E_BA_NodeType.Automatic"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">13</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"E_BA_NodeType"</v>
+                            </o>
+                            <v n="SignatureId">1565</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3472L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sTag"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="StringType">
+                            <n n="SizeExpression" />
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3473L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sDescription"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">11</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_MaxString"</v>
+                            </o>
+                            <v n="SignatureId">4553</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3474L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sObjectName"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">11</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_MaxString"</v>
+                            </o>
+                            <v n="SignatureId">4553</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3475L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"eAssignAsTrendRef"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"E_BA_AssignRefMode.eInitByProfile"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">18</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"E_BA_AssignRefMode"</v>
+                            </o>
+                            <v n="SignatureId">1561</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3476L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"sDeviceType"</v>
+                          <n n="Value" />
+                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <o n="Type" t="UserdefType">
+                            <o n="TypeDef" t="VariableExpression">
+                              <n n="Type" />
+                              <v n="Length" t="Int16">16</v>
+                              <v n="VariableId">-1</v>
+                              <v n="SignatureId">-1</v>
+                              <v n="ScopeId">-1</v>
+                              <v n="PositionToSave">-1L</v>
+                              <a n="MessagesToSave" et="CompilerMessage" />
+                              <v n="Name">"T_BA_SmallString"</v>
+                            </o>
+                            <v n="SignatureId">3726</v>
+                            <v n="ScopeId">-1</v>
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3477L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"nInstanceID"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="UDIntType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3478L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="Identifier">"bEnPublish"</v>
+                          <n n="Value" />
+                          <n n="InitialValue" />
+                          <o n="Type" t="BoolType">
+                            <v n="Compiled">false</v>
+                          </o>
+                          <v n="Origin" t="ParameterOrigin">Project</v>
+                          <v n="Id">3479L</v>
+                        </o>
+                      </l2>
+                    </o>
+                    <n n="PreparedParameters" />
+                    <v n="PageArea">0</v>
+                    <v n="Bounds">"3, 49, 0, 0"</v>
+                    <n n="ElementGroupId" />
+                    <v n="EnEno">false</v>
+                    <v n="KindOfCall" t="KindOfCall">FunctionBlock</v>
+                    <v n="ContainsExtensibleInputs">false</v>
+                    <v n="Forced">false</v>
+                    <v n="OwningPageId">-1L</v>
+                    <v n="Id">3466L</v>
+                  </o>
                 </l2>
               </o>
               <o n="ParameterInitializationMethodGenerator" t="CFCParameterInitializationMethodObject">
-                <v n="GuidPOU">{da9177da-d739-439f-b263-f9d1c64320fb}</v>
-                <v n="GuidParentObject">{bda43ea1-9ea6-4806-bc94-d4e5318a7eba}</v>
+                <v n="GuidPOU">{ef20c680-279b-4b35-bb16-0c520ec45a28}</v>
+                <v n="GuidParentObject">{a16d9c8f-b06b-4288-928b-c49f378d4c72}</v>
                 <v n="MethodName">"__InitializeParameters_FB_BA_EvtGroups"</v>
                 <v n="ReturnType">"BOOL"</v>
               </o>
@@ -1750,8 +2393,8 @@ END_VAR]]></Declaration>
                 <d2 n="InnerDictionary" />
               </o>
               <v n="AutoSizeCanvas">true</v>
-              <v n="CanvasWidth">20</v>
-              <v n="CanvasHeight">39</v>
+              <v n="CanvasWidth">14</v>
+              <v n="CanvasHeight">55</v>
             </o>
           </Data>
           <TypeList>
@@ -1780,205 +2423,237 @@ END_VAR]]></Declaration>
         </XmlArchive>
       </CFC>
     </Implementation>
-    <Method Name="FB_init" Id="{73c534cd-c339-4e66-944a-49dec33ce02a}">
+    <Method Name="FB_init" Id="{141e99f7-1b1d-4ee4-ad95-1ce93fecd9b1}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 END_VAR
+
+
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//===================================================================//
-//	Life Safty
+        <ST><![CDATA[//===================================================================
+// Ereigniskategorie - Gefahr für Leben // Event category - Danger to life
+// Brandalarm, Überfall // Fire alarm, robbery
 LifeSafety.iParent							:= THIS^;
-LifeSafety.iLabel							:= LblCmpGeneral.EvtGroups_LifeSafety;									  
+LifeSafety.iLabel							:= LblControl_EvtCategoryLifeSafty;									  
 LifeSafety.sObjectName						:= '{Idx=01}';
 LifeSafety.eDPADMode						:= E_BA_DPADMode.eInclude;																						
-LifeSafety.Simple.nInstanceID				:= EventClasses.LifeSafetySimple;
-LifeSafety.Simple.sObjectName				:= '{Idx=12}';
-LifeSafety.Simple.eEventType				:= E_BA_EventType.eAlarm;
-LifeSafety.Simple.eAlarmMode				:= E_BA_AlarmMode.eSimple;
-LifeSafety.Simple.aPriority[1]				:= 10;
-LifeSafety.Simple.aPriority[2]				:= 11;
-LifeSafety.Simple.aPriority[3]				:= 12;
-LifeSafety.Standard.nInstanceID				:= EventClasses.LifeSafetyStandard;
-LifeSafety.Standard.sObjectName				:= '{Idx=11}';
-LifeSafety.Standard.eEventType				:= E_BA_EventType.eAlarm;
-LifeSafety.Standard.eAlarmMode				:= E_BA_AlarmMode.eStandard;
-LifeSafety.Standard.aPriority[1]			:= 13;
-LifeSafety.Standard.aPriority[2]			:= 14;
-LifeSafety.Standard.aPriority[3]			:= 15;
-LifeSafety.Extended.nInstanceID				:= EventClasses.LifeSafetyExtended;
-LifeSafety.Extended.sObjectName				:= '{Idx=10}';
-LifeSafety.Extended.eEventType				:= E_BA_EventType.eAlarm;
-LifeSafety.Extended.eAlarmMode				:= E_BA_AlarmMode.eExtended;
-LifeSafety.Extended.aPriority[1]			:= 16;
-LifeSafety.Extended.aPriority[2]			:= 17;
-LifeSafety.Extended.aPriority[3]			:= 18;
+LifeSafety.EC.nInstanceID						:= EC_ID.NC10;
+LifeSafety.EC.sObjectName						:= '{Idx=10}';
+LifeSafety.EC.eEventType						:= E_BA_EventType.eAlarm;
+LifeSafety.EC.aPriority[1]						:= 10;
+LifeSafety.EC.aPriority[2]						:= 11;
+LifeSafety.EC.aPriority[3]						:= 12;
+LifeSafety.EC.eAlarmMode						:= E_BA_AlarmMode.eExtended;	//Erweiterter Alarm
+//===================================================================		
+// Ereigniskategorie - Gefahrenmeldung, Sicherheitsmeldung // Event category - hazard alert, safety message
+// Einbruch, unberechtigter Zutritt // Burglary, unauthorised entry
+SafetyMsg.iParent							:= THIS^;
+SafetyMsg.iLabel							:= LblControl_EvtCategorySaftyMessage;									  
+SafetyMsg.sObjectName						:= '{Idx=01}';
+SafetyMsg.eDPADMode							:= E_BA_DPADMode.eInclude;																						
+SafetyMsg.EC.nInstanceID						:= EC_ID.NC20;
+SafetyMsg.EC.sObjectName						:= '{Idx=20}';
+SafetyMsg.EC.eEventType							:= E_BA_EventType.eAlarm;
+SafetyMsg.EC.aPriority[1]						:= 40;
+SafetyMsg.EC.aPriority[2]						:= 41;
+SafetyMsg.EC.aPriority[3]						:= 42;
+SafetyMsg.EC.eAlarmMode						:= E_BA_AlarmMode.eExtended;	//Erweiterter Alarm
 
 //===================================================================//
-//	Alarm Technical
-AlarmTechnical.iParent						:= THIS^;
-AlarmTechnical.iLabel						:= LblCmpGeneral.EvtGroups_AlarmTechnical;									  
-AlarmTechnical.sObjectName					:= '{Idx=01}';
-AlarmTechnical.eDPADMode					:= E_BA_DPADMode.eInclude;																						
-AlarmTechnical.Simple.nInstanceID			:= EventClasses.AlarmTechnicalSimple;
-AlarmTechnical.Simple.sObjectName			:= '{Idx=22}';
-AlarmTechnical.Simple.eEventType			:= E_BA_EventType.eAlarm;
-AlarmTechnical.Simple.eAlarmMode			:= E_BA_AlarmMode.eSimple;
-AlarmTechnical.Simple.aPriority[1]			:= 20;
-AlarmTechnical.Simple.aPriority[2]			:= 21;
-AlarmTechnical.Simple.aPriority[3]			:= 22;
-AlarmTechnical.Standard.nInstanceID			:= EventClasses.AlarmTechnicalStandard;
-AlarmTechnical.Standard.sObjectName			:= '{Idx=21}';
-AlarmTechnical.Standard.eEventType			:= E_BA_EventType.eAlarm;
-AlarmTechnical.Standard.eAlarmMode			:= E_BA_AlarmMode.eStandard;
-AlarmTechnical.Standard.aPriority[1]		:= 23;
-AlarmTechnical.Standard.aPriority[2]		:= 24;
-AlarmTechnical.Standard.aPriority[3]		:= 25;
-AlarmTechnical.Extended.nInstanceID			:= EventClasses.AlarmTechnicalExtended;
-AlarmTechnical.Extended.sObjectName			:= '{Idx=20}';
-AlarmTechnical.Extended.eEventType			:= E_BA_EventType.eAlarm;
-AlarmTechnical.Extended.eAlarmMode			:= E_BA_AlarmMode.eExtended;
-AlarmTechnical.Extended.aPriority[1]		:= 26;
-AlarmTechnical.Extended.aPriority[2]		:= 27;
-AlarmTechnical.Extended.aPriority[3]		:= 28;
+// Ereigniskategorie - Alarmeldung - Meldung signalisiert Anlagenausfall oder erfordert sofortigen Eingriff 
+// Event category - Alarm message - Message signals system failure or requires immediate intervention 
+// Sicherheitstemperaturbegrenzer (STB), Sicherheitsdruckbegrenzer (SDB), Übertemperatur der Warmwasserbereitung (WWB), Sicherheitsventile, Hauptpumpen, Keilriemenwächter, Frequenzumformer, Kälteanlagen, Spannungsausfall usw
+// Safety temperature limiter, safety pressure limiter, excess temperature of water heating, safety valves, main pumps, V-belt monitors, frequency converters, refrigeration systems, voltage failure, etc.
+AlarmMsg.iParent							:= THIS^;
+AlarmMsg.iLabel								:= LblControl_EvtCategoryAlarmMessage;									  
+AlarmMsg.sObjectName						:= '{Idx=01}';
+AlarmMsg.eDPADMode							:= E_BA_DPADMode.eInclude;																						
+AlarmMsg.EC.nInstanceID							:= EC_ID.NC30;
+AlarmMsg.EC.sObjectName							:= '{Idx=30}';
+AlarmMsg.EC.eEventType							:= E_BA_EventType.eAlarm;
+AlarmMsg.EC.aPriority[1]						:= 70;
+AlarmMsg.EC.aPriority[2]						:= 71;
+AlarmMsg.EC.aPriority[3]						:= 72;
+AlarmMsg.EC.eAlarmMode						:= E_BA_AlarmMode.eExtended;	//Erweiterter Alarm
 
-//===================================================================//
-//	Disturbance
-Disturbance.iParent							:= THIS^;
-Disturbance.iLabel							:= LblCmpGeneral.EvtGroups_Disturbance;									  
-Disturbance.sObjectName						:= '{Idx=01}';
-Disturbance.eDPADMode						:= E_BA_DPADMode.eInclude;																						
-Disturbance.Simple.nInstanceID				:= EventClasses.DisturbanceSimple;
-Disturbance.Simple.sObjectName				:= '{Idx=52}';
-Disturbance.Simple.eEventType				:= E_BA_EventType.eAlarm;
-Disturbance.Simple.eAlarmMode				:= E_BA_AlarmMode.eSimple;
-Disturbance.Simple.aPriority[1]				:= 50;
-Disturbance.Simple.aPriority[2]				:= 51;
-Disturbance.Simple.aPriority[3]				:= 52;
-Disturbance.Standard.nInstanceID			:= EventClasses.DisturbanceStandard;
-Disturbance.Standard.sObjectName			:= '{Idx=51}';
-Disturbance.Standard.eEventType				:= E_BA_EventType.eAlarm;
-Disturbance.Standard.eAlarmMode				:= E_BA_AlarmMode.eStandard;
-Disturbance.Standard.aPriority[1]			:= 53;
-Disturbance.Standard.aPriority[2]			:= 54;
-Disturbance.Standard.aPriority[3]			:= 55;
-Disturbance.Extended.nInstanceID			:= EventClasses.DisturbanceExtended;
-Disturbance.Extended.sObjectName			:= '{Idx=50}';
-Disturbance.Extended.eEventType				:= E_BA_EventType.eAlarm;
-Disturbance.Extended.eAlarmMode				:= E_BA_AlarmMode.eExtended;
-Disturbance.Extended.aPriority[1]			:= 56;
-Disturbance.Extended.aPriority[2]			:= 57;
-Disturbance.Extended.aPriority[3]			:= 58;
 
-//===================================================================//
-//	Maintenance
-Maintenance.iParent							:= THIS^;
-Maintenance.iLabel							:= LblCmpGeneral.EvtGroups_Maintenance;									  
-Maintenance.sObjectName						:= '{Idx=01}';
-Maintenance.eDPADMode						:= E_BA_DPADMode.eInclude;																						
-Maintenance.Simple.nInstanceID				:= EventClasses.MaintenanceSimple;
-Maintenance.Simple.sObjectName				:= '{Idx=92}';
-Maintenance.Simple.eEventType				:= E_BA_EventType.eAlarm;
-Maintenance.Simple.eAlarmMode				:= E_BA_AlarmMode.eSimple;
-Maintenance.Simple.aPriority[1]				:= 90;
-Maintenance.Simple.aPriority[2]				:= 91;
-Maintenance.Simple.aPriority[3]				:= 92;
-Maintenance.Standard.nInstanceID			:= EventClasses.MaintenanceStandard;
-Maintenance.Standard.sObjectName			:= '{Idx=91}';
-Maintenance.Standard.eEventType				:= E_BA_EventType.eAlarm;
-Maintenance.Standard.eAlarmMode				:= E_BA_AlarmMode.eStandard;
-Maintenance.Standard.aPriority[1]			:= 93;
-Maintenance.Standard.aPriority[2]			:= 94;
-Maintenance.Standard.aPriority[3]			:= 95;
-Maintenance.Extended.nInstanceID			:= EventClasses.MaintenanceExtended;
-Maintenance.Extended.sObjectName			:= '{Idx=90}';
-Maintenance.Extended.eEventType				:= E_BA_EventType.eAlarm;
-Maintenance.Extended.eAlarmMode				:= E_BA_AlarmMode.eExtended;
-Maintenance.Extended.aPriority[1]			:= 96;
-Maintenance.Extended.aPriority[2]			:= 97;
-Maintenance.Extended.aPriority[3]			:= 98;
+//===================================================================
+// Ereigniskategorie - Störungsmeldung - Meldung weist auf einen anormalen Betriebszustand hin
+// Event category - malfunction message - message indicates abnormal operating condition
+// Temperaturwächter (TW), Druckwächter (DW), Temperaturüberwachung von Wärmetauscher (WT) und WWB, Motorschutz, Aufzug-Sammelstörmeldung, Netzdrücke usw.
+// Temperature monitor, pressure monitor, temperature monitoring of heat exchanger and water heating, motor protection, lift collective fault signal, mains pressures, etc.
+FaultMsg.iParent							:= THIS^;
+FaultMsg.iLabel								:= LblControl_EvtCategoryFaultMessage;							  
+FaultMsg.sObjectName						:= '{Idx=01}';
+FaultMsg.eDPADMode							:= E_BA_DPADMode.eInclude;																						
+FaultMsg.EC.nInstanceID							:= EC_ID.NC40;
+FaultMsg.EC.sObjectName							:= '{Idx=40}';
+FaultMsg.EC.eEventType							:= E_BA_EventType.eDisturb;
+FaultMsg.EC.aPriority[1]						:= 100;
+FaultMsg.EC.aPriority[2]						:= 101;
+FaultMsg.EC.aPriority[3]						:= 102;
+FaultMsg.EC.eAlarmMode						:= E_BA_AlarmMode.eStandard;	//Standard Alarm
+//===================================================================
+// Ereigniskategorie - Wartungsmeldung, Hinweis auf Wartungsaktivität o.ä.
+// Event category - Maintenance message Maintenance message, indication of maintenance activity or similar.
+// Betriebsstunden, Behälterstand, Reparaturschalter usw.
+// Operating hours, tank level, repair switch, etc.
+MaintenanceMsg01.iParent					:= THIS^;
+MaintenanceMsg01.iLabel						:= LblControl_EvtCategoryMaintenanceMessage;									  
+MaintenanceMsg01.sObjectName				:= '{Idx=01}';
+MaintenanceMsg01.eDPADMode					:= E_BA_DPADMode.eInclude;																						
+MaintenanceMsg01.EC.nInstanceID					:= EC_ID.NC50;
+MaintenanceMsg01.EC.sObjectName					:= '{Idx=50}';
+MaintenanceMsg01.EC.eEventType					:= E_BA_EventType.eMaintenance;
+MaintenanceMsg01.EC.aPriority[1]				:= 130;
+MaintenanceMsg01.EC.aPriority[2]				:= 131;
+MaintenanceMsg01.EC.aPriority[3]				:= 132;
+MaintenanceMsg01.EC.eAlarmMode						:= E_BA_AlarmMode.eStandard;	//Standard Alarm
 
+// Filterende erreicht, Filter verschmutzt usw.
+// Filter end reached, filter dirty, etc.
+MaintenanceMsg02.iParent					:= THIS^;
+MaintenanceMsg02.iLabel						:= LblControl_EvtCategoryMaintenanceMessage;									  
+MaintenanceMsg02.sObjectName				:= '{Idx=02}';
+MaintenanceMsg02.sDescription				:= '{Wartungsmeldung}';
+MaintenanceMsg02.eDPADMode					:= E_BA_DPADMode.eInclude;																						
+MaintenanceMsg02.EC.nInstanceID					:= EC_ID.NC51;
+MaintenanceMsg02.EC.sObjectName					:= '{Idx=51}';
+MaintenanceMsg02.EC.eEventType					:= E_BA_EventType.eAlarm;
+MaintenanceMsg02.EC.aPriority[1]				:= 135;
+MaintenanceMsg02.EC.aPriority[2]				:= 136;
+MaintenanceMsg02.EC.aPriority[3]				:= 137;
+MaintenanceMsg02.EC.eAlarmMode						:= E_BA_AlarmMode.eStandard;	//Standard Alarm
+//===================================================================
+//===================================================================
+// Ereigniskategorie - Systemmeldung, Störungsmeldung aus GA-System
+// Event category - System message, System message, Fault message from building automation system
+// Gerätestörung, Batteriemeldung, Kommunikationsunterbrechung usw.
+// Unit malfunction, battery message, communication interruption, etc.
+SystemMsg.iParent							:= THIS^;
+SystemMsg.iLabel							:= LblControl_EvtCategorySystem;									  
+SystemMsg.sObjectName						:= '{Idx=01}';
+SystemMsg.eDPADMode							:= E_BA_DPADMode.eInclude;																						
+SystemMsg.EC.nInstanceID						:= EC_ID.NC60;
+SystemMsg.EC.sObjectName						:= '{Idx=60}';
+SystemMsg.EC.eEventType							:= E_BA_EventType.eNotification;
+SystemMsg.EC.aPriority[1]						:= 180;
+SystemMsg.EC.aPriority[2]						:= 181;
+SystemMsg.EC.aPriority[3]						:= 182;
+SystemMsg.EC.eAlarmMode						:= E_BA_AlarmMode.eSimple;	//Simple Alarm
 //===================================================================//
-//	Notification
-Notification.iParent						:= THIS^;
-Notification.iLabel							:= LblCmpGeneral.EvtGroups_Notification;									  
-Notification.sObjectName					:= '{Idx=01}';
-Notification.eDPADMode						:= E_BA_DPADMode.eInclude;																						
-Notification.Simple.nInstanceID				:= EventClasses.NotificationSimple;
-Notification.Simple.sObjectName				:= '{Idx=132}';
-Notification.Simple.eEventType				:= E_BA_EventType.eAlarm;
-Notification.Simple.eAlarmMode				:= E_BA_AlarmMode.eSimple;
-Notification.Simple.aPriority[1]			:= 130;
-Notification.Simple.aPriority[2]			:= 131;
-Notification.Simple.aPriority[3]			:= 132;
-Notification.Standard.nInstanceID			:= EventClasses.NotificationStandard;
-Notification.Standard.sObjectName			:= '{Idx=131}';
-Notification.Standard.eEventType			:= E_BA_EventType.eAlarm;
-Notification.Standard.eAlarmMode			:= E_BA_AlarmMode.eStandard;
-Notification.Standard.aPriority[1]			:= 133;
-Notification.Standard.aPriority[2]			:= 134;
-Notification.Standard.aPriority[3]			:= 135;
-
+//	Ereigniskategorie - Manual operation, Handeingriff
+ManualOp.iParent							:= THIS^;
+ManualOp.iLabel						 		:= LblControl_EvtCategoryManualOperation;									  
+ManualOp.sObjectName						:= '{Idx=01}';
+ManualOp.eDPADMode							:= E_BA_DPADMode.eInclude;																						
+ManualOp.EC.nInstanceID							:= EC_ID.NC70;
+ManualOp.EC.sObjectName							:= '{Idx=70}';
+ManualOp.EC.eEventType							:= E_BA_EventType.eAlarm;
+ManualOp.EC.aPriority[1]						:= 220;
+ManualOp.EC.aPriority[2]						:= 220;
+ManualOp.EC.aPriority[3]						:= 220;
+ManualOp.EC.eAlarmMode						:= E_BA_AlarmMode.eSimple;	//Simple Alarm
 //===================================================================//
-//	Other
-Other.iParent								:= THIS^;
-Other.iLabel								:= LblCmpGeneral.EvtGroups_Other;									  
-Other.sObjectName							:= '{Idx=01}';
-Other.eDPADMode								:= E_BA_DPADMode.eInclude;																						
-Other.Simple.nInstanceID					:= EventClasses.OtherSimple;
-Other.Simple.sObjectName					:= '{Idx=182}';
-Other.Simple.eEventType						:= E_BA_EventType.eAlarm;
-Other.Simple.eAlarmMode						:= E_BA_AlarmMode.eSimple;
-Other.Simple.aPriority[1]					:= 180;
-Other.Simple.aPriority[2]					:= 181;
-Other.Simple.aPriority[3]					:= 182;
-Other.Standard.nInstanceID					:= EventClasses.OtherStandard;
-Other.Standard.sObjectName					:= '{Idx=181}';
-Other.Standard.eEventType					:= E_BA_EventType.eAlarm;
-Other.Standard.eAlarmMode					:= E_BA_AlarmMode.eStandard;
-Other.Standard.aPriority[1]					:= 183;
-Other.Standard.aPriority[2]					:= 184;
-Other.Standard.aPriority[3]					:= 185;]]></ST>
+// Ereigniskategorie - Freibleibend, Sonstige Meldungen
+// Event category - Other message, Not binding, Other messages
+// Betriebszustandswechsel, Betriebsarten, Trendspeicher voll usw.
+// Operating status change, operating modes, trend memory full, etc.
+OtherMsg.iParent							:= THIS^;
+OtherMsg.iLabel						 		:= LblControl_EvtCategoryOther;									  
+OtherMsg.sObjectName						:= '{Idx=01}';
+OtherMsg.eDPADMode							:= E_BA_DPADMode.eInclude;																						
+OtherMsg.EC.nInstanceID							:= EC_ID.NC80;
+OtherMsg.EC.sObjectName							:= '{Idx=80}';
+OtherMsg.EC.eEventType							:= E_BA_EventType.eAlarm;
+OtherMsg.EC.aPriority[1]						:= 230;
+OtherMsg.EC.aPriority[2]						:= 231;
+OtherMsg.EC.aPriority[3]						:= 232;
+OtherMsg.EC.eAlarmMode						:= E_BA_AlarmMode.eSimple;	//Simple Alarm]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_BA_EvtGroups.FB_init">
-      <LineId Id="41" Count="0" />
+      <LineId Id="347" Count="0" />
       <LineId Id="40" Count="0" />
-      <LineId Id="38" Count="1" />
+      <LineId Id="327" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="508" Count="0" />
       <LineId Id="36" Count="0" />
       <LineId Id="209" Count="0" />
-      <LineId Id="10" Count="6" />
-      <LineId Id="20" Count="6" />
-      <LineId Id="30" Count="5" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="43" Count="5" />
+      <LineId Id="10" Count="2" />
+      <LineId Id="14" Count="2" />
+      <LineId Id="235" Count="0" />
+      <LineId Id="239" Count="1" />
+      <LineId Id="328" Count="0" />
+      <LineId Id="241" Count="0" />
+      <LineId Id="510" Count="0" />
+      <LineId Id="243" Count="0" />
+      <LineId Id="245" Count="3" />
+      <LineId Id="250" Count="2" />
+      <LineId Id="522" Count="0" />
+      <LineId Id="255" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="266" Count="0" />
+      <LineId Id="467" Count="0" />
+      <LineId Id="325" Count="0" />
+      <LineId Id="468" Count="0" />
+      <LineId Id="46" Count="2" />
       <LineId Id="210" Count="0" />
-      <LineId Id="51" Count="6" />
-      <LineId Id="61" Count="6" />
-      <LineId Id="71" Count="5" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="80" Count="5" />
-      <LineId Id="211" Count="0" />
-      <LineId Id="89" Count="6" />
-      <LineId Id="99" Count="6" />
-      <LineId Id="109" Count="5" />
-      <LineId Id="79" Count="0" />
-      <LineId Id="116" Count="5" />
-      <LineId Id="212" Count="0" />
-      <LineId Id="125" Count="6" />
-      <LineId Id="135" Count="6" />
-      <LineId Id="145" Count="5" />
+      <LineId Id="51" Count="2" />
+      <LineId Id="55" Count="2" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="523" Count="0" />
+      <LineId Id="80" Count="1" />
+      <LineId Id="269" Count="0" />
+      <LineId Id="469" Count="0" />
+      <LineId Id="326" Count="0" />
+      <LineId Id="470" Count="0" />
+      <LineId Id="310" Count="2" />
+      <LineId Id="314" Count="3" />
+      <LineId Id="319" Count="2" />
+      <LineId Id="324" Count="0" />
+      <LineId Id="117" Count="1" />
+      <LineId Id="471" Count="0" />
+      <LineId Id="329" Count="0" />
+      <LineId Id="472" Count="0" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="331" Count="1" />
+      <LineId Id="334" Count="3" />
+      <LineId Id="339" Count="2" />
       <LineId Id="115" Count="0" />
-      <LineId Id="152" Count="5" />
-      <LineId Id="213" Count="0" />
-      <LineId Id="161" Count="6" />
-      <LineId Id="171" Count="6" />
-      <LineId Id="179" Count="5" />
-      <LineId Id="214" Count="0" />
-      <LineId Id="188" Count="6" />
-      <LineId Id="198" Count="5" />
+      <LineId Id="348" Count="1" />
+      <LineId Id="473" Count="0" />
+      <LineId Id="350" Count="7" />
+      <LineId Id="359" Count="2" />
+      <LineId Id="152" Count="1" />
+      <LineId Id="364" Count="1" />
+      <LineId Id="474" Count="0" />
+      <LineId Id="366" Count="0" />
+      <LineId Id="475" Count="0" />
+      <LineId Id="367" Count="0" />
+      <LineId Id="512" Count="0" />
+      <LineId Id="369" Count="0" />
+      <LineId Id="371" Count="3" />
+      <LineId Id="376" Count="2" />
+      <LineId Id="177" Count="0" />
+      <LineId Id="403" Count="1" />
+      <LineId Id="406" Count="0" />
+      <LineId Id="513" Count="0" />
+      <LineId Id="408" Count="0" />
+      <LineId Id="410" Count="3" />
+      <LineId Id="415" Count="2" />
+      <LineId Id="179" Count="2" />
+      <LineId Id="476" Count="0" />
+      <LineId Id="421" Count="0" />
+      <LineId Id="477" Count="0" />
+      <LineId Id="422" Count="0" />
+      <LineId Id="514" Count="0" />
+      <LineId Id="423" Count="0" />
+      <LineId Id="425" Count="3" />
+      <LineId Id="430" Count="2" />
       <LineId Id="178" Count="0" />
     </LineIds>
   </POU>

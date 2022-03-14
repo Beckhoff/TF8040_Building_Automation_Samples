@@ -1,10 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="FB_BA_ActuatorCmd" Id="{a0af674e-9cdd-4f06-818f-776025190b8d}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_BA_ActuatorCmd" Id="{1c219490-3f24-42eb-b20a-f4bdb1f26090}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '0.0.1.0'}
+	{attribute 'Version' := '1.2.1.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "Universal, Analog, Aggregate"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "Universal, Analog, Aggregate"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "EC_AMEV"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "BA2_Param"'}
 	{attribute 'Description' := '"LCID": "1031", "Text": "Aktor binär"'}
 	{attribute 'Description' := '"LCID": "1033", "Text": "Actuator binary"'}
 {endregion}
@@ -826,8 +828,8 @@ END_VAR]]></Declaration>
                 </l2>
               </o>
               <o n="ParameterInitializationMethodGenerator" t="CFCParameterInitializationMethodObject">
-                <v n="GuidPOU">{45ebf53d-b45c-40f5-8d3e-7534ab7a3c42}</v>
-                <v n="GuidParentObject">{a0af674e-9cdd-4f06-818f-776025190b8d}</v>
+                <v n="GuidPOU">{9669ad0c-b81d-4a85-830b-feb62d1a727a}</v>
+                <v n="GuidParentObject">{1c219490-3f24-42eb-b20a-f4bdb1f26090}</v>
                 <v n="MethodName">"__InitializeParameters_FB_BA_ActuatorCmd"</v>
                 <v n="ReturnType">"BOOL"</v>
               </o>
@@ -1109,7 +1111,7 @@ END_VAR]]></Declaration>
         </XmlArchive>
       </CFC>
     </Implementation>
-    <Method Name="FB_init" Id="{b90a9b9f-7987-4590-908b-29b6ee3fc5aa}">
+    <Method Name="FB_init" Id="{ec100382-c238-4fed-a08f-633c3f6ce638}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
@@ -1125,8 +1127,8 @@ Cmd.bEnOutOfService					:= FALSE;
 Cmd.ePolarity						:= E_BA_Polarity.eNormal;
 Cmd.eFeedbackPolarity				:= E_BA_Polarity.eNormal;
 Cmd.eOverriddenPolarity				:= E_BA_Polarity.eReverse;
-Cmd.sActiveText 					:= Texts.txtOn;
-Cmd.sInactiveText 					:= Texts.txtOff;
+Cmd.sActiveText 					:= txtEvent_On;
+Cmd.sInactiveText 					:= txtEvent_Off;
 Cmd.nStateChangeCount				:= 0;
 Cmd.nActiveTimeElapsed				:= 0;
 Cmd.nMinimumOnTime					:= 0;
@@ -1134,14 +1136,17 @@ Cmd.nMinimumOffTime					:= 0;
 Cmd.bEnManualRm						:= FALSE;	//	Priority  8	
 Cmd.bValManualRm					:= FALSE;	//	Priority  8
 Cmd.bDefaultValue					:= FALSE;
-Cmd.nEventClassID					:= EventClasses.DisturbanceExtended;
+Cmd.nEventClassID					:= EC_ID.NC40;
 Cmd.stTimeDelay.nToNormal			:= BA2_Param.nDefTimeDelay_ToNormal;
 Cmd.stTimeDelay.nToAbnormal			:= BA2_Param.nDefTimeDelay_ToAbnormal;
 Cmd.bAcknowledgeRm					:= FALSE;		
-Cmd.aEventTransitionText[1]			:= Texts.txtDisturb;
-Cmd.aEventTransitionText[2]			:= Texts.txtNone;
-Cmd.aEventTransitionText[3]			:= Texts.txtNormal;
+Cmd.aEventTransitionText[1]			:= txtEvent_Disturb;
+Cmd.aEventTransitionText[2]			:= txtEvent_None;
+Cmd.aEventTransitionText[3]			:= txtEvent_Normal;
 Cmd.bEventDetectionEnable			:= FALSE;
+Cmd.aEventEnable[1]					:= TRUE;			//	to_offnormal
+Cmd.aEventEnable[2]					:= TRUE;			//	to_fault
+Cmd.aEventEnable[3]					:= TRUE;			//	to_normal
 Cmd.eEnPlantLock					:= E_BA_LockPriority.eNoLock;	]]></ST>
       </Implementation>
     </Method>
@@ -1158,6 +1163,8 @@ Cmd.eEnPlantLock					:= E_BA_LockPriority.eNoLock;	]]></ST>
       <LineId Id="389" Count="0" />
       <LineId Id="387" Count="0" />
       <LineId Id="35" Count="2" />
+      <LineId Id="396" Count="1" />
+      <LineId Id="395" Count="0" />
       <LineId Id="23" Count="0" />
     </LineIds>
   </POU>
