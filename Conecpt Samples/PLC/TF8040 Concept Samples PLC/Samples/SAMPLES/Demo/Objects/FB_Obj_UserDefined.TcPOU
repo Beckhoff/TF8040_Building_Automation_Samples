@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Obj_UserDefined" Id="{7ebb9b7d-4cdd-41ff-a468-64fa6d45a9ec}" SpecialFunc="None">
+    <Declaration><![CDATA[// Demonstration of objects.
+// > See "FB_BA_EC01" to view decleared event classes.
+FUNCTION_BLOCK FB_Obj_UserDefined EXTENDS FB_BA_View
+VAR
+	Misc					: FB_BA_View := (
+								iParent					:= THIS^,
+								sDescription			:= '{Miscellaneous use cases}'
+							);
+										
+		// Intention:		Some object with some individual PLC logic (Will be is visible to clients like TcHmiBa, etc.)
+		Obj1				: FB_UDef_Obj := (
+								iParent					:= Misc,
+								sDescription			:= '{Simple user defined object}'
+							);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+Misc();
+
+Obj1();
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Obj_UserDefined">
+      <LineId Id="2330" Count="3" />
+      <LineId Id="467" Count="0" />
+      <LineId Id="2334" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
