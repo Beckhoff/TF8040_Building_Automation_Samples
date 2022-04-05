@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_UDef_AVal" Id="{b6ee1e97-7b68-4278-9a9e-fc1dd7cdefb9}" SpecialFunc="None">
+    <Declaration><![CDATA[// User defined analog value.
+// > Contains additional parameters.
+FUNCTION_BLOCK FB_UDef_AVal EXTENDS FB_BA_Object
+VAR_INPUT CONSTANT
+	{region 'Variable Parameters'}
+		{attribute 'BaParam.Title.DE' := 'Irgendein Sollwert'}
+		{attribute 'BaParam.Title.EN' := 'Some setpoint'}
+		{attribute 'BaParam.Access.Read' := 'Guest'}
+		{attribute 'BaParam.Access.Write' := 'Basic'}
+		fSomeSetpoint : REAL := 10.0;
+	{endregion}
+END_VAR
+VAR_INPUT
+	{attribute 'BaParam.Title.DE' := 'Irgendein Offset'}
+	{attribute 'BaParam.Title.EN' := 'Some offset'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	nSomeOffset : UINT := 3;
+END_VAR
+VAR_OUTPUT
+	{attribute 'BaParam.Title.DE' := 'Ergebnis'}
+	{attribute 'BaParam.Title.EN' := 'Result'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	fResult : REAL;
+END_VAR
+VAR
+	{attribute 'BaParam.Title.DE' := 'Modus'}
+	{attribute 'BaParam.Title.EN' := 'Mode'}
+	{attribute 'BaParam.Access.Read' := 'Advanced'}
+	{attribute 'BaParam.Access.Write' := 'Expert'}
+	eMode : E_UDef_Mode := E_UDef_Mode.eAdd;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+CASE (eMode) OF
+	E_UDef_Mode.eAdd: fResult := (fSomeSetpoint + TO_REAL(nSomeOffset));
+	E_UDef_Mode.eSubstract: fResult := (fSomeSetpoint - TO_REAL(nSomeOffset));
+ELSE
+	fResult := fSomeSetpoint;
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="FB_UDef_AVal">
+      <LineId Id="9" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="24" Count="3" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
