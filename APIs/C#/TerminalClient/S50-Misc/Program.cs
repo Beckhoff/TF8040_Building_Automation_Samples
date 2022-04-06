@@ -53,73 +53,78 @@ namespace Beckhoff.BA.TerminalClient.Samples
 
 
         #region CodeSnippets
-        static async Task Snippets()
+        static async Task SnipResolve()
         {
-            // Snippet 1.1) Quick-resolve an objects variable value:
+            // Snippet "Resolve" 1.1) Quick-resolve an objects variable value:
             var iVal11 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.ePresentValue].Value;
 
-            // Snippet 1.2) Fast-read an objects variable:
-            await((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.ePresentValue].Value).ReadAsync();
+            // Snippet "Resolve" 1.2) Fast-read an objects variable:
+            await ((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.ePresentValue].Value).ReadAsync();
 
-            // Snippet 2.1) Quick-write an objects variable:
+            // Snippet "Resolve" 2.1) Quick-write an objects variable:
             var iVal21 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.eValueRm].Value;
             iVal21.Primitive = 123;
             await iVal21.WriteAsync();
 
-            // Snippet 2.2) Fast-write an objects variable:
-            await((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.eValueRm].Value).WriteAsync(123);
+            // Snippet "Resolve" 2.2) Fast-write an objects variable:
+            await ((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.eValueRm].Value).WriteAsync(123);
 
-            // Snippet 3) Top-down resolving a variable value in single steps:
+            // Snippet "Resolve" 3) Top-down resolving a variable value in single steps:
             IBaBasicObject iObj = BaSite.FindObject("MyPlcProject.MAIN.SomeValue");
             IBaVariable iPlcVar = iObj[Tc3_BA2.BaVariableID.eValueRm];
             IBaValue iVal1 = iPlcVar.Value;
-
-
-            // Snippet 4.1) Test for primitive value:
-            var iPrimVal = iVal1 as IBaPrimitiveValue;
-            if (iPrimVal != null)
-            {
-                var iFloatVal = iPrimVal as IBaPrimitiveValue<float>;
-                if (iFloatVal != null)
-                    iFloatVal.Primitive = 123;
-            }
-
-            Console.WriteLine("\nSample 4.2) Test out value range of a primitive value:");
-            switch (iPrimVal.GetRange())
-            {
-                case null:
-                    Console.WriteLine("\nValue not limited.");
-                    break;
-
-                case Tc3_BA2.IBaLimitedValueRange iLimit:
-                    Console.WriteLine(string.Format("\nValue limited from {0} to {1}.", iLimit.MinLimit, iLimit.MaxLimit));
-                    break;
-
-                case Tc3_BA2.IBaEnumeratedValueRange iEnum:
-                    Console.WriteLine("\nValue limited to following values:");
-                    foreach(var _sVal in iEnum.Values)
-                        Console.WriteLine(string.Format("\n- {0}", _sVal));
-                    break;
-
-                default:
-                    throw new NotImplementedException("Not implemented range of value!");
-            }
-
-
-            // Snippet 5) Test for object type:
-            if (iObj is  IBaAnalogObject iAObj)
+        }
+        static async Task SnipTests(IBaObject iSomeObject)
+        {
+            // Snippet "Object test" 1) Test for object type:
+            if (iSomeObject is IBaAnalogObject iAObj)
                 // E.g. modify some analog-type properties:
                 iAObj.CovIncrement.Primitive = 1.0F;
 
-            if (iObj is IBaEventObject iEvtObj)
+            if (iSomeObject is IBaEventObject iEvtObj)
                 // E.g. do some event related operations:
                 await iEvtObj.AcknowledgeAsync();
 
-            if (iObj is IBaAcknowledgeEnabled iAckObj)
+            if (iSomeObject is IBaAcknowledgeEnabled iAckObj)
             {
                 // E.g. check if object can be acknowledged:
                 if (iAckObj.CanAcknowledge)
                     ; // ...
+            }
+            
+
+            Console.WriteLine("\nSnippet \"Object test\" 2) List additional parameters:");
+            foreach (var iParam in iSomeObject.AdditionalParameters)
+                Console.WriteLine(string.Format("- {0}", iParam.Title));
+        }
+        static void SnipTests(IBaValue iSomeValue)
+        {
+            if (iSomeValue is IBaPrimitiveValue iPrimVal)
+            {
+                // Snippet "Value test" 1) Test for primitive value:
+                if (iPrimVal is IBaPrimitiveValue<float> iFloatVal)
+                    iFloatVal.Primitive = 123;
+
+                Console.WriteLine("\nSnippet \"Value test\" 2) Test out value range of a primitive value:");
+                switch (iPrimVal.GetRange())
+                {
+                    case null:
+                        Console.WriteLine("Value not limited.");
+                        break;
+
+                    case Tc3_BA2.IBaLimitedValueRange iLimit:
+                        Console.WriteLine(string.Format("Value limited from {0} to {1}.", iLimit.MinLimit, iLimit.MaxLimit));
+                        break;
+
+                    case Tc3_BA2.IBaEnumeratedValueRange iEnum:
+                        Console.WriteLine("\nValue limited to following values:");
+                        foreach (var _sVal in iEnum.Values)
+                            Console.WriteLine(string.Format("- {0}", _sVal));
+                        break;
+
+                    default:
+                        throw new NotImplementedException("Not implemented range of value!");
+                }
             }
         }
         #endregion
