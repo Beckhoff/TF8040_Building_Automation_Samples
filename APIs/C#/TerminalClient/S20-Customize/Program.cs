@@ -27,10 +27,10 @@ namespace Beckhoff.BA.TerminalClient.Samples
             // Sample 2) Set additional property filter:
             // -> This filter will be used at a device's initialization time to ensure that the specified properties are initialized by reading them once.
             // -> This filter is optional and works in addition to the internal default filter.
-            var MyFilter = new Tc3_BA2.BaPlcVariableID[]
+            var MyFilter = new Tc3_BA2.BaVariableID[]
             {
-                Tc3_BA2.BaPlcVariableID.eAction,
-                Tc3_BA2.BaPlcVariableID.eAddress
+                Tc3_BA2.BaVariableID.eAction,
+                Tc3_BA2.BaVariableID.eAddress
             };
             BaSite.InitialObjectPropertyFilter = (iVar) => MyFilter.Contains(iVar.ID);
 

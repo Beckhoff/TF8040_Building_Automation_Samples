@@ -56,47 +56,66 @@ namespace Beckhoff.BA.TerminalClient.Samples
         static async Task Snippets()
         {
             // Snippet 1.1) Quick-resolve an objects variable value:
-            var iVal11 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaPlcVariableID.ePresentValue].Value;
+            var iVal11 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.ePresentValue].Value;
 
             // Snippet 1.2) Fast-read an objects variable:
-            await((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaPlcVariableID.ePresentValue].Value).ReadAsync();
+            await((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.ePresentValue].Value).ReadAsync();
 
             // Snippet 2.1) Quick-write an objects variable:
-            var iVal21 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaPlcVariableID.eValueRm].Value;
+            var iVal21 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.eValueRm].Value;
             iVal21.Primitive = 123;
             await iVal21.WriteAsync();
 
             // Snippet 2.2) Fast-write an objects variable:
-            await((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaPlcVariableID.eValueRm].Value).WriteAsync(123);
+            await((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.eValueRm].Value).WriteAsync(123);
 
             // Snippet 3) Top-down resolving a variable value in single steps:
             IBaBasicObject iObj = BaSite.FindObject("MyPlcProject.MAIN.SomeValue");
-            IBaPlcVariable iPlcVar = iObj[Tc3_BA2.BaPlcVariableID.eValueRm];
-
+            IBaVariable iPlcVar = iObj[Tc3_BA2.BaVariableID.eValueRm];
             IBaValue iVal1 = iPlcVar.Value;
 
-            // Test for primitive value:
-            IBaPrimitiveValue iPrimVal = iVal1 as IBaPrimitiveValue;
+
+            // Snippet 4.1) Test for primitive value:
+            var iPrimVal = iVal1 as IBaPrimitiveValue;
             if (iPrimVal != null)
             {
-                IBaPrimitiveValue<float> iFloatVal = iPrimVal as IBaPrimitiveValue<float>;
+                var iFloatVal = iPrimVal as IBaPrimitiveValue<float>;
                 if (iFloatVal != null)
                     iFloatVal.Primitive = 123;
             }
 
-            // Test for object type:
-            IBaAnalogObject iAnalogObj = iObj as IBaAnalogObject;
-            if (iAnalogObj != null)
+            Console.WriteLine("\nSample 4.2) Test out value range of a primitive value:");
+            switch (iPrimVal.GetRange())
+            {
+                case null:
+                    Console.WriteLine("\nValue not limited.");
+                    break;
+
+                case Tc3_BA2.IBaLimitedValueRange iLimit:
+                    Console.WriteLine(string.Format("\nValue limited from {0} to {1}.", iLimit.MinLimit, iLimit.MaxLimit));
+                    break;
+
+                case Tc3_BA2.IBaEnumeratedValueRange iEnum:
+                    Console.WriteLine("\nValue limited to following values:");
+                    foreach(var _sVal in iEnum.Values)
+                        Console.WriteLine(string.Format("\n- {0}", _sVal));
+                    break;
+
+                default:
+                    throw new NotImplementedException("Not implemented range of value!");
+            }
+
+
+            // Snippet 5) Test for object type:
+            if (iObj is  IBaAnalogObject iAObj)
                 // E.g. modify some analog-type properties:
-                iAnalogObj.CovIncrement.Primitive = 1.0F;
+                iAObj.CovIncrement.Primitive = 1.0F;
 
-            IBaEventObject iEventObj = iObj as IBaEventObject;
-            if (iEventObj != null)
+            if (iObj is IBaEventObject iEvtObj)
                 // E.g. do some event related operations:
-                await iEventObj.AcknowledgeAsync();
+                await iEvtObj.AcknowledgeAsync();
 
-            IBaAcknowledgeEnabled iAckObj = iObj as IBaAcknowledgeEnabled;
-            if (iAckObj != null)
+            if (iObj is IBaAcknowledgeEnabled iAckObj)
             {
                 // E.g. check if object can be acknowledged:
                 if (iAckObj.CanAcknowledge)

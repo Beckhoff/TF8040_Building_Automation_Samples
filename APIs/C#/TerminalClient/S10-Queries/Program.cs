@@ -82,7 +82,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
                 #region Variable-Samples
                 Console.WriteLine("\nSample 2.1) Show some present values:");
                 await iTypedObjects
-                    .ListVariableValuesAsync(Tc3_BA2.BaPlcVariableID.ePresentValue);
+                    .ListParameterValuesAsync(Tc3_BA2.BaVariableID.ePresentValue);
                 #endregion
 
 
@@ -128,13 +128,13 @@ namespace Beckhoff.BA.TerminalClient.Samples
         }
 
         /// <summary>
-        /// List a certain variable-value from all variables that provide these certain variable.
+        /// List a certain value from all parameters standard that provide these certain parameter.
         /// </summary>
-        public static async Task ListVariableValuesAsync(this IEnumerable<IBaBasicObject> iSource, Tc3_BA2.BaPlcVariableID bId)
+        public static async Task ListParameterValuesAsync(this IEnumerable<IBaBasicObject> iSource, Tc3_BA2.BaVariableID bId)
         {
             await iSource
-                .Where(_iObj => _iObj.Variables.ContainsKey(bId))
-                .Select(_iObj => _iObj.Variables[bId].Value)
+                .Where(_iObj => _iObj.StandardParameters.ContainsKey(bId))
+                .Select(_iObj => _iObj.StandardParameters[bId].Value)
                 .ListValuesAsync();
         }
         
@@ -154,7 +154,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
                 .ToHashSet();
 
             // Filter affected variables:
-            iCmd.AddVariables(iObjects, BaSite.VariableFilter.ObjectInfo);
+            iCmd.AddVariables(iObjects, BaSite.ParameterFilter.ObjectInfo);
 
             // Read all variables:
             if (await iCmd.ReadAsync())

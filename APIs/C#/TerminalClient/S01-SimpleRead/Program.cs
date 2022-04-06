@@ -22,7 +22,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
         /// <summary>
         /// Variable to read.
         /// </summary>
-        private static Tc3_BA2.BaPlcVariableID VariableId = Tc3_BA2.BaPlcVariableID.ePresentValue;
+        private static Tc3_BA2.BaVariableID VariableId = Tc3_BA2.BaVariableID.ePresentValue;
         #endregion
 
 
@@ -42,7 +42,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
                     Console.WriteLine("Object '{0}' not found!", ObjectPath);
                 else
                 {
-                    var iVar = iObj.Variables[VariableId];
+                    var iVar = iObj.StandardParameters[VariableId];
 
                     // Read variable:
                     await iVar.ReadValueAsync();
