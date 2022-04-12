@@ -94,7 +94,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
             
 
             Console.WriteLine("\nSnippet \"Object test\" 2) List additional parameters:");
-            foreach (var iParam in iSomeObject.AdditionalParameters)
+            foreach (var iParam in iSomeObject.AdditionalParameters.Values)
                 Console.WriteLine(string.Format("- {0}", iParam.Title));
         }
         static void SnipTests(IBaValue iSomeValue)
