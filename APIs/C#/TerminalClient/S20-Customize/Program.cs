@@ -73,7 +73,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
 
 
         #region Events
-        private static void OnLog(BaLogType bIcon, string sCode, object oEvent, string sProcess = "")
+        private static void OnLog(BaLogType bIcon, string sCode, object oEvent, string sProcess = "", IBaLog iContext = null)
         {
             Console.WriteLine(oEvent.ToString());
         }
