@@ -58,21 +58,33 @@ namespace Beckhoff.BA.TerminalClient.Samples
             // Snippet "Resolve" 1.1) Quick-resolve an objects variable value:
             var iVal11 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.ePresentValue].Value;
 
-            // Snippet "Resolve" 1.2) Fast-read an objects variable:
+            // Snippet "Resolve" 1.2) Quick-read an objects variable:
             await ((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.ePresentValue].Value).ReadAsync();
 
-            // Snippet "Resolve" 2.1) Quick-write an objects variable:
+            // Snippet "Resolve" 1.3) Quick-write an objects variable:
             var iVal21 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.eValueRm].Value;
             iVal21.Primitive = 123;
             await iVal21.WriteAsync();
 
-            // Snippet "Resolve" 2.2) Fast-write an objects variable:
+            // Snippet "Resolve" 1.4) Quick-write an objects variable value:
             await ((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.eValueRm].Value).WriteAsync(123);
 
-            // Snippet "Resolve" 3) Top-down resolving a variable value in single steps:
+            // Snippet "Resolve" 1.5) Quick-write multiple variable values:
+            await BaSite.FindObject("MyPlcProject.MAIN.SomeValue").Parameters
+                .Where(iParam => iParam.Value is IBaPrimitiveValue<bool>)
+                .WriteAsync(true);
+
+
+            // Snippet "Resolve" 2) Top-down resolving a variable value in single steps:
             IBaBasicObject iObj = BaSite.FindObject("MyPlcProject.MAIN.SomeValue");
             IBaVariable iPlcVar = iObj[Tc3_BA2.BaVariableID.eValueRm];
             IBaValue iVal1 = iPlcVar.Value;
+
+
+            // Snippet "Resolve" 1.5) Quick-acknowledge multiple objects:
+            await BaSite.Devices.First()
+                .ObjectTable.Values.Take(5)
+                .AcknowledgeAsync();
         }
         static async Task SnipTests(IBaObject iSomeObject)
         {
