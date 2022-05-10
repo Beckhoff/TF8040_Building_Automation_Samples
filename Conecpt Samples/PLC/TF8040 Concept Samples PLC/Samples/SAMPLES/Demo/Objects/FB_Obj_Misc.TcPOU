@@ -102,7 +102,7 @@ VAR
 													sDescription							:= '{Schedule objects}'
 												);
 			
-			// Intention:						Analog Schedule
+			// Intention:						Initialize scheduler parameters with helper methods.
 			// Parameter:						tWeek = F_BA_SchedWeeklyXxA(...)
 			//									tCalendar = F_BA_SchedCalendar(...)
 			//									tException = [(..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...))]
@@ -129,9 +129,10 @@ VAR
 														aEntry								:= F_BA_SchedEntry3xA(T#9H, 0, T#12H, 15.0, T#17H, F_BA_NullA())
 													)]);
 			
-			// Intention:						Boolean Schedule
-			// Parameter:						tWeek = F_BA_SchedWeeklyXxB(...)
-			//									tCalendar = [(...), (...), (...)]
+			// Intention:						Initialize scheduler parameters with helper methods.
+			// Parameter:						tWeek = F_BA_SchedWeeklyXxA(...)
+			//									tCalendar = F_BA_SchedCalendar(...)
+			//									tException = [(..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...))]
 			SchedB								: FB_BA_SchedB := (
 													iParent									:= Sched,
 													sDescription							:= '{Schedule Bool}',
@@ -147,8 +148,9 @@ VAR
 														uDate								:= F_BA_WeekNDayVal(E_BA_Weekday.eFriday, E_BA_Week.Unspecified, E_BA_Month.Unspecified),
 														aEntry								:= F_BA_SchedEntry3xB(T#9H, FALSE, T#12H, TRUE, T#17H, F_BA_NullB())
 													)]);
-			
-			// Intention:						Multistate Schedule
+			// Intention:						Initialize scheduler parameters manually.
+			//									tCalendar = ...
+			//									tException = ...
 			SchedM								: FB_BA_SchedM := (
 													iParent									:= Sched,
 													sDescription							:= '{Schedule Multistate}',
@@ -156,14 +158,32 @@ VAR
 													aWeek									:= F_BA_SchedWeekly3xM(E_BA_Weekday.eMonday, E_BA_Weekday.eFriday, T#0H, 1, T#6H, 2, T#20H, 1),
 													aCalendar := [(
 														iRefCalendar						:= Cal1,
-														aEntry								:= F_BA_SchedEntry2xM(T#8H, 3, T#18H, 1)
+														aEntry := [(
+															eState							:= E_BA_SchedEntryState.eValue,
+															stTime							:= F_BA_ToSTTime(T#16H),
+															uValue							:= F_BA_UDIVal(2)
+														),(
+															eState							:= E_BA_SchedEntryState.eValue,
+															stTime							:= F_BA_ToSTTime(T#20H),
+															uValue							:= F_BA_UDIVal(1)
+														)]
 													)],
 													aException := [(
 														eType								:= E_BA_DateValChoice.eWeekNDay,
 														uDate								:= F_BA_WeekNDayVal(E_BA_Weekday.eFriday, E_BA_Week.Unspecified, E_BA_Month.Unspecified),
-														aEntry								:= F_BA_SchedEntry4xM(T#8H, 3, T#10H, F_BA_NullM(), T#12H, 4, T#17H, F_BA_NullM())
-													)]
-												);
+														aEntry := [(
+															eState							:= E_BA_SchedEntryState.eValue,
+															stTime							:= F_BA_ToSTTime(T#10H),
+															uValue							:= F_BA_UDIVal(2)
+														),(
+															eState							:= E_BA_SchedEntryState.eValue,
+															stTime							:= F_BA_ToSTTime(T#12H),
+															uValue							:= F_BA_UDIVal(3)
+														),(
+															eState							:= E_BA_SchedEntryState.eNull,
+															stTime							:= F_BA_ToSTTime(T#16H)
+														)]
+													)]);
 	{endregion}
 	{region 'Trend'}
 		Trnd									: FB_BA_View := (
