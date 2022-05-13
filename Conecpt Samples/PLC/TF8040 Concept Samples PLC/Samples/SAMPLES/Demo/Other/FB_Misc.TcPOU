@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_Misc" Id="{3ab59abd-7907-417e-9172-68b9f3ae54be}" SpecialFunc="None">
+    <Declaration><![CDATA[// Miscellaneous.
+FUNCTION_BLOCK FB_Misc EXTENDS FB_BA_View
+VAR	
+	// Intention:		Initialize some special UTF-8 characters.
+	SpecialUtf8			: FB_BA_AV_Op := (
+							iParent					:= THIS^,
+							sDescription			:= wsLiteral_TO_UTF8("{äöüßéèêµ€° Ἀθῆναι İstanbul Київ}")
+						);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+SpecialUtf8();]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Misc">
+      <LineId Id="2330" Count="1" />
+      <LineId Id="2334" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
