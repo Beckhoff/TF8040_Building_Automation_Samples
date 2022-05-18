@@ -3,10 +3,6 @@ resources:
    - repository: BuildTemplates
      type: git
      name: 'Common/BuildTemplates'
-   - repository: BuildHmiFrameworkProject
-     type: git
-     name: 'Common/BuildTemplates'
-     ref: 'DanielN/BuildTcHmiFrameworkProject'
 
 trigger: none
 
@@ -138,6 +134,6 @@ jobs:
     #------------------------------------------------------------------------------------
     # Add a tag to the commit
     #------------------------------------------------------------------------------------
-    - template: AddVersionTagToCommit.yml@BuildHmiFrameworkProject
+    - template: AddNewGitTag.yml@BuildTemplates
       parameters:
-        version: $(Version.NuGetVersion)
+        GitTag: $(Version.NuGetVersion)
