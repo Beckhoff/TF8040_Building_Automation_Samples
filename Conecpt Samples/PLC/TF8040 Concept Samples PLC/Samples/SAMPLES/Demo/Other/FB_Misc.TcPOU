@@ -4,6 +4,15 @@
     <Declaration><![CDATA[// Miscellaneous.
 FUNCTION_BLOCK FB_Misc EXTENDS FB_BA_View
 VAR	
+	// Intention:		Adjust certain ("BA_Param" related) settings via PLC code.
+	//					> Feel free to implement as muss instances as needed, where ever needed.
+	Settings			: FB_BA_Settings := (
+							EventEn_Simple			:= F_BA_EventTransition(TRUE, FALSE, FALSE),
+							EventEn_Standard		:= F_BA_EventTransition(TRUE, FALSE, FALSE),
+							EventEn_Extended		:= F_BA_EventTransition(TRUE, FALSE, TRUE),
+							EvtMgmt_AckMode			:= E_BA_AcknowledgeMode.eEntire
+						);
+							
 	// Intention:		Initialize some special UTF-8 characters.
 	SpecialUtf8			: FB_BA_AV_Op := (
 							iParent					:= THIS^,
