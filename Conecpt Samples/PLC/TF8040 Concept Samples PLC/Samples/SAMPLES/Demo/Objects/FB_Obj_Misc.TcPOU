@@ -69,28 +69,36 @@ VAR
 													iParent									:= THIS^,
 													sDescription							:= '{Calendar objects}'
 												);
-				 
-			// Intention:						Calendar
+
+			// Intention:						Initialize calendar parameters with parameter builders.
+			// Parameter:						tWeek										= F_BA_CalendarBuilder()
 			Cal1								: FB_BA_Cal := (
 													iParent									:= Cals,
 													sDescription							:= '{Calendar 1}',
-													aDateList := [(
-														eType								:= E_BA_DateValChoice.eDate,
-														uDate								:= F_BA_DateVal(2021,E_BA_Month.eMarch,10)
-													),(
-														eType								:= E_BA_DateValChoice.eDateRange,
-														uDate								:= F_BA_DateRangeVal(nFromYear:=2021,E_BA_Month.eMarch,10, nToYear:=2021,E_BA_Month.eMarch,15)
-													),(
-														eType								:= E_BA_DateValChoice.eWeekNDay,
-														uDate								:= F_BA_WeekNDayVal(E_BA_Weekday.eMonday, E_BA_Week.Unspecified, E_BA_Month.Unspecified)
-													)]
+													aDateList								:= F_BA_CalendarBuilder()
+																								.AppendDate(2021, E_BA_Month.eMarch, 10)
+																								.AppendDateRange(nFromYear := 2021,E_BA_Month.eMarch,10, nToYear := 2021,E_BA_Month.eMarch,15)
+																								.AppendWeekNDay(E_BA_Weekday.eMonday, E_BA_Week.Unspecified, E_BA_Month.Unspecified)
+																								.Build()
 												);
-			// Intention:						Calendar
+													 
+			// Intention:						Initialize calendar parameters with helper methods.
+			//									aDateList									= [(..., F_BA_DateVal(...)), (..., F_BA_DateRangeVal(...)), (..., F_BA_WeekNDayVal(...))]
 			Cal2								: FB_BA_Cal := (
 													iParent									:= Cals,
-													sDescription							:= '{Calendar 2}'
+													sDescription							:= '{Calendar 2}',
+													aDateList := [(
+														eType								:= E_BA_DateValChoice.eDate,
+														uDate								:= F_BA_DateVal(2020,E_BA_Month.eDecember,10)
+													),(
+														eType								:= E_BA_DateValChoice.eDateRange,
+														uDate								:= F_BA_DateRangeVal(nFromYear:=2020,E_BA_Month.eMarch,5, nToYear:=2020,E_BA_Month.eMarch,10)
+													),(
+														eType								:= E_BA_DateValChoice.eWeekNDay,
+														uDate								:= F_BA_WeekNDayVal(E_BA_Weekday.eTuesday, E_BA_Week.Unspecified, E_BA_Month.Unspecified)
+													)]
 												);
-			// Intention:						Calendar
+
 			Cal3								: FB_BA_Cal := (
 													iParent									:= Cals,
 													sDescription							:= '{Calendar 3}'
@@ -102,37 +110,50 @@ VAR
 													sDescription							:= '{Schedule objects}'
 												);
 			
-			// Intention:						Initialize scheduler parameters with helper methods.
-			// Parameter:						tWeek = F_BA_SchedWeeklyXxA(...)
-			//									tCalendar = F_BA_SchedCalendar(...)
-			//									tException = [(..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...))]
+			// Intention:						Initialize scheduler parameters with parameter builders.
+			// Parameter:						tWeek										= F_BA_WeeklyScheduleBuilder()
+			//									tCalendar									= F_BA_ScheduleCalendarBuilder()
+			//									tException									= F_BA_ExceptionScheduleBuilder()
 			SchedA								: FB_BA_SchedA := (
 													iParent									:= Sched,
 													sDescription							:= '{Schedule Analog}',
 													eUnit									:= E_BA_Unit.eTemperature_DegreesCelsius,
-													aWeek									:= F_BA_SchedWeekly3xA(E_BA_Weekday.eMonday, E_BA_Weekday.eFriday, T#0H, 0.0, T#6H, 10.0, T#20H, 0.0),
-													aCalendar := [(
-														iRefCalendar						:= Cal1,
-														aEntry								:= F_BA_SchedEntry2xA(T#8H, 15.0, T#18H, 0.0)
-													)],
-													aException := [(
-														eType								:= E_BA_DateValChoice.eDate,
-														uDate								:= F_BA_DateVal(2021,E_BA_Month.eMarch,10),
-														aEntry								:= F_BA_SchedEntry1xA(T#0H, 0.0)
-													),(
-														eType								:= E_BA_DateValChoice.eDateRange,
-														uDate								:= F_BA_DateRangeVal(nFromYear:=2021,E_BA_Month.eMarch,10, nToYear:=2021,E_BA_Month.eMarch,15),
-														aEntry								:= F_BA_SchedEntry2xA(T#10H, 10.0, T#17H, F_BA_NullA())
-													),(
-														eType								:= E_BA_DateValChoice.eWeekNDay,
-														uDate								:= F_BA_WeekNDayVal(E_BA_Weekday.eFriday, E_BA_Week.Unspecified, E_BA_Month.Unspecified),
-														aEntry								:= F_BA_SchedEntry3xA(T#9H, 0, T#12H, 15.0, T#17H, F_BA_NullA())
-													)]);
+													aWeek									:= F_BA_WeeklyScheduleBuilder()
+																								.SetAllDays()
+																									.AppendA(T#0H, 1.0)
+																									.Close()
+																								.SetDay(E_BA_Weekday.eMonday)
+																									.AppendA(T#0H, 2.0).AppendA(T#8H, 3.0).AppendA(T#16H, 2.0)
+																									.Close()
+																								.SetDayRange(E_BA_Weekday.eSaturday, E_BA_Weekday.eSunday)
+																									.AppendA(T#0H, 4.0)
+																									.Close()
+																								.Build(),
+													aCalendar								:= F_BA_ScheduleCalendarBuilder()
+																								.AppendReference(Cal1)
+																									.AppendA(T#0H, 1.0).AppendA(T#6H, 2.0).AppendNull(T#12H)
+																									.Close()
+																								.AppendReference(Cal2)
+																									.AppendA(T#10H, 1.0).AppendNull(T#12H)
+																									.Close()
+																								.Build(),
+													aException								:= F_BA_ExceptionScheduleBuilder()
+																								.AppendDate(2021, E_BA_Month.eMarch, 10)
+																									.AppendA(T#0H, 1.0).AppendA(T#6H, 2.0).AppendNull(T#12H)
+																									.Close()
+																								.AppendDateRange(nFromYear := 2021,E_BA_Month.eMarch,10, nToYear := 2021,E_BA_Month.eMarch,15)
+																									.AppendA(T#12H, 1.0).AppendNull(T#16H)
+																									.Close()
+																								.AppendWeekNDay(E_BA_Weekday.eFriday, E_BA_Week.Unspecified, E_BA_Month.Unspecified)
+																									.AppendA(T#20H, 3.0)
+																									.Close()
+																								.Build()
+												);
 			
 			// Intention:						Initialize scheduler parameters with helper methods.
-			// Parameter:						tWeek = F_BA_SchedWeeklyXxA(...)
-			//									tCalendar = F_BA_SchedCalendar(...)
-			//									tException = [(..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...))]
+			// Parameter:						tWeek										= F_BA_SchedWeeklyXxA(...)
+			//									tCalendar									= F_BA_SchedCalendar(...)
+			//									tException									= [(..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...)), (..., F_BA_SchedEntryXxA(...))]
 			SchedB								: FB_BA_SchedB := (
 													iParent									:= Sched,
 													sDescription							:= '{Schedule Bool}',
@@ -144,13 +165,21 @@ VAR
 														aEntry								:= F_BA_SchedEntry2xB(T#8H, TRUE, T#18H, FALSE)
 													)],
 													aException := [(
+														eType								:= E_BA_DateValChoice.eDate,
+														uDate								:= F_BA_DateVal(2021,E_BA_Month.eMarch,10),
+														aEntry								:= F_BA_SchedEntry1xB(T#0H, FALSE)
+													),(
+														eType								:= E_BA_DateValChoice.eDateRange,
+														uDate								:= F_BA_DateRangeVal(nFromYear:=2021,E_BA_Month.eMarch,10, nToYear:=2021,E_BA_Month.eMarch,15),
+														aEntry								:= F_BA_SchedEntry2xB(T#10H, TRUE, T#17H, F_BA_NullB())
+													),(
 														eType								:= E_BA_DateValChoice.eWeekNDay,
 														uDate								:= F_BA_WeekNDayVal(E_BA_Weekday.eFriday, E_BA_Week.Unspecified, E_BA_Month.Unspecified),
 														aEntry								:= F_BA_SchedEntry3xB(T#9H, FALSE, T#12H, TRUE, T#17H, F_BA_NullB())
 													)]);
 			// Intention:						Initialize scheduler parameters manually.
-			//									tCalendar = ...
-			//									tException = ...
+			//									tCalendar									= ...
+			//									tException									= ...
 			SchedM								: FB_BA_SchedM := (
 													iParent									:= Sched,
 													sDescription							:= '{Schedule Multistate}',
@@ -192,7 +221,7 @@ VAR
 												);
 				 
 			// Intention:						Trend in polling-mode
-			// Parameter:						eLoggingType = E_BA_LoggingType.ePolled
+			// Parameter:						eLoggingType								= E_BA_LoggingType.ePolled
 			PollAV								: FB_BA_AV_Op := (
 													iParent									:= Trnd,
 													sDescription							:= '{Referred object for polling}',
@@ -210,7 +239,7 @@ VAR
 												);
 													 
 			// Intention:						Trend in COV-mode
-			// Parameter:						eLoggingType = E_BA_LoggingType.eCOV
+			// Parameter:						eLoggingType								= E_BA_LoggingType.eCOV
 			CovAI								: FB_BA_AI := (
 													iParent									:= Trnd,
 													sDescription							:= '{Referred analog object for COV}',

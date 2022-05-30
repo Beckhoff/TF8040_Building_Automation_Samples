@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
-  <POU Name="FB_Plt_Init2" Id="{67fb6ca1-0706-4b0e-88a5-57f7665e1022}" SpecialFunc="None">
-    <Declaration><![CDATA[// How to initialize plant control at declaration (Recommended workflow).
+  <POU Name="FB_Plt_Init3" Id="{ff8ee360-1381-48c8-ac76-513f54c50d79}" SpecialFunc="None">
+    <Declaration><![CDATA[// How to initialize plant control with helper methods in "FB_init()".
 // [Hint]
 // > All reference-variables are implemented to ease monitoring of relevant variables.
-FUNCTION_BLOCK FB_Plt_Init2 EXTENDS FB_BA_View
+FUNCTION_BLOCK FB_Plt_Init3 EXTENDS FB_BA_View
 VAR
    	{region 'Aggregates'}
 		DmprSu_Open							: REFERENCE TO BOOL							REF= DmprSu.bOpen;
@@ -33,41 +33,7 @@ VAR
 		PlantCtrl_On						: REFERENCE TO BOOL							REF= PlantCtrl.bOn;
 		PlantCtrl_PrVal						: REFERENCE TO UDINT						REF= PlantCtrl.nPresentValue;
 		PlantCtrl_Step						: REFERENCE TO STRING						REF= PlantCtrl.sStep;
-		PlantCtrl							: FB_BA_PlantCtrl := (
-												iParent									:= THIS^,
-												iLabel									:= MyLabels.PltCtrl,
-												stOperation := (
-													aOpMode								:= [ E_OpMod_AC.eDisturb,				E_OpMod_AC.eSmokeExtract,		E_OpMod_AC.eOff,			E_OpMod_AC.eOn,				E_OpMod_AC.eNightCool ],
-													aPriority							:= [ E_BA_Priority.eCritical,			E_BA_Priority.eLifeSafety,		E_BA_Priority.eProgram,		E_BA_Priority.eProgram,		E_BA_Priority.eProgram ],
-													aIgnoreFlags						:= [ E_BA_AggregateIgnoreFlags.Delay,	E_BA_AggregateIgnoreFlags.All,	0,							0,							0 ],
-													aAggregates := [(
-														iReference						:= DmprSu,
-														aAggMode						:= [ 0,									100,							0,							100,						100 ]
-													), (
-														iReference						:= DmprEx,
-														aAggMode						:= [ 0,									100,							0,							100,						100 ]
-													), (
-														iReference						:= PreHtr,
-														aAggMode						:= [ E_OpMod_Binary.eOff,				E_OpMod_Binary.eOn,				E_OpMod_Binary.eOff,		E_OpMod_Binary.eOn,			E_OpMod_Binary.eOff ],
-														bWaitForProcesses				:= TRUE
-													), (
-														iReference						:= Erc,
-														aAggMode						:= [ E_OpMod_Binary.eOff,				E_OpMod_Binary.eOn,				E_OpMod_Binary.eOff,		E_OpMod_Binary.eOn,			E_OpMod_Binary.eOff ]
-													), (
-														iReference						:= Col,
-														aAggMode						:= [ E_OpMod_Binary.eOff,				E_OpMod_Binary.eOn,				E_OpMod_Binary.eOff,		E_OpMod_Binary.eOn,			E_OpMod_Binary.eOff ]
-													), (
-														iReference						:= FanSu,
-														aAggMode						:= [ E_OpMod_Step2.eOff,				E_OpMod_Step2.eStep2,			E_OpMod_Step2.eOff,			E_OpMod_Step2.eStep1,		E_OpMod_Step2.eStep2 ],
-														tDelayStepDown					:= T#0S,
-														tDelayStepUp					:= T#5S
-													), (
-														iReference						:= FanEx,
-														aAggMode						:= [ E_OpMod_Step2.eOff,				E_OpMod_Step2.eStep2,			E_OpMod_Step2.eOff,			E_OpMod_Step2.eStep1,		E_OpMod_Step2.eStep2 ],
-														tDelayStepDown					:= T#5S,
-														tDelayStepUp					:= T#0S
-													)]
-											));
+		PlantCtrl							: FB_BA_PlantCtrl							:= (iParent:=THIS^,					iLabel:=MyLabels.PltCtrl);
 	{endregion}
 END_VAR
 ]]></Declaration>
@@ -3585,9 +3551,9 @@ END_VAR
                 </l2>
               </o>
               <o n="ParameterInitializationMethodGenerator" t="CFCParameterInitializationMethodObject">
-                <v n="GuidPOU">{ea070b95-3bba-4dcc-be59-7ffb60fb8a9f}</v>
-                <v n="GuidParentObject">{67fb6ca1-0706-4b0e-88a5-57f7665e1022}</v>
-                <v n="MethodName">"__InitializeParameters_FB_Plt_Init2"</v>
+                <v n="GuidPOU">{5cba32c9-1d8e-463e-aaca-12cbfc1e887e}</v>
+                <v n="GuidParentObject">{ff8ee360-1381-48c8-ac76-513f54c50d79}</v>
+                <v n="MethodName">"__InitializeParameters_FB_Plt_Init3"</v>
                 <v n="ReturnType">"BOOL"</v>
               </o>
               <o n="RoutingPathTable" t="CFCRoutingPathTable">
@@ -3759,8 +3725,8 @@ END_VAR
                 </d2>
               </o>
               <v n="AutoSizeCanvas">true</v>
-              <v n="CanvasWidth">85</v>
-              <v n="CanvasHeight">67</v>
+              <v n="CanvasWidth">2</v>
+              <v n="CanvasHeight">2</v>
             </o>
           </Data>
           <TypeList>
@@ -3800,5 +3766,61 @@ END_VAR
         </XmlArchive>
       </CFC>
     </Implementation>
+    <Method Name="FB_init" Id="{9ab58b83-86a7-4a29-afb5-e4bd42ff20de}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[PlantCtrl.Clear();
+
+// Add plant operations modes:
+PlantCtrl.AddOperationMode(E_OpMod_AC.eDisturb,			E_BA_Priority.eCritical,	E_BA_AggregateIgnoreFlags.Delay);
+PlantCtrl.AddOperationMode(E_OpMod_AC.eSmokeExtract,	E_BA_Priority.eLifeSafety,	E_BA_AggregateIgnoreFlags.All);
+PlantCtrl.AddOperationMode(E_OpMod_AC.eOff,				E_BA_Priority.eProgram,		E_BA_AggregateIgnoreFlags.None);
+PlantCtrl.AddOperationMode(E_OpMod_AC.eOn,				E_BA_Priority.eProgram,		E_BA_AggregateIgnoreFlags.None);
+PlantCtrl.AddOperationMode(E_OpMod_AC.eNightCool,		E_BA_Priority.eProgram,		E_BA_AggregateIgnoreFlags.None);
+
+// Add aggregates:
+PlantCtrl.AddAggregate(DmprSu,	FALSE,	FALSE,	T#0S,	T#0S);
+PlantCtrl.AddAggregate(DmprEx,	FALSE,	FALSE,	T#0S,	T#0S);
+PlantCtrl.AddAggregate(PreHtr,	TRUE,	FALSE,	T#0S,	T#0S);
+PlantCtrl.AddAggregate(Erc,		FALSE,	FALSE,	T#0S,	T#0S);
+PlantCtrl.AddAggregate(Col,		FALSE,	FALSE,	T#0S,	T#0S);
+PlantCtrl.AddAggregate(FanSu,	FALSE,	FALSE,	T#0S,	T#5S);
+PlantCtrl.AddAggregate(FanEx,	FALSE,	FALSE,	T#5S,	T#0S);
+
+// Apply aggregate operation modes dependant on corresponding plant operation modes:
+PlantCtrl.AssignAggregate4x(E_OpMod_AC.eDisturb,		DmprSu, TO_UDINT(0),					FanSu, TO_UDINT(E_OpMod_Step2.eOff),		DmprEx, TO_UDINT(0),					FanEx, TO_UDINT(E_OpMod_Step2.eOff));
+PlantCtrl.AssignAggregate4x(E_OpMod_AC.eSmokeExtract,	DmprSu, TO_UDINT(100),					FanSu, TO_UDINT(E_OpMod_Step2.eStep2),		DmprEx, TO_UDINT(100),					FanEx, TO_UDINT(E_OpMod_Step2.eStep2));
+PlantCtrl.AssignAggregate4x(E_OpMod_AC.eOff,			DmprSu, TO_UDINT(0),					FanSu, TO_UDINT(E_OpMod_Step2.eOff),		DmprEx, TO_UDINT(0),					FanEx, TO_UDINT(E_OpMod_Step2.eOff));
+PlantCtrl.AssignAggregate4x(E_OpMod_AC.eOn,				DmprSu, TO_UDINT(100),					FanSu, TO_UDINT(E_OpMod_Step2.eStep1),		DmprEx, TO_UDINT(100),					FanEx, TO_UDINT(E_OpMod_Step2.eStep1));
+PlantCtrl.AssignAggregate4x(E_OpMod_AC.eNightCool,		DmprSu, TO_UDINT(100),					FanSu, TO_UDINT(E_OpMod_Step2.eStep2),		DmprEx, TO_UDINT(100),					FanEx, TO_UDINT(E_OpMod_Step2.eStep2));
+
+PlantCtrl.AssignAggregate3x(E_OpMod_AC.eDisturb,		PreHtr, TO_UDINT(E_OpMod_Binary.eOff),	Erc, TO_UDINT(E_OpMod_Binary.eOff),			Col, TO_UDINT(E_OpMod_Binary.eOff));
+PlantCtrl.AssignAggregate3x(E_OpMod_AC.eSmokeExtract,	PreHtr, TO_UDINT(E_OpMod_Binary.eOn),	Erc, TO_UDINT(E_OpMod_Binary.eOn),			Col, TO_UDINT(E_OpMod_Binary.eOn));
+PlantCtrl.AssignAggregate3x(E_OpMod_AC.eOff,			PreHtr, TO_UDINT(E_OpMod_Binary.eOff),	Erc, TO_UDINT(E_OpMod_Binary.eOff),			Col, TO_UDINT(E_OpMod_Binary.eOff));
+PlantCtrl.AssignAggregate3x(E_OpMod_AC.eOn,				PreHtr, TO_UDINT(E_OpMod_Binary.eOn),	Erc, TO_UDINT(E_OpMod_Binary.eOn),			Col, TO_UDINT(E_OpMod_Binary.eOn));
+PlantCtrl.AssignAggregate3x(E_OpMod_AC.eNightCool,		PreHtr, TO_UDINT(E_OpMod_Binary.eOff),	Erc, TO_UDINT(E_OpMod_Binary.eOff),			Col, TO_UDINT(E_OpMod_Binary.eOff));
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Plt_Init3.FB_init">
+      <LineId Id="450" Count="0" />
+      <LineId Id="449" Count="0" />
+      <LineId Id="364" Count="0" />
+      <LineId Id="465" Count="4" />
+      <LineId Id="379" Count="1" />
+      <LineId Id="470" Count="0" />
+      <LineId Id="472" Count="4" />
+      <LineId Id="479" Count="0" />
+      <LineId Id="389" Count="0" />
+      <LineId Id="495" Count="4" />
+      <LineId Id="487" Count="0" />
+      <LineId Id="500" Count="4" />
+      <LineId Id="494" Count="0" />
+      <LineId Id="444" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

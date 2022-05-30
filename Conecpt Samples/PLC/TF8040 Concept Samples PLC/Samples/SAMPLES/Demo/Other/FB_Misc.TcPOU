@@ -10,13 +10,20 @@ VAR
 							EventEn_Simple			:= F_BA_EventTransition(TRUE, FALSE, FALSE),
 							EventEn_Standard		:= F_BA_EventTransition(TRUE, FALSE, FALSE),
 							EventEn_Extended		:= F_BA_EventTransition(TRUE, FALSE, TRUE),
-							EvtMgmt_AckMode			:= E_BA_AcknowledgeMode.eEntire
+							EvtMgmt_AckMode			:= E_BA_AcknowledgeMode.eEntire,
+							
+							// Intention:			Adjust access to some specific parameters (Leaving rest untouched).
+							DefWriteAccess			:= F_BA_ParameterRolesBuilder()
+														.Set(E_BA_Parameter.eEventEnable, E_BA_Role.eInternal)
+														.Build()
 						);
 							
 	// Intention:		Initialize some special UTF-8 characters.
 	SpecialUtf8			: FB_BA_AV_Op := (
 							iParent					:= THIS^,
-							sDescription			:= wsLiteral_TO_UTF8("{äöüßéèêµ€° Ἀθῆναι İstanbul Київ}")
+							sDescription			:= wsLiteral_TO_UTF8("{äöüßéèêµ€° Ἀθῆναι İstanbul Київ}"),
+							eUnit					:= E_BA_Unit.eOther_Percent,
+							fValueRm				:= 5
 						);
 END_VAR
 ]]></Declaration>
