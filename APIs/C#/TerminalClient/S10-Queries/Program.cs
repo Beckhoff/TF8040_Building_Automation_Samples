@@ -4,10 +4,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Beckhoff.BA.TerminalClient.Api;
-using Beckhoff.BA.TerminalClient.Api.Site;
+using TwinCAT.BA;
+using TwinCAT.BA.Site;
 
-using static Beckhoff.BA.TerminalClient.Api.BaApi;
+using static TwinCAT.BA.BaApi;
 
 
 namespace Beckhoff.BA.TerminalClient.Samples
@@ -167,7 +167,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
         public static void ListEvents(this IEnumerable<IBaEvent> iSource)
         {
             foreach (var _iEvent in iSource)
-                Console.WriteLine("- [{0}] {1} | {2}", _iEvent.TimeStamp, _iEvent.State, _iEvent.ReferredObject.Description);
+                Console.WriteLine("- [{0}] {1} | {2}", _iEvent.TimeStamp, _iEvent.State, _iEvent.RelatedObject.Description);
         }
 
         /// <summary>

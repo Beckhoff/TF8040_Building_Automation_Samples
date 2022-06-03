@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Beckhoff.BA.TerminalClient.Api;
-using Beckhoff.BA.TerminalClient.Api.Site;
-
-using static Beckhoff.BA.TerminalClient.Api.BaApi;
+using TwinCAT.BA;
+using TwinCAT.BA.Site;
 
 
 namespace Beckhoff.BA.TerminalClient.Samples
@@ -42,14 +40,6 @@ namespace Beckhoff.BA.TerminalClient.Samples
                 Console.WriteLine("<Failed> {0}", eExcpt.Message);
             }
         }
-
-
-        #region Events
-        private static void OnLog(BaLogType bIcon, string sCode, object oEvent, string sProcess = "")
-        {
-            Console.WriteLine(oEvent.ToString());
-        }
-        #endregion
 
 
         #region CodeSnippets

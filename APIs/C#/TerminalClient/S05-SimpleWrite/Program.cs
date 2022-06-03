@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Beckhoff.BA.TerminalClient.Api;
-using Beckhoff.BA.TerminalClient.Api.Site;
+using TwinCAT.BA;
+using TwinCAT.BA.Site;
 
-using static Beckhoff.BA.TerminalClient.Api.BaApi;
+using static TwinCAT.BA.BaApi;
 
 
 namespace Beckhoff.BA.TerminalClient.Samples
