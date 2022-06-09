@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="MAIN_OPTEXT" Id="{fe0d8692-76b5-403a-b1eb-04dff6333b4b}" SpecialFunc="None">
+    <Declaration><![CDATA[// Optional extensions.
+// [Hint]
+// - To stay maintainable and sustain a nice project overview it is recommended to declare these tools in your MAIN program.
+PROGRAM MAIN_OPTEXT
+VAR
+	{region 'Settings'}
+		// Intention:		Adjust certain ("BA_Param" related) settings via PLC code.
+		//					> Feel free to implement as muss instances as needed, where ever needed.
+		Settings			: FB_BA_Settings := (
+								EventEn_Simple			:= F_BA_EventTransition(TRUE, FALSE, FALSE),
+								EventEn_Standard		:= F_BA_EventTransition(TRUE, FALSE, FALSE),
+								EventEn_Extended		:= F_BA_EventTransition(TRUE, FALSE, TRUE),
+								EvtMgmt_AckMode			:= E_BA_AcknowledgeMode.eEntire,
+								
+								// Intention:			Adjust access to some specific parameters (Leaving rest untouched).
+								DefWriteAccess			:= F_BA_ParameterRolesBuilder()
+															.Set(E_BA_Parameter.eEventEnable, E_BA_Role.eInternal)
+															.Build()
+							);
+
+		// Intention:		Generically subscribe to certain events.
+		//					> Use carefully (Refer to documentation - event subscribers are powerfull!)
+		Events_LocObj		: FB_MyLocalObjectEvents;
+	{endregion}
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN_OPTEXT">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

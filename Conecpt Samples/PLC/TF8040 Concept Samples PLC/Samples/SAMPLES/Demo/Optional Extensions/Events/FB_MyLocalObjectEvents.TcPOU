@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+  <POU Name="FB_MyLocalObjectEvents" Id="{435807dc-5aae-4d12-89bc-d25a17ff58e3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MyLocalObjectEvents EXTENDS FB_BA_LocalObjectEventSubscriber]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="[Private] Helper" Id="{9d9a0465-d4d4-48d9-9c35-4f244b497295}" />
+    <Folder Name="[Protected] Events" Id="{cca82e83-5f4b-4811-b7c2-04e15e3ebc6d}" />
+    <Method Name="IsPressure" Id="{5aaf513d-5ef4-4794-b1ab-187dfd790870}" FolderPath="[Private] Helper\">
+      <Declaration><![CDATA[METHOD PRIVATE IsPressure : BOOL
+VAR_INPUT
+	eUnit		: E_BA_Unit;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsPressure := (E_BA_Unit.ePressure_Pascals <= eUnit) AND_THEN (eUnit <= E_BA_Unit.ePressure_InchesOfMercury);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IsTemperature" Id="{9cf25a15-9b02-43f6-9b1c-924566998260}" FolderPath="[Private] Helper\">
+      <Declaration><![CDATA[METHOD PRIVATE IsTemperature : BOOL
+VAR_INPUT
+	eUnit		: E_BA_Unit;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IsTemperature := (E_BA_Unit.eTemperature_DegreesCelsius <= eUnit) AND_THEN (eUnit <= E_BA_Unit.eTemperature_DegreeDaysFahrenheit);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="OnInitInstanceId" Id="{c9f9993e-e237-4917-8299-2a47d61c3632}" FolderPath="[Protected] Events\">
+      <Declaration><![CDATA[METHOD PROTECTED OnInitInstanceId
+VAR_INPUT
+	iObject			: I_BA_Object;
+END_VAR
+VAR_INST
+	_nID_Temp		: UDINT						:= 5000;				// First ID to assign to temperature sensors.
+	_nID_Prs		: UDINT						:= 6000;				// First ID to assign to pressure sensors.
+END_VAR
+VAR
+	_iAnalogObj		: I_BA_AnalogObject;
+	_nID			: REFERENCE TO UDINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Sample 1) Generate instance ID related to configured units.
+
+IF (iObject.InstanceID <> 0) THEN
+	; // ID already assigned.
+ELSIF (iObject.DataClass <> E_BA_DataClass.eAnalog) THEN
+	; // Skip.
+ELSIF (NOT __QUERYINTERFACE(iObject, _iAnalogObj)) THEN
+	; // Failed to convert interface.
+ELSE
+	// Determine range of instance IDs:
+	IF (IsTemperature(_iAnalogObj.Unit)) THEN
+		_nID REF= _nID_Temp;
+	ELSIF (IsPressure(_iAnalogObj.Unit)) THEN
+		_nID REF= _nID_Prs;
+	ELSE
+		RETURN; // Skip (Instance ID will be auto-generated).
+	END_IF
+		
+	// Assign instance ID:
+	_iAnalogObj.InstanceID := _nID;
+	iObject.LogMsg.Show1(ADSLOG_MSGTYPE_HINT, 'OIII21', 'Assigned instance ID %d.', F_UDINT(_nID), FALSE);
+	
+	_nID := (_nID+1);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MyLocalObjectEvents">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MyLocalObjectEvents.IsPressure">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MyLocalObjectEvents.IsTemperature">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MyLocalObjectEvents.OnInitInstanceId">
+      <LineId Id="19" Count="0" />
+      <LineId Id="55" Count="3" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="77" Count="6" />
+      <LineId Id="93" Count="1" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="86" Count="2" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="25" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
