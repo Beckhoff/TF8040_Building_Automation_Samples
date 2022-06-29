@@ -39,6 +39,9 @@ variables:
     AutoPatch: false
     PreReleaseName: ${{variables.PreReleaseName}})
 
+- name: 'ArchivesFolder'
+  value: 'archives'
+
 jobs:
         
 - job: CreateTF8040Samples
@@ -85,22 +88,13 @@ jobs:
     displayName: 'Pull repository'
 
   #------------------------------------------------------------------------------------
-  # Set versions
-  #------------------------------------------------------------------------------------
-  - task: PythonScript@0
-    displayName: 'Set versions'
-    inputs:
-      scriptPath: Pipelines/set_versions.py
-      arguments: $(Version.NuGetVersion)
-      workingDirectory: Pipelines
-
-  #------------------------------------------------------------------------------------
   # Create Concept Samples
   #------------------------------------------------------------------------------------
   - template: CreateSampleArchive.yml
     parameters:
       sampleName: Conecpt Samples
       version: $(Version.NuGetVersion)
+      archivesFolder: $(ArchivesFolder)
 
   #------------------------------------------------------------------------------------
   # Create Template Samples
@@ -109,6 +103,7 @@ jobs:
     parameters:
       sampleName: Template Samples
       version: $(Version.NuGetVersion)
+      archivesFolder: $(ArchivesFolder)
       
   #------------------------------------------------------------------------------------
   # Archive all archives
@@ -116,7 +111,7 @@ jobs:
   - task: ArchiveFiles@2
     displayName: Archive all archives
     inputs:
-      rootFolderOrFile: ./archives
+      rootFolderOrFile: ./$(ArchivesFolder)
       includeRootFolder: false
       archiveType: zip
       archiveFile: $(Build.ArtifactStagingDirectory)/TF8040 Samples V1.$(Version.NuGetVersion).zip
@@ -127,7 +122,7 @@ jobs:
   - task: PublishBuildArtifacts@1
     displayName: Save all archives
     inputs:
-      pathToPublish: $(Build.ArtifactStagingDirectory)/TF8040 Samples V1.$(Version.NuGetVersion).zip
+      pathToPublish: $(Build.ArtifactStagingDirectory)
       artifactName: Samples      
       
   - ${{ if eq(parameters.createTag, 'true') }}:
