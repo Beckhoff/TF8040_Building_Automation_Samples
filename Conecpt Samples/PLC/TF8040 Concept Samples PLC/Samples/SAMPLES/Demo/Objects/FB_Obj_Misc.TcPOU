@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="FB_Obj_Misc" Id="{69b1c2ea-7343-455f-ae88-cfe6d2858d6e}" SpecialFunc="None">
     <Declaration><![CDATA[// Demonstration of objects.
 // > See "FB_BA_EC01" to view decleared event classes.
@@ -232,10 +232,30 @@ VAR
 													iParent									:= Trnd,
 													sDescription							:= '{Sample Trend}',
 													nEventClassID							:= 11,
+													bEnable									:= TRUE,
 													stStartTime								:= F_BA_ToSTDateTime(DT#2010-01-01-00:00),
 													eLoggingType							:= E_BA_LoggingType.ePolled,
 													nLogInterval							:= 300,
 													stReferencedParam							:= F_BA_Reference(PollAV, E_BA_Parameter.ePresentValue)
+												);
+													
+			// Intention:						Trend in trigger-mode
+			// Parameter:						eLoggingType								= E_BA_LoggingType.ePolled
+			TrigAV								: FB_BA_AV_Op := (
+													iParent									:= Trnd,
+													sDescription							:= '{Referenced object for polling}',
+													eUnit									:= E_BA_Unit.eTemperature_DegreesCelsius,
+													fValueRm								:= 1
+												);
+			TrendTrig_Man						: BOOL;
+			TrendTrig							: FB_BA_Trend := (
+													iParent									:= Trnd,
+													sDescription							:= '{Sample Trend}',
+													nEventClassID							:= 11,
+													bEnable									:= TRUE,
+													stStartTime								:= F_BA_ToSTDateTime(DT#2010-01-01-00:00),
+													eLoggingType							:= E_BA_LoggingType.eTriggered,
+													stReferencedParam						:= F_BA_Reference(TrigAV, E_BA_Parameter.ePresentValue)
 												);
 													 
 			// Intention:						Trend in COV-mode
@@ -346,6 +366,8 @@ Trnd();
 
 PollAV();
 TrendPoll();
+TrigAV(fValuePgm:=(TrigAV.fValuePgm+0.01));
+TrendTrig(bTrigPgm:=((MAIN.nCounter MOD 250 = 0) OR (TrendTrig_Man)));
 IF (MAIN.nCounter MOD 200 = 0) THEN
 	CovAI.fVal := SEL((CovAI.fVal<10), 0, (CovAI.fVal+1));
 END_IF
@@ -392,6 +414,7 @@ END_FOR
       <LineId Id="948" Count="0" />
       <LineId Id="928" Count="0" />
       <LineId Id="1040" Count="0" />
+      <LineId Id="2494" Count="1" />
       <LineId Id="1039" Count="0" />
       <LineId Id="1037" Count="0" />
       <LineId Id="1047" Count="3" />
