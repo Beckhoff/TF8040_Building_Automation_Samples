@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
   <POU Name="FB_MyLocalObjectEvents" Id="{435807dc-5aae-4d12-89bc-d25a17ff58e3}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_MyLocalObjectEvents EXTENDS FB_BA_LocalObjectEventSubscriber]]></Declaration>
     <Implementation>
@@ -67,6 +67,23 @@ ELSE
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <Method Name="OnProjectStateChanged" Id="{4b4e98f6-d07e-4dfc-8476-b2251e8ae246}" FolderPath="[Protected] Events\">
+      <Declaration><![CDATA[METHOD PROTECTED OnProjectStateChanged
+VAR_INPUT
+	eState			: E_BA_ProjectState;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Sample 1) Evaluate project state.
+CASE (eState) OF
+	E_BA_ProjectState.eFirstOpCycle:
+		F_BA_LogMessage(ADSLOG_MSGTYPE_HINT, 'OPSC04', 'Initialization done: project is operational.');
+	
+	E_BA_ProjectState.Error:
+		F_BA_LogMessage(ADSLOG_MSGTYPE_HINT, 'OPSC07', 'Initialization failed!');
+	
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_MyLocalObjectEvents">
       <LineId Id="9" Count="0" />
     </LineIds>
@@ -89,6 +106,17 @@ END_IF]]></ST>
       <LineId Id="92" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="25" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MyLocalObjectEvents.OnProjectStateChanged">
+      <LineId Id="5" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="12" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
