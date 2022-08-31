@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="FB_Evt_Misc" Id="{fe5b2e62-a31c-4ee5-b1db-d4befbe56498}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Evt_Misc EXTENDS FB_BA_View
+VAR
+	{region 'Iteration'}
+		// Intention:			Iterate over active events.
+		bIterate				: BOOL;
+		bIterate_ShowTimestamp	: BOOL				:= FALSE;
+		bIterate_ShowType		: BOOL				:= TRUE;
+		bIterate_ShowState		: BOOL				:= TRUE;
+	{endregion}
+END_VAR
+VAR
+	_i						: DINT;
+	_sVal					: T_MaxString;
+	_iObj					: I_BA_EventObject;
+	_fbMsg					: FB_BA_DecorString;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF (bIterate) THEN
+	bIterate := FALSE;
+	
+	_i := F_BA_GetEventCount();
+	IF (_i = 0) THEN
+		F_BA_LogMessage(ADSLOG_MSGTYPE_HINT, 'EM06', 'No active events found yet.');
+	ELSE
+		F_BA_LogMessage1(ADSLOG_MSGTYPE_HINT, 'EM08', 'Active events: %d', F_DINT(_i));
+		
+		// Iterate over all active events:
+		_i := 0;
+		_iObj := 0;								// [Hint] Temporary iterator-object must be NULL to start iteration from the beginning.
+		WHILE (F_BA_IterateEvents(_iObj)) DO
+			_i := (_i+1);
+			
+			// Format message:
+			_fbMsg.Reset();
+			IF (bIterate_ShowTimestamp) THEN
+				_sVal := TO_STRING(F_BA_ToDT(_iObj.EventChangeTime));
+				_fbMsg.AddDecor1('%s', F_STRING(_sVal));
+			END_IF
+			IF (bIterate_ShowType) THEN
+				_fbMsg.AddDecor1('Type: %s', F_STRINGEx(BA_EnumEN.aEventType[_iObj.EventIcon.eEventType].sName));
+			END_IF
+			IF (bIterate_ShowState) THEN
+				_fbMsg.AddDecor1('State: %s', F_STRINGEx(BA_EnumEN.aEventIconState[_iObj.EventIcon.eState].sDescription));
+			END_IF
+			_fbMsg.Finish();
+			
+			_sVal := _iObj.ObjectName;
+			F_BA_LogMessage3(ADSLOG_MSGTYPE_HINT, 'EM32', '%d. %s   %s', F_DINT(_i), F_STRING(_sVal), F_STRING(_fbMsg.sOutput));
+		END_WHILE
+	END_IF
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Evt_Misc">
+      <LineId Id="9" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="99" Count="1" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="85" Count="1" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="80" Count="2" />
+      <LineId Id="68" Count="2" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="19" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
