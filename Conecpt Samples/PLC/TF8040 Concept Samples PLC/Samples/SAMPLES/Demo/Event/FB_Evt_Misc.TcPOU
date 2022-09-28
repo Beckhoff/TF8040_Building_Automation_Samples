@@ -9,16 +9,19 @@ VAR
 		bIterate_ShowTimestamp	: BOOL				:= FALSE;
 		bIterate_ShowType		: BOOL				:= TRUE;
 		bIterate_ShowState		: BOOL				:= TRUE;
+		bIterate_ShowEC			: BOOL				:= FALSE;
 	{endregion}
 END_VAR
 VAR
-	_i						: DINT;
-	_sVal					: T_MaxString;
-	_iObj					: I_BA_EventObject;
-	_fbMsg					: FB_BA_DecorString;
+	_i							: DINT;
+	_sVal						: T_MaxString;
+	_iObj						: I_BA_EventObject;
+	_fbMsg						: FB_BA_DecorString;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF (bIterate) THEN
+      <ST><![CDATA[SUPER^();
+
+IF (bIterate) THEN
 	bIterate := FALSE;
 	
 	_i := F_BA_GetEventCount();
@@ -45,6 +48,10 @@ END_VAR]]></Declaration>
 			IF (bIterate_ShowState) THEN
 				_fbMsg.AddDecor1('State: %s', F_STRINGEx(BA_EnumEN.aEventIconState[_iObj.EventIcon.eState].sDescription));
 			END_IF
+			IF (bIterate_ShowEC) THEN
+				_sVal := TO_STRING(_iObj.EventClassID);
+				_fbMsg.AddDecor1('Event class: %s', F_STRING(_sVal));
+			END_IF
 			_fbMsg.Finish();
 			
 			_sVal := _iObj.ObjectName;
@@ -54,6 +61,7 @@ END_VAR]]></Declaration>
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="FB_Evt_Misc">
+      <LineId Id="133" Count="1" />
       <LineId Id="9" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="20" Count="0" />
@@ -75,6 +83,8 @@ END_IF]]></ST>
       <LineId Id="80" Count="2" />
       <LineId Id="68" Count="2" />
       <LineId Id="64" Count="0" />
+      <LineId Id="151" Count="2" />
+      <LineId Id="150" Count="0" />
       <LineId Id="58" Count="0" />
       <LineId Id="96" Count="0" />
       <LineId Id="117" Count="0" />
