@@ -46,18 +46,18 @@ namespace Beckhoff.BA.TerminalClient.Samples
         static async Task SnipResolve()
         {
             // Snippet "Resolve" 1.1) Quick-resolve an objects variable value:
-            var iVal11 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.ePresentValue].Value;
+            var iVal11 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaParameterId.ePresentValue].Value;
 
             // Snippet "Resolve" 1.2) Quick-read an objects variable:
-            await ((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.ePresentValue].Value).ReadAsync();
+            await ((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaParameterId.ePresentValue].Value).ReadAsync();
 
             // Snippet "Resolve" 1.3) Quick-write an objects variable:
-            var iVal21 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.eValueRm].Value;
+            var iVal21 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaParameterId.ePresentValue].Value;
             iVal21.Primitive = 123;
             await iVal21.WriteAsync();
 
             // Snippet "Resolve" 1.4) Quick-write an objects variable value:
-            await ((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaVariableID.eValueRm].Value).WriteAsync(123);
+            await ((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaParameterId.ePresentValue].Value).WriteAsync(123);
 
             // Snippet "Resolve" 1.5) Quick-write multiple variable values:
             await BaSite.FindObject("MyPlcProject.MAIN.SomeValue").Parameters
@@ -67,7 +67,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
 
             // Snippet "Resolve" 2) Top-down resolving a variable value in single steps:
             IBaBasicObject iObj = BaSite.FindObject("MyPlcProject.MAIN.SomeValue");
-            IBaVariable iPlcVar = iObj[Tc3_BA2.BaVariableID.eValueRm];
+            IBaVariable iPlcVar = iObj[Tc3_BA2.BaParameterId.ePresentValue];
             IBaValue iVal1 = iPlcVar.Value;
 
 

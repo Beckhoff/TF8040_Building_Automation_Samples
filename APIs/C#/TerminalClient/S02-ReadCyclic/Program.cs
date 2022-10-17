@@ -24,7 +24,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
         /// <summary>
         /// Variable to read.
         /// </summary>
-        private static Tc3_BA2.BaVariableID VariableId = Tc3_BA2.BaVariableID.ePresentValue;
+        private static Tc3_BA2.BaParameterId VariableId = Tc3_BA2.BaParameterId.ePresentValue;
         #endregion
 
 
@@ -46,7 +46,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
                     Console.WriteLine("Unable to find '{0}'!", ObjectPath);
                 else
                     // Add job to cyclically read a variable's value:
-                    await iObj.Device.AddReadJobAsync_Cyclic(new BaSumCommand(iObj, false, (_bPlcVar) => (_bPlcVar.ID == VariableId)));
+                    await iObj.Device.AddCyclicReadJobAsync(BaSumCommandFactory.Create<IBaReadSumCommand>(iObj, false, (_bPlcVar) => (_bPlcVar.ID == VariableId)));
 
                 Console.WriteLine("Press key to exit...");
                 Console.WriteLine();

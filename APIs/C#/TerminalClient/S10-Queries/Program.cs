@@ -19,10 +19,6 @@ namespace Beckhoff.BA.TerminalClient.Samples
         /// AMS-NetID of device to connect to.
         /// </summary>
         private static string DevNetID = "127.0.0.1.1.1:851";
-        /// <summary>
-        /// Symbolpath of object to be tested.
-        /// </summary>
-        private static string ObjectPath = "MyPlcProject.MAIN.AnalogValue";
         #endregion
 
 
@@ -82,7 +78,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
                 #region Variable-Samples
                 Console.WriteLine("\nSample 2.1) Show some present values:");
                 await iTypedObjects
-                    .ListParameterValuesAsync(Tc3_BA2.BaVariableID.ePresentValue);
+                    .ListParameterValuesAsync(Tc3_BA2.BaParameterId.ePresentValue);
                 #endregion
 
 
@@ -130,7 +126,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
         /// <summary>
         /// List a certain value from all parameters standard that provide these certain parameter.
         /// </summary>
-        public static async Task ListParameterValuesAsync(this IEnumerable<IBaBasicObject> iSource, Tc3_BA2.BaVariableID bId)
+        public static async Task ListParameterValuesAsync(this IEnumerable<IBaBasicObject> iSource, Tc3_BA2.BaParameterId bId)
         {
             await iSource
                 .Where(_iObj => _iObj.StandardParameters.ContainsKey(bId))
@@ -141,7 +137,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
         public static async Task ListValuesAsync(this IEnumerable<IBaValue> iSource)
         {
             // Create sum command of to read values:
-            var iCmd = new BaSumCommand(iSource);
+            var iCmd = BaSumCommandFactory.Create<IBaReadSumCommand>(iSource);
 
             // [Hint]
             // To get all values displyed correctly, some dependencies are to be considered:

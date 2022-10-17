@@ -22,7 +22,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
         /// <summary>
         /// Variable to read.
         /// </summary>
-        private static Tc3_BA2.BaVariableID VariableId = Tc3_BA2.BaVariableID.ePresentValue;
+        private static Tc3_BA2.BaParameterId VariableId = Tc3_BA2.BaParameterId.ePresentValue;
         #endregion
 
 
