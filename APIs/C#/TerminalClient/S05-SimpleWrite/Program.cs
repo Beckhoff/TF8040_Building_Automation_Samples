@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
@@ -20,7 +21,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
         /// </summary>
         private static string ObjectPath = "MyPlcProject.MAIN.AnalogValue";
         /// <summary>
-        /// Variable to read.
+        /// Variable to write.
         /// </summary>
         private static Tc3_BA2.BaParameterId VariableId = Tc3_BA2.BaParameterId.ePresentValue;
         #endregion
@@ -67,6 +68,18 @@ namespace Beckhoff.BA.TerminalClient.Samples
                     else
                         Console.WriteLine("<Non-primitive values not handled yet>");
                 }
+
+                Console.WriteLine($"\nSample 2) Write '{VariableId}' variables (operational objects only).");
+                var iDevice = BaSite.Devices.First();
+                var iObjects = iDevice.ObjectTable.Values.Where(iObj => (iObj.Purpose == Tc3_BA2.BaObjectPurpose.eOperation));
+                var iCommand = BaSumCommandFactory.Create<IBaWriteSumCommand>(iObjects, VariableId);
+
+                foreach (var iVar in iCommand.Variables)
+                {
+                    // Do something...
+                    // iVar.Value.SetValue();
+                }
+                await iCommand.WriteAsync();
             }
 
             // Disconnect from site:

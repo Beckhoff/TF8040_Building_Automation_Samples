@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
@@ -44,13 +45,14 @@ namespace Beckhoff.BA.TerminalClient.Samples
                 {
                     var iVar = iObj.StandardParameters[VariableId];
 
-                    // Read variable:
+                    // Read variable and dependencies:
                     await iVar.ReadValueAsync();
+                    await BaSumCommandFactory.CreateFromDependencies(iVar).ReadAsync();
 
-                    Console.WriteLine("\nSample 1) Format variable value:");
+                    Console.WriteLine("\nSample 1.1) Format variable value:");
                     Console.WriteLine("{0}: {1}", iVar.Parent.SymbolPath, iVar.Value);
 
-                    Console.WriteLine("\nSample 2) Show typed variable value:");
+                    Console.WriteLine("\nSample 1.2) Show typed variable value:");
                     if (iVar.Value is IBaPrimitiveValue<float> iAVal)
                         Console.WriteLine("Some analog value: {0}", iAVal.Primitive);
                     else if (iVar.Value is IBaPrimitiveValue<bool> iBVal)
@@ -59,6 +61,18 @@ namespace Beckhoff.BA.TerminalClient.Samples
                         Console.WriteLine("Some multistate value: {0}", iMVal.Primitive);
                     else
                         Console.WriteLine("<Not handled yet>");
+                }
+
+                Console.WriteLine($"\nSample 2) Read all '{VariableId}' variables:");
+                var iDevice = BaSite.Devices.First();
+                var iCommand = BaSumCommandFactory.Create<IBaReadSumCommand>(iDevice.ProjectStructure, VariableId);
+                if (await iCommand.ReadAsync())
+                {
+                    await BaSumCommandFactory.CreateFromDependencies(iCommand).ReadAsync();
+
+                    // List variables:
+                    foreach (var iVar in iCommand.Variables)
+                        Console.WriteLine($"- {iVar.InstancePath}: {iVar}");
                 }
             }
 
