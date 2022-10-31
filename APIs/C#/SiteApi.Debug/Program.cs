@@ -15,7 +15,7 @@ namespace Beckhoff.BA.SiteApi.Samples
     public class Program : Loader
     {
         #region Settings
-        public static ISample DebugSample = new Sample51();
+        public static ISample DebugSample = new Sample30();
 
         public static string DebugDevice = "5.57.161.218.1.1:851";
         public static IReadOnlyDictionary<Tuple<Type, string>, object> DebugSettings = new Dictionary<Tuple<Type, string>, object>()

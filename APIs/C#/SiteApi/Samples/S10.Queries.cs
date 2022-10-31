@@ -81,7 +81,7 @@ namespace Beckhoff.BA.SiteApi.Samples
         }
     }
 
-    internal static class Ext
+    internal static class ExtS10
     {
         public static void ListObjects(this IEnumerable<IBaBasicObject> iSource)
         {
