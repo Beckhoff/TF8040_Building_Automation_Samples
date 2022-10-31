@@ -5,28 +5,37 @@ using TwinCAT.BA;
 using TwinCAT.BA.Site;
 
 
-namespace Beckhoff.BA.TerminalClient.Samples
+namespace Beckhoff.BA.SiteApi.Samples
 {
-    class Program
+    public class Sample50 : IGeneralSample
     {
         #region Settings
         /// <summary>
-        /// AMS-NetID of device to connect to.
+        /// AMS-NetID of any device.
         /// </summary>
-        private static string DevNetID = "127.0.0.1.1.1:851";
+        public string SomeDevNetID = "127.0.0.1.1.1:851";
+
+        /// <summary>
+        /// Symbolpath of object to be tested.
+        /// </summary>
+        public string ObjectPath = "MyPlcProject.MAIN.SomeValue";
+        /// <summary>
+        /// Parameter to read.
+        /// </summary>
+        public Tc3_BA2.BaParameterId VariableId = Tc3_BA2.BaParameterId.ePresentValue;
         #endregion
 
 
-        static async Task Main(string[] args)
+        public async Task Run()
         {
             Console.WriteLine("\nSample 1.1) List device-to-device communication:");
             try
             {
-                var iCom = await IBaDevice.ReadDeviceCommunicationAsync(DevNetID);
+                var iCom = await IBaDevice.ReadDeviceCommunicationAsync(SomeDevNetID);
                 var iSubscr = iCom.Connections
                     .Where(iConection => (iConection.ServiceType == Tc3_BA2.BaServiceType.eSubscribe)).ToList();
 
-                Console.WriteLine("'{0}' has remote subscriptions on:", DevNetID);
+                Console.WriteLine("'{0}' has remote subscriptions on:", SomeDevNetID);
                 if (iSubscr.Count == 0)
                     Console.WriteLine("<none>");
                 else
@@ -42,32 +51,32 @@ namespace Beckhoff.BA.TerminalClient.Samples
         }
 
 
-        #region CodeSnippets
-        static async Task SnipResolve()
+        #region Samples.CodeSnippets
+        async Task SnipResolve()
         {
             // Snippet "Resolve" 1.1) Quick-resolve an objects variable value:
-            var iVal11 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaParameterId.ePresentValue].Value;
+            var iVal11 = (IBaPrimitiveValue<float>)BaSite.FindObject(ObjectPath)[VariableId].Value;
 
             // Snippet "Resolve" 1.2) Quick-read an objects variable:
-            await ((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaParameterId.ePresentValue].Value).ReadAsync();
+            await ((IBaPrimitiveValue<float>)BaSite.FindObject(ObjectPath)[VariableId].Value).ReadAsync();
 
             // Snippet "Resolve" 1.3) Quick-write an objects variable:
-            var iVal21 = (IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaParameterId.ePresentValue].Value;
+            var iVal21 = (IBaPrimitiveValue<float>)BaSite.FindObject(ObjectPath)[VariableId].Value;
             iVal21.Primitive = 123;
             await iVal21.WriteAsync();
 
             // Snippet "Resolve" 1.4) Quick-write an objects variable value:
-            await ((IBaPrimitiveValue<float>)BaSite.FindObject("MyPlcProject.MAIN.SomeValue")[Tc3_BA2.BaParameterId.ePresentValue].Value).WriteAsync(123);
+            await ((IBaPrimitiveValue<float>)BaSite.FindObject(ObjectPath)[VariableId].Value).WriteAsync(123);
 
             // Snippet "Resolve" 1.5) Quick-write multiple variable values:
-            await BaSite.FindObject("MyPlcProject.MAIN.SomeValue").Parameters
+            await BaSite.FindObject(ObjectPath).Parameters
                 .Where(iParam => iParam.Value is IBaPrimitiveValue<bool>)
                 .WriteAsync(true);
 
 
             // Snippet "Resolve" 2) Top-down resolving a variable value in single steps:
-            IBaBasicObject iObj = BaSite.FindObject("MyPlcProject.MAIN.SomeValue");
-            IBaVariable iPlcVar = iObj[Tc3_BA2.BaParameterId.ePresentValue];
+            IBaBasicObject iObj = BaSite.FindObject(ObjectPath);
+            IBaVariable iPlcVar = iObj[VariableId];
             IBaValue iVal1 = iPlcVar.Value;
 
 
@@ -76,7 +85,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
                 .ObjectTable.Values.Take(5)
                 .AcknowledgeAsync();
         }
-        static async Task SnipTests(IBaObject iSomeObject)
+        async Task SnipTests(IBaObject iSomeObject)
         {
             // Snippet "Object test" 1) Test for object type:
             if (iSomeObject is IBaAnalogObject iAObj)
@@ -99,7 +108,7 @@ namespace Beckhoff.BA.TerminalClient.Samples
             foreach (var iParam in iSomeObject.AdditionalParameters.Values)
                 Console.WriteLine(string.Format("- {0}", iParam.Title));
         }
-        static void SnipTests(IBaValue iSomeValue)
+        void SnipTests(IBaValue iSomeValue)
         {
             if (iSomeValue is IBaPrimitiveValue iPrimVal)
             {
