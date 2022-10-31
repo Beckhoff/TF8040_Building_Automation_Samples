@@ -11,6 +11,9 @@ using TwinCAT.BA.Site;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
+    /// <summary>
+    /// Demonstrates how to write lazy code.
+    /// </summary>
     public class Sample11 : IExecutableSample
     {
         #region Settings

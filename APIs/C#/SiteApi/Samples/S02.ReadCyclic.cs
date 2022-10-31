@@ -8,6 +8,9 @@ using TwinCAT.BA.Site;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
+    /// <summary>
+    /// Demonstrates cyclic read operations.
+    /// </summary>
     public class Sample02 : IInitializableSample
     {
         #region Settings

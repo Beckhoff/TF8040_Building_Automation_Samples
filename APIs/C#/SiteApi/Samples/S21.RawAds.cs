@@ -7,6 +7,9 @@ using TwinCAT.BA.Site;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
+    /// <summary>
+    /// Demonstrates how to use the <see cref="IBaAdsClient"/> interface for raw <see cref="TwinCAT.Ads">ADS</see> operations.
+    /// </summary>
     public class Sample21 : IExecutableSample
     {
         #region Settings

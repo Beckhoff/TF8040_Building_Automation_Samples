@@ -11,6 +11,9 @@ using static TwinCAT.BA.BaApi;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
+    /// <summary>
+    /// Demonstrates how to use logging properly.
+    /// </summary>
     public class Sample51 : IInitializableSample
     {
         public void Initialize()

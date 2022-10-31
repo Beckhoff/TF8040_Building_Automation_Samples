@@ -10,6 +10,9 @@ using TwinCAT.BA.Site;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
+    /// <summary>
+    /// Demonstrates how to ease writing code by using queries.
+    /// </summary>
     public class Sample10 : IExecutableSample
     {
         public async Task Run()

@@ -7,6 +7,9 @@ using TwinCAT.BA.Site;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
+    /// <summary>
+    /// Demonstrates how to customite <see cref="Beckhoff.BA.SiteApi">SiteApi</see>.
+    /// </summary>
     public class Sample20 : IInitializableSample
     {
         #region Settings
