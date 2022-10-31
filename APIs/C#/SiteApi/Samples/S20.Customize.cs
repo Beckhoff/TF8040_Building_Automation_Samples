@@ -33,7 +33,7 @@ namespace Beckhoff.BA.SiteApi.Samples
             BaSite.InitialObjectPropertyFilter = (iVar) => MyFilter.Contains(iVar.ID);
 
             // Sample 3) Customize device before adding it to site:
-            someDevice = BaSite.CreateDevice(AnotherDevNetID);
+            var someDevice = BaSite.CreateDevice(AnotherDevNetID);
             {
                 // Do something application specific with 'iDevice' here ...
             }
@@ -41,10 +41,11 @@ namespace Beckhoff.BA.SiteApi.Samples
         }
         public async Task Run()
         {
-            var iObjects = someDevice.ObjectTable.Values;
+            var iDevice = BaSite.Devices.First();
+            var iObjects = iDevice.ObjectTable.Values;
 
             // Sample 4.1) Add a device tag:
-            someDevice.AddTag(new MyTag());
+            iDevice.AddTag(new MyTag());
 
             // Sample 4.2) Add tag to some objects:
             int i = 0, u = 0;
@@ -57,9 +58,6 @@ namespace Beckhoff.BA.SiteApi.Samples
                 .Where(iObj => iObj.ContainsTag<MyTag>()).ToList()
                 .ForEach(iObj => Console.WriteLine("- [{0}] {1}", iObj.InstDescription, iObj.GetTag<MyTag>()));
         }
-
-
-        private static IBaDevice someDevice;
     }
 
     class MyTag

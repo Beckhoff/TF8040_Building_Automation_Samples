@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TwinCAT.BA;
@@ -10,8 +11,12 @@ using static TwinCAT.BA.BaApi;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
-    public class Sample51 : IExecutableSample
+    public class Sample51 : IInitializableSample
     {
+        public void Initialize()
+        {
+            BaSite.OnLog += OnLog;
+        }
         public async Task Run()
         {
             // Find some object:
@@ -36,6 +41,18 @@ namespace Beckhoff.BA.SiteApi.Samples
             int i = 0;
             foreach (var _iFruit in iFruits)
                 _iFruit.WriteLog(BaLogType.eInfo, "CA55", string.Format("Eating fruit no. {0}", ++i));
+        }
+
+
+        /// <summary>
+        /// Write detailed log to debugger output window.
+        /// </summary>
+        private static void OnLog(BaLogType bIcon, string sCode, object oEvent, string sProcess = "", IBaLog iContext = null)
+        {
+            string sContext = "";
+            if (iContext != null)
+                sContext = iContext.LogName + " | ";
+            Debug.WriteLine(string.Format("{0:MM.dd.yyyy HH:mm:ss} [{1}] {2}{3}: {4}", DateTime.Now, sCode, sContext, bIcon, oEvent));
         }
     }
 

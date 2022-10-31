@@ -8,7 +8,7 @@ using TwinCAT.BA.Site;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
-    public class Sample02 : IExecutableSample
+    public class Sample02 : IInitializableSample
     {
         #region Settings
         /// <summary>
@@ -21,7 +21,10 @@ namespace Beckhoff.BA.SiteApi.Samples
         public Tc3_BA2.BaParameterId VariableId = Tc3_BA2.BaParameterId.ePresentValue;
         #endregion
 
-
+        public void Initialize()
+        {
+            BaSite.OnPostReadCycle += OnPostReadCycle;
+        }
         public async Task Run()
         {
             // Find object:
@@ -31,6 +34,10 @@ namespace Beckhoff.BA.SiteApi.Samples
             else
                 // Add job to cyclically read a variable's value:
                 await iObj.Device.AddCyclicReadJobAsync(BaSumCommandFactory.Create<IBaReadSumCommand>(iObj, false, (_bPlcVar) => (_bPlcVar.ID == VariableId)));
+
+            Console.WriteLine();
+            Console.WriteLine("Press key to stop...");
+            Console.ReadKey();
         }
 
 
