@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
+using TwinCAT.BA.Tc3_BA2;
 
 
 namespace Beckhoff.BA.SiteApi.Samples
@@ -63,7 +64,7 @@ namespace Beckhoff.BA.SiteApi.Samples
             #region Variable-Samples
             Console.WriteLine("\nSample 2.1) Show some present values:");
             await iTypedObjects
-                .ListParameterValuesAsync(Tc3_BA2.BaParameterId.ePresentValue);
+                .ListParameterValuesAsync(BaParameterId.ePresentValue);
             #endregion
 
 
@@ -88,7 +89,7 @@ namespace Beckhoff.BA.SiteApi.Samples
             foreach (var _iObj in iSource)
                 Console.WriteLine("- {0} ({1})", _iObj.SymbolPath, _iObj.Identifier);
         }
-        public static void ListObjects(this ILookup<Tc3_BA2.BaObjectType, IBaBasicObject> iSource)
+        public static void ListObjects(this ILookup<BaObjectType, IBaBasicObject> iSource)
         {
             foreach (var _iEntry in iSource)
                 Console.WriteLine("- {0} ({1})", _iEntry.ElementAt(0).Description, _iEntry.Key.GetEnumDescription());
@@ -97,7 +98,7 @@ namespace Beckhoff.BA.SiteApi.Samples
         /// <summary>
         /// List a certain value from all parameters standard that provide these certain parameter.
         /// </summary>
-        public static async Task ListParameterValuesAsync(this IEnumerable<IBaBasicObject> iSource, Tc3_BA2.BaParameterId bId)
+        public static async Task ListParameterValuesAsync(this IEnumerable<IBaBasicObject> iSource, BaParameterId bId)
         {
             await iSource
                 .Where(_iObj => _iObj.StandardParameters.ContainsKey(bId))
@@ -117,14 +118,14 @@ namespace Beckhoff.BA.SiteApi.Samples
 
             // Determine affected objects:
             var iObjects = iSource
-                .Select(iVal => iVal.ParentObject)
+                .Select(iVal => iVal.OwnerObject)
                 .ToHashSet();
 
             // Filter affected variables:
             iCmd.AddVariables(iObjects, BaSite.ParameterFilter.ObjectInfo);
 
             // Read all variables:
-            if (await iCmd.ReadAsync())
+            if ((await iCmd.ReadAsync()).Succeeded)
             {
                 foreach (var _iValue in iSource)
                     Console.WriteLine("- {0}: {1}", _iValue.Parent.InstancePath, _iValue.ToString());

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
+using TwinCAT.BA.Tc3_BA2;
 
 
 namespace Beckhoff.BA.SiteApi.Samples
@@ -28,10 +29,10 @@ namespace Beckhoff.BA.SiteApi.Samples
             // Sample 2) Set additional property filter:
             // -> This filter will be used at a device's initialization time to ensure that the specified properties are initialized by reading them once.
             // -> This filter is optional and works in addition to the internal default filter.
-            var MyFilter = new Tc3_BA2.BaParameterId[]
+            var MyFilter = new BaParameterId[]
             {
-                Tc3_BA2.BaParameterId.eAction,
-                Tc3_BA2.BaParameterId.eAddress
+                BaParameterId.eAction,
+                BaParameterId.eAddress
             };
             BaSite.InitialObjectPropertyFilter = (iVar) => MyFilter.Contains(iVar.ID);
 

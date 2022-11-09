@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
-
+using TwinCAT.BA.Tc3_BA2;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
@@ -25,7 +25,7 @@ namespace Beckhoff.BA.SiteApi.Samples
         /// <summary>
         /// Parameter to read.
         /// </summary>
-        public Tc3_BA2.BaParameterId VariableId = Tc3_BA2.BaParameterId.ePresentValue;
+        public BaParameterId VariableId = BaParameterId.ePresentValue;
         #endregion
 
 
@@ -36,7 +36,7 @@ namespace Beckhoff.BA.SiteApi.Samples
             {
                 var iCom = await IBaDevice.ReadDeviceCommunicationAsync(SomeDevNetID);
                 var iSubscr = iCom.Connections
-                    .Where(iConection => (iConection.ServiceType == Tc3_BA2.BaServiceType.eSubscribe)).ToList();
+                    .Where(iConection => (iConection.ServiceType == BaServiceType.eSubscribe)).ToList();
 
                 Console.WriteLine("'{0}' has remote subscriptions on:", SomeDevNetID);
                 if (iSubscr.Count == 0)
@@ -126,11 +126,11 @@ namespace Beckhoff.BA.SiteApi.Samples
                         Console.WriteLine("Value not limited.");
                         break;
 
-                    case Tc3_BA2.IBaLimitedValueRange iLimit:
+                    case IBaLimitedValueRange iLimit:
                         Console.WriteLine(string.Format("Value limited from {0} to {1}.", iLimit.MinLimit, iLimit.MaxLimit));
                         break;
 
-                    case Tc3_BA2.IBaEnumeratedValueRange iEnum:
+                    case IBaEnumeratedValueRange iEnum:
                         Console.WriteLine("\nValue limited to following values:");
                         foreach (var _sVal in iEnum.Values)
                             Console.WriteLine(string.Format("- {0}", _sVal));

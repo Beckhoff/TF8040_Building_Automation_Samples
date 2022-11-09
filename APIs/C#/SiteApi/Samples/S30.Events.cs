@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
-
-using static TwinCAT.BA.Site.BaAds;
-
+using TwinCAT.BA.Tc3_BA2;
+using TwinCAT.BA.Tc3_BA2.Ads;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {

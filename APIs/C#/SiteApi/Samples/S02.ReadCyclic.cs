@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
+using TwinCAT.BA.Tc3_BA2;
 
 
 namespace Beckhoff.BA.SiteApi.Samples
@@ -21,7 +21,7 @@ namespace Beckhoff.BA.SiteApi.Samples
         /// <summary>
         /// Parameter to read.
         /// </summary>
-        public Tc3_BA2.BaParameterId VariableId = Tc3_BA2.BaParameterId.ePresentValue;
+        public BaParameterId VariableId = BaParameterId.ePresentValue;
         #endregion
 
         public void Initialize()

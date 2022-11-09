@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
 
-using static TwinCAT.BA.BaApi;
-
 
 namespace Beckhoff.BA.SiteApi.Samples
 {

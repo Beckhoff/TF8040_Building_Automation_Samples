@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
+using TwinCAT.BA.Tc3_BA2;
 
 
 namespace Beckhoff.BA.SiteApi.Samples
@@ -20,7 +21,7 @@ namespace Beckhoff.BA.SiteApi.Samples
         /// <summary>
         /// Variable to write.
         /// </summary>
-        public Tc3_BA2.BaParameterId VariableId = Tc3_BA2.BaParameterId.ePresentValue;
+        public BaParameterId VariableId = BaParameterId.ePresentValue;
         #endregion
 
 
@@ -60,7 +61,7 @@ namespace Beckhoff.BA.SiteApi.Samples
 
             Console.WriteLine($"\nSample 2) Write '{VariableId}' variables (operational objects only).");
             var iDevice = BaSite.Devices.First();
-            var iObjects = iDevice.ObjectTable.Values.Where(iObj => (iObj.Purpose == Tc3_BA2.BaObjectPurpose.eOperation));
+            var iObjects = iDevice.ObjectTable.Values.Where(iObj => (iObj.Purpose == BaObjectPurpose.eOperation));
             var iCommand = BaSumCommandFactory.Create<IBaWriteSumCommand>(iObjects, VariableId);
 
             foreach (var iVar in iCommand.Variables)

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
+using TwinCAT.BA.Tc3_BA2;
 
 
 namespace Beckhoff.BA.SiteApi.Samples
@@ -20,7 +21,7 @@ namespace Beckhoff.BA.SiteApi.Samples
         /// <summary>
         /// Parameter to read.
         /// </summary>
-        public Tc3_BA2.BaParameterId VariableId = Tc3_BA2.BaParameterId.ePresentValue;
+        public BaParameterId VariableId = BaParameterId.ePresentValue;
         #endregion
 
 
@@ -54,8 +55,9 @@ namespace Beckhoff.BA.SiteApi.Samples
 
             Console.WriteLine($"\nSample 2) Read all '{VariableId}' variables:");
             var iDevice = BaSite.Devices.First();
+
             var iCommand = BaSumCommandFactory.Create<IBaReadSumCommand>(iDevice.ProjectStructure, VariableId);
-            if (await iCommand.ReadAsync())
+            if ((await iCommand.ReadAsync()).Succeeded)
             {
                 await BaSumCommandFactory.CreateFromDependencies(iCommand).ReadAsync();
 
