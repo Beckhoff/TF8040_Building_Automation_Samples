@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
 using TwinCAT.BA.Tc3_BA2;
+using TwinCAT.BA.Utilities;
+
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
@@ -55,7 +57,7 @@ namespace Beckhoff.BA.SiteApi.Samples
 
 
         #region Samples.CodeSnippets
-        async Task SnipResolve()
+        public async Task SnipResolve()
         {
             // Snippet "Resolve" 1.1) Quick-resolve an objects variable value:
             var iVal11 = (IBaPrimitiveValue<float>)BaSite.FindObject(ObjectPath)[VariableId].Value;
@@ -88,7 +90,7 @@ namespace Beckhoff.BA.SiteApi.Samples
                 .ObjectTable.Values.Take(5)
                 .AcknowledgeAsync();
         }
-        async Task SnipTests(IBaObject iSomeObject)
+        public async Task SnipTests(IBaObject iSomeObject)
         {
             // Snippet "Object test" 1) Test for object type:
             if (iSomeObject is IBaAnalogObject iAObj)
@@ -111,7 +113,7 @@ namespace Beckhoff.BA.SiteApi.Samples
             foreach (var iParam in iSomeObject.AdditionalParameters.Values)
                 Console.WriteLine(string.Format("- {0}", iParam.Title));
         }
-        void SnipTests(IBaValue iSomeValue)
+        public void SnipTests(IBaValue iSomeValue)
         {
             if (iSomeValue is IBaPrimitiveValue iPrimVal)
             {
@@ -120,7 +122,7 @@ namespace Beckhoff.BA.SiteApi.Samples
                     iFloatVal.Primitive = 123;
 
                 Console.WriteLine("\nSnippet \"Value test\" 2) Test out value range of a primitive value:");
-                switch (iPrimVal.GetRange())
+                switch (iPrimVal.GetValueRange())
                 {
                     case null:
                         Console.WriteLine("Value not limited.");
@@ -140,6 +142,60 @@ namespace Beckhoff.BA.SiteApi.Samples
                         throw new NotImplementedException("Not implemented range of value!");
                 }
             }
+        }
+        public void SnipParameterInfo()
+        {
+            Console.WriteLine("\nSnippet \"Parameter info\" 1) List description:");
+            foreach (var item in BaPlc.VariableInfo)
+            {
+                foreach (var _iParam in item.Value)
+                {
+                    Console.Write($"- {_iParam} | {item.Key,-40}");
+                    switch (_iParam)
+                    {
+                        case IBaNotImplementedParameterInfo:
+                            // [Hint] Will be provided soon...
+                            Console.Write("< Not implemented yet >");
+                            break;
+
+
+                        case IBaDecoratedParameterInfo decorated:
+                            Console.Write($"Decorated parameter ({Format(decorated.DecorValue)})");
+                            break;
+                        case IBaDecoratingParameterInfo:
+                            // [Hint] Decoration only available when used in a variable's context.
+                            Console.Write("Decorating parameter");
+                            break;
+
+                        case IBaEnumeratedParameterInfo enumerated:
+                            Console.Write($"Enumerated parameter ({string.Join(", ", enumerated.GetValues().Take(3))})");
+                            break;
+                        case IBaEnumeratingParameterInfo:
+                            // [Hint] Enumerated values only available when used in a variable's context.
+                            Console.Write("Enumerating parameter");
+                            break;
+
+                        case IBaParameterInfo:
+                            Console.Write("Parameter");
+                            break;
+
+                        default:
+                            throw new NotImplementedException();
+                    }
+                    Console.WriteLine("");
+                }
+            }
+        }
+        #endregion
+
+
+        #region Helper
+        private static string Format(object value)
+        {
+            if (value is Enum val)
+                return (val.GetDescription());
+            else
+                return (value.ToString());
         }
         #endregion
     }
