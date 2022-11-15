@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="FB_UDef_BValEx" Id="{a6978dd8-3c4e-431f-8ccf-5ebd35a43806}" SpecialFunc="None">
+    <Declaration><![CDATA[// User defined boolean value extension.
+// > Contains additional parameters.
+FUNCTION_BLOCK FB_UDef_BValEx EXTENDS FB_BA_BV_OP
+VAR_INPUT CONSTANT
+	{region 'Variable Parameters'}
+		{attribute 'BaParam.Title.DE' := 'Erwarteter Wert'}
+		{attribute 'BaParam.Title.EN' := 'Expected value'}
+		{attribute 'BaParam.Access.Read' := 'Guest'}
+		{attribute 'BaParam.Access.Write' := 'Advanced'}
+		bExpected : BOOL;
+	{endregion}
+END_VAR
+VAR_OUTPUT
+	{attribute 'BaParam.Title.DE' := 'Übereinstimmend'}
+	{attribute 'BaParam.Title.EN' := 'Matched'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	bMatch : BOOL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+bMatch := (bPresentValue = bExpected);]]></ST>
+    </Implementation>
+    <LineIds Name="FB_UDef_BValEx">
+      <LineId Id="9" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="79" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
