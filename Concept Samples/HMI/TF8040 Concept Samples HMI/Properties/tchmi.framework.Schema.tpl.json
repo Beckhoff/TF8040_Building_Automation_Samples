@@ -643,7 +643,7 @@
         "symbolExpression": {
           "title": "SymbolExpression",
           "type": "string",
-          "pattern": "^%(s|i|l|pp|tp|f|ctrl|ca)%.+%\\1%$"
+          "pattern": "^%(s|i|l|pp|tp|f|ctrl|ctx|tr)%.+%\\1%$"
         }
       },
       "properties": {
@@ -746,6 +746,16 @@
         "%"
       ],
       "default": "px"
+    },
+    "MeasurementUnitOrFactor": {
+      "type": "string",
+      "enum": [
+        "px",
+        "%",
+        "factor"
+      ],
+      "default": "px",
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.System.TcHmiGrid.MeasurementUnitOrFactor"
     },
     "MeasurementValue": {
       "type": "number"
@@ -886,12 +896,28 @@
       ]
     },
     "RecipeReference": {
+      "description": "Refers to one recipe of the server.",
       "type": "string",
       "minLength": 1
     },
+    "MultipleRecipeReferences": {
+      "description": "Refers to one or more recipe types of the server.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RecipeReference"
+      }
+    },
     "RecipeTypeReference": {
+      "description": "Refers to one recipe type of the server.",
       "type": "string",
       "minLength": 1
+    },
+    "MultipleRecipeTypeReferences": {
+      "description": "Refers to one or more recipe types of the server.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RecipeTypeReference"
+      }
     },
     "ScaleMode": {
       "type": "string",
@@ -2452,7 +2478,7 @@
         "symbolExpression": {
           "title": "SymbolExpression",
           "type": "string",
-          "pattern": "^%(s|i|l|pp|tp|f|ctrl)%.+%\\1%$"
+          "pattern": "^%(s|i|l|pp|tp|f|ctrl|ctx|tr)%.+%\\1%$"
         },
         "controlSymbolExpression": {
           "title": "controlSymbolExpression",
@@ -2826,6 +2852,12 @@
           "defaultValue": true
         },
         {
+          "name": "scrolling",
+          "displayName": "Scrolling",
+          "description": "Possible values are No, Yes, Auto.",
+          "defaultValue": "Auto"
+        },
+        {
           "name": "headline",
           "displayName": "Headline",
           "description": "The headline of the dialog.",
@@ -2867,6 +2899,9 @@
         },
         "modal": {
           "type": "boolean"
+        },
+        "scrolling": {
+          "$ref": "tchmi:framework#/definitions/ScrollMode"
         },
         "headline": {
           "type": "string"
@@ -3388,19 +3423,19 @@
       "frameworkControlType": "BaseRoomControl",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.System"
     },
-    "TcHmi.BuildingAutomation.Controls.Button": {
+    "TcHmi.BuildingAutomation.Controls.Common.Button": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "Button",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.Checkbox": {
+    "TcHmi.BuildingAutomation.Controls.Common.Checkbox": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "Checkbox",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.Checkbox.Appearance": {
+    "TcHmi.BuildingAutomation.Controls.Common.Checkbox.Appearance": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -3423,7 +3458,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.Checkbox.BaInterfaceSymbolNames": {
+    "TcHmi.BuildingAutomation.Controls.Common.Checkbox.BaInterfaceSymbolNames": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "BaInterfaceSymbolNames",
       "type": "object",
@@ -3472,13 +3507,13 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.ColorPicker": {
+    "TcHmi.BuildingAutomation.Controls.Common.ColorPicker": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
       "frameworkControlType": "ColorPicker",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.ColorPicker.ColorPlateType": {
+    "TcHmi.BuildingAutomation.Controls.Common.ColorPicker.ColorPlateType": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -3608,13 +3643,13 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Combobox": {
+    "TcHmi.BuildingAutomation.Controls.Common.Combobox": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "Combobox",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.Combobox.ComboboxItem": {
+    "TcHmi.BuildingAutomation.Controls.Common.Combobox.ComboboxItem": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "object",
       "title": "ComboboxItem",
@@ -3650,15 +3685,15 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Combobox.ComboboxItems": {
+    "TcHmi.BuildingAutomation.Controls.Common.Combobox.ComboboxItems": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "array",
       "title": "ComboboxItems",
       "items": {
-        "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Combobox.ComboboxItem"
+        "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Common.Combobox.ComboboxItem"
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Combobox.BaInterfaceSymbolNames": {
+    "TcHmi.BuildingAutomation.Controls.Common.Combobox.BaInterfaceSymbolNames": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "BaInterfaceSymbolNames",
       "type": "object",
@@ -3697,19 +3732,19 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.DateTimeField": {
+    "TcHmi.BuildingAutomation.Controls.Common.DateTimeField": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "DateTimeField",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
     },
-    "TcHmi.BuildingAutomation.Controls.InputBox": {
+    "TcHmi.BuildingAutomation.Controls.Common.InputBox": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "InputBox",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.InputBox.InputDataType": {
+    "TcHmi.BuildingAutomation.Controls.Common.InputBox.InputDataType": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -3745,7 +3780,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.InputBox.BaInterfaceSymbolNames": {
+    "TcHmi.BuildingAutomation.Controls.Common.InputBox.BaInterfaceSymbolNames": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "BaInterfaceSymbolNames",
       "type": "object",
@@ -3804,13 +3839,13 @@
         }
       }
     },
-    "TcHmi.BuildingAutomationAutomation.Controls.Slider": {
+    "TcHmi.BuildingAutomation.Controls.Common.Slider": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "Slider",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.Slider.SliderRanges": {
+    "TcHmi.BuildingAutomation.Controls.Common.Slider.SliderRanges": {
       "type": "array",
       "title": "SliderRanges",
       "items": {
@@ -3859,7 +3894,7 @@
         ]
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Slider.KnobAppearance": {
+    "TcHmi.BuildingAutomation.Controls.Common.Slider.KnobAppearance": {
       "type": "string",
       "enum": [
         0,
@@ -3876,7 +3911,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.Slider.BaInterfaceSymbolNames": {
+    "TcHmi.BuildingAutomation.Controls.Common.Slider.BaInterfaceSymbolNames": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "BaInterfaceSymbolNames",
       "type": "object",
@@ -3935,13 +3970,13 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.TabWindow": {
+    "TcHmi.BuildingAutomation.Controls.Common.TabWindow": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "TabWindow",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.TabWindowData": {
+    "TcHmi.BuildingAutomation.Controls.Common.TabWindow.Data": {
       "type": "array",
       "items": {
         "type": "object",
@@ -3991,53 +4026,73 @@
         ]
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Textblock": {
+    "TcHmi.BuildingAutomation.Controls.Common.Textblock": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "Textblock",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.Calendar": {
+    "TcHmi.BuildingAutomation.Controls.Common.Calendar": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "Calendar",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.Calendar.CalendarDisplayMode": {
+    "TcHmi.BuildingAutomation.Controls.Common.Calendar.CalendarDisplayMode": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
-        "DatePicker",
-        "EventCalendar"
+        0,
+        1
+      ],
+      "options": [
+        {
+          "label": "DatePicker",
+          "value": 0
+        },
+        {
+          "label": "EventCalendar",
+          "value": 1
+        }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.Calendar.CalendarDisplayView": {
+    "TcHmi.BuildingAutomation.Controls.Common.Calendar.CalendarDisplayView": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
-        "Month",
-        "Year"
+        0,
+        1
+      ],
+      "options": [
+        {
+          "label": "Month",
+          "value": 0
+        },
+        {
+          "label": "Year",
+          "value": 1
+        }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.Trend": {
+    "TcHmi.BuildingAutomation.Controls.Management.Trend": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "Trend",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Management"
     },
-    "TcHmi.BuildingAutomation.Controls.ValueField": {
+    "TcHmi.BuildingAutomation.Controls.Common.ValueField": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "ValueField",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.Scale": {
+    "TcHmi.BuildingAutomation.Controls.Common.Scale": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "Scale",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.Scale.ScaleSetpoints": {
+    "TcHmi.BuildingAutomation.Controls.Common.Scale.ScaleSetpoints": {
       "type": "array",
       "items": {
         "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.ICoordinateXY",
@@ -4045,7 +4100,7 @@
         "description": "Defines a scale setpoint"
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Scale.ScaleBehavior": {
+    "TcHmi.BuildingAutomation.Controls.Common.Scale.ScaleBehavior": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -4068,7 +4123,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.Scale.ScaleEnding": {
+    "TcHmi.BuildingAutomation.Controls.Common.Scale.ScaleEnding": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -4096,7 +4151,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.Scale.Scales": {
+    "TcHmi.BuildingAutomation.Controls.Common.Scale.Scales": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "Scales",
       "type": "array",
@@ -4219,7 +4274,7 @@
         ],
         "properties": {
           "ScaleSetpoints": {
-            "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Scale.ScaleSetpoints"
+            "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Common.Scale.ScaleSetpoints"
           },
           "YMax": {
             "type": "number"
@@ -4231,10 +4286,10 @@
             "type": "string"
           },
           "Behavior": {
-            "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Scale.ScaleBehavior"
+            "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Common.Scale.ScaleBehavior"
           },
           "Ending": {
-            "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Scale.ScaleEnding"
+            "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Common.Scale.ScaleEnding"
           },
           "SnapPeriode": {
             "type": "number"
@@ -4257,11 +4312,11 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.DataGrid": {
+    "TcHmi.BuildingAutomation.Controls.Common.DataGrid": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.DataGrid",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.Common.DataGrid",
       "frameworkControlType": "DataGrid",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
     "TcHmi.Controls.Beckhoff.TcHmiDatagrid.ColumnDefinitionList": {
       "title": "ColumnDefinitionList",
@@ -4765,7 +4820,7 @@
                 "displayName": "Cell background",
                 "category": "Colors",
                 "displayPriority": 10,
-                "description": "Color of this cells",
+                "description": "Background color of the cells in this column",
                 "defaultValue": null,
                 "defaultValueInternal": null
               },
@@ -4774,16 +4829,16 @@
                 "displayName": "Text color",
                 "category": "Colors",
                 "displayPriority": 10,
-                "description": "Color of the Text in this cells",
+                "description": "Text color of the cells in this column",
                 "defaultValue": null,
                 "defaultValueInternal": null
               },
               {
                 "name": "name",
-                "displayName": "name",
+                "displayName": "Name",
                 "category": "General",
                 "displayPriority": 10,
-                "description": "Name of the property of the srcData object",
+                "description": "Name of the property in the srcData object",
                 "defaultValue": "",
                 "defaultValueInternal": null
               },
@@ -4792,7 +4847,7 @@
                 "displayName": "Label",
                 "category": "General",
                 "displayPriority": 10,
-                "description": "Name of the Label for this column",
+                "description": "Name of the label for this column",
                 "defaultValue": "",
                 "defaultValueInternal": null
               },
@@ -4820,7 +4875,7 @@
                 "displayName": "Width unit",
                 "category": "General",
                 "displayPriority": 10,
-                "description": "Width unit for this column",
+                "description": "Width unit for this column. px defines an absolute width, % is relative to the control witdth and factor can be used to divide the available space into fractions.",
                 "defaultValue": "px",
                 "defaultValueInternal": "px"
               },
@@ -4829,7 +4884,7 @@
                 "displayName": "Resize",
                 "category": "General",
                 "displayPriority": 10,
-                "description": "Can this column be resized?",
+                "description": "Can this column be resized? Columns that have factor as their widthUnit can never be resizeable.",
                 "defaultValue": false,
                 "defaultValueInternal": false
               },
@@ -4857,7 +4912,7 @@
                 "displayName": "Editable",
                 "category": "General",
                 "displayPriority": 10,
-                "description": "Can this column be edited?",
+                "description": "Can this column be edited (text, number) or operated (button, checkbox)?",
                 "defaultValue": false,
                 "defaultValueInternal": false
               },
@@ -4930,9 +4985,18 @@
                 "displayName": "Data definitions",
                 "category": "General",
                 "displayPriority": 10,
-                "description": "Mapping from the srcData to a combobox or image selection",
+                "description": "Mapping from the srcData to a combobox or image selection. \nText to show on Buttons. \nRestrictions for number inputs.",
                 "defaultValue": null,
                 "defaultValueInternal": null
+              },
+              {
+                "name": "ignoreEscapeSequences",
+                "displayName": "Ignore Escape Sequences",
+                "category": "General",
+                "displayPriority": 10,
+                "description": "When set to true a backslash in a text will be shown verbatim in the HMI",
+                "defaultValue": false,
+                "defaultValueInternal": false
               }
             ],
             "properties": {
@@ -4980,7 +5044,7 @@
                 "minimum": 0
               },
               "widthUnit": {
-                "$ref": "tchmi:framework#/definitions/MeasurementUnit"
+                "$ref": "tchmi:framework#/definitions/MeasurementUnitOrFactor"
               },
               "resize": {
                 "type": "boolean"
@@ -5015,6 +5079,9 @@
               },
               "dataDefinitions": {
                 "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiDatagrid.DataDefinitionList"
+              },
+              "ignoreEscapeSequences": {
+                "type": "boolean"
               }
             },
             "required": [
@@ -5040,7 +5107,7 @@
               "displayName": "Cell background",
               "category": "Colors",
               "displayPriority": 10,
-              "description": "Color of this cells",
+              "description": "Background color of the cells in this column",
               "defaultValue": null,
               "defaultValueInternal": null
             },
@@ -5049,7 +5116,7 @@
               "displayName": "Text color",
               "category": "Colors",
               "displayPriority": 10,
-              "description": "Color of the Text in this cells",
+              "description": "Text color of the cells in this column",
               "defaultValue": null,
               "defaultValueInternal": null
             },
@@ -5058,7 +5125,7 @@
               "displayName": "Label",
               "category": "General",
               "displayPriority": 10,
-              "description": "Name of the Label for this column",
+              "description": "Name of the label for this column",
               "defaultValue": "",
               "defaultValueInternal": null
             },
@@ -5123,7 +5190,7 @@
               "displayName": "Editable",
               "category": "General",
               "displayPriority": 10,
-              "description": "Can this column be edited?",
+              "description": "Can this column be edited (text, number) or operated (button, checkbox)?",
               "defaultValue": false,
               "defaultValueInternal": false
             },
@@ -5196,9 +5263,18 @@
               "displayName": "Data definitions",
               "category": "General",
               "displayPriority": 10,
-              "description": "Mapping from the srcData to a Combobox or Image selection",
+              "description": "Mapping from the srcData to a combobox or image selection. \nText to show on Buttons. \nRestrictions for number inputs.",
               "defaultValue": null,
               "defaultValueInternal": null
+            },
+            {
+              "name": "ignoreEscapeSequences",
+              "displayName": "Ignore Escape Sequences",
+              "category": "General",
+              "displayPriority": 10,
+              "description": "When set to true a backslash in a text will be shown verbatim in the HMI",
+              "defaultValue": false,
+              "defaultValueInternal": false
             }
           ],
           "properties": {
@@ -5242,7 +5318,7 @@
               "minimum": 0
             },
             "widthUnit": {
-              "$ref": "tchmi:framework#/definitions/MeasurementUnit"
+              "$ref": "tchmi:framework#/definitions/MeasurementUnitOrFactor"
             },
             "resize": {
               "type": "boolean"
@@ -5277,6 +5353,9 @@
             },
             "dataDefinitions": {
               "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiDatagrid.DataDefinitionList"
+            },
+            "ignoreEscapeSequences": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -5294,17 +5373,17 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.EventList": {
+    "TcHmi.BuildingAutomation.Controls.Management.EventList": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "EventList",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Management"
     },
-    "TcHmi.BuildingAutomation.Controls.Schedule": {
+    "TcHmi.BuildingAutomation.Controls.Management.Schedule": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "Schedule",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Management"
     },
     "TcHmi.BuildingAutomation.Conrols.Schedule.StateColors": {
       "$schema": "http://json-schema.org/draft-04/schema",
@@ -5352,13 +5431,13 @@
         ]
       }
     },
-    "TcHmi.BuildingAutomation.Controls.UiIcon": {
+    "TcHmi.BuildingAutomation.Controls.Common.UiIcon": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.Button",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.Common.Button",
       "frameworkControlType": "UiIcon",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.UiIcon.DisplayPosition": {
+    "TcHmi.BuildingAutomation.Controls.Common.UiIcon.DisplayPosition": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "DisplayPosition",
       "type": "string",
@@ -5407,7 +5486,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.UiIcon.DisplaysData": {
+    "TcHmi.BuildingAutomation.Controls.Common.UiIcon.DisplaysData": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "array",
       "items": {
@@ -5415,6 +5494,15 @@
         "title": "DisplayData",
         "description": "Defines a display for the object.",
         "propertiesMeta": [
+          {
+            "name": "baObject",
+            "displayName": "BaObject",
+            "category": "BA",
+            "displayPriority": 1,
+            "description": "BaObject for the display.",
+            "defaultValue": null,
+            "defaultValueInternal": null
+          },
           {
             "name": "value",
             "category": "Common",
@@ -5480,11 +5568,17 @@
           }
         ],
         "properties": {
+          "baObject": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "value": {
             "type": "string"
           },
           "position": {
-            "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.UiIcon.DisplayPosition"
+            "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Common.UiIcon.DisplayPosition"
           },
           "readOnly": {
             "type": "boolean"
@@ -5508,7 +5602,7 @@
         ]
       }
     },
-    "TcHmi.BuildingAutomation.Controls.UiIcon.EventsData": {
+    "TcHmi.BuildingAutomation.Controls.Common.UiIcon.EventsData": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "array",
       "items": {
@@ -5618,17 +5712,17 @@
     },
     "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.UiIcon",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.Common.UiIcon",
       "frameworkControlType": "UiIconFdbStp",
       "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.System"
     },
-    "TcHmi.BuildingAutomation.Controls.ProjectNavigationTextual": {
+    "TcHmi.BuildingAutomation.Controls.Management.ProjectNavigationTextual": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "ProjectNavigationTextual",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Management"
     },
-    "TcHmi.BuildingAutomation.Controls.ProjectNavigationTextual.BaUsedTitle": {
+    "TcHmi.BuildingAutomation.Controls.Management.ProjectNavigationTextual.BaUsedTitle": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -5639,13 +5733,13 @@
         "InstObjectName"
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.BuildingInformation": {
+    "TcHmi.BuildingAutomation.Controls.BuildingGeneral.BuildingInformation": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.Button",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.Common.Button",
       "frameworkControlType": "BuildingInformation",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.BuildingGeneral"
     },
-    "TcHmi.BuildingAutomation.Controls.BuildingInformation.FacadeInfo": {
+    "TcHmi.BuildingAutomation.Controls.BuildingGeneral.BuildingInformation.FacadeInfo": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "object",
       "title": "FacadeInfo",
@@ -5702,21 +5796,21 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.BuildingInformation.Facades": {
+    "TcHmi.BuildingAutomation.Controls.BuildingGeneral.BuildingInformation.Facades": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "array",
       "title": "Facades",
       "items": {
-        "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.BuildingInformation.FacadeInfo"
+        "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.BuildingGeneral.BuildingInformation.FacadeInfo"
       }
     },
-    "TcHmi.BuildingAutomation.Controls.BulletPointList": {
+    "TcHmi.BuildingAutomation.Controls.Common.BulletPointList": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.TextControl",
       "frameworkControlType": "BulletPointList",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.BulletPointList.Entries": {
+    "TcHmi.BuildingAutomation.Controls.Common.BulletPointList.Entries": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "array",
       "title": "Entries",
@@ -5724,13 +5818,13 @@
         "$ref": "tchmi:general#/definitions/String"
       }
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Damper": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Damper": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp",
       "frameworkControlType": "Damper",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Plants"
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Damper.DisplayMode": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Damper.DisplayMode": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "Type",
       "type": "integer",
@@ -5754,7 +5848,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Damper.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Damper.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -5813,7 +5907,7 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Damper.SubTemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Damper.SubTemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "SubTemplateDescription",
       "type": "object",
@@ -5838,17 +5932,17 @@
           "type": "string"
         },
         "subTemplate": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Damper.TemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.Damper.TemplateDescription"
         }
       }
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Motor": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Motor": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp",
       "frameworkControlType": "Motor",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Plants"
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Motor.DisplayMode": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Motor.DisplayMode": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "Type",
       "type": "integer",
@@ -5872,7 +5966,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Motor.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Motor.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -5914,7 +6008,7 @@
         "command"
       ]
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Motor.SubTemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Motor.SubTemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "SubTemplateDescription",
       "type": "object",
@@ -5939,17 +6033,17 @@
           "type": "string"
         },
         "subTemplate": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Motor.TemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.Motor.TemplateDescription"
         }
       }
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Pump": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Pump": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp",
       "frameworkControlType": "Pump",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Plants"
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Pump.DisplayMode": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Pump.DisplayMode": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "Type",
       "type": "integer",
@@ -5963,7 +6057,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Pump.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Pump.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -6005,7 +6099,7 @@
         "command"
       ]
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Pump.SubTemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Pump.SubTemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "SubTemplateDescription",
       "type": "object",
@@ -6030,17 +6124,17 @@
           "type": "string"
         },
         "subTemplate": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Pump.TemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.Pump.TemplateDescription"
         }
       }
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Valve": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Valve": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp",
       "frameworkControlType": "Valve",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Plants"
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Valve.DisplayMode": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Valve.DisplayMode": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "Type",
       "type": "integer",
@@ -6089,7 +6183,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Valve.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Valve.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -6128,7 +6222,7 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.Valve.SubTemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Valve.SubTemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "SubTemplateDescription",
       "type": "object",
@@ -6153,17 +6247,17 @@
           "type": "string"
         },
         "subTemplate": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Valve.TemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.Valve.TemplateDescription"
         }
       }
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog": {
+    "TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.UiIconFdbStp",
       "frameworkControlType": "SensorAnalog",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.Universal"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Plants"
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.DisplayMode": {
+    "TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog.DisplayMode": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "Type",
       "type": "integer",
@@ -6187,7 +6281,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -6209,7 +6303,7 @@
         "feedback"
       ]
     },
-    "TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog.SubTemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "SubTemplateDescription",
       "type": "object",
@@ -6234,17 +6328,17 @@
           "type": "string"
         },
         "subTemplate": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.TemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog.TemplateDescription"
         }
       }
     },
-    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.Cooler.FB_BA_AC_ColT_02": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Cooler": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseTemplate",
-      "frameworkControlType": "FB_BA_AC_ColT_02",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.AC.Aggregates.Cooler"
+      "frameworkControlType": "Cooler",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Plants"
     },
-    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.Cooler.FB_BA_AC_ColT_02.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.Cooler.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -6273,23 +6367,23 @@
       ],
       "properties": {
         "tempFlow": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog.SubTemplateDescription"
         },
         "tempReturn": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog.SubTemplateDescription"
         },
         "valve": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Valve.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.Valve.SubTemplateDescription"
         }
       }
     },
-    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC.FB_BA_AC_ErcPl_02": {
+    "TcHmi.BuildingAutomation.Controls.Plants.ErcPlate": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseTemplate",
-      "frameworkControlType": "FB_BA_AC_ErcPl_02",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC"
+      "frameworkControlType": "ErcPlate",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Plants"
     },
-    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC.FB_BA_AC_ErcPl_02.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.ErcPlate.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -6321,20 +6415,20 @@
           "type": "string"
         },
         "damper": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Damper.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.Damper.SubTemplateDescription"
         },
         "damperBy": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Damper.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.Damper.SubTemplateDescription"
         }
       }
     },
-    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC.FB_BA_AC_ErcRot_01": {
+    "TcHmi.BuildingAutomation.Controls.Plants.ErcRotation": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseTemplate",
-      "frameworkControlType": "FB_BA_AC_ErcRot_01",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC"
+      "frameworkControlType": "ErcRotation",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Plants"
     },
-    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.ERC.FB_BA_AC_ErcRot_01.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.ErcRotation.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -6383,13 +6477,13 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Templates.HeatingSystem.Distribution.HeatingCircuit.FB_BA_H_HtgCir01": {
+    "TcHmi.BuildingAutomation.Controls.Plants.HeatingCircuit": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Templates.AC.Aggregates.Cooler.FB_BA_AC_ColT_02",
-      "frameworkControlType": "FB_BA_H_HtgCir01",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.HeatingSystem.Distribution.HeatingCircuit"
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.Plants.Cooler",
+      "frameworkControlType": "HeatingCircuit",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Plants"
     },
-    "TcHmi.BuildingAutomation.Templates.HeatingSystem.Distribution.HeatingCircuit.FB_BA_H_HtgCir01.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.HeatingCircuit.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -6398,6 +6492,13 @@
           "name": "tempFlow",
           "displayName": "Flow temperature sensor",
           "description": "The flow temperature sensor of the heating circuit.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "tempFlowSp",
+          "displayName": "Flow temperature sensor setpoint",
+          "description": "The flow temperature sensor setpoint of the heating circuit.",
           "defaultValue": null,
           "defaultValueInternal": null
         },
@@ -6425,26 +6526,29 @@
       ],
       "properties": {
         "tempFlow": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog.SubTemplateDescription"
+        },
+        "tempFlowSp": {
+          "type": "string"
         },
         "tempReturn": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog.SubTemplateDescription"
         },
         "pump": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Pump.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.Pump.SubTemplateDescription"
         },
         "valve": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Valve.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.Valve.SubTemplateDescription"
         }
       }
     },
-    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.FB_BA_AC_PreHtr": {
+    "TcHmi.BuildingAutomation.Controls.Plants.PreHeater": {
       "type": "object",
-      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Templates.HeatingSystem.Distribution.HeatingCircuit.FB_BA_H_HtgCir01",
-      "frameworkControlType": "FB_BA_AC_PreHtr",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Templates.AC.Aggregates.PreHeater"
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.Plants.HeatingCircuit",
+      "frameworkControlType": "PreHeater",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Plants"
     },
-    "TcHmi.BuildingAutomation.Templates.AC.Aggregates.PreHeater.FB_BA_AC_PreHtr.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.Plants.PreHeater.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -6494,32 +6598,38 @@
       ],
       "properties": {
         "tempFlow": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog.SubTemplateDescription"
         },
         "tempReturn": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog.SubTemplateDescription"
         },
         "tFrost": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.SensorAnalog.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.SensorAnalog.SubTemplateDescription"
         },
         "frostThermostat": {
           "type": "string"
         },
         "pump": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Pump.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.Pump.SubTemplateDescription"
         },
         "valve": {
-          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Templates.Universal.Valve.SubTemplateDescription"
+          "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Plants.Valve.SubTemplateDescription"
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.AirConditioning": {
+    "TcHmi.BuildingAutomation.Controls.BuildingGeneral.WeatherStation": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseTemplate",
+      "frameworkControlType": "WeatherStation",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.BuildingGeneral"
+    },
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.HeatingCooling": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseRoomControl",
-      "frameworkControlType": "AirConditioning",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlType": "HeatingCooling",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.RoomAutomation"
     },
-    "TcHmi.BuildingAutomation.Controls.AirConditioning.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.HeatingCooling.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -6568,7 +6678,7 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.AirConditioning.TemplateDescription.BaInterfaceSymbolNames": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.HeatingCooling.TemplateDescription.BaInterfaceSymbolNames": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "BaInterfaceSymbolNames",
       "type": "object",
@@ -6647,13 +6757,13 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Light": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Light": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseRoomControl",
       "frameworkControlType": "Light",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.RoomAutomation"
     },
-    "TcHmi.BuildingAutomation.Controls.Light.DisplayMode": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Light.DisplayMode": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -6676,7 +6786,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.Light.Mode": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Light.OperationState": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "integer",
       "enum": [
@@ -6699,7 +6809,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.Light.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Light.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -6748,7 +6858,7 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Light.BaInterfaceSymbolNames": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Light.BaInterfaceSymbolNames": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "BaInterfaceSymbolNames",
       "type": "object",
@@ -6857,13 +6967,78 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Sunblind": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.LightZone": {
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
+      "frameworkControlType": "LightZone",
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.RoomAutomation"
+    },
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.LightZone.BaInterfaceSymbolNames": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "title": "BaInterfaceSymbolNames",
+      "type": "object",
+      "propertiesMeta": [
+        {
+          "name": "manualValue",
+          "displayName": "Manual value",
+          "description": "Manual value of the light zone.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "writeManualValue",
+          "displayName": "Write manual value",
+          "description": "Write the manual value to the lights of the zone.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "controlModeActive",
+          "displayName": "Control mode active",
+          "description": "Defines if the control mode is active or inactive.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "activateControlMode",
+          "displayName": "Activate control mode",
+          "description": "Set to true to activate the alarm mode.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "activationMode",
+          "displayName": "Activation mode",
+          "description": "Activation mode of the light zone.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        }
+      ],
+      "properties": {
+        "manualValue": {
+          "type": "string"
+        },
+        "writeManualValue": {
+          "type": "string"
+        },
+        "controlModeActive": {
+          "type": "string"
+        },
+        "activateControlMode": {
+          "type": "string"
+        },
+        "activationMode": {
+          "type": "string"
+        }
+      }
+    },
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Sunblind": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseRoomControl",
       "frameworkControlType": "Sunblind",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.RoomAutomation"
     },
-    "TcHmi.BuildingAutomation.Controls.Sunblind.Controls": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Sunblind.Controls": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -6871,7 +7046,7 @@
         "sliderHorizontal"
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.Sunblind.Mode": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Sunblind.OperationState": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "integer",
       "enum": [
@@ -6887,11 +7062,11 @@
           "value": 1
         },
         {
-          "label": "autoInactive",
+          "label": "manual",
           "value": 2
         },
         {
-          "label": "hand",
+          "label": "autoInactive",
           "value": 3
         },
         {
@@ -6904,7 +7079,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.Sunblind.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Sunblind.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -6936,13 +7111,6 @@
           "description": "The command to set the angle of the sunblind.",
           "defaultValue": null,
           "defaultValueInternal": null
-        },
-        {
-          "name": "startCommand",
-          "displayName": "Start command",
-          "description": "The command to start the sunblind to move to the angle and position command.",
-          "defaultValue": null,
-          "defaultValueInternal": null
         }
       ],
       "properties": {
@@ -6957,13 +7125,10 @@
         },
         "angleCommand": {
           "type": "string"
-        },
-        "startCommand": {
-          "type": "string"
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Sunblind.BaInterfaceSymbolNames": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Sunblind.BaInterfaceSymbolNames": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "BaInterfaceSymbolNames",
       "type": "object",
@@ -6972,6 +7137,55 @@
           "name": "name",
           "displayName": "Name",
           "description": "Name of the light the light.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "cmdUp",
+          "displayName": "Command Up",
+          "description": "The command to drive the sunblind up.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "cmdDown",
+          "displayName": "Command down",
+          "description": "The command to drive the sunblind down.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "fdbOpen",
+          "displayName": "Feedback open",
+          "description": "The feedback if the sunblind is opened.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "fdbClose",
+          "displayName": "Feedback close",
+          "description": "The feedback if the sunblind is closed.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "initialize",
+          "displayName": "Initialize",
+          "description": "When set to true the sunblind will be initialized.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "operationState",
+          "displayName": "Operation state",
+          "description": "Operation state of the sunblind.",
+          "defaultValue": null,
+          "defaultValueInternal": null
+        },
+        {
+          "name": "resetManual",
+          "displayName": "Reset manual",
+          "description": "Symbol to reset the sunblind into automatic mode.",
           "defaultValue": null,
           "defaultValueInternal": null
         },
@@ -6990,16 +7204,16 @@
           "defaultValueInternal": null
         },
         {
-          "name": "angleFdb",
-          "displayName": "Angle feedback",
-          "description": "The angle feedback of the sunblind.",
+          "name": "angleCmd",
+          "displayName": "Angle command",
+          "description": "The command to set the angle of the sunblind.",
           "defaultValue": null,
           "defaultValueInternal": null
         },
         {
-          "name": "angleCmd",
-          "displayName": "Angle command",
-          "description": "The command to set the angle of the sunblind.",
+          "name": "angleFdb",
+          "displayName": "Angle feedback",
+          "description": "The angle feedback of the sunblind.",
           "defaultValue": null,
           "defaultValueInternal": null
         },
@@ -7009,24 +7223,25 @@
           "description": "The command to start the sunblind to move to the angle and position command.",
           "defaultValue": null,
           "defaultValueInternal": null
-        },
-        {
-          "name": "mode",
-          "displayName": "Mode",
-          "description": "Mode of the sunblind.",
-          "defaultValue": null,
-          "defaultValueInternal": null
-        },
-        {
-          "name": "reset",
-          "displayName": "Reset",
-          "description": "Symbol to reset the sunblind into automatic mode.",
-          "defaultValue": null,
-          "defaultValueInternal": null
         }
       ],
       "properties": {
         "name": {
+          "type": "string"
+        },
+        "cmdUp": {
+          "type": "boolean"
+        },
+        "cmdDown": {
+          "type": "boolean"
+        },
+        "initialize": {
+          "type": "boolean"
+        },
+        "operationState": {
+          "type": "string"
+        },
+        "resetManual": {
           "type": "string"
         },
         "positionCmd": {
@@ -7043,22 +7258,16 @@
         },
         "start": {
           "type": "string"
-        },
-        "mode": {
-          "type": "string"
-        },
-        "reset": {
-          "type": "string"
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Window": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Window": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseRoomControl",
       "frameworkControlType": "Window",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.RoomAutomation"
     },
-    "TcHmi.BuildingAutomation.Controls.Window.DisplayMode": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Window.DisplayMode": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "type": "string",
       "enum": [
@@ -7076,40 +7285,7 @@
         }
       ]
     },
-    "TcHmi.BuildingAutomation.Controls.Window.Mode": {
-      "$schema": "http://json-schema.org/draft-04/schema",
-      "type": "integer",
-      "enum": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "options": [
-        {
-          "label": "autoActive",
-          "value": 1
-        },
-        {
-          "label": "autoInactive",
-          "value": 2
-        },
-        {
-          "label": "hand",
-          "value": 3
-        },
-        {
-          "label": "maintenance",
-          "value": 4
-        },
-        {
-          "label": "safetyPosition",
-          "value": 5
-        }
-      ]
-    },
-    "TcHmi.BuildingAutomation.Controls.Window.TemplateDescription": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Window.TemplateDescription": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "TemplateDescription",
       "type": "object",
@@ -7148,7 +7324,7 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Window.BaInterfaceSymbolNames": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.Window.BaInterfaceSymbolNames": {
       "$schema": "http://json-schema.org/draft-04/schema",
       "title": "BaInterfaceSymbolNames",
       "type": "object",
@@ -7182,9 +7358,9 @@
           "defaultValueInternal": null
         },
         {
-          "name": "mode",
-          "displayName": "Mode",
-          "description": "The mode of the window.",
+          "name": "operationState",
+          "displayName": "Operation State",
+          "description": "The operation state of the window.",
           "defaultValue": null,
           "defaultValueInternal": null
         },
@@ -7209,7 +7385,7 @@
         "feedback": {
           "type": "string"
         },
-        "mode": {
+        "operationState": {
           "type": "string"
         },
         "reset": {
@@ -7217,13 +7393,13 @@
         }
       }
     },
-    "TcHmi.BuildingAutomation.Controls.RoomControl": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.RoomControl": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.BuildingAutomation.Controls.System.BaseControl",
       "frameworkControlType": "RoomControl",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.RoomAutomation"
     },
-    "TcHmi.BuildingAutomation.Controls.RoomControl.ControlList": {
+    "TcHmi.BuildingAutomation.Controls.RoomAutomation.RoomControl.ControlList": {
       "title": "ControlList",
       "type": "array",
       "items": {
@@ -7282,20 +7458,20 @@
                 "defaultValueInternal": null
               },
               {
-                "name": "mode",
-                "displayName": "Mode",
+                "name": "operationState",
+                "displayName": "Operation state",
                 "category": "Common",
                 "displayPriority": 10,
-                "description": "Mode of the light.",
+                "description": "Operation state of the light.",
                 "defaultValue": null,
                 "defaultValueInternal": null
               },
               {
-                "name": "resetHandModeSym",
-                "displayName": "ResetHandModeSym",
+                "name": "resetManualOperationStateSym",
+                "displayName": "ResetManualOperationStateSym",
                 "category": "Common",
                 "displayPriority": 10,
-                "description": "Symbol which is set to true if the hand mode was reseted.",
+                "description": "Symbol which is set to true if the manual operation state was reseted.",
                 "defaultValue": null,
                 "defaultValueInternal": null
               }
@@ -7335,10 +7511,10 @@
                   "null"
                 ]
               },
-              "mode": {
+              "operationState": {
                 "oneOf": [
                   {
-                    "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Light.Mode"
+                    "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.RoomAutomation.Light.OperationState"
                   },
                   {
                     "type": [
@@ -7401,6 +7577,24 @@
                 "defaultValueInternal": null
               },
               {
+                "name": "openFeedback",
+                "displayName": "Open Feedback",
+                "category": "Common",
+                "displayPriority": 10,
+                "description": "Feedback if the sunblind is opened.",
+                "defaultValue": null,
+                "defaultValueInternal": null
+              },
+              {
+                "name": "closeFeedback",
+                "displayName": "Close Feedback",
+                "category": "Common",
+                "displayPriority": 10,
+                "description": "Feedback if the sunblind is closed.",
+                "defaultValue": null,
+                "defaultValueInternal": null
+              },
+              {
                 "name": "position",
                 "displayName": "Position",
                 "category": "Common",
@@ -7437,20 +7631,20 @@
                 "defaultValueInternal": null
               },
               {
-                "name": "mode",
-                "displayName": "Mode",
+                "name": "operationState",
+                "displayName": "Operation State",
                 "category": "Common",
                 "displayPriority": 10,
-                "description": "Mode of the sunblind.",
+                "description": "Operation state of the sunblind.",
                 "defaultValue": null,
                 "defaultValueInternal": null
               },
               {
-                "name": "resetHandModeSym",
-                "displayName": "ResetHandModeSym",
+                "name": "resetManualOperationStateSym",
+                "displayName": "ResetManualOperationStateSym",
                 "category": "Common",
                 "displayPriority": 10,
-                "description": "Symbol which is set to true if the hand mode was reseted.",
+                "description": "Symbol which is set to true if the manual operation state was reseted.",
                 "defaultValue": null,
                 "defaultValueInternal": null
               }
@@ -7477,6 +7671,18 @@
               "facadeName": {
                 "type": [
                   "string",
+                  "null"
+                ]
+              },
+              "openFeedback": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "closeFeedback": {
+                "type": [
+                  "boolean",
                   "null"
                 ]
               },
@@ -7508,10 +7714,10 @@
                   "string"
                 ]
               },
-              "mode": {
+              "operationState": {
                 "oneOf": [
                   {
-                    "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Sunblind.Mode"
+                    "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.RoomAutomation.Sunblind.OperationState"
                   },
                   {
                     "type": [
@@ -7763,20 +7969,20 @@
                 "defaultValueInternal": null
               },
               {
-                "name": "mode",
-                "displayName": "Mode",
+                "name": "operationState",
+                "displayName": "Operation state",
                 "category": "Common",
                 "displayPriority": 10,
-                "description": "Mode of the window.",
+                "description": "Operation state of the window.",
                 "defaultValue": null,
                 "defaultValueInternal": null
               },
               {
-                "name": "resetHandModeSym",
-                "displayName": "ResetHandModeSym",
+                "name": "resetManualOperationStateSym",
+                "displayName": "ResetManualOperationStateSym",
                 "category": "Common",
                 "displayPriority": 10,
-                "description": "Symbol which is set to true if the hand mode was reseted.",
+                "description": "Symbol which is set to true if the manual operation state was reseted.",
                 "defaultValue": null,
                 "defaultValueInternal": null
               },
@@ -7840,10 +8046,10 @@
                   "null"
                 ]
               },
-              "mode": {
+              "operationState": {
                 "oneOf": [
                   {
-                    "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Window.Mode"
+                    "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.RoomAutomation.Sunblind.OperationState"
                   },
                   {
                     "type": [
@@ -7862,7 +8068,7 @@
               "displayMode": {
                 "oneOf": [
                   {
-                    "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.Window.DisplayMode"
+                    "$ref": "tchmi:framework#/definitions/TcHmi.BuildingAutomation.Controls.RoomAutomation.Window.DisplayMode"
                   },
                   {
                     "type": [
@@ -7883,13 +8089,13 @@
         ]
       }
     },
-    "TcHmi.BuildingAutomation.Controls.Paginator": {
+    "TcHmi.BuildingAutomation.Controls.Common.Paginator": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiRegion",
       "frameworkControlType": "Paginator",
-      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls"
+      "frameworkControlNamespace": "TcHmi.BuildingAutomation.Controls.Common"
     },
-    "TcHmi.BuildingAutomation.Controls.Paginator.Pages": {
+    "TcHmi.BuildingAutomation.Controls.Common.Paginator.Pages": {
       "type": "array",
       "items": {
         "$ref": "tchmi:framework#/definitions/ContentPath"
@@ -8015,7 +8221,7 @@
             "displayPriority": 10,
             "description": "Color for this bars",
             "defaultValue": {
-              "color": "#4794da"
+              "color": "#2775be"
             },
             "defaultValueInternal": null
           },
@@ -8027,6 +8233,15 @@
             "description": "The name that is displayed in the legend.",
             "defaultValue": null,
             "defaultValueInternal": null
+          },
+          {
+            "name": "scaleFactor",
+            "category": "General",
+            "displayName": "Scale factor",
+            "displayPriority": 10,
+            "description": "Scales all values with this scale factor.",
+            "defaultValue": null,
+            "defaultValueInternal": 1
           }
         ],
         "properties": {
@@ -8035,6 +8250,9 @@
           },
           "legendName": {
             "type": "string"
+          },
+          "scaleFactor": {
+            "type": "number"
           }
         },
         "required": []
@@ -8045,9 +8263,20 @@
       "type": "string",
       "enum": [
         "Overlapped",
-        "Clustered"
+        "Clustered",
+        "Stacked"
       ],
       "default": "Overlapped"
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiBarChart.ChartAxisLabeling": {
+      "title": "ChartAxisLabeling",
+      "type": "string",
+      "enum": [
+        "Number",
+        "Scientific",
+        "Auto"
+      ],
+      "default": "Number"
     },
     "TcHmiBarChart": {
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiBarChart"
@@ -8799,7 +9028,7 @@
                 "displayName": "Width Unit",
                 "category": "General",
                 "displayPriority": 10,
-                "description": "Width unit of this column",
+                "description": "Width unit of this column. px defines an absolute width, % is relative to the control witdth and factor can be used to divide the available space into fractions.",
                 "defaultValue": null,
                 "defaultValueInternal": "px"
               },
@@ -8840,7 +9069,7 @@
                 "$ref": "tchmi:framework#/definitions/MeasurementValue"
               },
               "widthUnit": {
-                "$ref": "tchmi:framework#/definitions/MeasurementUnit"
+                "$ref": "tchmi:framework#/definitions/MeasurementUnitOrFactor"
               },
               "sortable": {
                 "type": "boolean",
@@ -8891,7 +9120,7 @@
                 "displayName": "Width Unit",
                 "category": "General",
                 "displayPriority": 10,
-                "description": "Width unit of this column",
+                "description": "Width unit of this column. px defines an absolute width, % is relative to the control witdth and factor can be used to divide the available space into fractions.",
                 "defaultValue": null,
                 "defaultValueInternal": "px"
               },
@@ -8917,7 +9146,7 @@
                 "$ref": "tchmi:framework#/definitions/MeasurementValue"
               },
               "widthUnit": {
-                "$ref": "tchmi:framework#/definitions/MeasurementUnit"
+                "$ref": "tchmi:framework#/definitions/MeasurementUnitOrFactor"
               },
               "sortable": {
                 "type": "boolean",
@@ -9005,6 +9234,101 @@
     "TcHmiEventLine": {
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiEventLine"
     },
+    "TcHmi.Controls.Beckhoff.TcHmiEventLine.MessageFormat": {
+      "title": "MessageFormat",
+      "type": "array",
+      "engineeringColumns": [
+        "title"
+      ],
+      "items": {
+        "anyOf": [
+          {
+            "title": "Event Property",
+            "type": "object",
+            "propertiesMeta": [
+              {
+                "name": "name",
+                "displayName": "Name",
+                "category": "General",
+                "displayPriority": 10,
+                "description": "A Part of the displayed message.",
+                "defaultValue": null,
+                "defaultValueInternal": null
+              }
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "enum": [
+                  "type",
+                  "severity",
+                  "alarmState",
+                  "confirmationState",
+                  "domain",
+                  "sourceDomain",
+                  "name",
+                  "text",
+                  "timeReceived",
+                  "timeRaised",
+                  "timeConfirmed",
+                  "timeCleared"
+                ]
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          {
+            "title": "Event Parameter",
+            "type": "object",
+            "propertiesMeta": [
+              {
+                "name": "name",
+                "displayName": "Name",
+                "category": "General",
+                "displayPriority": 10,
+                "description": "The Path to a property of the received event. Subproperties can be accessed with the '::' seperator.",
+                "defaultValue": "params::",
+                "defaultValueInternal": null
+              }
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "pattern": "^params::"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          },
+          {
+            "title": "Text",
+            "type": "object",
+            "propertiesMeta": [
+              {
+                "name": "text",
+                "displayName": "Text",
+                "category": "General",
+                "displayPriority": 10,
+                "description": "A custom text displayed in the event message.",
+                "defaultValue": null,
+                "defaultValueInternal": null
+              }
+            ],
+            "properties": {
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "text"
+            ]
+          }
+        ]
+      }
+    },
     "TcHmi.Controls.Beckhoff.TcHmiFileExplorer": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
@@ -9088,7 +9412,8 @@
       "type": "string",
       "enum": [
         "Overlapped",
-        "Clustered"
+        "Clustered",
+        "Stacked"
       ],
       "default": "Overlapped"
     },
@@ -9108,7 +9433,7 @@
             "displayPriority": 10,
             "description": "Color for this bars",
             "defaultValue": {
-              "color": "#4794da"
+              "color": "#2775be"
             },
             "defaultValueInternal": null
           },
@@ -9120,6 +9445,15 @@
             "description": "The name that is displayed in the legend.",
             "defaultValue": null,
             "defaultValueInternal": null
+          },
+          {
+            "name": "scaleFactor",
+            "category": "General",
+            "displayName": "Scale factor",
+            "displayPriority": 10,
+            "description": "Scales all values with this scale factor.",
+            "defaultValue": null,
+            "defaultValueInternal": 1
           }
         ],
         "properties": {
@@ -9128,10 +9462,23 @@
           },
           "legendName": {
             "type": "string"
+          },
+          "scaleFactor": {
+            "type": "number"
           }
         },
         "required": []
       }
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiHorizontalBarChart.ChartAxisLabeling": {
+      "title": "ChartAxisLabeling",
+      "type": "string",
+      "enum": [
+        "Number",
+        "Scientific",
+        "Auto"
+      ],
+      "default": "Number"
     },
     "TcHmiHorizontalBarChart": {
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiHorizontalBarChart"
@@ -9399,7 +9746,7 @@
             "category": "Colors",
             "displayPriority": 10,
             "description": "Color for this line",
-            "defaultValue": "rgba(71, 148, 218, 1)",
+            "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiLineChart::LineGraphDescriptionLineColor%/tr%",
             "defaultValueInternal": null
           },
           {
@@ -9408,7 +9755,7 @@
             "category": "Colors",
             "displayPriority": 10,
             "description": "Color for the fill of the dots",
-            "defaultValue": "rgba(71, 148, 218, 1)",
+            "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiLineChart::LineGraphDescriptionPointDotFillColor%/tr%",
             "defaultValueInternal": null
           },
           {
@@ -9417,7 +9764,7 @@
             "category": "Colors",
             "displayPriority": 10,
             "description": "Color for the stroke of the dots",
-            "defaultValue": "rgba(71, 148, 218, 1)",
+            "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiLineChart::LineGraphDescriptionPointDotStrokeColor%/tr%",
             "defaultValueInternal": null
           },
           {
@@ -9473,6 +9820,24 @@
             "description": "The name that is displayed in the legend.",
             "defaultValue": null,
             "defaultValueInternal": null
+          },
+          {
+            "name": "xScaleFactor",
+            "category": "General",
+            "displayName": "X scale factor",
+            "displayPriority": 10,
+            "description": "Scales all x values with this scale factor.",
+            "defaultValue": null,
+            "defaultValueInternal": 1
+          },
+          {
+            "name": "yScaleFactor",
+            "category": "General",
+            "displayName": "Y scale factor",
+            "displayPriority": 10,
+            "description": "Scales all y values with this scale factor.",
+            "defaultValue": null,
+            "defaultValueInternal": 1
           }
         ],
         "properties": {
@@ -9504,6 +9869,12 @@
           },
           "legendName": {
             "type": "string"
+          },
+          "xScaleFactor": {
+            "type": "number"
+          },
+          "yScaleFactor": {
+            "type": "number"
           }
         },
         "required": [
@@ -9526,7 +9897,7 @@
           "displayName": "Label font color",
           "displayPriority": 10,
           "description": "",
-          "defaultValue": null,
+          "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiLineChart::YAxisLabelFontColor%/tr%",
           "defaultValueInternal": {
             "color": "#4794da"
           }
@@ -9537,7 +9908,7 @@
           "displayName": "Axis color",
           "displayPriority": 10,
           "description": "",
-          "defaultValue": null,
+          "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiLineChart::YAxisAxisColor%/tr%",
           "defaultValueInternal": {
             "color": "#4794da"
           }
@@ -9548,7 +9919,7 @@
           "displayName": "Axis name font color",
           "displayPriority": 10,
           "description": "",
-          "defaultValue": null,
+          "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiLineChart::YAxisAxisNameFontColor%/tr%",
           "defaultValueInternal": {
             "color": "#4794da"
           }
@@ -9570,6 +9941,24 @@
           "description": "",
           "defaultValue": null,
           "defaultValueInternal": "Left"
+        },
+        {
+          "name": "logarithmicScale",
+          "category": "General",
+          "displayName": "Logarithmic scale",
+          "displayPriority": 10,
+          "description": "",
+          "defaultValue": null,
+          "defaultValueInternal": false
+        },
+        {
+          "name": "axisLabeling",
+          "category": "General",
+          "displayName": "Axis labeling",
+          "displayPriority": 10,
+          "description": "",
+          "defaultValue": null,
+          "defaultValueInternal": "Number"
         },
         {
           "name": "mainTickMinValue",
@@ -9701,6 +10090,17 @@
             "Right"
           ]
         },
+        "logarithmicScale": {
+          "type": "boolean"
+        },
+        "axisLabeling": {
+          "type": "string",
+          "enum": [
+            "Number",
+            "Scientific",
+            "Auto"
+          ]
+        },
         "mainTickMinValue": {
           "type": "number"
         },
@@ -9751,6 +10151,16 @@
       "items": {
         "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiLineChart.ChartYAxisDefinition"
       }
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiLineChart.ChartAxisLabeling": {
+      "title": "ChartAxisLabeling",
+      "type": "string",
+      "enum": [
+        "Number",
+        "Scientific",
+        "Auto"
+      ],
+      "default": "Number"
     },
     "TcHmiLineChart": {
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiLineChart"
@@ -9987,7 +10397,7 @@
             "category": "Colors",
             "displayPriority": 10,
             "description": "Color for this line",
-            "defaultValue": "rgba(71, 148, 218, 1)",
+            "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiTrendLineChart::LineGraphDescriptionLineColor%/tr%",
             "defaultValueInternal": null
           },
           {
@@ -9996,7 +10406,7 @@
             "category": "Colors",
             "displayPriority": 10,
             "description": "Color for the fill of the dots",
-            "defaultValue": "rgba(71, 148, 218, 1)",
+            "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiTrendLineChart::LineGraphDescriptionPointDotFillColor%/tr%",
             "defaultValueInternal": null
           },
           {
@@ -10005,7 +10415,7 @@
             "category": "Colors",
             "displayPriority": 10,
             "description": "Color for the stroke of the dots",
-            "defaultValue": "rgba(71, 148, 218, 1)",
+            "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiTrendLineChart::LineGraphDescriptionPointDotStrokeColor%/tr%",
             "defaultValueInternal": null
           },
           {
@@ -10079,6 +10489,15 @@
             "description": "The name that is displayed in the legend.",
             "defaultValue": null,
             "defaultValueInternal": null
+          },
+          {
+            "name": "scaleFactor",
+            "category": "General",
+            "displayName": "Scale factor",
+            "displayPriority": 10,
+            "description": "Scales all values with this scale factor.",
+            "defaultValue": null,
+            "defaultValueInternal": 1
           }
         ],
         "properties": {
@@ -10116,6 +10535,9 @@
           },
           "legendName": {
             "type": "string"
+          },
+          "scaleFactor": {
+            "type": "number"
           }
         },
         "required": [
@@ -10245,9 +10667,9 @@
           "displayName": "Label font color",
           "displayPriority": 10,
           "description": "",
-          "defaultValue": null,
+          "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiTrendLineChart::YAxisLabelFontColor%/tr%",
           "defaultValueInternal": {
-            "color": "#4794da"
+            "color": "#2775be"
           }
         },
         {
@@ -10256,9 +10678,9 @@
           "displayName": "Axis color",
           "displayPriority": 10,
           "description": "",
-          "defaultValue": null,
+          "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiTrendLineChart::YAxisAxisColor%/tr%",
           "defaultValueInternal": {
-            "color": "#4794da"
+            "color": "#2775be"
           }
         },
         {
@@ -10267,9 +10689,9 @@
           "displayName": "Axis name font color",
           "displayPriority": 10,
           "description": "",
-          "defaultValue": null,
+          "defaultValue": "%tr%Control::TcHmi.Controls.Beckhoff.TcHmiTrendLineChart::YAxisAxisNameFontColor%/tr%",
           "defaultValueInternal": {
-            "color": "#4794da"
+            "color": "#2775be"
           }
         },
         {
@@ -10289,6 +10711,24 @@
           "description": "",
           "defaultValue": null,
           "defaultValueInternal": "Left"
+        },
+        {
+          "name": "logarithmicScale",
+          "category": "General",
+          "displayName": "Logarithmic scale",
+          "displayPriority": 10,
+          "description": "",
+          "defaultValue": null,
+          "defaultValueInternal": false
+        },
+        {
+          "name": "axisLabeling",
+          "category": "General",
+          "displayName": "Axis labeling",
+          "displayPriority": 10,
+          "description": "",
+          "defaultValue": null,
+          "defaultValueInternal": "Number"
         },
         {
           "name": "mainTickMinValue",
@@ -10325,6 +10765,15 @@
           "description": "",
           "defaultValue": null,
           "defaultValueInternal": 2
+        },
+        {
+          "name": "showAxis",
+          "category": "General",
+          "displayName": "showAxis",
+          "displayPriority": 10,
+          "description": "",
+          "defaultValue": null,
+          "defaultValueInternal": true
         },
         {
           "name": "showLabels",
@@ -10420,6 +10869,17 @@
             "Right"
           ]
         },
+        "logarithmicScale": {
+          "type": "boolean"
+        },
+        "axisLabeling": {
+          "type": "string",
+          "enum": [
+            "Number",
+            "Scientific",
+            "Auto"
+          ]
+        },
         "mainTickMinValue": {
           "type": "number"
         },
@@ -10432,6 +10892,9 @@
         "decimalPlaces": {
           "type": "number",
           "minimum": 0
+        },
+        "showAxis": {
+          "type": "boolean"
         },
         "showLabels": {
           "type": "boolean"
@@ -10830,6 +11293,23 @@
         "stateIcon"
       ]
     },
+    "TcHmi.Controls.Beckhoff.TcHmiRecipeEdit": {
+      "$schema": "http://json-schema.org/draft-04/schema",
+      "type": "object",
+      "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+      "frameworkControlType": "TcHmiRecipeEdit",
+      "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
+    },
+    "TcHmi.Controls.Beckhoff.TcHmiRecipeEdit.NameArray": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "TcHmiRecipeEdit": {
+      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiRecipeEdit"
+    },
     "TcHmi.Controls.Beckhoff.TcHmiAdsState": {
       "type": "object",
       "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
@@ -11164,9 +11644,6 @@
     },
     "ColumnOptions": {
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.System.TcHmiGrid.ColumnOptions"
-    },
-    "MeasurementUnitOrFactor": {
-      "$ref": "tchmi:framework#/definitions/TcHmi.Controls.System.TcHmiGrid.MeasurementUnitOrFactor"
     },
     "RowOptions": {
       "$ref": "tchmi:framework#/definitions/TcHmi.Controls.System.TcHmiGrid.RowOptions"
