@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_BACnet_RcpList" Id="{6618e578-ce73-4756-bfd8-03f7b4a463b4}" SpecialFunc="None">
     <Declaration><![CDATA[// Exemple illustrates how to write the (BACnet) recipient list to a 'FB_BA_EC' object.
 FUNCTION_BLOCK FB_BACnet_RcpList EXTENDS FB_BA_View
@@ -38,7 +38,7 @@ IF (bWrite) THEN
 	
 	// Iterate over all event class objects:
 	_iObj := 0;
-	WHILE (BA_Globals.Top.IterateObjectIndex(_iObj, E_BA_ObjectType.eEventClass)) DO
+	WHILE (XBA_Globals.Top.IterateObjectIndex(_iObj, E_BA_ObjectType.eEventClass)) DO
 		// Receive internal BACnet object from BA object:
 		IF (NOT _iObj.GetBACnetObject(fbObject=>_fbBACnetObj)) THEN
 			_iObj.LogMsg.Show(ADSLOG_MSGTYPE_ERROR, 'RL09', 'Failed to receive internal BACnet object!', TRUE);
