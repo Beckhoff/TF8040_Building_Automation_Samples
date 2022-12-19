@@ -44,7 +44,7 @@ namespace Beckhoff.BA.SiteApi.Samples
         }
 
 
-        private static void OnPostReadCycle(IReadOnlyDictionary<IBaBaseDevice, BaReadJobList> iDoneJobs)
+        private static void OnPostReadCycle(object oSender, IReadOnlyDictionary<IBaBaseDevice, BaReadJobList> iDoneJobs)
         {
             // Iterate over read devices:
             foreach (var _iDev in iDoneJobs)

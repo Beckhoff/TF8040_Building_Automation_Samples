@@ -32,7 +32,7 @@ namespace Beckhoff.BA.SiteApi.Samples
         /// <summary>
         /// Listen for <see cref="BaCovNotificationType">changes</see>.
         /// </summary>
-        private void OnNotification(IBaDevice iSender, BaNotificationEventArgs bArgs)
+        private Task OnNotification(IBaDevice iSender, BaNotificationEventArgs bArgs)
         {
             switch (bArgs.Type)
             {
@@ -43,6 +43,8 @@ namespace Beckhoff.BA.SiteApi.Samples
                     _bArgs.Changes.Print("Changed events");
                     break;
             }
+
+            return (Task.CompletedTask);
         }
     }
 

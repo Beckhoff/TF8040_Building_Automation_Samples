@@ -63,9 +63,9 @@ namespace Beckhoff.BA.SiteApi.Samples
         }
 
 
-        private static void OnLog(BaLogType bIcon, string sCode, object oEvent, string sProcess = "", IBaLog iContext = null)
+        private static void OnLog(object oSender, BaLogEventArgs bArgs)
         {
-            Console.WriteLine(oEvent.ToString());
+            Console.WriteLine(bArgs.Event.ToString());
         }
     }
 }

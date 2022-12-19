@@ -48,12 +48,12 @@ namespace Beckhoff.BA.SiteApi.Samples
         /// <summary>
         /// Write detailed log to debugger output window.
         /// </summary>
-        private static void OnLog(BaLogType bIcon, string sCode, object oEvent, string sProcess = "", IBaLog iContext = null)
+        private static void OnLog(object oSender, BaLogEventArgs bArgs)
         {
             string sContext = "";
-            if (iContext != null)
-                sContext = iContext.LogName + " | ";
-            Debug.WriteLine(string.Format("{0:MM.dd.yyyy HH:mm:ss} [{1}] {2}{3}: {4}", DateTime.Now, sCode, sContext, bIcon, oEvent));
+            if (bArgs.Context != null)
+                sContext = bArgs.Context.LogName + " | ";
+            Debug.WriteLine(string.Format("{0:MM.dd.yyyy HH:mm:ss} [{1}] {2}{3}: {4}", DateTime.Now, bArgs.Code, sContext, bArgs.Icon, bArgs.Event));
         }
     }
 
