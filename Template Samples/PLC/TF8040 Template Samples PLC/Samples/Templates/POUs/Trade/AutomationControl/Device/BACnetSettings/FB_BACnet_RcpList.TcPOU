@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BACnet_RcpList" Id="{6618e578-ce73-4756-bfd8-03f7b4a463b4}" SpecialFunc="None">
+    <Declaration><![CDATA[// Exemple illustrates how to write the (BACnet) recipient list to a 'FB_BA_EC' object.
+FUNCTION_BLOCK FB_BACnet_RcpList  
+VAR
+	bWrite				: BOOL ;
+	
+	// Recipient list to write (to all event classes):
+	aRecipientList		: T_BACnet_RecipientList := [(
+							nProcessId					:= 10000,
+							stValidDays					:= F_BACnet_ValidDays(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+							stFromTime					:= F_BA_ToSTTime(T#0H),
+							stToTime					:= F_BA_ToSTTime(T#23H59M59S),
+							bIssueConfirmed				:= FALSE,
+							stEventTransitions			:= F_BACnet_EventTransitionBits(TRUE, TRUE, TRUE),
+							stRecipient					:= F_BACnet_DeviceRecipient(nDeviceInstance:=1445709)
+						),(
+							nProcessId					:= 30100,
+							stValidDays					:= F_BACnet_ValidDays(TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE),
+							stFromTime					:= F_BA_ToSTTime(T#0H),
+							stToTime					:= F_BA_ToSTTime(T#23H59M59S),
+							bIssueConfirmed				:= TRUE,
+							stEventTransitions			:= F_BACnet_EventTransitionBits(TRUE, TRUE, TRUE),
+							stRecipient					:= F_BACnet_EthernetRecipient(nIPAddress1:=192,168,10,200, nPort:=47808, nNetworkNr:=444)
+						),(
+							nProcessId					:= 40100,
+							stValidDays					:= F_BACnet_ValidDays(TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE),
+							stFromTime					:= F_BA_ToSTTime(T#0H),
+							stToTime					:= F_BA_ToSTTime(T#23H59M59S),
+							bIssueConfirmed				:= TRUE,
+							stEventTransitions			:= F_BACnet_EventTransitionBits(TRUE, TRUE, TRUE),
+							stRecipient					:= F_BACnet_EthernetRecipient(nIPAddress1:=192,168,15,200, nPort:=47808, nNetworkNr:=555)
+						)];
+END_VAR
+VAR
+	_iObj				: I_BA_Object;
+	_fbBACnetObj		: POINTER TO FB_BACnet_BaseObject;
+	_hRes				: HRESULT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF (XBA_Globals.Top.ProjectState = E_BA_ProjectState.eFirstOpCycle) THEN
+	bWrite := TRUE;
+END_IF
+
+
+IF (bWrite) THEN
+	bWrite := FALSE;
+	// Iterate over all event class objects:
+	_iObj := 0;
+	WHILE (F_BA_IterateObjectIndex(_iObj, E_BA_ObjectType.eEventClass)) DO
+		// Receive internal BACnet object from BA object:
+		IF (NOT _iObj.GetBACnetObject(fbObject=>_fbBACnetObj)) THEN
+			_iObj.LogMsg.Show(ADSLOG_MSGTYPE_ERROR, 'RL09', 'Failed to receive internal BACnet object!', TRUE);
+		ELSE
+			// Write recipient list:
+			_hRes := _fbBACnetObj^.WritePropertyRecipientList(aRecipientList);
+			IF (FAILED(_hRes)) THEN
+				; // Do some error handling (An error message has already been logged here).
+			END_IF
+		END_IF
+	END_WHILE
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_BACnet_RcpList">
+      <LineId Id="285" Count="1" />
+      <LineId Id="133" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="325" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="182" Count="0" />
+      <LineId Id="179" Count="0" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="364" Count="8" />
+      <LineId Id="246" Count="0" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="137" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

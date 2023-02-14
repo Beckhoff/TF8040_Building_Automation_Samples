@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BA_ThiesWSC11" Id="{82fa414c-ec2e-4ba2-af64-7221bc475fb4}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "Universal, Weather station, Thies"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "Universal, Weather station, Thies"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_WSC11Status"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Konfguration der Wetterstation und Auswerten des Telegramms"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Configuration of the weatherstation and extracting the data out of the telegram"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_ThiesWSC11
+VAR_INPUT
+	bRst					: BOOL;				// reset weather-station
+END_VAR                                     	
+VAR_INPUT CONSTANT PERSISTENT               	
+	{attribute 'parameterUnit':= 'ms'}      	
+	nUpdateTime				: UDINT := 500;		// data-polling interval [500..60000ms]
+	{attribute 'parameterUnit':= 's'}      	
+	nConfigTimeout			: UDINT	:= 10;		// Timeout for configutation-routine
+	{attribute 'parameterUnit':= ''}        	
+	nMaxCyclesOldData		: UDINT	:= 5;		// No change of data: counting polling-cycles with identical data before sending an error; min=2
+	{attribute 'parameterUnit':= 'min'}     	
+	nWndDatAvrgIntVal		: UDINT;			// Wind data averaging intervall - 0 = Off; 1-10 = minutes
+	bWndSpdLEDOn			: BOOL;				// Wind speed LED on - FALSE = blue LED Off ; TRUE = blue LED On
+	bTwiLgtCalcAvrg			: BOOL;				// Twilight-caluclation average - FALSE = Sum of the light-sensors is taken ; TRUE = Average of the light-sensors is taken
+	{attribute 'parameterUnit':= 'deg'} 		
+	nWndDirNorthOffs		: UDINT;			// Wind direction North offset (correction) [0..360°]
+	{attribute 'parameterUnit':= 'm'}   		
+	nStHgtAMSL				: UDINT;			// Station height above mean sea level [0..3000m], 3001 means, that the level is automatically taken from GPS-device			
+	{attribute 'parameterUnit':= 's'}							
+	nRainOffDly				: UDINT;			// Rain off delay [0..3600s]					
+	{attribute 'parameterUnit':= 's'}							
+	nDistMsgDly				: UDINT;			// Disturbance message delay [0..60s]
+END_VAR
+VAR_OUTPUT
+	stWSC11Data				: ST_BA_WSC11Data;
+	bErr					: BOOL;				// error
+	sErrDescr				: T_MaxString;		// error description
+END_VAR                     
+VAR_IN_OUT                  
+	TXBuffer				: ComBuffer;
+	RXBuffer				: ComBuffer;
+END_VAR                     
+VAR                
+	tUpdateTime				: TIME;
+	tRainOffDly				: TIME;
+	tDistMsgDly				: TIME;
+	                        
+	rtRst					: R_TRIG;
+	tonTimeout				: TON;
+	tonSendParam			: TON;
+	tonReadData				: TON;
+	tofRain					: TOF;
+	tonDist					: ARRAY[1..21]OF TON;
+	SendString				: SendString;
+	ReceiveString			: ReceiveString;
+	ReceiveStringMValues	: ReceiveString255;
+	bOldData				: BOOL;					// no data change for "nMaxCyclesOldData" polling-cycles
+	bThiesConfigError		: BOOL;					// timeout-error configurating the Thies-weather-station
+                            
+	nStep					: INT;
+	nLastStep				: INT;
+	bSendParameter			: BOOL;
+	bFeedbackParameter		: BOOL;
+	sReceivedParameter		: STRING;
+                            
+	sMValues				: STRING(255);
+	sMValues_LC				: STRING(255);
+	nPollingCounter			: UDINT;
+                            
+	sDateAndTime			: STRING;
+	sStatus					: STRING;
+	dwStatus				: DWORD;
+                            
+	nWndDatAvrgIntVal_Mem	: UDINT;
+	bWndSpdLEDOn_Mem		: BOOL;
+	bTwiLgtCalcAvrg_Mem		: BOOL;
+	nWndDirNorthOffs_Mem	: UDINT;
+	nStHgtAMSL_Mem			: UDINT;
+                            
+	sWndDatAvrgIntVal		: STRING;
+	sWndDirNorthOffs		: STRING;
+	sStHgtAMSL				: STRING;			// Height Above Mean Sea Level
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// limiting of input-values
+nUpdateTime			:= LIMIT (500, nUpdateTime, 60000);
+nMaxCyclesOldData	:= MAX (2, nMaxCyclesOldData);
+nWndDatAvrgIntVal 	:= LIMIT (0, nWndDatAvrgIntVal, 10);
+nWndDirNorthOffs	:= LIMIT (0, nWndDirNorthOffs, 360);
+nStHgtAMSL			:= LIMIT (0, nStHgtAMSL, 3001);
+nRainOffDly			:= LIMIT (0, nRainOffDly, 3600);
+nDistMsgDly			:= LIMIT (0, nDistMsgDly, 60);
+
+tUpdateTime			:= TO_TIME(nUpdateTime);
+tRainOffDly			:= TO_TIME(nRainOffDly*1000);
+tDistMsgDly			:= TO_TIME(nDistMsgDly*1000);
+
+// watch for input-changes
+rtRst(CLK:=bRst );
+
+IF rtRst.Q
+OR nWndDatAvrgIntVal		<> nWndDatAvrgIntVal_Mem
+OR bWndSpdLEDOn				<> bWndSpdLEDOn_Mem
+OR bTwiLgtCalcAvrg			<> bTwiLgtCalcAvrg_Mem
+OR nWndDirNorthOffs			<> nWndDirNorthOffs_Mem
+OR nStHgtAMSL				<> nStHgtAMSL_Mem		 THEN                     
+  
+	bWndSpdLEDOn_Mem		:= bWndSpdLEDOn;
+	bTwiLgtCalcAvrg_Mem		:= bTwiLgtCalcAvrg;
+	nWndDirNorthOffs_Mem	:= nWndDirNorthOffs;
+	nStHgtAMSL_Mem			:= nStHgtAMSL;
+	nWndDatAvrgIntVal_Mem	:= nWndDatAvrgIntVal;
+	
+	bSendParameter			:= TRUE;       
+	nStep					:= 0;
+END_IF
+
+tonTimeout(IN:=bSendParameter, PT:= F_BA_UdiToTiSec(nConfigTimeout));
+IF tonTimeout.Q	THEN
+	bThiesConfigError	:= TRUE;
+	tonTimeout			(IN:= FALSE);
+	nStep				:= 0;		// restart
+END_IF
+
+CASE nStep OF
+
+// sequence: send changed parameters
+	0:
+		tonSendParam(IN:=bSendParameter , PT:=tUpdateTime+T#1S);
+			IF tonSendParam.Q AND bSendParameter THEN
+				nStep:=2;
+			END_IF
+
+	1:
+		ReceiveString(
+					Prefix:= ,
+					Suffix:='$0D',
+					ReceivedString:=sReceivedParameter,
+					RXbuffer:=RXBuffer);
+		IF ReceiveString.StringReceived THEN
+			bFeedbackParameter:=TRUE;
+		END_IF
+		IF NOT ReceiveString.Busy AND bFeedbackParameter THEN
+			bFeedbackParameter:=FALSE;
+			nStep:=nLastStep+1;
+		END_IF
+
+	2:	// set password
+		SendString(
+				SendString:='00KY234$0D' ,
+				TXbuffer:=TXBuffer );
+		nLastStep:=2;
+		nStep:=1;
+
+	3:	// Wind data averaging interval
+		sWndDatAvrgIntVal:='00AI';
+		sWndDatAvrgIntVal:=CONCAT(sWndDatAvrgIntVal,TO_STRING(nWndDatAvrgIntVal_Mem));
+		sWndDatAvrgIntVal:=CONCAT(sWndDatAvrgIntVal,'$0D');
+		SendString(
+				SendString:=sWndDatAvrgIntVal ,
+				TXbuffer:=TXBuffer );
+		nLastStep:=3;
+		nStep:=1;
+
+	4:	// Wind speed LED
+		IF bWndSpdLEDOn THEN
+		SendString(
+				SendString:='00LC0$0D' ,
+				TXbuffer:=TXBuffer );
+		ELSE
+		SendString(
+				SendString:='00LC1$0D' ,
+				TXbuffer:=TXBuffer );
+		END_IF
+		nLastStep:=4;
+		nStep:=1;
+
+	5:	// Twilight-caluclation
+		IF bTwiLgtCalcAvrg THEN
+		SendString(
+				SendString:='00DC1$0D' ,
+				TXbuffer:=TXBuffer );
+		ELSE
+		SendString(
+				SendString:='00DC0$0D' ,
+				TXbuffer:=TXBuffer );
+		END_IF
+		nLastStep:=5;
+		nStep:=1;
+
+	6:	// Wind direction North offset
+		sWndDirNorthOffs:='00DO';
+		sWndDirNorthOffs:=CONCAT(sWndDirNorthOffs,TO_STRING(nWndDirNorthOffs));
+		sWndDirNorthOffs:=CONCAT(sWndDirNorthOffs,'$0D');
+		SendString(
+				SendString:=sWndDirNorthOffs ,
+				TXbuffer:=TXBuffer );
+		nLastStep:=6;
+		nStep:=1;
+
+	7:	// Station height above mean seal level
+		sStHgtAMSL:='00SH';
+		sStHgtAMSL:=CONCAT(sStHgtAMSL,TO_STRING(nStHgtAMSL));
+		sStHgtAMSL:=CONCAT(sStHgtAMSL,'$0D');
+		SendString(
+				SendString:=sStHgtAMSL ,
+				TXbuffer:=TXBuffer );
+		nLastStep:=7;
+		nStep:=1;
+
+	8:	// Reset
+		IF bRst THEN
+		SendString(
+				SendString:='00RS02$0D' ,
+				TXbuffer:=TXBuffer );
+		nLastStep:=8;
+		nStep:=1;
+		ELSE
+		nStep:=9;
+		END_IF
+
+	9:
+		bSendParameter		:= FALSE;
+		bThiesConfigError	:= FALSE;
+		nLastStep			:= 9;
+		nStep				:= 0;
+
+END_CASE
+
+// read data periodically
+sMValues_LC	:= sMValues;	// Last cycle -> detect changes
+
+tonReadData(IN:=NOT tonReadData.Q AND NOT bSendParameter , PT:=tUpdateTime);
+
+IF tonReadData.Q THEN
+	nPollingCounter	:= nPollingCounter+1;
+	SendString(
+	SendString:='00TR1$0D' ,
+	TXbuffer:=TXBuffer );
+END_IF
+
+ReceiveStringMValues(
+	Prefix:='$02WSC' ,
+	Suffix:='$0D$0A' ,
+	Timeout:=T#3s ,
+	ReceivedString:=sMValues ,
+	RXbuffer:=RXBuffer);
+	
+IF (sMValues_LC	= sMValues)	THEN
+	IF nPollingCounter > nMaxCyclesOldData	THEN
+		nPollingCounter := nMaxCyclesOldData;
+		bOldData		:= TRUE;
+	END_IF
+ELSE
+	bOldData		:= FALSE;
+	nPollingCounter	:= 0;
+END_IF
+
+IF ReceiveStringMValues.StringReceived THEN
+	
+	// date and time from weather-station
+	
+	sDateAndTime:='DT#';
+	sDateAndTime:=CONCAT(sDateAndTime,MID(sMValues,4,15));
+	sDateAndTime:=CONCAT(sDateAndTime,'-');
+	sDateAndTime:=CONCAT(sDateAndTime,MID(sMValues,2,12));
+	sDateAndTime:=CONCAT(sDateAndTime,'-');
+	sDateAndTime:=CONCAT(sDateAndTime,MID(sMValues,2,9));
+	sDateAndTime:=CONCAT(sDateAndTime,'-');
+	sDateAndTime:=CONCAT(sDateAndTime,MID(sMValues,2,20));
+	sDateAndTime:=CONCAT(sDateAndTime,':');
+	sDateAndTime:=CONCAT(sDateAndTime,MID(sMValues,2,23));
+	sDateAndTime:=CONCAT(sDateAndTime,':');
+	sDateAndTime:=CONCAT(sDateAndTime,MID(sMValues,2,26));
+	
+	stWSC11Data.stDateTime				:= DT_TO_SYSTEMTIME(TO_DT(sDateAndTime));
+										
+	stWSC11Data.sTimeFormat				:= MID(sMValues,6,29);
+										
+	
+	// weather-data from weather-station
+	
+	stWSC11Data.fBrightnessNorth		:= TO_REAL(MID(sMValues,5,36));
+	stWSC11Data.fBrightnessEast			:= TO_REAL(MID(sMValues,5,42));
+	stWSC11Data.fBrightnessSouth		:= TO_REAL(MID(sMValues,5,48));
+	stWSC11Data.fBrightnessWest			:= TO_REAL(MID(sMValues,5,54));
+										   
+	stWSC11Data.fDawn					:= TO_REAL(STRING_TO_INT(MID(sMValues,3,60)));
+										   
+	stWSC11Data.fGlobalRadiation		:= TO_INT(MID(sMValues,4,64));
+										   
+	stWSC11Data.fOutsideTemperature		:= TO_REAL(MID(sMValues,5,69));
+										   
+	tofRain								(IN	:= TO_BOOL(TO_BYTE(MID(sMValues,1,75))) , PT:=tRainOffDly);
+	stWSC11Data.bRain					:= tofRain.Q;
+										   
+	stWSC11Data.fWindSpeed				:= TO_REAL(MID(sMValues,4,77));
+	stWSC11Data.fWindDirection			:= TO_REAL(TO_INT(MID(sMValues,3,82)));
+										   
+	stWSC11Data.fPressureAbs			:= TO_REAL(MID(sMValues,6,86));
+	stWSC11Data.fPressureRel			:= TO_REAL(MID(sMValues,6,93));
+										   
+	stWSC11Data.fCaseTemperature		:= TO_REAL(MID(sMValues,5,100));
+										   
+	stWSC11Data.fHumidityRel			:= TO_REAL(MID(sMValues,5,106));
+	stWSC11Data.fHumidityAbs			:= TO_REAL(MID(sMValues,6,112));
+										   
+	stWSC11Data.fDewPointTemperature	:= TO_REAL(MID(sMValues,5,119));
+										   
+	stWSC11Data.fLongitude				:= TO_REAL(TO_LREAL(MID(sMValues,11,125)));
+	stWSC11Data.fLatitude				:= TO_REAL(TO_LREAL(MID(sMValues,10,137)));
+										   
+	stWSC11Data.fSunElevation			:= TO_REAL(MID(sMValues,5,148));
+	stWSC11Data.fSunAzimuth				:= TO_REAL(MID(sMValues,5,154));
+	
+	
+	// status of the weather-station
+	
+	sStatus:=MID(sMValues,2,166);
+	sStatus:=CONCAT(sStatus,MID(sMValues,2,164));
+	sStatus:=CONCAT(sStatus,MID(sMValues,2,162));
+	sStatus:=CONCAT(sStatus,MID(sMValues,2,160));
+	
+	HEXSTR_TO_DATA(sStatus, ADR(dwStatus), 4);
+	
+	tonDist[01](IN:=dwStatus.00 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bDewProtection );
+	tonDist[02](IN:=dwStatus.01 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bSensorDryingPeriod );
+	tonDist[03](IN:=dwStatus.02 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidRMC_Telegramm );
+	tonDist[04](IN:=dwStatus.03 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidGPS_Time );
+	tonDist[05](IN:=dwStatus.04 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataAD_Converter );
+	tonDist[06](IN:=dwStatus.05 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataPressureSensor );
+	tonDist[07](IN:=dwStatus.06 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataBrightnessSensorNorth );
+	tonDist[08](IN:=dwStatus.07 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataBrightnessSensorEast );
+	tonDist[09](IN:=dwStatus.08 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataBrightnessSensorSouth );
+	tonDist[10](IN:=dwStatus.09 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataBrightnessSensorWest );
+	tonDist[11](IN:=dwStatus.10 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataTwilightSensor );
+	tonDist[12](IN:=dwStatus.11 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataSolarRadiationSensor );
+	tonDist[13](IN:=dwStatus.12 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataOutsideTemperatureSensor );
+	tonDist[14](IN:=dwStatus.13 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataRainSensor );
+	tonDist[15](IN:=dwStatus.14 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataWindSpeedSensor );
+	tonDist[16](IN:=dwStatus.15 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataWindDirectionSensor );
+	tonDist[17](IN:=dwStatus.16 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidDataHumiditySensor );
+	tonDist[18](IN:=dwStatus.17 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bLatestRestartByWatchdogReset );
+	tonDist[19](IN:=dwStatus.18 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bInvalidEEPROM_Parameters );
+	tonDist[20](IN:=dwStatus.19 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bDefaultEEPROM_Parameters );
+	tonDist[21](IN:=dwStatus.20 , PT:=tDistMsgDly , Q=>stWSC11Data.stStatus.bLatestRestartWithNewFirmware );
+
+END_IF
+
+bErr		:= FALSE;
+sErrDescr	:= ''; 
+
+IF bOldData	THEN
+	bErr		:= TRUE;
+	sErrDescr	:= 'Data unchanged for nMaxCyclesOldData (parameter)'; 
+END_IF
+
+IF bThiesConfigError	THEN
+	bErr		:= TRUE;
+	sErrDescr	:= 'Timeout-error while configurating the weather-station'; 
+END_IF
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_BA_ThiesWSC11">
+      <LineId Id="1079" Count="0" />
+      <LineId Id="601" Count="1" />
+      <LineId Id="1133" Count="0" />
+      <LineId Id="603" Count="5" />
+      <LineId Id="610" Count="2" />
+      <LineId Id="932" Count="0" />
+      <LineId Id="617" Count="16" />
+      <LineId Id="1241" Count="0" />
+      <LineId Id="634" Count="0" />
+      <LineId Id="1217" Count="0" />
+      <LineId Id="635" Count="0" />
+      <LineId Id="1218" Count="1" />
+      <LineId Id="1223" Count="0" />
+      <LineId Id="1221" Count="0" />
+      <LineId Id="1220" Count="0" />
+      <LineId Id="636" Count="1" />
+      <LineId Id="933" Count="0" />
+      <LineId Id="638" Count="23" />
+      <LineId Id="1095" Count="1" />
+      <LineId Id="1102" Count="0" />
+      <LineId Id="665" Count="66" />
+      <LineId Id="734" Count="2" />
+      <LineId Id="1222" Count="0" />
+      <LineId Id="737" Count="3" />
+      <LineId Id="743" Count="1" />
+      <LineId Id="1108" Count="1" />
+      <LineId Id="745" Count="2" />
+      <LineId Id="1111" Count="0" />
+      <LineId Id="748" Count="9" />
+      <LineId Id="1116" Count="3" />
+      <LineId Id="1132" Count="0" />
+      <LineId Id="1124" Count="0" />
+      <LineId Id="1129" Count="2" />
+      <LineId Id="1121" Count="0" />
+      <LineId Id="758" Count="1" />
+      <LineId Id="1115" Count="0" />
+      <LineId Id="936" Count="0" />
+      <LineId Id="935" Count="0" />
+      <LineId Id="1073" Count="0" />
+      <LineId Id="762" Count="16" />
+      <LineId Id="1077" Count="0" />
+      <LineId Id="1075" Count="0" />
+      <LineId Id="1074" Count="0" />
+      <LineId Id="779" Count="31" />
+      <LineId Id="1071" Count="0" />
+      <LineId Id="811" Count="1" />
+      <LineId Id="1070" Count="0" />
+      <LineId Id="813" Count="28" />
+      <LineId Id="1238" Count="0" />
+      <LineId Id="1240" Count="0" />
+      <LineId Id="1239" Count="0" />
+      <LineId Id="1228" Count="9" />
+      <LineId Id="1226" Count="0" />
+      <LineId Id="906" Count="0" />
+      <LineId Id="904" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

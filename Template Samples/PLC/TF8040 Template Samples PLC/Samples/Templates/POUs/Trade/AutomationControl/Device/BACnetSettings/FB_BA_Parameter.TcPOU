@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BA_Parameter" Id="{78edb545-3849-4eb5-9deb-c438d7453294}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_BA_Parameter
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR		
+//		Recipient		: FB_BACnet_RcpList;	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Recipient list to write (to all event classes):
+// Recipient();
+
+]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{6ffd1bdd-8fda-48ba-891d-8d275c66517c}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+VAR
+	Parameters 		: FB_BA_Param;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[//Writeaccess on EventEnable Bits
+//Schreibrechte auf die Eventenable Bits (Property 35.)
+Parameters.SetDefWriteAccess(E_BA_Parameter.eEventEnable, E_BA_ROLE.eInternal);
+//Schreibrechte auf die Default Value(Property 74.)
+Parameters.SetDefWriteAccess(E_BA_Parameter.eDefaultValue, E_BA_ROLE.eInternal);
+
+//Default Struktur der BACnetObjekte im Systemmanager 
+Parameters.BACnet_View_SubordinateAnnotationMode := Tc3_BACnetRev14.E_BACnet_AnnotationTitle.eObjectName;
+
+//DefaultSeparator on each DPAD Level
+Parameters.DPAD_ObjectName_DefSeparator:='-';
+Parameters.DPAD_Description_DefSeparator:=' - ';
+
+//Set AcknowledgeRequiredFlags to AMEV 2017 Standard (Property 1.)
+Parameters.AckFlags_Simple 		:=F_BA_EventTransition(bToOffNormal:= FALSE, bToFault:=FALSE, bToNormal:=FALSE);
+Parameters.AckFlags_Standard	:=F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=FALSE);
+Parameters.AckFlags_Extended 	:=F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
+
+//Set EventEnable to AMEV 2017 Standard (Property 35.)
+Parameters.EventEn_Simple 		:=F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
+Parameters.EventEn_Standard		:=F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
+Parameters.EventEn_Extended 	:=F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
+
+// Quittier- und Rücksetzmodus	// Acknowledge mode
+// E_BA_AcknowledgeMode.eSingle	// Acknowledges only the next outstanding event transition by executing an acknowledgement.
+// E_BA_AcknowledgeMode.eEntire	// Acknowledges all unacknowledged event transitions by executing a single acknowledgement.
+Parameters.EvtMgmt_AckMode		:= E_BA_AcknowledgeMode.eSingle;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_BA_Parameter">
+      <LineId Id="101" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="61" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_Parameter.FB_init">
+      <LineId Id="8" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="10" Count="4" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="15" Count="2" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="45" Count="3" />
+      <LineId Id="44" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

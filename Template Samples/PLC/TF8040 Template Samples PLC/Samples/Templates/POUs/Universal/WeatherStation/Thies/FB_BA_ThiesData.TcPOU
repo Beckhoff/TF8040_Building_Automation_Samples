@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BA_ThiesData" Id="{9f840c28-c85d-4754-ad79-0d743698b884}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "Universal, Weather station, Thies"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "Universal, Weather station, Thies"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_WSC11Status"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Rangierverteiler der gewünschen Daten"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Data collector of important data"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_ThiesData
+VAR_INPUT
+	stWSC11Data				: ST_BA_WSC11Data;
+END_VAR
+VAR_OUTPUT
+	stWeatherStation		: ST_BA_WeatherStation;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[	stWeatherStation.bDisturb				:=	stWSC11Data.stStatus.bInvalidDataAD_Converter;
+	stWeatherStation.fLatitude				:=	stWSC11Data.fLatitude;
+	stWeatherStation.fLongitude				:=	stWSC11Data.fLongitude;			
+	stWeatherStation.fSunAzimuth			:=	stWSC11Data.fSunAzimuth;			
+	stWeatherStation.fSunElevation			:=	stWSC11Data.fSunElevation;
+	stWeatherStation.bRain					:=	stWSC11Data.bRain;
+	stWeatherStation.stDateTime				:=	stWSC11Data.stDateTime;
+	stWeatherStation.fOutsideTemperature	:=	stWSC11Data.fOutsideTemperature;	
+	stWeatherStation.fDewPointTemperature	:=	stWSC11Data.fDewPointTemperature;
+	stWeatherStation.fPressureAbs			:=	stWSC11Data.fPressureAbs;	
+	stWeatherStation.fPressureRel			:=	stWSC11Data.fPressureRel;	
+	stWeatherStation.fHumidityAbs			:=	stWSC11Data.fHumidityAbs;	
+	stWeatherStation.fHumidityRel			:=	stWSC11Data.fHumidityRel;
+	stWeatherStation.fBrightnessEast		:=	stWSC11Data.fBrightnessEast * 1000;			
+	stWeatherStation.fBrightnessNorth		:=	stWSC11Data.fBrightnessNorth * 1000;
+	stWeatherStation.fBrightnessSouth		:=	stWSC11Data.fBrightnessSouth * 1000;	
+	stWeatherStation.fBrightnessWest		:=	stWSC11Data.fBrightnessWest * 1000;
+	stWeatherStation.fDawn					:=	stWSC11Data.fDawn;	
+	stWeatherStation.fGlobalRadiation		:=	stWSC11Data.fGlobalRadiation;
+	stWeatherStation.fWindDirection			:=	stWSC11Data.fWindDirection;			
+	stWeatherStation.fWindSpeed				:=	stWSC11Data.fWindSpeed;	]]></ST>
+    </Implementation>
+    <LineIds Name="FB_BA_ThiesData">
+      <LineId Id="16" Count="19" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="LblAggregates_DE" Id="{d5b8cdb3-c6f3-4985-9718-de207f666172}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, AKS, Labels, ObjectName, Description"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, DPAD, Labels, ObjectName, Description"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Anlagenkennzeichnungssystem, Labels Aggregate"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Data Point Addressing Description, Labels aggregate"'}
+{endregion}
+
+{attribute 'global_init_slot' := '40510'}
+VAR_GLOBAL
+  LblAgg_FunctionallyIndependentEequipment                 :FB_BA_Label:=( sObjName:='FEE', sDescr:='Funktional eigenständige Einrichtung');
+  LblAgg_SelfContainedControlUnit                          :FB_BA_Label:=( sObjName:='ASR', sDescr:='Autarke Steuer- oder Regeleinheit');
+  LblAgg_ControlCabinet                                    :FB_BA_Label:=( sObjName:='SSK', sDescr:='Schaltschrank (gewerkespezifisch)');
+//     330 Türen, Tore, Fenster, Sonnenschutz
+  LblAgg_WindowDrive                                       :FB_BA_Label:=( sObjName:='FEN', sDescr:='Fenster (Antrieb)');
+  LblAgg_WindowContact                                     :FB_BA_Label:=( sObjName:='FEK', sDescr:='Fensterkontakt');
+  LblAgg_Blind                                             :FB_BA_Label:=( sObjName:='JAL', sDescr:='Jalousie');
+  LblAgg_Awning                                            :FB_BA_Label:=( sObjName:='MAR', sDescr:='Markise');
+  LblAgg_RollerShutters                                    :FB_BA_Label:=( sObjName:='ROL', sDescr:='Rollläden');
+  LblAgg_Gate                                              :FB_BA_Label:=( sObjName:='TOR', sDescr:='Tor');
+  LblAgg_Door                                              :FB_BA_Label:=( sObjName:='TÜR', sDescr:='Tür');
+  LblAgg_DoorContact                                       :FB_BA_Label:=( sObjName:='TÜK', sDescr:='Türkontakt');
+  LblAgg_Blackout                                          :FB_BA_Label:=( sObjName:='VER', sDescr:='Verdunklung');
+//     412 Wasseranlagen
+  LblAgg_TraceHeating                                      :FB_BA_Label:=( sObjName:='BGH', sDescr:='Begleitheizung');
+  LblAgg_ElectricHeating                                   :FB_BA_Label:=( sObjName:='EWH', sDescr:='Elektroheizung (TWW–Bereitung)');
+  LblAgg_WaterFilter                                       :FB_BA_Label:=( sObjName:='WFL', sDescr:='Wasserfilter');
+//     421 Wärmeerzeugungsanlagen
+  LblAgg_Furnace                                           :FB_BA_Label:=( sObjName:='HZK', sDescr:='Heizkessel');
+  LblAgg_HeatExchanger                                     :FB_BA_Label:=( sObjName:='WÜT', sDescr:='Wärmeübertrager');
+//     430 Lufttechnische Anlagen und Kälteanlagen
+  LblAgg_FanExhaustAir                                     :FB_BA_Label:=( sObjName:='FOV', sDescr:='Fortluftventilator');
+  LblAgg_Airwasher                                         :FB_BA_Label:=( sObjName:='LWS', sDescr:='Luftwäscher');
+  LblAgg_Humidifier                                        :FB_BA_Label:=( sObjName:='BEF', sDescr:='Befeuchter');
+  LblAgg_HumidifierPump                                    :FB_BA_Label:=( sObjName:='BFP', sDescr:='Befeuchterpumpe');
+  LblAgg_FireDamper                                        :FB_BA_Label:=( sObjName:='BSK', sDescr:='Brandschutzklappe, -ventil');
+  LblAgg_SmokeProtectionDamper                             :FB_BA_Label:=( sObjName:='RSK', sDescr:='Rauchschutzklappe');
+  LblAgg_SmokeExtractorDamper                              :FB_BA_Label:=( sObjName:='ERK', sDescr:='Entrauchungsklappe');
+  LblAgg_CeilingSwirlDiffuser                              :FB_BA_Label:=( sObjName:='DDA', sDescr:='Deckendrallauslass');
+  LblAgg_RoofAirHeater                                     :FB_BA_Label:=( sObjName:='DLA', sDescr:='Deckenlufterhitzer');
+  LblAgg_DirectEvaporator                                  :FB_BA_Label:=( sObjName:='DVD', sDescr:='Direktverdampfer');
+  LblAgg_ElectricalAirHeater                               :FB_BA_Label:=( sObjName:='ELH', sDescr:='Elektrolufterhitzer');
+  LblAgg_ElectricReHeater                                  :FB_BA_Label:=( sObjName:='ENH', sDescr:='Elektronacherhitzer');
+  LblAgg_ElectricaPreHeater                                :FB_BA_Label:=( sObjName:='EVH', sDescr:='Elektrovorerhitzer');
+  LblAgg_HeaterGeneral                                     :FB_BA_Label:=( sObjName:='ERH', sDescr:='Erhitzer');
+  LblAgg_FanExtractAir                                     :FB_BA_Label:=( sObjName:='ABV', sDescr:='Abluftventilator');
+  LblAgg_InductionDevice                                   :FB_BA_Label:=( sObjName:='IND', sDescr:='Induktionsgerät');
+  LblAgg_RefrigerantDryer                                  :FB_BA_Label:=( sObjName:='KTR', sDescr:='Kältetrockner');
+  LblAgg_CirculatorySystem                                 :FB_BA_Label:=( sObjName:='KVS', sDescr:='KVS (WRG über Kreislaufverbundsysteme)');
+  LblAgg_AirFilterOutsideAir                               :FB_BA_Label:=( sObjName:='LFI', sDescr:='Außenluftfilter');
+  LblAgg_AirFilterSupplyAir                                :FB_BA_Label:=( sObjName:='LFI', sDescr:='Zuluftfilter');
+  LblAgg_AirFilterExhaustAir                               :FB_BA_Label:=( sObjName:='LFI', sDescr:='Fortluftfilter');
+  LblAgg_AirFilterExtractAir                               :FB_BA_Label:=( sObjName:='LFI', sDescr:='Abluftfilter');
+  LblAgg_AirFilter                                         :FB_BA_Label:=( sObjName:='LFI', sDescr:='Luftfilter');
+  LblAgg_VentilationDamper                                 :FB_BA_Label:=( sObjName:='LKL', sDescr:='Lüftungsklappe');
+  LblAgg_VentilationDamperOutsideAir                       :FB_BA_Label:=( sObjName:='LKL', sDescr:='Außenluftklappe');
+  LblAgg_VentilationDamperExhaustAir                       :FB_BA_Label:=( sObjName:='LKL', sDescr:='Fortluftklappe');
+  LblAgg_VentilationDamperMixAir                           :FB_BA_Label:=( sObjName:='LKL', sDescr:='Mischluftklappe');
+  LblAgg_VentilationDamperSupplyAir                        :FB_BA_Label:=( sObjName:='LKL', sDescr:='Zuluftklappe');
+  LblAgg_VentilationDamperBypassAir                        :FB_BA_Label:=( sObjName:='LKL', sDescr:='Bypassklappe');
+  LblAgg_Pump                                              :FB_BA_Label:=( sObjName:='PPE', sDescr:='Pumpe');
+  LblAgg_RecirculatingAirCoolingDevice                     :FB_BA_Label:=( sObjName:='ULK', sDescr:='Umluftkühlgerät');
+  LblAgg_FanRecirculatingAir                               :FB_BA_Label:=( sObjName:='UMV', sDescr:='Umluftventilator');
+  LblAgg_UvFilter                                          :FB_BA_Label:=( sObjName:='UVF', sDescr:='UV-Filter');
+  LblAgg_VariableFlowRateController                        :FB_BA_Label:=( sObjName:='VVR', sDescr:='Variabler Volumenstromregler');
+  LblAgg_WaterAirHeater                                    :FB_BA_Label:=( sObjName:='WLH', sDescr:='Wasserlufterhitzer');
+  LblAgg_WaterReHeater                                     :FB_BA_Label:=( sObjName:='WNH', sDescr:='Wassernacherhitzer');
+  LblAgg_WaterPreHeater                                    :FB_BA_Label:=( sObjName:='WVH', sDescr:='Wasservorerhitzer');
+  LblAgg_HeatRecovery                                      :FB_BA_Label:=( sObjName:='WRG', sDescr:='Wärmerückgewinnung');
+  LblAgg_FanSupplyAir                                      :FB_BA_Label:=( sObjName:='ZUV', sDescr:='Zuluftventilator');
+  LblAgg_SmokeExtractionSystems                            :FB_BA_Label:=( sObjName:='ERA', sDescr:='Entrauchungsanlagen');
+  LblAgg_SmokeExtractionVentilator                         :FB_BA_Label:=( sObjName:='ERV', sDescr:='Entrauchungsventilator');
+  LblAgg_VentWindow                                        :FB_BA_Label:=( sObjName:='NSF', sDescr:='Nachströmfenster');
+  LblAgg_VentFlap                                          :FB_BA_Label:=( sObjName:='NSK', sDescr:='Nachströmklappe');
+  LblAgg_VentDoor                                          :FB_BA_Label:=( sObjName:='NST', sDescr:='Nachströmtür');
+  LblAgg_WakeFan                                           :FB_BA_Label:=( sObjName:='NSV', sDescr:='Nachströmventilator');
+//     434 Kälteanlagen
+  LblAgg_GlycoOilProtector                                 :FB_BA_Label:=( sObjName:='GLP', sDescr:='Glykol/Ölprotektor');
+  LblAgg_Chiller                                           :FB_BA_Label:=( sObjName:='KMA', sDescr:='Kältemaschine');
+  LblAgg_ReCoolingPlant                                    :FB_BA_Label:=( sObjName:='RKW', sDescr:='Rückkühlwerk');
+//     440 Starkstromanlagen
+  LblAgg_GeneralPowerSupply                                :FB_BA_Label:=( sObjName:='ASV', sDescr:='Allgemeine Spannungsversorgung');
+  LblAgg_CombindeHeatPowerStation                          :FB_BA_Label:=( sObjName:='BHK', sDescr:='Blockheizkraftwerk');
+  LblAgg_CompensationSystem                                :FB_BA_Label:=( sObjName:='KOA', sDescr:='Kompensationsanlage');
+  LblAgg_CouplingSwitch                                    :FB_BA_Label:=( sObjName:='KUS', sDescr:='Kuppelschalter');
+  LblAgg_LoadBreakSwitch                                   :FB_BA_Label:=( sObjName:='LTS', sDescr:='Lasttrennschalter');
+  LblAgg_CircuitBreaker                                    :FB_BA_Label:=( sObjName:='LSS', sDescr:='Leistungsschalter');
+  LblAgg_NetworkAnalyser                                   :FB_BA_Label:=( sObjName:='NAG', sDescr:='Netzanalysegerät');
+  LblAgg_EmergencyPoweGeneratorUnit                        :FB_BA_Label:=( sObjName:='NSG', sDescr:='Notstromaggregat');
+  LblAgg_EmergencyLighting                                 :FB_BA_Label:=( sObjName:='SIB', sDescr:='Sicherheitsbeleuchtung');
+  LblAgg_SafetyPowerSupply                                 :FB_BA_Label:=( sObjName:='SSV', sDescr:='Sicherheitsspannungsversorgung');
+  LblAgg_Transformer                                       :FB_BA_Label:=( sObjName:='TRF', sDescr:='Transformator');
+  LblAgg_UninterruptiblePowerSupply                        :FB_BA_Label:=( sObjName:='USV', sDescr:='Unterbrechungsfreie Spannungsversorgung');
+//     450 Fernmelde- und informationstechnische Anlagen
+  LblAgg_CentralFireAlarmSystem                            :FB_BA_Label:=( sObjName:='BMZ', sDescr:='Brandmeldezentrale');
+  LblAgg_FireControlPanel                                  :FB_BA_Label:=( sObjName:='FWT', sDescr:='Feuerwehrtableau');
+  LblAgg_KitchenTableau                                    :FB_BA_Label:=( sObjName:='KÜT', sDescr:='Küchentableau');
+  LblAgg_SmokeDetector                                     :FB_BA_Label:=( sObjName:='RME', sDescr:='Rauchmelder');
+  LblAgg_SmokeProtectionScreen                             :FB_BA_Label:=( sObjName:='RSV', sDescr:='Rauchschutzvorhang');
+  LblAgg_VoiceAlarmCentre                                  :FB_BA_Label:=( sObjName:='SAZ', sDescr:='Sprachalarmierungszentrale');
+  LblAgg_Tableau                                           :FB_BA_Label:=( sObjName:='TBL', sDescr:='Tableau (allgemein)');
+//     460 Förderanlagen
+  LblAgg_LiftGeneral                                       :FB_BA_Label:=( sObjName:='AZA', sDescr:='Aufzug allgemein');
+  LblAgg_GoodsLift                                         :FB_BA_Label:=( sObjName:='AZL', sDescr:='Lastenaufzug');
+  LblAgg_PassengerLift                                     :FB_BA_Label:=( sObjName:='AZP', sDescr:='Personenaufzug');
+//     470 Nutzerspezifische Anlagen
+  LblAgg_FumeCupboard                                      :FB_BA_Label:=( sObjName:='DIG', sDescr:='Digestorium');
+  LblAgg_Compressor                                        :FB_BA_Label:=( sObjName:='KOM', sDescr:='Kompressor');
+  LblAgg_ProgrammableLogicControllers                      :FB_BA_Label:=( sObjName:='SPS', sDescr:='Speicherprogrammierbare Steuerung');
+//     479 Nutzerspezifische Anlage, Wetterstation
+  LblAgg_RainSensor                                        :FB_BA_Label:=( sObjName:='RGM', sDescr:='Regenmelder');
+  LblAgg_SolarRadiation                                    :FB_BA_Label:=( sObjName:='SES', sDescr:='Sonneneinstrahlung');
+  LblAgg_WeatherStation                                    :FB_BA_Label:=( sObjName:='WST', sDescr:='Wetterstation');
+  LblAgg_WindSpeed                                         :FB_BA_Label:=( sObjName:='WDG', sDescr:='Windgeschwindigkeit');
+  LblAgg_WindDirection                                     :FB_BA_Label:=( sObjName:='WDR', sDescr:='Windrichtung');
+  LblAgg_WindForce                                         :FB_BA_Label:=( sObjName:='WDS', sDescr:='Windstärke');
+  LblAgg_Brightness                                        :FB_BA_Label:=( sObjName:='HEL', sDescr:='Helligkeit');
+  LblAgg_Dawn                                              :FB_BA_Label:=( sObjName:='HED', sDescr:='Dämmerungshelligkeit');
+  LblAgg_PressureAbsolute                                  :FB_BA_Label:=( sObjName:='LUA', sDescr:='Luftdruck absolut');
+  LblAgg_PressureRelative                                  :FB_BA_Label:=( sObjName:='LUR', sDescr:='Luftdruck relativ');
+  LblAgg_GeoLatitude                                       :FB_BA_Label:=( sObjName:='BRG', sDescr:='Breitengrad');
+  LblAgg_GeoLongitude                                      :FB_BA_Label:=( sObjName:='LAG', sDescr:='Längengrad');
+  LblAgg_SunAzimuth                                        :FB_BA_Label:=( sObjName:='SST', sDescr:='Sonnenstand');
+  LblAgg_SunElevation                                      :FB_BA_Label:=( sObjName:='SEL', sDescr:='Elevation');
+  LblAgg_WeatherStationReset                               :FB_BA_Label:=( sObjName:='ALS', sDescr:='Wetterstation Reset');
+  LblAgg_WeatherStationCommReset                           :FB_BA_Label:=( sObjName:='ALS', sDescr:='Wetterstation Reset serielle Kommunikation');
+  LblAgg_WeatherStationComm                                :FB_BA_Label:=( sObjName:='WST', sDescr:='Wetterstation Kommunikation');
+//     480 Gebäudeautomation
+  LblAgg_SystemSwitch                                      :FB_BA_Label:=( sObjName:='ANL', sDescr:='Anlagenschalter');
+  LblAgg_AutomationStationEquipment                        :FB_BA_Label:=( sObjName:='ASE', sDescr:='Automationsstationseinrichtung');
+  LblAgg_BusLineCoupler                                    :FB_BA_Label:=( sObjName:='BUS', sDescr:='Bus-Linien-Koppler');
+  LblAgg_DataInterfaceUnit                                 :FB_BA_Label:=( sObjName:='DSE', sDescr:='Datenschnittstelleneinheit');
+  LblAgg_FieldbusModule                                    :FB_BA_Label:=( sObjName:='FBM', sDescr:='Feldbusmodul');
+  LblAgg_InformationFocalPoint                             :FB_BA_Label:=( sObjName:='ISP', sDescr:='Informationsschwerpunkt');
+  LblAgg_ManagementAndControlEquipment                     :FB_BA_Label:=( sObjName:='MBE', sDescr:='Management- und Bedieneinrichtung');
+//     481 GA-Sensorik – Temperatur
+  LblAgg_TemperatureGasEmission                            :FB_BA_Label:=( sObjName:='TAG', sDescr:='Abgastemperatur');
+  LblAgg_TemperatureExtractAir                             :FB_BA_Label:=( sObjName:='TAB', sDescr:='Ablufttemperatur');
+  LblAgg_TemperatureOutside                                :FB_BA_Label:=( sObjName:='TAU', sDescr:='Außentemperatur');
+  LblAgg_TemperatureExhaustAir                             :FB_BA_Label:=( sObjName:='TFO', sDescr:='Fortlufttemperatur');
+  LblAgg_FrostProtectionMonitor                            :FB_BA_Label:=( sObjName:='FSW', sDescr:='Frostschutzwächter');
+  LblAgg_TemperatureMixedAir                               :FB_BA_Label:=( sObjName:='TMI', sDescr:='Mischlufttemperatur');
+  LblAgg_TemperatureRoomAir                                :FB_BA_Label:=( sObjName:='TRU', sDescr:='Raumtemperatur');
+  LblAgg_TemperatureReturnFlow                             :FB_BA_Label:=( sObjName:='TRL', sDescr:='Rücklauftemperatur');
+  LblAgg_LimiterSafetyTemperature                          :FB_BA_Label:=( sObjName:='STB', sDescr:='Sicherheitstemperaturbegrenzer');
+  LblAgg_MonitorSafetyTemperature                          :FB_BA_Label:=( sObjName:='STW', sDescr:='Sicherheitstemperaturwächter');
+  LblAgg_TemperatureStorage                                :FB_BA_Label:=( sObjName:='TSP', sDescr:='Speichertemperatur');
+  LblAgg_TemperatureDewPoint                               :FB_BA_Label:=( sObjName:='TTP', sDescr:='Taupunkttemperatur');
+  LblAgg_MonitorDewPoint                                   :FB_BA_Label:=( sObjName:='TPW', sDescr:='Taupunktwächter');
+  LblAgg_TemperatureAfterCooler                            :FB_BA_Label:=( sObjName:='TNK', sDescr:='Temperatur nach Kühler');
+  LblAgg_TemperatureAfterPreHeater                         :FB_BA_Label:=( sObjName:='TNV', sDescr:='Temperatur nach Vorerhitzer');
+  LblAgg_TemperatureAfterHeatRecovery                      :FB_BA_Label:=( sObjName:='TNW', sDescr:='Temperatur nach Wärmerückgewinnung');
+  LblAgg_Thermostat                                        :FB_BA_Label:=( sObjName:='THM', sDescr:='Thermostat');
+  LblAgg_TemperatureHotWater                               :FB_BA_Label:=( sObjName:='TWW', sDescr:='Temperatur Warmwasser');
+  LblAgg_TemperatureCirculation                            :FB_BA_Label:=( sObjName:='TWZ', sDescr:='Temperatur Zirkulation');
+  LblAgg_TemperatureRecirculatingAir                       :FB_BA_Label:=( sObjName:='TUM', sDescr:='Umlufttemperatur');
+  LblAgg_TemperatureFlow                                   :FB_BA_Label:=( sObjName:='TVL', sDescr:='Vorlauftemperatur');
+  LblAgg_TemperatureSupplyAir                              :FB_BA_Label:=( sObjName:='TZU', sDescr:='Zulufttemperatur');
+//     481 GA-Sensorik – Druck
+  LblAgg_PressureExtractAir                                :FB_BA_Label:=( sObjName:='PAB', sDescr:='Abluftdruck');
+  LblAgg_PressureOutsideAir                                :FB_BA_Label:=( sObjName:='PAU', sDescr:='Außenluftdruck');
+  LblAgg_PressureDifferential                              :FB_BA_Label:=( sObjName:='PDI', sDescr:='Differenzdruck');
+  LblAgg_PressureDifferentialOutsideAirFilter              :FB_BA_Label:=( sObjName:='PDI', sDescr:='Differenzdruck Außenluftfilter');
+  LblAgg_PressureDifferentialExtractAirFilter              :FB_BA_Label:=( sObjName:='PDI', sDescr:='Differenzdruck Abluftfilter');
+  LblAgg_PressureDifferentialExhaustAirFilter              :FB_BA_Label:=( sObjName:='PDI', sDescr:='Differenzdruck Fortluftfilter');
+  LblAgg_PressureDifferentialSupplyAirFan                  :FB_BA_Label:=( sObjName:='PDI', sDescr:='Differenzdruck Zuluftventilator');
+  LblAgg_PressureDifferentialExtractAirFan                 :FB_BA_Label:=( sObjName:='PDI', sDescr:='Differenzdruck Abluftventilator');
+  LblAgg_PressureDifferentialExhaustAirFan                 :FB_BA_Label:=( sObjName:='PDI', sDescr:='Differenzdruck Fortluftventilator');
+  LblAgg_PressureSensorFlow                                :FB_BA_Label:=( sObjName:='PVL', sDescr:='Drucksensor (Wasser) Vorlauf');
+  LblAgg_MonitorPressure                                   :FB_BA_Label:=( sObjName:='DRW', sDescr:='Druckwächter');
+  LblAgg_PressureExhaustAir                                :FB_BA_Label:=( sObjName:='PFO', sDescr:='Fortluftdruck');
+  LblAgg_PressureRoomAir                                   :FB_BA_Label:=( sObjName:='PRU', sDescr:='Raumdruck');
+  LblAgg_PressureIndexCircuitSensorDifferential            :FB_BA_Label:=( sObjName:='PSI', sDescr:='Schlechtpunktfühler Differenzdruck');
+  LblAgg_LimiterSafetyPressure                             :FB_BA_Label:=( sObjName:='SDB', sDescr:='Sicherheitsdruckbegrenzer');
+  LblAgg_PressureSupplyAir                                 :FB_BA_Label:=( sObjName:='PZU', sDescr:='Zuluftdruck');
+//     481 GA-Sensorik – Luftqualität
+  LblAgg_CO2Sensor                                         :FB_BA_Label:=( sObjName:='COM', sDescr:='CO2-Sensor');
+  LblAgg_QualityExtractAir                                 :FB_BA_Label:=( sObjName:='QAB', sDescr:='Luftqualität Abluft');
+  LblAgg_OualityRoomAir                                    :FB_BA_Label:=( sObjName:='QRU', sDescr:='Luftqualität Raum');
+  LblAgg_QualitiySupplyAir                                 :FB_BA_Label:=( sObjName:='QZU', sDescr:='Luftqualität Zuluft');
+  LblAgg_QualityAirSensor                                  :FB_BA_Label:=( sObjName:='LQF', sDescr:='Luftqualitätsfühler');
+//     481 GA-Sensorik – Feuchte
+  LblAgg_Hygrostat                                         :FB_BA_Label:=( sObjName:='HYG', sDescr:='Hygrostat');
+  LblAgg_RelativeHumiditiyExtractAir                       :FB_BA_Label:=( sObjName:='MAB', sDescr:='Abluftfeuchte relativ');
+  LblAgg_RelativeHumidityOutsideAir                        :FB_BA_Label:=( sObjName:='MAU', sDescr:='Außenfeuchte relativ');
+  LblAgg_RelativeHumidityExhaustAir                        :FB_BA_Label:=( sObjName:='MFO', sDescr:='Fortluftfeuchte relativ');
+  LblAgg_MonitorCondensation                               :FB_BA_Label:=( sObjName:='MKW', sDescr:='Kondensationswächter');
+  LblAgg_RelativeHumidityMixedAir                          :FB_BA_Label:=( sObjName:='MMI', sDescr:='Mischluftfeuchte relativ');
+  LblAgg_RelativeHumidityRoomHumidity                      :FB_BA_Label:=( sObjName:='MRU', sDescr:='Raumfeuchte relativ');
+  LblAgg_RelativeHumidityRecirculatedAir                   :FB_BA_Label:=( sObjName:='MUM', sDescr:='Umluftfeuchte relativ');
+  LblAgg_RelativeHumiditySupplyAir                         :FB_BA_Label:=( sObjName:='MZU', sDescr:='Zuluftfeuchte relativ');
+  LblAgg_AbsoluteHumidityExtractAir                        :FB_BA_Label:=( sObjName:='XAB', sDescr:='Abluftfeuchte absolut');
+  LblAgg_AbsoluteHumidtiyOutsideAir                        :FB_BA_Label:=( sObjName:='XAU', sDescr:='Außenluftfeuchte absolut');
+  LblAgg_AbsoluteHumidtiyExhaustAir                        :FB_BA_Label:=( sObjName:='XFO', sDescr:='Fortluftfeuchte absolut');
+  LblAgg_AbsoluteHumidityMixedAir                          :FB_BA_Label:=( sObjName:='XMI', sDescr:='Mischluftfeuchte absolut');
+  LblAgg_AbsoluteHumidityRoomAir                           :FB_BA_Label:=( sObjName:='XRU', sDescr:='Raumfeuchte absolut');
+  LblAgg_AbsoluteHumidityRecirculatingAir                  :FB_BA_Label:=( sObjName:='XUM', sDescr:='Umluftfeuchte absolut');
+  LblAgg_AbsoluteHumiditySupplyAir                         :FB_BA_Label:=( sObjName:='XZU', sDescr:='Zuluftfeuchte absolut');
+//     481 GA-Sensorik – Verbrauchserfassung
+  LblAgg_MeterElectric                                     :FB_BA_Label:=( sObjName:='ELZ', sDescr:='Elektrozähler');
+  LblAgg_MeterGasNaturalGas                                :FB_BA_Label:=( sObjName:='EGZ', sDescr:='Gaszähler Erdgas');
+  LblAgg_MeterCoolingEnergy                                :FB_BA_Label:=( sObjName:='KMZ', sDescr:='Kältemengenzähler');
+  LblAgg_MeterHeat                                         :FB_BA_Label:=( sObjName:='WMZ', sDescr:='Wärmemengenzähler');
+  LblAgg_MetferWater                                       :FB_BA_Label:=( sObjName:='WAZ', sDescr:='Wasserzähler');
+  LblAgg_MeterFuel                                         :FB_BA_Label:=( sObjName:='BSZ', sDescr:='Brennstoffzähler (Öl)');
+  LblAgg_MeterSteam                                        :FB_BA_Label:=( sObjName:='DMZ', sDescr:='Dampfmengenzähler');
+  LblAgg_DegreeDayNumber                                   :FB_BA_Label:=( sObjName:='GTZ', sDescr:='Gradtagszahl');
+//     481 GA-Sensorik – Zustandserfassung und sonstige
+  LblAgg_LeakageMonitoring                                 :FB_BA_Label:=( sObjName:='LCK', sDescr:='Leckageüberwachung');
+  LblAgg_EmergencyStop                                     :FB_BA_Label:=( sObjName:='NOT', sDescr:='Not-Aus-Einrichtung/-Taster');
+  LblAgg_StockLevel                                        :FB_BA_Label:=( sObjName:='LSP', sDescr:='Speicherfüllstand');
+  LblAgg_FlowMonitor                                       :FB_BA_Label:=( sObjName:='SSW', sDescr:='Strömungswächter');
+  LblAgg_OverflowMonitoring                                :FB_BA_Label:=( sObjName:='UBL', sDescr:='Überlaufüberwachung');
+  LblAgg_LowWaterCutOff                                    :FB_BA_Label:=( sObjName:='WMS', sDescr:='Wassermangelsicherung');
+  LblAgg_WaterFlowMonitor                                  :FB_BA_Label:=( sObjName:='WSW', sDescr:='Wasserströmungswächter');
+//     481 GA-Sensorik – Drehzahl
+  LblAgg_PumpSpeed                                         :FB_BA_Label:=( sObjName:='SPP', sDescr:='Drehzahl Pumpe');
+  LblAgg_FanSpeedExtractAir                                :FB_BA_Label:=( sObjName:='SAB', sDescr:='Drehzahl Ventilator (Abluft)');
+  LblAgg_FanSpeedExhaustAir                                :FB_BA_Label:=( sObjName:='SFO', sDescr:='Drehzahl Ventilator (Fortluft)');
+  LblAgg_FanSpeedSupplyAir                                 :FB_BA_Label:=( sObjName:='SZU', sDescr:='Drehzahl Ventilator (Zuluft)');
+//     481 GA-Sensorik – Volumenstrom
+  LblAgg_VolumeFlowRateExtractAir                          :FB_BA_Label:=( sObjName:='VAB', sDescr:='Volumenstrom Abluft');
+  LblAgg_VolumeFlowRateOutsideAir                          :FB_BA_Label:=( sObjName:='VAU', sDescr:='Volumenstrom Außenluft');
+  LblAgg_VolumeFlowRateExhaustAir                          :FB_BA_Label:=( sObjName:='VFO', sDescr:='Volumenstrom Fortluft');
+  LblAgg_VolumeFlowRateBrineCirculatorySystem              :FB_BA_Label:=( sObjName:='VSO', sDescr:='Volumenstrom Sole (KVS)');
+  LblAgg_VolumeFlowRateColdDrinkingWater                   :FB_BA_Label:=( sObjName:='VKW', sDescr:='Volumenstrom Trinkwasser kalt');
+  LblAgg_VolumeFlowRateHotDrinkingWater                    :FB_BA_Label:=( sObjName:='VWW', sDescr:='Volumenstrom Trinkwasser warm');
+  LblAgg_VolumeFlowRateWaterPurification                   :FB_BA_Label:=( sObjName:='VAW', sDescr:='Volumenstrom Wasseraufbereitung');
+  LblAgg_VolumeFlowRateSupplyAir                           :FB_BA_Label:=( sObjName:='VZU', sDescr:='Volumenstrom Zuluft');
+//     481 GA-Aktorik – Stellantriebe
+  LblAgg_ValveRadiator                                     :FB_BA_Label:=( sObjName:='HKV', sDescr:='Heizkörperventil-Antrieb');
+  LblAgg_ValveCoolingCeiling                               :FB_BA_Label:=( sObjName:='KDV', sDescr:='Kühldeckenventil-Antrieb');
+  LblAgg_MotorisedFlap                                     :FB_BA_Label:=( sObjName:='KLA', sDescr:='Motorische Klappe');
+  LblAgg_Valve                                             :FB_BA_Label:=( sObjName:='VEN', sDescr:='Motorventil ');
+  LblAgg_HumidifierValve                                   :FB_BA_Label:=( sObjName:='VEN', sDescr:='Befeuchter Ventil ');
+//     481 GA-Beleuchtung
+  LblAgg_IlluminationExternal                              :FB_BA_Label:=( sObjName:='EAU', sDescr:='Beleuchtungsstärke Außen');
+  LblAgg_IlluminationRoom                                  :FB_BA_Label:=( sObjName:='ERU', sDescr:='Beleuchtungsstärke Raum');
+  LblAgg_LightColourRoom                                   :FB_BA_Label:=( sObjName:='CRU', sDescr:='Lichtfarbe Raum');
+  LblAgg_RedLightIntensity                                 :FB_BA_Label:=( sObjName:='LRT', sDescr:='Lichtintensität rot');
+  LblAgg_GreenLightIntensity                               :FB_BA_Label:=( sObjName:='LGN', sDescr:='Lichtintensität grün');
+  LblAgg_BlueLightIntensity                                :FB_BA_Label:=( sObjName:='LBL', sDescr:='Lichtintensität blau');
+//     481 GA-Sonnenschutz
+  LblAgg_BlindAnglePosition                                :FB_BA_Label:=( sObjName:='JWI', sDescr:='Winkelposition Jalousie');
+  LblAgg_ShadingPosition                                   :FB_BA_Label:=( sObjName:='JPO', sDescr:='Verschattungsposition');
+  LblAgg_MovementCommand                                   :FB_BA_Label:=( sObjName:='JFB', sDescr:='Jalousie Fahrbefehl');
+//     485 Raumautomation
+  LblAgg_DisplayAndControlUnit                             :FB_BA_Label:=( sObjName:='ABE', sDescr:='Anzeige- und Bedieneinrichtung');
+  LblAgg_PresenceSwitches                                  :FB_BA_Label:=( sObjName:='PME', sDescr:='Präsenzschalter, -melder, Bewegungsmelder');
+  LblAgg_RoomAutomationDevice                              :FB_BA_Label:=( sObjName:='RAE', sDescr:='Raumautomationseinrichtung');
+  LblAgg_RoomControlUnit                                   :FB_BA_Label:=( sObjName:='RBG', sDescr:='Raumbediengerät');
+//     Beckhoff ADS Kommunikation
+  LblAgg_GeneralSettingsCom                                :FB_BA_Label:=( sObjName:='COM', sDescr:='Anlagenparameter Kommunikation');
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

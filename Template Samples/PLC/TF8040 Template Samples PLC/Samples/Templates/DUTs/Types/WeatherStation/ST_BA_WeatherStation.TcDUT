@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_BA_WeatherStation" Id="{c78e9017-6f4b-4c0c-aa38-a73a8938c63a}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "DUT, Types, Publisher, Subscriber, Weather, Data"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "DUT, Types, Publisher, Subscriber, Weather, Data"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Daten Wetterstation"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Weatherstation-data"'}
+{endregion}
+TYPE ST_BA_WeatherStation :
+STRUCT
+	fLatitude				: REAL;				// [°]			// 4 bytes
+	fLongitude				: REAL;				// [°]          // 4 bytes
+	fSunAzimuth				: REAL;				// [°]          // 4 bytes
+	fSunElevation			: REAL;				// [°]          // 4 bytes
+	stDateTime				: TIMESTRUCT;						// 8 x 2 bytes
+	fOutsideTemperature		: REAL;				// [°C]         // 4 bytes
+	fDewPointTemperature	: REAL;				// [°C]		    // 4 bytes
+	fPressureAbs			: REAL;				// [hPa]        // 4 bytes
+	fPressureRel			: REAL;				// [hPa]		// 4 bytes	 
+	fHumidityAbs			: REAL;				// [g/m³]       // 4 bytes
+	fHumidityRel			: REAL;				// [%rF]	    // 4 bytes
+	fBrightnessNorth		: REAL;				// [Lux]		// 4 bytes 
+	fBrightnessEast			: REAL;				// [Lux]        // 4 bytes
+	fBrightnessSouth		: REAL;				// [Lux]        // 4 bytes
+	fBrightnessWest			: REAL;				// [Lux]		// 4 bytes	 
+	fDawn					: REAL;				// [Lux]        // 4 bytes
+	fGlobalRadiation		: REAL;				// [W/m²]		// 4 bytes	 
+	fWindDirection			: REAL;				// [°]          // 4 bytes
+	fWindSpeed				: REAL;				// [m/s]        // 4 bytes
+	bRain					: BOOL;
+	bDisturb				: BOOL;
+   {attribute 'hide'}
+	aDummy					: ARRAY[1..6] OF BYTE; 		// padding bytes, in order to reach a limit corresponding to the largest data type (divisible by 8 bytes)
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="LblAggregates_EN" Id="{efae9df6-25e5-47c9-9bd6-38ea0bac1c00}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, AKS, Labels, ObjectName, Description"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, DPAD, Labels, ObjectName, Description"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Anlagenkennzeichnungssystem, Labels Aggregate"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Data Point Addressing Description, Labels aggregate"'}
+{endregion}
+
+{attribute 'global_init_slot' := '40510'}
+VAR_GLOBAL
+  LblAgg_FunctionallyIndependentEequipment                 :FB_BA_Label:=( sObjName:='FIE',sDescr:='Functionally independent equipment');
+  LblAgg_SelfContainedControlUnit                          :FB_BA_Label:=( sObjName:='SCR',sDescr:='Self-contained control or regulation unit');
+  LblAgg_ControlCabinet                                    :FB_BA_Label:=( sObjName:='CCB',sDescr:='Control cabinet (trade-specific)');
+//     330 Doors, gates, windows, sun protection
+  LblAgg_WindowDrive                                       :FB_BA_Label:=( sObjName:='WIN',sDescr:='Window (drive)');
+  LblAgg_WindowContact                                     :FB_BA_Label:=( sObjName:='WIC',sDescr:='Window contact');
+  LblAgg_Blind                                             :FB_BA_Label:=( sObjName:='BLD',sDescr:='Blind');
+  LblAgg_Awning                                            :FB_BA_Label:=( sObjName:='AWN',sDescr:='Awning');
+  LblAgg_RollerShutters                                    :FB_BA_Label:=( sObjName:='ROS',sDescr:='Roller shutters');
+  LblAgg_Gate                                              :FB_BA_Label:=( sObjName:='GAT',sDescr:='Gate');
+  LblAgg_Door                                              :FB_BA_Label:=( sObjName:='DOR',sDescr:='Door');
+  LblAgg_DoorContact                                       :FB_BA_Label:=( sObjName:='DOC',sDescr:='Door contact');
+  LblAgg_Blackout                                          :FB_BA_Label:=( sObjName:='BLA',sDescr:='Blackout');
+//     412 Water plants
+  LblAgg_TraceHeating                                      :FB_BA_Label:=( sObjName:='THT',sDescr:='Trace heating');
+  LblAgg_ElectricHeating                                   :FB_BA_Label:=( sObjName:='EHT',sDescr:='Electric heating (warm water temperature preparation)');
+  LblAgg_WaterFilter                                       :FB_BA_Label:=( sObjName:='WFL',sDescr:='Water filter');
+//     421 Heat generation plants
+  LblAgg_Furnace                                           :FB_BA_Label:=( sObjName:='FUR',sDescr:='Furnace');
+  LblAgg_HeatExchanger                                     :FB_BA_Label:=( sObjName:='HEX',sDescr:='Heat exchanger');
+//     430 Ventilation and refrigeration systems
+  LblAgg_FanExhaustAir                                     :FB_BA_Label:=( sObjName:='EHF',sDescr:='Exhaust air fan');
+  LblAgg_Airwasher                                         :FB_BA_Label:=( sObjName:='AWA',sDescr:='Airwasher');
+  LblAgg_Humidifier                                        :FB_BA_Label:=( sObjName:='HUF',sDescr:='Humidifier');
+  LblAgg_HumidifierPump                                    :FB_BA_Label:=( sObjName:='HUP',sDescr:='Humidifier pump');
+  LblAgg_FireDamper                                        :FB_BA_Label:=( sObjName:='FID',sDescr:='Fire damper, fire protection valve');
+  LblAgg_SmokeProtectionDamper                             :FB_BA_Label:=( sObjName:='SPD',sDescr:='Smoke protection damper');
+  LblAgg_SmokeExtractorDamper                              :FB_BA_Label:=( sObjName:='SEP',sDescr:='Smoke extractor damper');
+  LblAgg_CeilingSwirlDiffuser                              :FB_BA_Label:=( sObjName:='CSD',sDescr:='Ceiling swirl diffuser');
+  LblAgg_RoofAirHeater                                     :FB_BA_Label:=( sObjName:='RAH',sDescr:='Roof air heater');
+  LblAgg_DirectEvaporator                                  :FB_BA_Label:=( sObjName:='DEA',sDescr:='Direct evaporator');
+  LblAgg_ElectricalAirHeater                               :FB_BA_Label:=( sObjName:='EAH',sDescr:='Electrical air heater');
+  LblAgg_ElectricReHeater                                  :FB_BA_Label:=( sObjName:='ERH',sDescr:='Electric re-heater');
+  LblAgg_ElectricaPreHeater                                :FB_BA_Label:=( sObjName:='EPH',sDescr:='Electrical pre-heater');
+  LblAgg_HeaterGeneral                                     :FB_BA_Label:=( sObjName:='HTR',sDescr:='Heater ');
+  LblAgg_FanExtractAir                                     :FB_BA_Label:=( sObjName:='EXF',sDescr:='Extract air fan ');
+  LblAgg_InductionDevice                                   :FB_BA_Label:=( sObjName:='IND',sDescr:='Induction device');
+  LblAgg_RefrigerantDryer                                  :FB_BA_Label:=( sObjName:='RFD',sDescr:='Refrigerant dryer');
+  LblAgg_CirculatorySystem                                 :FB_BA_Label:=( sObjName:='CCS',sDescr:='Circulatory system ');
+  LblAgg_AirFilterOutsideAir                               :FB_BA_Label:=( sObjName:='AFI',sDescr:='Outside air filter');
+  LblAgg_AirFilterSupplyAir                                :FB_BA_Label:=( sObjName:='AFI',sDescr:='Supply air filter');
+  LblAgg_AirFilterExhaustAir                               :FB_BA_Label:=( sObjName:='AFI',sDescr:='Exhaus air filter');
+  LblAgg_AirFilterExtractAir                               :FB_BA_Label:=( sObjName:='AFI',sDescr:='Extract air filter');
+  LblAgg_AirFilter                                         :FB_BA_Label:=( sObjName:='AFI',sDescr:='Air filter');
+  LblAgg_VentilationDamper                                 :FB_BA_Label:=( sObjName:='VFL',sDescr:='Ventilation flap');
+  LblAgg_VentilationDamperOutsideAir                       :FB_BA_Label:=( sObjName:='VFL',sDescr:='Ventilation flap outside air');
+  LblAgg_VentilationDamperExhaustAir                       :FB_BA_Label:=( sObjName:='VFL',sDescr:='Ventilation flap exhaust air');
+  LblAgg_VentilationDamperMixAir                           :FB_BA_Label:=( sObjName:='VFL',sDescr:='Ventilation flap mix air');
+  LblAgg_VentilationDamperSupplyAir                        :FB_BA_Label:=( sObjName:='VFL',sDescr:='Ventilation flap supply air');
+  LblAgg_VentilationDamperBypassAir                        :FB_BA_Label:=( sObjName:='VFL',sDescr:='Ventilation flap bypass');
+  LblAgg_Pump                                              :FB_BA_Label:=( sObjName:='PUM',sDescr:='Pump');
+  LblAgg_RecirculatingAirCoolingDevice                     :FB_BA_Label:=( sObjName:='RAC',sDescr:='Recirculating air cooling device');
+  LblAgg_FanRecirculatingAir                               :FB_BA_Label:=( sObjName:='RAF',sDescr:='Recirculating air fan');
+  LblAgg_UvFilter                                          :FB_BA_Label:=( sObjName:='UVF',sDescr:='UV filter');
+  LblAgg_VariableFlowRateController                        :FB_BA_Label:=( sObjName:='VFC',sDescr:='Variable flow rate controller');
+  LblAgg_WaterAirHeater                                    :FB_BA_Label:=( sObjName:='WAH',sDescr:='Water air heater');
+  LblAgg_WaterReHeater                                     :FB_BA_Label:=( sObjName:='WRH',sDescr:='Water re-heater');
+  LblAgg_WaterPreHeater                                    :FB_BA_Label:=( sObjName:='WPH',sDescr:='Water pre-heater');
+  LblAgg_HeatRecovery                                      :FB_BA_Label:=( sObjName:='HRC',sDescr:='Heat recovery');
+  LblAgg_FanSupplyAir                                      :FB_BA_Label:=( sObjName:='SUF',sDescr:='Supply air fan');
+  LblAgg_SmokeExtractionSystems                            :FB_BA_Label:=( sObjName:='SES',sDescr:='Smoke extraction systems');
+  LblAgg_SmokeExtractionVentilator                         :FB_BA_Label:=( sObjName:='SEF',sDescr:='Smoke extraction fan');
+  LblAgg_VentWindow                                        :FB_BA_Label:=( sObjName:='VWI',sDescr:='Vent window');
+  LblAgg_VentFlap                                          :FB_BA_Label:=( sObjName:='VFL',sDescr:='Vent flap');
+  LblAgg_VentDoor                                          :FB_BA_Label:=( sObjName:='VDO',sDescr:='Vent door');
+  LblAgg_WakeFan                                           :FB_BA_Label:=( sObjName:='WAF',sDescr:='Wake fan');
+//     434 Refrigeration systems
+  LblAgg_GlycoOilProtector                                 :FB_BA_Label:=( sObjName:='GLP',sDescr:='Glycol/oil protector');
+  LblAgg_Chiller                                           :FB_BA_Label:=( sObjName:='CHI',sDescr:='Chiller');
+  LblAgg_ReCoolingPlant                                    :FB_BA_Label:=( sObjName:='RCP',sDescr:='Re-cooling plant');
+//     440 High-voltage systems
+  LblAgg_GeneralPowerSupply                                :FB_BA_Label:=( sObjName:='GPS',sDescr:='General power supply');
+  LblAgg_CombindeHeatPowerStation                          :FB_BA_Label:=( sObjName:='CGU',sDescr:='Co-generation unit');
+  LblAgg_CompensationSystem                                :FB_BA_Label:=( sObjName:='CPS',sDescr:='Compensation system');
+  LblAgg_CouplingSwitch                                    :FB_BA_Label:=( sObjName:='COS',sDescr:='Coupling switch');
+  LblAgg_LoadBreakSwitch                                   :FB_BA_Label:=( sObjName:='LBS',sDescr:='Load-break switch');
+  LblAgg_CircuitBreaker                                    :FB_BA_Label:=( sObjName:='CCB',sDescr:='Circuit breaker');
+  LblAgg_NetworkAnalyser                                   :FB_BA_Label:=( sObjName:='NWA',sDescr:='Network analyser');
+  LblAgg_EmergencyPoweGeneratorUnit                        :FB_BA_Label:=( sObjName:='EPG',sDescr:='Emergency power generator unit');
+  LblAgg_EmergencyLighting                                 :FB_BA_Label:=( sObjName:='EML',sDescr:='Emergency lighting');
+  LblAgg_SafetyPowerSupply                                 :FB_BA_Label:=( sObjName:='SPS',sDescr:='Safety power supply');
+  LblAgg_Transformer                                       :FB_BA_Label:=( sObjName:='TRF',sDescr:='Transformer');
+  LblAgg_UninterruptiblePowerSupply                        :FB_BA_Label:=( sObjName:='UPS',sDescr:='Uninterruptible power supply');
+//     450 Telecommunications and information technology equipment
+  LblAgg_CentralFireAlarmSystem                            :FB_BA_Label:=( sObjName:='CFA',sDescr:='Central fire alarm system');
+  LblAgg_FireControlPanel                                  :FB_BA_Label:=( sObjName:='FCP',sDescr:='Fire control panel');
+  LblAgg_KitchenTableau                                    :FB_BA_Label:=( sObjName:='KIT',sDescr:='Kitchen tableau');
+  LblAgg_SmokeDetector                                     :FB_BA_Label:=( sObjName:='SDE',sDescr:='Smoke detector');
+  LblAgg_SmokeProtectionScreen                             :FB_BA_Label:=( sObjName:='SPS',sDescr:='Smoke protection screen');
+  LblAgg_VoiceAlarmCentre                                  :FB_BA_Label:=( sObjName:='VAC',sDescr:='Voice alarm centre');
+  LblAgg_Tableau                                           :FB_BA_Label:=( sObjName:='TAB',sDescr:='Tableau (general)');
+//     460 Conveyors
+  LblAgg_LiftGeneral                                       :FB_BA_Label:=( sObjName:='LIG',sDescr:='Lift general');
+  LblAgg_GoodsLift                                         :FB_BA_Label:=( sObjName:='GLI',sDescr:='Goods lift');
+  LblAgg_PassengerLift                                     :FB_BA_Label:=( sObjName:='PLI',sDescr:='Passenger lift');
+//     470 User-specific systems
+  LblAgg_FumeCupboard                                      :FB_BA_Label:=( sObjName:='FCB',sDescr:='Fume cupboard');
+  LblAgg_Compressor                                        :FB_BA_Label:=( sObjName:='COM',sDescr:='Compressor');
+  LblAgg_ProgrammableLogicControllers                      :FB_BA_Label:=( sObjName:='PLC',sDescr:='Programmable logic controllers');
+//     479 User-specific system, weather station
+  LblAgg_RainSensor                                        :FB_BA_Label:=( sObjName:='RAS',sDescr:='Rain sensor');
+  LblAgg_SolarRadiation                                    :FB_BA_Label:=( sObjName:='SOR',sDescr:='Solar radiation');
+  LblAgg_WeatherStation                                    :FB_BA_Label:=( sObjName:='WST',sDescr:='Weather station');
+  LblAgg_WindSpeed                                         :FB_BA_Label:=( sObjName:='WIS',sDescr:='Wind speed');
+  LblAgg_WindDirection                                     :FB_BA_Label:=( sObjName:='WID',sDescr:='Wind direction');
+  LblAgg_WindForce                                         :FB_BA_Label:=( sObjName:='WDF',sDescr:='Wind force');
+  LblAgg_Brightness                                        :FB_BA_Label:=( sObjName:='BIN',sDescr:='Brightness');
+  LblAgg_Dawn                                              :FB_BA_Label:=( sObjName:='BID',sDescr:='Brightness dawn');
+  LblAgg_PressureAbsolute                                  :FB_BA_Label:=( sObjName:='PAB',sDescr:='Pressure absolute');
+  LblAgg_PressureRelative                                  :FB_BA_Label:=( sObjName:='PRE',sDescr:='Pressure relative');
+  LblAgg_GeoLatitude                                       :FB_BA_Label:=( sObjName:='LAT',sDescr:='Latitude       ');
+  LblAgg_GeoLongitude                                      :FB_BA_Label:=( sObjName:='LOT',sDescr:='Longitude      ');
+  LblAgg_SunAzimuth                                        :FB_BA_Label:=( sObjName:='AZI',sDescr:='Azimuth        ');
+  LblAgg_SunElevation                                      :FB_BA_Label:=( sObjName:='ELE',sDescr:='Elevation      ');
+  LblAgg_WeatherStationReset                               :FB_BA_Label:=( sObjName:='PLS',sDescr:='Weather station reset');
+  LblAgg_WeatherStationCommReset                           :FB_BA_Label:=( sObjName:='PLS',sDescr:='Weather station reset serial communication');
+  LblAgg_WeatherStationComm                                :FB_BA_Label:=( sObjName:='WST',sDescr:='Weather station communication');
+//     480 Building automation and control systems
+  LblAgg_SystemSwitch                                      :FB_BA_Label:=( sObjName:='SYS',sDescr:='System switch');
+  LblAgg_AutomationStationEquipment                        :FB_BA_Label:=( sObjName:='ASE',sDescr:='Automation station equipment');
+  LblAgg_BusLineCoupler                                    :FB_BA_Label:=( sObjName:='BUS',sDescr:='Bus line coupler');
+  LblAgg_DataInterfaceUnit                                 :FB_BA_Label:=( sObjName:='DIU',sDescr:='Data interface unit');
+  LblAgg_FieldbusModule                                    :FB_BA_Label:=( sObjName:='FBM',sDescr:='Fieldbus module');
+  LblAgg_InformationFocalPoint                             :FB_BA_Label:=( sObjName:='IFP',sDescr:='Information focal point');
+  LblAgg_ManagementAndControlEquipment                     :FB_BA_Label:=( sObjName:='MCE',sDescr:='Management and control equipment');
+//     481 BACS sensors – temperature
+  LblAgg_TemperatureGasEmission                            :FB_BA_Label:=( sObjName:='TEG',sDescr:='Emissions gas temperature');
+  LblAgg_TemperatureExtractAir                             :FB_BA_Label:=( sObjName:='TEX',sDescr:='Extract air temperature');
+  LblAgg_TemperatureOutside                                :FB_BA_Label:=( sObjName:='TOU',sDescr:='Outside temperature');
+  LblAgg_TemperatureExhaustAir                             :FB_BA_Label:=( sObjName:='TEH',sDescr:='Exhaust air temperature');
+  LblAgg_FrostProtectionMonitor                            :FB_BA_Label:=( sObjName:='FPM',sDescr:='Frost protection monitor');
+  LblAgg_TemperatureMixedAir                               :FB_BA_Label:=( sObjName:='TMI',sDescr:='Mixed air temperature');
+  LblAgg_TemperatureRoomAir                                :FB_BA_Label:=( sObjName:='TRO',sDescr:='Room temperature');
+  LblAgg_TemperatureReturnFlow                             :FB_BA_Label:=( sObjName:='TRT',sDescr:='Return flow temperature');
+  LblAgg_LimiterSafetyTemperature                          :FB_BA_Label:=( sObjName:='STL',sDescr:='Safety temperature limiter');
+  LblAgg_MonitorSafetyTemperature                          :FB_BA_Label:=( sObjName:='STM',sDescr:='Safety temperature monitor');
+  LblAgg_TemperatureStorage                                :FB_BA_Label:=( sObjName:='TST',sDescr:='Storage temperature');
+  LblAgg_TemperatureDewPoint                               :FB_BA_Label:=( sObjName:='TDP',sDescr:='Dew point temperature');
+  LblAgg_MonitorDewPoint                                   :FB_BA_Label:=( sObjName:='DPM',sDescr:='Dew point monitor');
+  LblAgg_TemperatureAfterCooler                            :FB_BA_Label:=( sObjName:='TAC',sDescr:='Temperature after cooler');
+  LblAgg_TemperatureAfterPreHeater                         :FB_BA_Label:=( sObjName:='TAP',sDescr:='Temperature after pre-heater');
+  LblAgg_TemperatureAfterHeatRecovery                      :FB_BA_Label:=( sObjName:='TAR',sDescr:='Temperature after heat recovery');
+  LblAgg_Thermostat                                        :FB_BA_Label:=( sObjName:='THM',sDescr:='Thermostat');
+  LblAgg_TemperatureHotWater                               :FB_BA_Label:=( sObjName:='THW',sDescr:='Hot water temperature');
+  LblAgg_TemperatureCirculation                            :FB_BA_Label:=( sObjName:='TCI',sDescr:='Circulation temperature');
+  LblAgg_TemperatureRecirculatingAir                       :FB_BA_Label:=( sObjName:='TRE',sDescr:='Recirculating air temperature');
+  LblAgg_TemperatureFlow                                   :FB_BA_Label:=( sObjName:='TFL',sDescr:='Flow temperature');
+  LblAgg_TemperatureSupplyAir                              :FB_BA_Label:=( sObjName:='TSU',sDescr:='Supply air temperature');
+//     481 BACS sensors – pressure
+  LblAgg_PressureExtractAir                                :FB_BA_Label:=( sObjName:='PEX',sDescr:='Extract air pressure');
+  LblAgg_PressureOutsideAir                                :FB_BA_Label:=( sObjName:='POU',sDescr:='Outside air pressure');
+  LblAgg_PressureDifferential                              :FB_BA_Label:=( sObjName:='PDI',sDescr:='Differential pressure');
+  LblAgg_PressureDifferentialOutsideAirFilter              :FB_BA_Label:=( sObjName:='PDI',sDescr:='Differential pressure outside air filter');
+  LblAgg_PressureDifferentialExtractAirFilter              :FB_BA_Label:=( sObjName:='PDI',sDescr:='Differential pressure extract air filter');
+  LblAgg_PressureDifferentialExhaustAirFilter              :FB_BA_Label:=( sObjName:='PDI',sDescr:='Differential pressure exhaust air filter');
+  LblAgg_PressureDifferentialSupplyAirFan                  :FB_BA_Label:=( sObjName:='PDI',sDescr:='Differential pressure supply air fan');
+  LblAgg_PressureDifferentialExtractAirFan                 :FB_BA_Label:=( sObjName:='PDI',sDescr:='Differential pressure ectract air fan');
+  LblAgg_PressureDifferentialExhaustAirFan                 :FB_BA_Label:=( sObjName:='PDI',sDescr:='Differential pressure exhaust air fan');
+  LblAgg_PressureSensorFlow                                :FB_BA_Label:=( sObjName:='PFL',sDescr:='Pressure sensor (water) flow');
+  LblAgg_MonitorPressure                                   :FB_BA_Label:=( sObjName:='PCO',sDescr:='Pressure controller');
+  LblAgg_PressureExhaustAir                                :FB_BA_Label:=( sObjName:='PEH',sDescr:='Exhaust air pressure');
+  LblAgg_PressureRoomAir                                   :FB_BA_Label:=( sObjName:='PRO',sDescr:='Room pressure');
+  LblAgg_PressureIndexCircuitSensorDifferential            :FB_BA_Label:=( sObjName:='PSI',sDescr:='Index circuit sensor differential pressure');
+  LblAgg_LimiterSafetyPressure                             :FB_BA_Label:=( sObjName:='SPL',sDescr:='Safety pressure limiter');
+  LblAgg_PressureSupplyAir                                 :FB_BA_Label:=( sObjName:='PSU',sDescr:='Supply air pressure');
+//     481 BACS sensors – air quality
+  LblAgg_CO2Sensor                                         :FB_BA_Label:=( sObjName:='COM',sDescr:='CO2 sensor');
+  LblAgg_QualityExtractAir                                 :FB_BA_Label:=( sObjName:='QEX',sDescr:='Extract air quality');
+  LblAgg_OualityRoomAir                                    :FB_BA_Label:=( sObjName:='QRO',sDescr:='Room air quality');
+  LblAgg_QualitiySupplyAir                                 :FB_BA_Label:=( sObjName:='QSU',sDescr:='Supply air quality');
+  LblAgg_QualityAirSensor                                  :FB_BA_Label:=( sObjName:='AQS',sDescr:='Air quality sensor');
+//     481 BACS sensors – humidity
+  LblAgg_Hygrostat                                         :FB_BA_Label:=( sObjName:='HYG',sDescr:='Hygrostat');
+  LblAgg_RelativeHumiditiyExtractAir                       :FB_BA_Label:=( sObjName:='HEX',sDescr:='Relative extract air humidity');
+  LblAgg_RelativeHumidityOutsideAir                        :FB_BA_Label:=( sObjName:='HOU',sDescr:='Relative outside air humidity');
+  LblAgg_RelativeHumidityExhaustAir                        :FB_BA_Label:=( sObjName:='HEH',sDescr:='Relative exhaust air humidity');
+  LblAgg_MonitorCondensation                               :FB_BA_Label:=( sObjName:='HCM',sDescr:='Condensation monitor');
+  LblAgg_RelativeHumidityMixedAir                          :FB_BA_Label:=( sObjName:='HMI',sDescr:='Relative mixed air humidity');
+  LblAgg_RelativeHumidityRoomHumidity                      :FB_BA_Label:=( sObjName:='HRO',sDescr:='Relative room humidity');
+  LblAgg_RelativeHumidityRecirculatedAir                   :FB_BA_Label:=( sObjName:='HRE',sDescr:='Relative recirculated air humidity');
+  LblAgg_RelativeHumiditySupplyAir                         :FB_BA_Label:=( sObjName:='HSU',sDescr:='Relative supply air humidity');
+  LblAgg_AbsoluteHumidityExtractAir                        :FB_BA_Label:=( sObjName:='XEX',sDescr:='Absolute extract air humidity');
+  LblAgg_AbsoluteHumidtiyOutsideAir                        :FB_BA_Label:=( sObjName:='XOU',sDescr:='Absolute outsie air humidity');
+  LblAgg_AbsoluteHumidtiyExhaustAir                        :FB_BA_Label:=( sObjName:='XEH',sDescr:='Absolute exhaust air humidity');
+  LblAgg_AbsoluteHumidityMixedAir                          :FB_BA_Label:=( sObjName:='XMI',sDescr:='Absolute mixed air humidity');
+  LblAgg_AbsoluteHumidityRoomAir                           :FB_BA_Label:=( sObjName:='XRO',sDescr:='Absolute room humidity');
+  LblAgg_AbsoluteHumidityRecirculatingAir                  :FB_BA_Label:=( sObjName:='XRE',sDescr:='Absolute recirculating air humidity');
+  LblAgg_AbsoluteHumiditySupplyAir                         :FB_BA_Label:=( sObjName:='XSU',sDescr:='Absolute supply air humidity');
+//     481 BACS sensors – consumption recording
+  LblAgg_MeterElectric                                     :FB_BA_Label:=( sObjName:='ELM',sDescr:='Electric meter');
+  LblAgg_MeterGasNaturalGas                                :FB_BA_Label:=( sObjName:='GAM',sDescr:='Gas meter natural gas');
+  LblAgg_MeterCoolingEnergy                                :FB_BA_Label:=( sObjName:='CEM',sDescr:='Cooling energy meter');
+  LblAgg_MeterHeat                                         :FB_BA_Label:=( sObjName:='HEM',sDescr:='Heat meter');
+  LblAgg_MetferWater                                       :FB_BA_Label:=( sObjName:='WAM',sDescr:='Water meter');
+  LblAgg_MeterFuel                                         :FB_BA_Label:=( sObjName:='FUM',sDescr:='Fuel meter (oil)');
+  LblAgg_MeterSteam                                        :FB_BA_Label:=( sObjName:='STM',sDescr:='Steam meter');
+  LblAgg_DegreeDayNumber                                   :FB_BA_Label:=( sObjName:='DDN',sDescr:='Degree day number');
+//     481 BACS sensors – condition recording and other
+  LblAgg_LeakageMonitoring                                 :FB_BA_Label:=( sObjName:='LKM',sDescr:='Leakage monitoring');
+  LblAgg_EmergencyStop                                     :FB_BA_Label:=( sObjName:='EMG',sDescr:='Emergency stop unit/button');
+  LblAgg_StockLevel                                        :FB_BA_Label:=( sObjName:='SLV',sDescr:='Stock level');
+  LblAgg_FlowMonitor                                       :FB_BA_Label:=( sObjName:='FLM',sDescr:='Flow monitor');
+  LblAgg_OverflowMonitoring                                :FB_BA_Label:=( sObjName:='OVM',sDescr:='Overflow monitoring');
+  LblAgg_LowWaterCutOff                                    :FB_BA_Label:=( sObjName:='WCO',sDescr:='Low-water cut-off');
+  LblAgg_WaterFlowMonitor                                  :FB_BA_Label:=( sObjName:='WFM',sDescr:='Water flow monitor');
+//     481 BACS sensors – speed
+  LblAgg_PumpSpeed                                         :FB_BA_Label:=( sObjName:='SPU',sDescr:='Pump speed');
+  LblAgg_FanSpeedExtractAir                                :FB_BA_Label:=( sObjName:='SEX',sDescr:='Fan speed (extract air)');
+  LblAgg_FanSpeedExhaustAir                                :FB_BA_Label:=( sObjName:='SEH',sDescr:='Fan speed (exhaust air)');
+  LblAgg_FanSpeedSupplyAir                                 :FB_BA_Label:=( sObjName:='SSU',sDescr:='Fan speed (supply air)');
+//     481 BACS sensors – volume flow
+  LblAgg_VolumeFlowRateExtractAir                          :FB_BA_Label:=( sObjName:='VEX',sDescr:='Extract air volume flow rate');
+  LblAgg_VolumeFlowRateOutsideAir                          :FB_BA_Label:=( sObjName:='VOU',sDescr:='Outside air volume flow rate');
+  LblAgg_VolumeFlowRateExhaustAir                          :FB_BA_Label:=( sObjName:='VEH',sDescr:='Exhaust air volume flow rate');
+  LblAgg_VolumeFlowRateBrineCirculatorySystem              :FB_BA_Label:=( sObjName:='VBR',sDescr:='Volume flow brine (circulatory system)');
+  LblAgg_VolumeFlowRateColdDrinkingWater                   :FB_BA_Label:=( sObjName:='VCW',sDescr:='Volume flow cold drinking water');
+  LblAgg_VolumeFlowRateHotDrinkingWater                    :FB_BA_Label:=( sObjName:='VHW',sDescr:='Volume flow hot drinking water');
+  LblAgg_VolumeFlowRateWaterPurification                   :FB_BA_Label:=( sObjName:='VWP',sDescr:='Volume flow water purification');
+  LblAgg_VolumeFlowRateSupplyAir                           :FB_BA_Label:=( sObjName:='VSU',sDescr:='Supply air volume flow');
+//     481 BACS actuators – actuating drives
+  LblAgg_ValveRadiator                                     :FB_BA_Label:=( sObjName:='RDV',sDescr:='Radiator valve drive');
+  LblAgg_ValveCoolingCeiling                               :FB_BA_Label:=( sObjName:='CCV',sDescr:='Cooling ceiling valve drive');
+  LblAgg_MotorisedFlap                                     :FB_BA_Label:=( sObjName:='FLA',sDescr:='Motorised flap');
+  LblAgg_Valve                                             :FB_BA_Label:=( sObjName:='VLV',sDescr:='Motor valve');
+  LblAgg_HumidifierValve                                   :FB_BA_Label:=( sObjName:='VLV',sDescr:='Humidifier valve');
+//     481 BACS lighting
+  LblAgg_IlluminationExternal                              :FB_BA_Label:=( sObjName:='EOU',sDescr:='Illumination outside');
+  LblAgg_IlluminationRoom                                  :FB_BA_Label:=( sObjName:='ERO',sDescr:='Illumination room');
+  LblAgg_LightColourRoom                                   :FB_BA_Label:=( sObjName:='CRO',sDescr:='Light colour room');
+  LblAgg_RedLightIntensity                                 :FB_BA_Label:=( sObjName:='LRD',sDescr:='Red light intensity');
+  LblAgg_GreenLightIntensity                               :FB_BA_Label:=( sObjName:='LGN',sDescr:='Green light intensity');
+  LblAgg_BlueLightIntensity                                :FB_BA_Label:=( sObjName:='LBL',sDescr:='Blue light intensity');
+//     481 BACS sun protection
+  LblAgg_BlindAnglePosition                                :FB_BA_Label:=( sObjName:='BAP',sDescr:='Blind angle position');
+  LblAgg_ShadingPosition                                   :FB_BA_Label:=( sObjName:='BSP',sDescr:='Shading position');
+  LblAgg_MovementCommand                                   :FB_BA_Label:=( sObjName:='BMC',sDescr:='Blind Movement command');
+//     485 Room automation
+  LblAgg_DisplayAndControlUnit                             :FB_BA_Label:=( sObjName:='DCU',sDescr:='Display and control unit');
+  LblAgg_PresenceSwitches                                  :FB_BA_Label:=( sObjName:='PDE',sDescr:='Presence switches, detectors, motion detectors');
+  LblAgg_RoomAutomationDevice                              :FB_BA_Label:=( sObjName:='RAD',sDescr:='Room automation device');
+  LblAgg_RoomControlUnit                                   :FB_BA_Label:=( sObjName:='RCU',sDescr:='Room control unit');
+//     Beckhoff ADS communication
+  LblAgg_GeneralSettingsCom                                :FB_BA_Label:=( sObjName:='COM',sDescr:='System parameters communication');
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

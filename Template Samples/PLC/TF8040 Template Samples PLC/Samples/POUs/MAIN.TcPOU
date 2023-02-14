@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{42763611-eb75-4b49-9c1b-573123fc2741}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+DPAD		: FB_BA_CarelessDPAD := (
+					aIdentifier := [
+	(* Level 1 *)		(	eNodeType:=E_BA_NodeType.eBuilding,			sSeparator_ObjectName := '-', 		sSeparator_Description := ' - ',		nIndexDigits := 0),
+	(* Level 2 *)		(	eNodeType:=E_BA_NodeType.eFloor,			sSeparator_ObjectName := '-', 		sSeparator_Description := ' - ',		nIndexDigits := 0),
+	(* Level 3 *)		(	eNodeType:=E_BA_NodeType.eTrade,			sSeparator_ObjectName := '-', 		sSeparator_Description := ' - ',		nIndexDigits := 0),
+	(* Level 4 *)		(	eNodeType:=E_BA_NodeType.ePlant,			sSeparator_ObjectName := '-', 		sSeparator_Description := ' - ',		nIndexDigits := 2),
+	(* Level 5 *)		(	eNodeType:=E_BA_NodeType.eAggregate,		sSeparator_ObjectName := '-', 		sSeparator_Description := ' - ',		nIndexDigits := 2),
+	(* Level 6 *)		(	eNodeType:=E_BA_NodeType.eFunction,			sSeparator_ObjectName := '-', 		sSeparator_Description := ' - ',		nIndexDigits := 2)
+					]
+				);				
+
+			
+//	Level 1 Gebäude 	
+//	Level 1 Building 	
+		B			: FB_BA_View := (
+						sObjectName		:= 'B',	
+						sDescription	:= 'Building B',	
+						eDPADMode		:= E_BA_DPADMode.eInclude					
+					);     
+  
+// Level 2 Stockwerk 	->	O01 = Obergeschoss 01, U01 = Untergeschoss 01,  E00 = Ergeschoss
+// Level 2 floor ->	F01 = floor 01, B01 = basement 01,  GFL = Ground floor  						
+				F01			: FB_BA_View := (
+								iParent 		:= B,
+								sObjectName		:= '{F01}',		
+								sDescription	:= '{Floor 01}',
+								eDPADMode		:= E_BA_DPADMode.eInclude					
+							);  
+// Level 3 Gewerk Automationsschwerpunkt
+// Level 3 Trade AutomationFocalPoint                                                                                       	
+					ACE			: FB_BA_AutomationControl := (
+									iParent 		:= F01,
+									sObjectName		:= '{ACE}',
+									sDescription	:= '{Automation Control}',			
+									eDPADMode		:= E_BA_DPADMode.eInclude					
+								);     
+// Level 3 Gewerk Gebäudeautomation Allgemein   
+// Level 3 Trade General                                                                                       	
+					BAG			: FB_BA_BuildingAutomation := (
+									iParent 		:= F01,
+									sObjectName		:= '{BAG}',
+									sDescription	:= '{Building Automation}',			
+									eDPADMode		:= E_BA_DPADMode.eInclude					
+								);  	 											   	 											
+
+// Level 3 Gewerk Luftechnische Anlagen      
+// Level 3 Trade ventilation system        
+					ACS			: FB_BA_AirConditioning := (
+									iParent 		:= F01,
+									sObjectName		:= '{ACS}',
+									sDescription	:= '{Air Conditioning}',  									
+									eDPADMode		:= E_BA_DPADMode.eInclude					
+								);  			                                                                        	
+// Level 3 Gewerk Wärmeversorgungsanlagen  
+// Level 3 Trade Heat supply systems, heat distribution  --> 	HD = heat distribution, HG = heat generation
+					HTG			: FB_BA_Heating := (
+									iParent 		:= F01,
+									sObjectName		:= '{HTG}',
+									sDescription	:= '{Heating}',        		
+									eDPADMode		:= E_BA_DPADMode.eInclude			
+								);     	    
+// Level 3 Gewerk Raumautomation    
+// Level 3 Trade room automation                                                                              	
+					ROM			: FB_BA_RoomAutomation := (
+									iParent			:= F01,
+									sObjectName		:= '{ROM}',
+									sDescription	:= '{Room automation}',        											
+									eDPADMode		:= E_BA_DPADMode.eInclude
+								); 
+
+// SystemTime Settings								
+	BACnetTime_TO_SysTime		: FB_BA_BACnetTime_TO_SysTime;	
+	ExternalSysTime				: FB_BA_ExternalSysTime;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+//	Level 1 Gebäude 	Building		
+	B();
+// Level 2 Stockwerk -->	O01 = Obergeschoss 01, U01 = Untergeschoss 01,  E00 = Ergeschoss 	floor ->	F01 = floor 01, B01 = basement 01,  GFL = Ground floor
+			F01();
+// Level 3 Gewerk Wärmeversorgungsanlagen	Heat supply systems	
+				HTG(); 	
+// Level 3 Gewerk Automation		Trade Automation			
+				ACE(); 							
+// Level 3 Gewerk Gebäudeautomation Allgemein		Trade BuildingAutomationGeneral			
+				BAG(); 								
+// Level 3 Gewerk Luftechnische Anlagen		Trade ventilation system	
+				ACS(); 								
+// Level 3 Gewerk Raumautomation	Trade room automation 
+				ROM(); 		
+						
+						
+//	BACnetTime_TO_SysTime();	
+	ExternalSysTime();	]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="87" Count="0" />
+      <LineId Id="89" Count="1" />
+      <LineId Id="95" Count="1" />
+      <LineId Id="98" Count="1" />
+      <LineId Id="319" Count="0" />
+      <LineId Id="318" Count="0" />
+      <LineId Id="100" Count="5" />
+      <LineId Id="162" Count="0" />
+      <LineId Id="393" Count="1" />
+      <LineId Id="392" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

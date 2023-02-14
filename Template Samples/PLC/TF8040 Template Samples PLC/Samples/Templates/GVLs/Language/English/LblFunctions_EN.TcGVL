@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="LblFunctions_EN" Id="{eec6fd23-bb5e-4d0c-85d6-a308fd1303cd}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, AKS, Labels, ObjectName, Description"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, DPAD, Labels, ObjectName, Description"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Anlagenkennzeichnungssystem, Labels functions"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Data Point Addressing Description, Labels functions"'}
+{endregion}
+
+{attribute 'global_init_slot' := '40510'}
+VAR_GLOBAL
+  LblFun_Requirement                                       :FB_BA_Label:=( sObjName:='REQ', sDescr:='Requirement');
+  LblFun_SystemSwitch                                      :FB_BA_Label:=( sObjName:='PLS', sDescr:='Plant switch');
+  LblFun_StatusOccupiedRoom                                :FB_BA_Label:=( sObjName:='OCC', sDescr:='Occupied status room');
+  LblFun_LimitCalculatedValue                              :FB_BA_Label:=( sObjName:='LMC', sDescr:='Calculated limit value');
+  LblFun_SetpointCalculated                                :FB_BA_Label:=( sObjName:='SPC', sDescr:='Calculated setpoint');
+  LblFun_ReadyForOperation                                 :FB_BA_Label:=( sObjName:='RFO', sDescr:='Ready for operation');
+  LblFun_OperationalMessage                                :FB_BA_Label:=( sObjName:='OM_', sDescr:='Operational message');
+  LblFun_HoursOfOperation                                  :FB_BA_Label:=( sObjName:='OH_', sDescr:='Operating hours');
+  LblFun_LimitValueHoursOfOperation                        :FB_BA_Label:=( sObjName:='OHL', sDescr:='Operating hours limit value');
+  LblFun_ObjectCalendar                                    :FB_BA_Label:=( sObjName:='CAL', sDescr:='Calendar object');
+  LblFun_ObjectCommand                                     :FB_BA_Label:=( sObjName:='COM', sDescr:='Command object');
+  LblFun_DifferentialConstantController                    :FB_BA_Label:=( sObjName:='TV_', sDescr:='Differential constant controller');
+  LblFun_SwitchOnErrorUnauthorisedON                       :FB_BA_Label:=( sObjName:='SWE', sDescr:='Switch-on error, unauthorised ON');
+  LblFun_EnergyLevel                                       :FB_BA_Label:=( sObjName:='EL_', sDescr:='Energy level');
+  LblFun_EnergyLevelCalculated                             :FB_BA_Label:=( sObjName:='ELC', sDescr:='Energy level calculated');
+  LblFun_UnlockingDevice                                   :FB_BA_Label:=( sObjName:='UNL', sDescr:='Unlocking device');
+  LblFun_ObjectEventEnrollment                             :FB_BA_Label:=( sObjName:='EE_', sDescr:='Event enrollment object');
+  LblFun_Enabled                                           :FB_BA_Label:=( sObjName:='EN_', sDescr:='Enabled');
+  LblFun_DangerAlarm                                       :FB_BA_Label:=( sObjName:='DA_', sDescr:='Danger alarm');
+  LblFun_Threshold                                         :FB_BA_Label:=( sObjName:='LM_', sDescr:='Limit value');
+  LblFun_LimitMAX                                          :FB_BA_Label:=( sObjName:='LMX', sDescr:='MAX limit');
+  LblFun_LimitMIN                                          :FB_BA_Label:=( sObjName:='LMI', sDescr:='MIN limit');
+  LblFun_LimitNight                                        :FB_BA_Label:=( sObjName:='LMN', sDescr:='Night limit');
+  LblFun_LimitDay                                          :FB_BA_Label:=( sObjName:='LMD', sDescr:='Day limit');
+  LblFun_ObjectGroup                                       :FB_BA_Label:=( sObjName:='GP_', sDescr:='Group object');
+  LblFun_localPriorityAndOperatingUnitsManualMessage       :FB_BA_Label:=( sObjName:='MNM', sDescr:='local priority and operating units manual message');
+  LblFun_HeatingCharacteristicCurveExponent                :FB_BA_Label:=( sObjName:='HEX', sDescr:='Heating characteristic curve exponent');
+  LblFun_HeatingCharacteristicCurveParallelDisplacement    :FB_BA_Label:=( sObjName:='HPD', sDescr:='Heating characteristic curve parallel displacement');
+  LblFun_HeatingCharacteristicCurveSteepness               :FB_BA_Label:=( sObjName:='HST', sDescr:='Heating characteristic curve steepness');
+  LblFun_HeatingCircuitNightReduction                      :FB_BA_Label:=( sObjName:='NGT', sDescr:='Heating circuit night reduction');
+  LblFun_Hysteresis                                        :FB_BA_Label:=( sObjName:='HYS', sDescr:='Hysteresis');
+  LblFun_Calendar                                          :FB_BA_Label:=( sObjName:='CAL', sDescr:='Calendar');
+  LblFun_RuntimeError                                      :FB_BA_Label:=( sObjName:='RUN', sDescr:='Runtime error');
+  LblFun_LoopMAXLimit                                      :FB_BA_Label:=( sObjName:='LPX', sDescr:='Loop MAX limit');
+  LblFun_LoopMINLimit                                      :FB_BA_Label:=( sObjName:='LPI', sDescr:='Loop MIN limit');
+  LblFun_LoopObject                                        :FB_BA_Label:=( sObjName:='LP_', sDescr:='Loop object (controller object) – complex object');
+  LblFun_LoopObjectCascadeSupplyAirTemperature             :FB_BA_Label:=( sObjName:='LP_', sDescr:='Cascade controller supply air temperature ');
+  LblFun_LoopObjectCascadeSupplyAirHumidity                :FB_BA_Label:=( sObjName:='LP_', sDescr:='Cascade controller supply air humidity ');
+  LblFun_MaximumValue                                      :FB_BA_Label:=( sObjName:='MAX', sDescr:='Maximum value');
+  LblFun_MeasuredValue                                     :FB_BA_Label:=( sObjName:='MV_', sDescr:='Measured value');
+  LblFun_MeasuredValueCalculated                           :FB_BA_Label:=( sObjName:='MVC', sDescr:='Measured value calculated');
+  LblFun_MeasuredValueEast                                 :FB_BA_Label:=( sObjName:='MV_', sDescr:='Measured value East');
+  LblFun_MeasuredValueNorth                                :FB_BA_Label:=( sObjName:='MV_', sDescr:='Measured value North');
+  LblFun_MeasuredValueSouth                                :FB_BA_Label:=( sObjName:='MV_', sDescr:='Measured value South');
+  LblFun_MeasuredValueWest                                 :FB_BA_Label:=( sObjName:='MV_', sDescr:='Measured value West');
+  LblFun_MinimumValue                                      :FB_BA_Label:=( sObjName:='MIN', sDescr:='Minimum value');
+  LblFun_Mean                                              :FB_BA_Label:=( sObjName:='MVL', sDescr:='Mean value');
+  LblFun_FollowUpTime                                      :FB_BA_Label:=( sObjName:='FUT', sDescr:='Follow-up time');
+  LblFun_ResetTime                                         :FB_BA_Label:=( sObjName:='RST', sDescr:='Reset time');
+  LblFun_FeedbackDelay                                     :FB_BA_Label:=( sObjName:='TDF', sDescr:='Time delay feedback');
+  LblFun_ObjectNotificationClass                           :FB_BA_Label:=( sObjName:='NC_', sDescr:='Notification class object');
+  LblFun_EventClassObject                                  :FB_BA_Label:=( sObjName:='ECL', sDescr:='Event class');
+  LblFun_Programobject                                     :FB_BA_Label:=( sObjName:='PRG', sDescr:='Program');
+  LblFun_ProportionalBand                                  :FB_BA_Label:=( sObjName:='XP_', sDescr:='Proportional band');
+  LblFun_FeedbackOPEN                                      :FB_BA_Label:=( sObjName:='FDO', sDescr:='Feedback OPEN');
+  LblFun_FeedbackCLOSED                                    :FB_BA_Label:=( sObjName:='FDC', sDescr:='Feedback CLOSED');
+  LblFun_FeedbackValue                                     :FB_BA_Label:=( sObjName:='FDB', sDescr:='Feedback value');
+  LblFun_FeedbackErrorOPEN                                 :FB_BA_Label:=( sObjName:='FEO', sDescr:='Feedback error OPEN');
+  LblFun_FeedbackErrorCLOSED                               :FB_BA_Label:=( sObjName:='FEC', sDescr:='Feedback error CLOSED');
+  LblFun_Feedback                                          :FB_BA_Label:=( sObjName:='FDB', sDescr:='Feedback');
+  LblFun_ExecutionControl                                  :FB_BA_Label:=( sObjName:='EXC', sDescr:='Execution control');
+  LblFun_SwitchingCommand                                  :FB_BA_Label:=( sObjName:='SC_', sDescr:='Switching command');
+  LblFun_Scheduler                                         :FB_BA_Label:=( sObjName:='SCH', sDescr:='Scheduler');
+  LblFun_Setpoint                                          :FB_BA_Label:=( sObjName:='SP_', sDescr:='Setpoint');
+  LblFun_SetpointComfortHeating                            :FB_BA_Label:=( sObjName:='SP_', sDescr:='Setpoint comfort heating');
+  LblFun_SetpointPreComfortHeating                         :FB_BA_Label:=( sObjName:='SP_', sDescr:='Setpoint pre-comfort heating');
+  LblFun_SetpointEconomyHeating                            :FB_BA_Label:=( sObjName:='SP_', sDescr:='Setpoint economy heating');
+  LblFun_SetpointProtectionHeating                         :FB_BA_Label:=( sObjName:='SP_', sDescr:='Setpoint protection heating');
+  LblFun_SetpointComfortCooling                            :FB_BA_Label:=( sObjName:='SP_', sDescr:='Setpoint comfort cooling');
+  LblFun_SetpointPreComfortCooling                         :FB_BA_Label:=( sObjName:='SP_', sDescr:='Setpoint pre-comfort cooling');
+  LblFun_SetpointEconomyCooling                            :FB_BA_Label:=( sObjName:='SP_', sDescr:='Setpoint economy cooling');
+  LblFun_SetpointProtectionCooling                         :FB_BA_Label:=( sObjName:='SP_', sDescr:='Setpoint protection cooling');
+  LblFun_SetpointBase                                      :FB_BA_Label:=( sObjName:='SPB', sDescr:='Base setpoint');
+  LblFun_SetpointHeating                                   :FB_BA_Label:=( sObjName:='SPH', sDescr:='Heating setpoint');
+  LblFun_SetpointCooling                                   :FB_BA_Label:=( sObjName:='SPC', sDescr:='Cooling setpoint');
+  LblFun_SetpointMaximum                                   :FB_BA_Label:=( sObjName:='SPX', sDescr:='Setpoint, maximum');
+  LblFun_SetpointMechanical                                :FB_BA_Label:=( sObjName:='SPM', sDescr:='Setpoint, mechanical');
+  LblFun_SetpointMinimum                                   :FB_BA_Label:=( sObjName:='SPI', sDescr:='Setpoint, minimum');
+  LblFun_SetpointNight                                     :FB_BA_Label:=( sObjName:='SPN', sDescr:='Night setpoint');
+  LblFun_SetpointDay                                       :FB_BA_Label:=( sObjName:='SPD', sDescr:='Day setpoint');
+  LblFun_SetpointAdjuster                                  :FB_BA_Label:=( sObjName:='SPA', sDescr:='Setpoint adjuster');
+  LblFun_SetpointAdjustmentMechanical                      :FB_BA_Label:=( sObjName:='SPA', sDescr:='Setpoint adjustment, mechanical');
+  LblFun_Selection                                         :FB_BA_Label:=( sObjName:='SEL', sDescr:='Selection');
+  LblFun_Status                                            :FB_BA_Label:=( sObjName:='STA', sDescr:='Status');
+  LblFun_ControlSignal                                     :FB_BA_Label:=( sObjName:='CS_', sDescr:='Control signal');
+  LblFun_Fault                                             :FB_BA_Label:=( sObjName:='FAU', sDescr:='Fault');
+  LblFun_FaultFuse                                         :FB_BA_Label:=( sObjName:='FAU', sDescr:='Fuse fault ');
+  LblFun_Button                                            :FB_BA_Label:=( sObjName:='BUT', sDescr:='Button');
+  LblFun_DeadZone                                          :FB_BA_Label:=( sObjName:='DZ_', sDescr:='Dead zone');
+  LblFun_ObjectTrendLogMultiple                            :FB_BA_Label:=( sObjName:='TRM', sDescr:='Trend log multiple object');
+  LblFun_ObjectTrendLog                                    :FB_BA_Label:=( sObjName:='TR_', sDescr:='Trend log object');
+  LblFun_AmplificationController                           :FB_BA_Label:=( sObjName:='KP_', sDescr:='Amplification controller');
+  LblFun_RetentionPeriod                                   :FB_BA_Label:=( sObjName:='TV_', sDescr:='Retention period');
+  LblFun_MaintenanceMessage                                :FB_BA_Label:=( sObjName:='MTM', sDescr:='Maintenance message');
+  LblFun_Efficiency                                        :FB_BA_Label:=( sObjName:='EFC', sDescr:='Efficiency');
+  LblFun_CountValue                                        :FB_BA_Label:=( sObjName:='CNT', sDescr:='Count value');
+  LblFun_TimeProgram                                       :FB_BA_Label:=( sObjName:='TPR', sDescr:='Time program');
+//     Beckhoff Scale
+  LblFun_ValueX1                                           :FB_BA_Label:=( sObjName:='IPX', sDescr:='Value interpolation point [X1]');
+  LblFun_ValueX2                                           :FB_BA_Label:=( sObjName:='IPX', sDescr:='Value interpolation point [X2]');
+  LblFun_ValueX3                                           :FB_BA_Label:=( sObjName:='IPX', sDescr:='Value interpolation point [X3]');
+  LblFun_ValueX4                                           :FB_BA_Label:=( sObjName:='IPX', sDescr:='Value interpolation point [X4]');
+  LblFun_ValueX5                                           :FB_BA_Label:=( sObjName:='IPX', sDescr:='Value interpolation point [X4]');
+  LblFun_ValueX6                                           :FB_BA_Label:=( sObjName:='IPX', sDescr:='Value interpolation point [X4]');
+  LblFun_ValueX7                                           :FB_BA_Label:=( sObjName:='IPX', sDescr:='Value interpolation point [X4]');
+  LblFun_ValueY1                                           :FB_BA_Label:=( sObjName:='IPY', sDescr:='Value interpolation point [Y1]');
+  LblFun_ValueY2                                           :FB_BA_Label:=( sObjName:='IPY', sDescr:='Value interpolation point [Y2]');
+  LblFun_ValueY3                                           :FB_BA_Label:=( sObjName:='IPY', sDescr:='Value interpolation point [Y3]');
+  LblFun_ValueY2_3                                         :FB_BA_Label:=( sObjName:='IPY', sDescr:='Value interpolation point [Y2-Y3]');
+  LblFun_ValueY4                                           :FB_BA_Label:=( sObjName:='IPY', sDescr:='Value interpolation point [Y4]');
+  LblFun_ValueY5                                           :FB_BA_Label:=( sObjName:='IPY', sDescr:='Value interpolation point [Y4]');
+  LblFun_ValueY6                                           :FB_BA_Label:=( sObjName:='IPY', sDescr:='Value interpolation point [Y4]');
+  LblFun_ValueY7                                           :FB_BA_Label:=( sObjName:='IPY', sDescr:='Value interpolation point [Y4]');
+  LblFun_SuppyAirTempSetpointHeaterCalc                    :FB_BA_Label:=( sObjName:='SPC', sDescr:='Supply air Temperature setpoint heater calculated');
+  LblFun_SuppyAirTempSetpointCoolerCalc                    :FB_BA_Label:=( sObjName:='SPC', sDescr:='Supply air Temperature setpoint cooler calculated');
+  LblFun_SuppyAirTempSetpointERCCalc                       :FB_BA_Label:=( sObjName:='SPC', sDescr:='Supply air Temperature setpoint ERC calculated');
+END_VAR
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

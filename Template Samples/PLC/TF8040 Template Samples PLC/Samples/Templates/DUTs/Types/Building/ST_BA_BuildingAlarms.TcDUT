@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_BA_BuildingAlarms" Id="{c2475f00-ac04-4b26-b72b-5f0a66736357}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "DUT, Types, Publisher, Subscriber, Building, General, Alarms, Events"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "DUT, Types, Publisher, Subscriber, Building, General, Alarms, Events"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Gebäude-Alarme und -Events"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Building-alarms and -events"'}
+{endregion}
+TYPE ST_BA_BuildingAlarms :
+STRUCT
+	bBurglary				: BOOL;
+	bFireAlert				: BOOL;
+	bCentralOff				: BOOL;
+	bForcedVentilation		: BOOL;
+	bSmokeExtraction		: BOOL;
+   {attribute 'hide'}
+	aDummy					: ARRAY[1..3] OF BYTE; 		// padding bytes, in order to reach a limit corresponding to the largest data type (divisible by 8 bytes)
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

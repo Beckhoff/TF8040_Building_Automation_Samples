@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BA_ProjectEx" Id="{c2560bb4-6f79-45d7-a719-2f9b8ff601d1}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "General, Settings, Project, Basics"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "General, Settings, Project, Basics"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Projektspezifische Informationen"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Project specific informations"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_ProjectEx EXTENDS FB_BA_Project
+VAR_INPUT CONSTANT PERSISTENT
+	{attribute 'parameterCategory' := 'Persistent Data'}
+	tPrsData_DefaultPeriod : TIME := T#30M;
+	{attribute 'parameterCategory' := 'Persistent Data'}
+	tPrsData_ComissioningPeriod : TIME := T#10M;
+END_VAR
+VAR_INPUT CONSTANT
+	{attribute 'parameterCategory' := 'Persistent Data'}
+	bPrsData_ManualWriteData : BOOL;
+END_VAR
+VAR_INPUT
+	bWrtPrsOnPowerFail		: BOOL;
+END_VAR
+VAR_OUTPUT
+	nPrsDataWritten			: UINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+OnInitCycle();
+PersistentData();]]></ST>
+    </Implementation>
+    <Folder Name="[Protected] Events" Id="{18ef8c72-7d00-4368-8e98-1d93f55b58c2}" />
+    <Folder Name="[Protected] Management" Id="{8520c257-67bf-4e78-9614-90801022e3c9}" />
+    <Method Name="OnInitCycle" Id="{c47517d3-4aa0-48ad-8a4a-7a5f73ec9c98}" FolderPath="[Protected] Events\">
+      <Declaration><![CDATA[METHOD PROTECTED OnInitCycle
+VAR
+	_stVersion		: ST_LibVersion;
+END_VAR
+VAR CONSTANT
+	FORMAT			: STRING		:= '%d.%d.%d.%d';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE (State) OF
+	E_BA_ObjectState.eInstanceInit1:
+		// Refresh runtime information:
+		{IF defined (pou: F_GetVersion)}
+			_stVersion := F_GetVersion();
+			
+			XBA_Globals.FormatStr2(
+				pFormatString := ADR(FORMAT),
+				arg1:=F_UINT(_stVersion.iMajor),
+				arg2:=F_UINT(_stVersion.iMinor),
+				arg3:=F_UINT(_stVersion.iBuild),
+				arg4:=F_UINT(_stVersion.iRevision),
+			
+				pDstString := ADR(fbDiag.stVersion.Project),
+				nDstSize := SIZEOF(fbDiag.stVersion.Project)
+			);
+		{END_IF}
+		
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="PersistentData" Id="{cad2e84a-aa7d-40e4-a2b8-4e4fd69da35c}" FolderPath="[Protected] Management\">
+      <Declaration><![CDATA[METHOD PROTECTED PersistentData
+VAR_INST
+	nOnlineChangeCnt		:	UDINT;
+	iStep					:	INT;
+	fbTon					:	TON;
+	fbResetOnlineChange		:	TON;
+	rtigManual				:	R_TRIG;
+	trigUPS					:	R_TRIG;
+	rFinishTrig				:	R_TRIG;
+	WrtPersistDat			:	FB_BA_WrtPersistDat;
+END_VAR
+VAR CONSTANT
+	DETECT_COMISSIONING_DURATION : TIME := T#60M;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF	TwinCAT_SystemInfoVarList._AppInfo.OnlineChangeCnt <> nOnlineChangeCnt THEN
+	nOnlineChangeCnt := TwinCAT_SystemInfoVarList._AppInfo.OnlineChangeCnt;
+	fbResetOnlineChange(IN := FALSE);
+	fbTon(IN := FALSE);
+	iStep := 10;
+END_IF
+
+IF	tPrsData_DefaultPeriod < T#600S THEN
+	tPrsData_DefaultPeriod	:= T#1800S;
+END_IF
+
+IF	tPrsData_ComissioningPeriod < T#30S THEN
+	tPrsData_ComissioningPeriod	:= T#300S;
+END_IF
+
+CASE	iStep	OF
+	0:
+		fbTon(IN := NOT fbTon.Q,PT := tPrsData_DefaultPeriod);
+	10:
+		fbTon(IN := NOT fbTon.Q,PT := tPrsData_ComissioningPeriod);
+		fbResetOnlineChange(IN := TRUE, PT := DETECT_COMISSIONING_DURATION);
+		
+		IF	fbResetOnlineChange.Q THEN
+			iStep := 0;
+			fbResetOnlineChange(IN := FALSE);
+		END_IF
+END_CASE
+ 
+rtigManual(CLK := bPrsData_ManualWriteData);
+bPrsData_ManualWriteData := FALSE;
+
+trigUPS(CLK := bWrtPrsOnPowerFail);
+
+// Write persistent data:
+WrtPersistDat(bStt:=(fbTon.Q OR rtigManual.Q OR trigUPS.Q));
+rFinishTrig(CLK:=(WrtPersistDat.bBusy AND NOT WrtPersistDat.bErr));
+
+IF (rFinishTrig.Q) THEN
+	nPrsDataWritten := (nPrsDataWritten+1);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_BA_ProjectEx">
+      <LineId Id="82" Count="2" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_ProjectEx.OnInitCycle">
+      <LineId Id="129" Count="17" />
+      <LineId Id="41" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BA_ProjectEx.PersistentData">
+      <LineId Id="6" Count="25" />
+      <LineId Id="33" Count="3" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="64" Count="1" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="66" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
