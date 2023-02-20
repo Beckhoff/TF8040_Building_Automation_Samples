@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TwinCAT.BA.Site;
-using TwinCAT.BA.Tc3_BA2;
-using TwinCAT.BA.Tc3_BA2.Ads;
+using TwinCAT.BA.Tc3_XBA;
+using TwinCAT.BA.Tc3_XBA.Ads;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {

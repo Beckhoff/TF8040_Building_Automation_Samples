@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
-using TwinCAT.BA.Tc3_BA2;
-using TwinCAT.BA.Tc3_BA2.Ads;
+using TwinCAT.BA.Tc3_XBA;
+using TwinCAT.BA.Tc3_XBA.Ads;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
@@ -18,7 +18,7 @@ namespace Beckhoff.BA.SiteApi.Samples
         public static IReadOnlyDictionary<Tuple<Type, string>, object> DebugSettings = new Dictionary<Tuple<Type, string>, object>()
         {
             // General:
-            { new(default, "ObjectPath"), "Tc3_BA2.MAIN.General.AVSp" },
+            { new(default, "ObjectPath"), "Tc3_XBA.MAIN.General.AVSp" },
             { new(default, "VariableId"), BaParameterId.ePresentValue },
 
             // Sample specific:

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using TwinCAT.BA;
 using TwinCAT.BA.Site;
-using TwinCAT.BA.Tc3_BA2.Ads;
+using TwinCAT.BA.Tc3_XBA.Ads;
 
 namespace Beckhoff.BA.SiteApi.Samples
 {
