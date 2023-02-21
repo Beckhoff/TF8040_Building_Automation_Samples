@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Evt_QueryCnd" Id="{b3a24a7a-9f10-4b43-b4cf-8f9ef84b885c}" SpecialFunc="None">
+    <Declaration><![CDATA[// Determine some view's event conditions.
+// Intention:
+// - Illustrate how to determine (cumulative) event information of a view instance.
+FUNCTION_BLOCK FB_Evt_QueryCnd
+VAR	
+	bUpdate			: BOOL;
+	
+	{region 'Settings'}
+		iSource		: I_BA_View		:= MAIN.Evt;			// Instance to be queried for informations (This can be any view).
+	{endregion}
+	{region 'Result'}
+		nAlarms		: UINT;									// Count of active alarms.
+		nOverridden	: UINT;									// Count of overridden objects.
+		nCritical	: UINT;									// Count of objects in "Critical" priority.
+	{endregion}
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF (bUpdate) AND_THEN (iSource <> 0) THEN
+	nAlarms := iSource.EventConditionCount(E_BA_EventCondition.eTypeAlarm);
+	nOverridden := iSource.EventConditionCount(E_BA_EventCondition.eFlagOverridden);
+	nCritical := iSource.EventConditionCount(E_BA_EventCondition.ePrioCritical);
+END_IF
+
+bUpdate := FALSE;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Evt_QueryCnd">
+      <LineId Id="2330" Count="0" />
+      <LineId Id="2396" Count="2" />
+      <LineId Id="2355" Count="0" />
+      <LineId Id="2367" Count="0" />
+      <LineId Id="2366" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
