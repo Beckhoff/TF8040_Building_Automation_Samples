@@ -7,27 +7,11 @@ resources:
 trigger: none
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Parameters
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-parameters:
-
-- name: createTag
-  displayName: Create GIT tag
-  type: boolean
-  default: false
-
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Variables
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 variables:
 
 - template: GlobalVars.yml
-
-- name: useSourceBranchName
-  ${{ if eq( variables['Build.SourceBranch'], variables['BetaBranch'] ) }}:
-    value: false
-  ${{ if ne( variables['Build.SourceBranch'], variables['BetaBranch'] ) }}:
-    value: true
 
 - template: Setup/VersionVars.yml@BuildTemplates
   parameters:
@@ -35,9 +19,9 @@ variables:
     VersionMinor: ${{variables.Minor}}
     VersionPatchDefault: ${{variables.Patch}}
     MainBranch: ${{variables.MainBranch}}
-    UseSourceBranchName: ${{variables.useSourceBranchName}}
+    UseSourceBranchName: ${{variables.isDevBranch}}
     AutoPatch: false
-    PreReleaseName: ${{variables.PreReleaseName}})
+    PreReleaseName: ${{variables.PreReleaseName}}
 
 - name: 'ArchivesFolder'
   value: 'archives'
@@ -125,7 +109,7 @@ jobs:
       pathToPublish: $(Build.ArtifactStagingDirectory)
       artifactName: Samples      
       
-  - ${{ if eq(parameters.createTag, 'true') }}:
+  - ${{ if eq(variables.isRelBranch, 'true') }}:
     #------------------------------------------------------------------------------------
     # Add a tag to the commit
     #------------------------------------------------------------------------------------
