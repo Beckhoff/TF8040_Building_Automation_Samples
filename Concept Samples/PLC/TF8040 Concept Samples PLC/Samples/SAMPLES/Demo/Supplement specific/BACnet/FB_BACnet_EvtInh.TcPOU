@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BACnet_EvtInh" Id="{8a62e33e-d9f6-44da-97aa-7383d3278357}" SpecialFunc="None">
+    <Declaration><![CDATA[// Exemple illustrates how to write the 'EventAlgotithmInhibit' BACnet property of event enabled objects.
+FUNCTION_BLOCK FB_BACnet_EvtInh EXTENDS FB_BA_View
+VAR
+	bWrite			: BOOL;
+	bValue			: BOOL				:= TRUE;
+END_VAR
+VAR
+	_iObj			: I_BA_Object;
+	_fbBACnetObj	: POINTER TO FB_BACnet_BaseObject;
+	_hRes			: HRESULT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+IF (bWrite) THEN
+	bWrite := FALSE;
+	
+	// Iterate over all objects:
+	_iObj := 0;
+	WHILE (F_BA_IterateObjects(_iObj)) DO	
+		// Iterate over all EventObjects:	     
+		IF (_iObj.EventAbility <> E_BA_EventAbility.eEventEx) THEN
+			; // Skip.
+		ELSIF (NOT _iObj.GetBACnetObject(fbObject=>_fbBACnetObj)) THEN
+			_iObj.LogMsg.Show(ADSLOG_MSGTYPE_ERROR, 'EI13', 'Failed to receive internal BACnet object!', TRUE);
+		ELSE
+			// Enable and write property:
+			_hRes := _fbBACnetObj^.WritePropertyBool(E_BACnetPropIdentifier.PropEventAlgorithmInhibit, bValue);
+			IF (FAILED(_hRes)) THEN
+				; // Do some error handling (An error message has already been logged here).
+			END_IF
+		END_IF
+	END_WHILE
+	
+	// [Alternative]
+	// Iterate over all child-objects of this current view: 
+	(*
+	WHILE (THIS^.IterateObjects(_iObj)) DO
+		// ...
+	END_WHILE
+	*)
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_BACnet_EvtInh">
+      <LineId Id="514" Count="0" />
+      <LineId Id="325" Count="0" />
+      <LineId Id="372" Count="1" />
+      <LineId Id="541" Count="0" />
+      <LineId Id="374" Count="1" />
+      <LineId Id="491" Count="0" />
+      <LineId Id="512" Count="0" />
+      <LineId Id="494" Count="0" />
+      <LineId Id="542" Count="0" />
+      <LineId Id="490" Count="0" />
+      <LineId Id="501" Count="2" />
+      <LineId Id="509" Count="0" />
+      <LineId Id="505" Count="2" />
+      <LineId Id="498" Count="1" />
+      <LineId Id="551" Count="0" />
+      <LineId Id="549" Count="0" />
+      <LineId Id="557" Count="0" />
+      <LineId Id="555" Count="0" />
+      <LineId Id="552" Count="2" />
+      <LineId Id="556" Count="0" />
+      <LineId Id="137" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
