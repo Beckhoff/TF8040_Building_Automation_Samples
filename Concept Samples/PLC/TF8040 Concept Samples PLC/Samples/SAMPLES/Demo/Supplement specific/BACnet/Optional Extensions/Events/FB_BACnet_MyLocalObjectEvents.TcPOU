@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BACnet_MyLocalObjectEvents" Id="{a54e7652-eb23-4ec0-b40b-d55684b16d9a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_BACnet_MyLocalObjectEvents EXTENDS FB_BA_LocalObjectEventSubscriber]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="[Protected] Events" Id="{7adf3162-642d-4e26-91be-2545239b97c2}">
+      <Folder Name="Supplements" Id="{0e7de1c8-ce40-4ea3-a828-a86685cb68b9}">
+        <Folder Name="BACnet" Id="{a3becd6d-8f73-46f8-8cd2-f6c61f4f5783}" />
+      </Folder>
+    </Folder>
+    <Method Name="OnBACnetObjectStateChanged" Id="{8a769428-0d81-45ec-9ab3-c52bda2e1998}" FolderPath="[Protected] Events\Supplements\BACnet\">
+      <Declaration><![CDATA[METHOD PROTECTED OnBACnetObjectStateChanged
+VAR_INPUT
+	iObject			: I_BA_Object;
+	fbBACnetObject	: POINTER TO FB_BACnet_BaseObject;
+	tState			: TCOM_STATE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE (tState) OF
+	TCOM_STATE.TCOM_STATE_PREOP:
+		// Sample 1) Enable specific properties.
+		CASE (fbBACnetObject^.ObjectType) OF
+			E_BACnetObjType.ObjAnalogInput:
+				// Sample 1.1) Enable 'PT1 damp factor' for all analog inputs:
+				fbBACnetObject^.EnableProperty(E_BACnetPropIdentifier.PropPt1DampFactor, TRUE);
+			
+		END_CASE
+		
+		// Sample 2) Writeprotect specific properties.
+		CASE (fbBACnetObject^.ObjectType) OF
+			E_BACnetObjType.ObjSchedule:
+				// Sample 2.1) Writeprotect 'schedule default' for all schedulers:
+				fbBACnetObject^.WriteProtectProperty(E_BACnetPropIdentifier.PropScheduleDefault, TRUE);
+			
+		END_CASE
+		
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_BACnet_MyLocalObjectEvents">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BACnet_MyLocalObjectEvents.OnBACnetObjectStateChanged">
+      <LineId Id="8275" Count="0" />
+      <LineId Id="8290" Count="1" />
+      <LineId Id="8300" Count="1" />
+      <LineId Id="8305" Count="0" />
+      <LineId Id="8304" Count="0" />
+      <LineId Id="8303" Count="0" />
+      <LineId Id="8297" Count="0" />
+      <LineId Id="8294" Count="0" />
+      <LineId Id="8306" Count="5" />
+      <LineId Id="8283" Count="0" />
+      <LineId Id="8280" Count="0" />
+      <LineId Id="8277" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
