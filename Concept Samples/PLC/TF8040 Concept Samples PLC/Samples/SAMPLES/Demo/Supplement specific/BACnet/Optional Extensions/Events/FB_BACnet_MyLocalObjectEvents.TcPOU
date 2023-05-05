@@ -39,6 +39,38 @@ END_VAR]]></Declaration>
 END_CASE]]></ST>
       </Implementation>
     </Method>
+    <Method Name="OnInitStateChange" Id="{4bf4d11a-d48a-4966-a447-9fb40b6e7e63}" FolderPath="[Protected] Events\">
+      <Declaration><![CDATA[METHOD PROTECTED OnInitStateChange
+VAR_INPUT
+	iObject			: I_BA_Object;
+	eState			: E_BA_InitState;
+END_VAR
+VAR
+	
+	_fbBACnetObj	: POINTER TO FB_BACnet_BaseObject;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Sample 1) Evaluate object state.
+CASE (eState) OF
+	E_BA_InitState.ePostInitSupplement:
+		// Object has finished to initialize enabled supplement(s).
+	
+		// Sample 1.1) Initialize some properties:
+		IF (iObject.IsReused) THEN
+			; // Skip (Do not overwrite previously restored persisted values here).
+		ELSIF (iObject.GetBACnetObject(fbObject=>_fbBACnetObj)) THEN
+			CASE (_fbBACnetObj^.ObjectType) OF
+				E_BACnetObjType.ObjAnalogInput:
+					// Write 'PT1 damp factor' for all analog inputs:
+					_fbBACnetObj^.WritePropertyReal(E_BACnetPropIdentifier.PropPt1DampFactor, 0.5);
+				
+			END_CASE
+		END_IF
+
+END_CASE
+]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_BACnet_MyLocalObjectEvents">
       <LineId Id="9" Count="0" />
     </LineIds>
@@ -55,6 +87,10 @@ END_CASE]]></ST>
       <LineId Id="8283" Count="0" />
       <LineId Id="8280" Count="0" />
       <LineId Id="8277" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BACnet_MyLocalObjectEvents.OnInitStateChange">
+      <LineId Id="653" Count="17" />
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
