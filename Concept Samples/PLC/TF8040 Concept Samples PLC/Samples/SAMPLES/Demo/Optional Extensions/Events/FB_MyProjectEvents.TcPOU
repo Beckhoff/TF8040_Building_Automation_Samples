@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_MyProjectEvents" Id="{4b156194-a872-4ef0-9daa-e7f0b809e2f4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MyProjectEvents EXTENDS FB_BA_ProjectEventSubscriber]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="[Protected] Events" Id="{98751e3e-8e8c-4565-ad7f-46b621dbde9d}" />
+    <Method Name="OnProjectStateChanged" Id="{2b385d05-fa2e-4c3d-be6e-0f8478e619ac}" FolderPath="[Protected] Events\">
+      <Declaration><![CDATA[METHOD PROTECTED OnProjectStateChanged
+VAR_INPUT
+	eState			: E_BA_ProjectState;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Sample 1) Evaluate project state.
+CASE (eState) OF
+	E_BA_ProjectState.eFirstOpCycle:
+		F_BA_LogMessage(ADSLOG_MSGTYPE_HINT, 'OPSC04', 'Initialization done: project is operational.');
+	
+	E_BA_ProjectState.Error:
+		F_BA_LogMessage(ADSLOG_MSGTYPE_HINT, 'OPSC07', 'Initialization failed!');
+	
+END_CASE]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MyProjectEvents">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MyProjectEvents.OnProjectStateChanged">
+      <LineId Id="5" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="12" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
