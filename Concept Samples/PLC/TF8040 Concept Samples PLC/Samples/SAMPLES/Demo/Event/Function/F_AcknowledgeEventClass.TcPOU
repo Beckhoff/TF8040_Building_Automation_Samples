@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="F_AcknowledgeEventClass" Id="{89fd74b8-e45b-4b4a-8f6d-88c66b5fc523}" SpecialFunc="None">
+    <Declaration><![CDATA[// Acknowledge all event class related objects.
+FUNCTION F_AcknowledgeEventClass  
+VAR_INPUT
+	nEventClassID		: UINT					:= 0;		// Target event class ID.
+END_VAR
+VAR
+	_iObj				: I_BA_Object;
+	_iEvtObj			: I_BA_EventObject;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Iterate over all objects:
+WHILE (F_BA_IterateObjects(_iObj)) DO
+	IF (NOT __QUERYINTERFACE(_iObj,_iEvtObj)) THEN
+		;	     
+	ELSIF (_iEvtObj.EventClassID <> nEventClassID) THEN
+		; // Skip.
+	ELSE
+		_iEvtObj.AcknowledgeRm := TRUE;
+	END_IF
+END_WHILE]]></ST>
+    </Implementation>
+    <LineIds Name="F_AcknowledgeEventClass">
+      <LineId Id="677" Count="0" />
+      <LineId Id="680" Count="0" />
+      <LineId Id="682" Count="0" />
+      <LineId Id="703" Count="0" />
+      <LineId Id="684" Count="0" />
+      <LineId Id="704" Count="1" />
+      <LineId Id="685" Count="0" />
+      <LineId Id="688" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -6,6 +6,7 @@
 // > See "FB_BA_EC01" to view decleared event classes.
 // [Hint]
 // > All reference-variables are implemented to ease monitoring of relevant variables.
+// > show the possibility to acknowledge BA objects assigned to a specific event class.
 FUNCTION_BLOCK FB_Evt_Ack EXTENDS FB_BA_View
 VAR               
 	{region 'General'}
@@ -66,6 +67,12 @@ VAR
 											sActiveText								:= 'Alarm',
 											nEventClassID							:= 10);	
 	{endregion}	
+		 
+	{region 'Acknowledge event class'}	
+		// Intention:					Acknowledge all objects that reference a specific event class.
+		nEventClassID					: UINT										:= 0;			// Enter ID of event class to acknowledge.
+	{endregion}
+		 
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -77,11 +84,20 @@ AlmStandard(bRawVal:=bAlm_Test);
 AlmStandard_Indicated := (NOT AlmStandard.stAckedTransitions.bToOffnormal);
 AlmExtended(bRawVal:=bAlm_Test);
 AlmExtended_Indicated := (NOT AlmExtended.stAckedTransitions.bToOffnormal);
+
+IF (nEventClassID <> 0) THEN
+	F_AcknowledgeEventClass(nEventClassID);
+	nEventClassID := 0;
+END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="FB_Evt_Ack">
       <LineId Id="9" Count="0" />
       <LineId Id="231" Count="6" />
+      <LineId Id="316" Count="0" />
+      <LineId Id="315" Count="0" />
+      <LineId Id="402" Count="1" />
+      <LineId Id="318" Count="0" />
       <LineId Id="83" Count="0" />
     </LineIds>
   </POU>
