@@ -22,7 +22,7 @@ namespace Beckhoff.BA.SiteApi.Samples
             { new(default, "VariableId"), BaParameterId.ePresentValue },
 
             // Sample specific:
-            { new(typeof(Sample11), "Details"), new BaCovNotificationType[] { BaCovNotificationType.eActivePriority, BaCovNotificationType.eStatus } },
+            { new(typeof(Sample11a), "Details"), new BaCovNotificationType[] { BaCovNotificationType.eActivePriority, BaCovNotificationType.eStatus } },
             { new(typeof(Sample20), "AnotherDevNetID"), "1.2.3.4.5.6:851" },
             { new(typeof(Sample21), "SymbolPath"), "MAIN.General.MVSp.nValueRm" },
             { new(typeof(Sample50), "SomeDevNetID"), DebugDevice },
