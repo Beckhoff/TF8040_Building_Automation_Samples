@@ -1,27 +1,7 @@
 variables:
 - name: Major
-  value: '2'
+  value: '1'
 - name: Minor
-  value: '4'
-- name: Patch
-  value: '0'
-- name: PreReleaseName
-  value: 'beta'
+  value: '2'
 - name: MainBranch
   value: 'refs/heads/master'
-
-######## Repo settings ########
-- name: isRelBranch
-  value: ${{ or(
-    contains( variables['Build.SourceBranch'], variables['MainBranch']),
-    contains( variables['Build.SourceBranch'], 'refs/heads/Rel/')
-    ) }}
-- name: isBetaBranch
-  value: ${{
-     contains( variables['Build.SourceBranch'], 'refs/heads/nextMaster' )
-    }}
-- name: isDevBranch
-  value: ${{ not( or(
-    eq( variables['isRelBranch'], true ),
-    eq( variables['isBetaBranch'], true )
-    ) ) }}
