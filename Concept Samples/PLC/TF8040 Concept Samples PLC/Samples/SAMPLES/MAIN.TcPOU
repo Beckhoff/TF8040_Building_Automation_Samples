@@ -4,64 +4,65 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	{region 'Settings'}
-		DPAD					: FB_BA_CarelessDPAD:=(
-									aIdentifier:=[
-										(* Level 1 *)	(eNodeType:=E_BA_NodeType.eBuilding,	nIndexDigits:=2),
-										(* Level 2 *)	(eNodeType:=E_BA_NodeType.eTrade,		nIndexDigits:=0),
-										(* Level 3 *)	(eNodeType:=E_BA_NodeType.ePlant,		nIndexDigits:=2,			sSeparator_ObjectName:='~~~',		sSeparator_Description:=' --- '),
-										(* Level 4 *)	(eNodeType:=E_BA_NodeType.eAggregate,	nIndexDigits:=2,			sSeparator_ObjectName:='++'),
-										(* Level 5 *)	(eNodeType:=E_BA_NodeType.eFunction,	nIndexDigits:=3)
-								]);
+		DPAD						: FB_BA_CarelessDPAD:=(
+										aIdentifier:=[
+											(* Level 1 *)	(eNodeType:=E_BA_NodeType.eBuilding,	nIndexDigits:=2),
+											(* Level 2 *)	(eNodeType:=E_BA_NodeType.eTrade,		nIndexDigits:=0),
+											(* Level 3 *)	(eNodeType:=E_BA_NodeType.ePlant,		nIndexDigits:=2,			sSeparator_ObjectName:='~~~',		sSeparator_Description:=' --- '),
+											(* Level 4 *)	(eNodeType:=E_BA_NodeType.eAggregate,	nIndexDigits:=2,			sSeparator_ObjectName:='++'),
+											(* Level 5 *)	(eNodeType:=E_BA_NodeType.eFunction,	nIndexDigits:=3)
+									]);
 	{endregion}
 		 
-	Smpl						: FB_BA_View			:= (									sDescription:='Samples');
+	Smpl							: FB_BA_View			:= (									sDescription:='Samples');
 	{region 'Demonstration'}
-		Demo					: FB_BA_View			:= (iParent:=Smpl,						sDescription:='Demonstration');
-			Obj					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Objects');
-				General			: FB_Obj_General		:= (iParent:=Obj,						sDescription:='General objects');
-				Misc			: FB_Obj_Misc			:= (iParent:=Obj,						sDescription:='Miscellaneous objects');
-				Seq				: FB_Obj_Sequence		:= (iParent:=Obj,						sDescription:='Sequences');
-				UdObj			: FB_Obj_UserDefined	:= (iParent:=Obj,						sDescription:='User defined objects');
-				AddParam		: FB_Obj_AddParam		:= (iParent:=Obj,						sDescription:='Additional parameters');
-				ObjTexts		: FB_Obj_NameDesc		:= (iParent:=Obj,						sDescription:='Objectname and Description');
+		Demo						: FB_BA_View			:= (iParent:=Smpl,						sDescription:='Demonstration');
+			Obj						: FB_BA_View			:= (iParent:=Demo,						sDescription:='Objects');
+				General				: FB_Obj_General		:= (iParent:=Obj,						sDescription:='General objects');
+				Misc				: FB_Obj_Misc			:= (iParent:=Obj,						sDescription:='Miscellaneous objects');
+				Seq					: FB_Obj_Sequence		:= (iParent:=Obj,						sDescription:='Sequences');
+				UdObj				: FB_Obj_UserDefined	:= (iParent:=Obj,						sDescription:='User defined objects');
+				AddParam			: FB_Obj_AddParam		:= (iParent:=Obj,						sDescription:='Additional parameters');
 
-			Ref					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Reference');
-				Collect			: FB_Ref_Collectors		:= (iParent:=Ref,						sDescription:='Collectors');
-				Groups			: FB_Ref_Groups			:= (iParent:=Ref,						sDescription:='Groups');
-				PubSubLc		: FB_Ref_PubSub_Local	:= (iParent:=Ref,						sDescription:='Publisher and subscriber (Local)');
-				PubSubRm		: FB_Ref_PubSub_Remote	:= (iParent:=Ref,						sDescription:='Publisher and subscriber (Remote)');
+			Ref						: FB_BA_View			:= (iParent:=Demo,						sDescription:='Reference');
+				Collect				: FB_Ref_Collectors		:= (iParent:=Ref,						sDescription:='Collectors');
+				Groups				: FB_Ref_Groups			:= (iParent:=Ref,						sDescription:='Groups');
+				PubSubLc			: FB_Ref_PubSub_Local	:= (iParent:=Ref,						sDescription:='Publisher and subscriber (Local)');
+				PubSubRm			: FB_Ref_PubSub_Remote	:= (iParent:=Ref,						sDescription:='Publisher and subscriber (Remote)');
 
-			Evt					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Event');
-				EvtCls			: FB_Evt_EventClasses	:= (iParent:=Evt,						sDescription:='Event classes');
-				Events			: FB_Evt_Events			:= (iParent:=Evt,						sDescription:='Events');
-				Ack				: FB_Evt_Ack			:= (iParent:=Evt,						sDescription:='Acknowledgement');
-				MiscEvt			: FB_Evt_Misc			:= (iParent:=Evt,						sDescription:='Miscellaneous');
-				Cnd				: FB_Evt_QueryCnd;
+			Evt						: FB_BA_View			:= (iParent:=Demo,						sDescription:='Event');
+				EvtCls				: FB_Evt_EventClasses	:= (iParent:=Evt,						sDescription:='Event classes');
+				Events				: FB_Evt_Events			:= (iParent:=Evt,						sDescription:='Events');
+				Ack					: FB_Evt_Ack			:= (iParent:=Evt,						sDescription:='Acknowledgement');
+				MiscEvt				: FB_Evt_Misc			:= (iParent:=Evt,						sDescription:='Miscellaneous');
+				Cnd					: FB_Evt_QueryCnd;
 
-			Strct				: FB_BA_View			:= (iParent:=Demo,						sDescription:='Structure');
-				Nested			: FB_Struct_Nested		:= (iParent:=Strct,						sDescription:='Nested objects');
+			Strct					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Structure');
+				Nested				: FB_Struct_Nested		:= (iParent:=Strct,						sDescription:='Nested objects');
 
-			Plt					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Plant');
-				PltCtrl1		: FB_Plt_Init1			:= (iParent:=Plt,						sDescription:='Plant control initialization 1');
-				PltCtrl2		: FB_Plt_Init2			:= (iParent:=Plt,						sDescription:='Plant control initialization 2');
-				PltCtrl3		: FB_Plt_Init3			:= (iParent:=Plt,						sDescription:='Plant control initialization 3');
+			Plt						: FB_BA_View			:= (iParent:=Demo,						sDescription:='Plant');
+				PltCtrl1			: FB_Plt_Init1			:= (iParent:=Plt,						sDescription:='Plant control initialization 1');
+				PltCtrl2			: FB_Plt_Init2			:= (iParent:=Plt,						sDescription:='Plant control initialization 2');
+				PltCtrl3			: FB_Plt_Init3			:= (iParent:=Plt,						sDescription:='Plant control initialization 3');
 
-			Spl					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Supplement specific');
-				BACnet_RcpList	: FB_BACnet_RcpList		:= (iParent:=Spl,						sDescription:='Recipient list (BACnet)');
-				BACnet_EvtInh	: FB_BACnet_EvtInh		:= (iParent:=Spl,						sDescription:='Write EventInhibit property (BACnet)');
+			Spl						: FB_BA_View			:= (iParent:=Demo,						sDescription:='Supplement specific');
+				BACnet_RcpList		: FB_BACnet_RcpList		:= (iParent:=Spl,						sDescription:='Write Recipient list (BACnet)');
+				BACnet_ObjPropRef	: FB_BACnet_ObjPropRef	:= (iParent:=Spl,						sDescription:='Write object property reference (BACnet)');
+				BACnet_EvtInh		: FB_BACnet_EvtInh		:= (iParent:=Spl,						sDescription:='Write EventInhibit property (BACnet)');
 					 
-			Other				: FB_BA_View			:= (iParent:=Demo,						sDescription:='Other');
-				MscOth			: FB_Misc				:= (iParent:=Other,						sDescription:='Miscellaneous');
+			Other					: FB_BA_View			:= (iParent:=Demo,						sDescription:='Other');
+				Texts				: FB_Texts				:= (iParent:=Other,						sDescription:='Name and description texts');
+				MscOth				: FB_Misc				:= (iParent:=Other,						sDescription:='Miscellaneous');
 	{endregion}
 	{region 'Templates'}
-		Tmpl					: FB_BA_View			:= (iParent:=Smpl,						sDescription:='Templates');
-			Gen					: FB_BA_View			:= (iParent:=Tmpl,						sDescription:='General');
-				Bld01			: FB_BA_Bld01			:= (iParent:=Gen,						sDescription:='Building information');
-				EvtCls01		: FB_BA_EC01			:= (iParent:=Gen,						sDescription:='Event Classes');
+		Tmpl						: FB_BA_View			:= (iParent:=Smpl,						sDescription:='Templates');
+			Gen						: FB_BA_View			:= (iParent:=Tmpl,						sDescription:='General');
+				Bld01				: FB_BA_Bld01			:= (iParent:=Gen,						sDescription:='Building information');
+				EvtCls01			: FB_BA_EC01			:= (iParent:=Gen,						sDescription:='Event Classes');
 	{endregion}		
 END_VAR
 VAR		
-	nCounter					: UDINT					:= 0;	
+	nCounter						: UDINT					:= 0;	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -78,7 +79,6 @@ Misc();
 Seq();
 UdObj();
 AddParam();
-ObjTexts();
 
 Ref();
 Collect();
@@ -103,9 +103,11 @@ PltCtrl3();
 
 Spl();
 BACnet_RcpList();
+BACnet_ObjPropRef();
 BACnet_EvtInh();
 
 Other();
+Texts();
 MscOth();
 
 // Templates:
@@ -128,7 +130,6 @@ MAIN_OPTEXT_BACnet();
       <LineId Id="281" Count="0" />
       <LineId Id="333" Count="0" />
       <LineId Id="335" Count="0" />
-      <LineId Id="1111" Count="0" />
       <LineId Id="86" Count="0" />
       <LineId Id="78" Count="0" />
       <LineId Id="87" Count="0" />
@@ -149,9 +150,11 @@ MAIN_OPTEXT_BACnet();
       <LineId Id="800" Count="0" />
       <LineId Id="798" Count="0" />
       <LineId Id="801" Count="0" />
+      <LineId Id="1177" Count="0" />
       <LineId Id="986" Count="0" />
       <LineId Id="861" Count="0" />
       <LineId Id="444" Count="0" />
+      <LineId Id="1181" Count="0" />
       <LineId Id="446" Count="0" />
       <LineId Id="53" Count="2" />
       <LineId Id="68" Count="0" />

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BACnet_ObjPropRef" Id="{deb3c8ae-6758-45b6-9557-fb2097912fea}" SpecialFunc="None">
+    <Declaration><![CDATA[// Exemple illustrates how to write a (XBA) schedulers 'object property reference' property (BACnet).
+FUNCTION_BLOCK FB_BACnet_ObjPropRef EXTENDS FB_BA_View
+VAR
+	bWrite			: BOOL;
+	
+	MySched			: FB_BA_SchedM := (
+						iParent					:= THIS^,
+						sDescription			:= '{Some schedule}',
+						aStateText				:= [ 'Aus', 'Stufe 1', 'Stufe 2' ]
+					);
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+MySched();
+
+IF (bWrite) THEN
+	bWrite := FALSE;
+	
+	WriteReference(F_BACnet_GetObjId(E_BACnetObjType.ObjMultiStateValue, 12345), E_BACnetPropIdentifier.PropPresentValue);
+//	[Alternative]
+//	WriteReferenceRm(F_BACnet_GetObjId(E_BACnetObjType.ObjMultiStateValue, 12345), 1000, E_BACnetPropIdentifier.PropPresentValue);
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="WriteReference" Id="{97f3dbd8-1654-408a-8f8a-57768a421f0f}">
+      <Declaration><![CDATA[// Write reference to a local BACnet object.
+METHOD WriteReference : BOOL
+VAR_INPUT
+	tObjectID		: T_BACnet_ObjectIdentifier		:= 16#FFFFFFFF;
+	eProperty		: E_BACnetPropIdentifier		:= E_BACnetPropIdentifier.PropPresentValue;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[WriteReference := WriteReferenceRm(tObjectID, 16#FFFFFFFF, eProperty);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="WriteReferenceRm" Id="{d8fdb4f2-1ed2-44ad-a901-1866a61228a6}">
+      <Declaration><![CDATA[// Write reference to a remote BACnet object.
+METHOD WriteReferenceRm : BOOL
+VAR_INPUT
+	tObjectID		: T_BACnet_ObjectIdentifier		:= 16#FFFFFFFF;
+	nDeviceID		: UDINT							:= 16#FFFFFFFF;
+	eProperty		: E_BACnetPropIdentifier		:= E_BACnetPropIdentifier.PropPresentValue;
+END_VAR
+VAR
+	stRef			: ST_BACnet_ObjectPropertyReference := (
+						tObjectID		:= tObjectID,
+						nDeviceID		:= nDeviceID,
+						ePropertyId		:= eProperty
+					);
+END_VAR
+VAR
+	_iObj			: I_BA_Object;
+	_fbBACnetObj	: POINTER TO FB_BACnet_BaseObject;
+	_hRes			: HRESULT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Receive internal BACnet object from BA object:
+IF (NOT MySched.GetBACnetObject(fbObject=>_fbBACnetObj)) THEN
+	MySched.LogMsg.Show(ADSLOG_MSGTYPE_ERROR, 'OPR10', 'Failed to receive internal BACnet object!', TRUE);
+ELSE
+	// Write property:
+	WriteReferenceRm := SUCCEEDED(_fbBACnetObj^.WritePropertyReferenceList1x(E_BACnetPropIdentifier.PropListOfObjectPropertyReferences, stRef));
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_BACnet_ObjPropRef">
+      <LineId Id="9" Count="0" />
+      <LineId Id="87" Count="4" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="86" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BACnet_ObjPropRef.WriteReference">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_BACnet_ObjPropRef.WriteReferenceRm">
+      <LineId Id="13" Count="3" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
