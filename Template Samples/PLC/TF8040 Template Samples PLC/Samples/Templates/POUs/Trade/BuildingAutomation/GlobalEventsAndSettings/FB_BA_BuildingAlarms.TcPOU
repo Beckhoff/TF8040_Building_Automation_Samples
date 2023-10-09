@@ -3,19 +3,19 @@
   <POU Name="FB_BA_BuildingAlarms" Id="{87f5fd9b-7346-47f3-9999-74cef33cdd37}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
 	{attribute 'Version' := '5.0.0.0'}
-	{attribute 'Tags' := '"LCID": "1031", "Text": "General, Alarms"'}
-	{attribute 'Tags' := '"LCID": "1033", "Text": "General, Alarms"'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "Gebäudeautomation, Betriebsarten"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "Building automation, Operating modes"'}
 	{attribute 'Using' := '"Type": "Template", "URI": "BA2_Param"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "Site"'}		 
 	{attribute 'Using' := '"Type": "Template", "URI": "EC_ID"'}
 	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_BuildingAlarms"'}
-	{attribute 'Description' := '"LCID": "1031", "Text": "Gebäude Alarme"'}
-	{attribute 'Description' := '"LCID": "1031", "Text": "Gebäude Alarme"'}
-	{attribute 'Description' := '"LCID": "1033", "Text": "Building alarms"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Gebäude Betriebsarten"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Building operating modes"'}
 {endregion}
 FUNCTION_BLOCK FB_BA_BuildingAlarms EXTENDS FB_BA_View
 VAR_INPUT CONSTANT
-	FireAlert			: FB_BA_BI_IO;                      
-	Bgly				: FB_BA_BI_IO;
+	FireAlert			: FB_BA_BI_Raw;                      
+	Bgly				: FB_BA_BI_Raw;
 	CentSwiOff			: FB_BA_BV_Op;
 END_VAR	]]></Declaration>
     <Implementation>
@@ -290,7 +290,20 @@ END_VAR	]]></Declaration>
                   </o>
                   <o t="CFCBoxElement">
                     <o n="Inputs" t="CFCItemList">
-                      <l2 n="InnerList" />
+                      <l2 n="InnerList" cet="CFCInputPin">
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="IsExtensiblePin">false</v>
+                          <v n="ProcessValue">""</v>
+                          <v n="Access" t="ProcessValueAccess">None</v>
+                          <v n="Negated">false</v>
+                          <v n="SetReset" t="SetReset">None</v>
+                          <v n="SetResetRef" t="SetResetRef">None</v>
+                          <v n="PretendsToBeConnected">false</v>
+                          <v n="Id">680L</v>
+                        </o>
+                      </l2>
                     </o>
                     <o n="Outputs" t="CFCItemList">
                       <l2 n="InnerList" cet="CFCOutputPin">
@@ -328,6 +341,13 @@ END_VAR	]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
+                          <v n="Text">"bRawVal"</v>
+                          <v n="Modifiable">true</v>
+                          <v n="Id">681L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
                           <v n="Text">"bEvent"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">79L</v>
@@ -349,7 +369,7 @@ END_VAR	]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"FB_BA_BI_IO"</v>
+                          <v n="Text">"FB_BA_BI_Raw"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">82L</v>
                         </o>
@@ -381,12 +401,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_Polarity"</v>
                             </o>
-                            <v n="SignatureId">1388</v>
+                            <v n="SignatureId">6551</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">435L</v>
+                          <v n="Id">682L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -398,7 +418,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">436L</v>
+                          <v n="Id">683L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -410,7 +430,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">437L</v>
+                          <v n="Id">684L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -422,7 +442,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">438L</v>
+                          <v n="Id">685L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -441,12 +461,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_StateText"</v>
                             </o>
-                            <v n="SignatureId">3564</v>
+                            <v n="SignatureId">3279</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">439L</v>
+                          <v n="Id">686L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -465,12 +485,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_StateText"</v>
                             </o>
-                            <v n="SignatureId">3564</v>
+                            <v n="SignatureId">3279</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">440L</v>
+                          <v n="Id">687L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -482,7 +502,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">441L</v>
+                          <v n="Id">688L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -501,12 +521,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_CommissioningState"</v>
                             </o>
-                            <v n="SignatureId">1384</v>
+                            <v n="SignatureId">1470</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">442L</v>
+                          <v n="Id">689L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -525,19 +545,19 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_SmallString"</v>
                             </o>
-                            <v n="SignatureId">3595</v>
+                            <v n="SignatureId">3300</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">443L</v>
+                          <v n="Id">690L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
                           <v n="Identifier">"stTimeDelay"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"F_BA_TimeDelay(BA_Param.nDefTimeDelay_ToAbnormal, 0)"</v>
+                          <v n="InitialValue">"F_BA_TimeDelay(XBA_Param.nDefTimeDelay_ToAbnormal, 0)"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -549,12 +569,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"ST_BA_TimeDelayParam"</v>
                             </o>
-                            <v n="SignatureId">3592</v>
+                            <v n="SignatureId">3297</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">444L</v>
+                          <v n="Id">691L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -573,12 +593,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_LockPriority"</v>
                             </o>
-                            <v n="SignatureId">1470</v>
+                            <v n="SignatureId">1500</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">445L</v>
+                          <v n="Id">692L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -590,14 +610,14 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">446L</v>
+                          <v n="Id">693L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
                           <v n="Identifier">"aEventTransitionText"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"BA_Param.aEventTransitionText"</v>
+                          <v n="InitialValue">"XBA_Param.aEventTransitionText"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -609,12 +629,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_EventTransitionText"</v>
                             </o>
-                            <v n="SignatureId">3509</v>
+                            <v n="SignatureId">3239</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">447L</v>
+                          <v n="Id">694L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -626,7 +646,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">448L</v>
+                          <v n="Id">695L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -645,12 +665,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_EventTransitions"</v>
                             </o>
-                            <v n="SignatureId">3508</v>
+                            <v n="SignatureId">3238</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">449L</v>
+                          <v n="Id">696L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -662,7 +682,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">450L</v>
+                          <v n="Id">697L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -675,14 +695,14 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">451L</v>
+                          <v n="Id">698L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
                           <v n="Identifier">"sDescription"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <v n="InitialValue">"XBA_Globals.sPlaceholder_Empty"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -694,19 +714,19 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">4071</v>
+                            <v n="SignatureId">3475</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">452L</v>
+                          <v n="Id">699L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
                           <v n="Identifier">"sObjectName"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <v n="InitialValue">"XBA_Globals.sPlaceholder_Empty"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -718,12 +738,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">4071</v>
+                            <v n="SignatureId">3475</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">453L</v>
+                          <v n="Id">700L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -742,19 +762,19 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_AssignRefMode"</v>
                             </o>
-                            <v n="SignatureId">1472</v>
+                            <v n="SignatureId">1502</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">454L</v>
+                          <v n="Id">701L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
                           <v n="Identifier">"sDeviceType"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <v n="InitialValue">"XBA_Globals.sPlaceholder_Empty"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -766,12 +786,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_SmallString"</v>
                             </o>
-                            <v n="SignatureId">3595</v>
+                            <v n="SignatureId">3300</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">455L</v>
+                          <v n="Id">702L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -783,7 +803,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">456L</v>
+                          <v n="Id">703L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -795,7 +815,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">457L</v>
+                          <v n="Id">704L</v>
                         </o>
                       </l2>
                     </o>
@@ -812,7 +832,20 @@ END_VAR	]]></Declaration>
                   </o>
                   <o t="CFCBoxElement">
                     <o n="Inputs" t="CFCItemList">
-                      <l2 n="InnerList" />
+                      <l2 n="InnerList" cet="CFCInputPin">
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
+                          <v n="IsExtensiblePin">false</v>
+                          <v n="ProcessValue">""</v>
+                          <v n="Access" t="ProcessValueAccess">None</v>
+                          <v n="Negated">false</v>
+                          <v n="SetReset" t="SetReset">None</v>
+                          <v n="SetResetRef" t="SetResetRef">None</v>
+                          <v n="PretendsToBeConnected">false</v>
+                          <v n="Id">822L</v>
+                        </o>
+                      </l2>
                     </o>
                     <o n="Outputs" t="CFCItemList">
                       <l2 n="InnerList" cet="CFCOutputPin">
@@ -850,6 +883,13 @@ END_VAR	]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
+                          <v n="Text">"bRawVal"</v>
+                          <v n="Modifiable">true</v>
+                          <v n="Id">823L</v>
+                        </o>
+                        <o>
+                          <v n="Bounds">"0, 0, 0, 0"</v>
+                          <n n="ElementGroupId" />
                           <v n="Text">"bEvent"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">108L</v>
@@ -871,7 +911,7 @@ END_VAR	]]></Declaration>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
-                          <v n="Text">"FB_BA_BI_IO"</v>
+                          <v n="Text">"FB_BA_BI_Raw"</v>
                           <v n="Modifiable">true</v>
                           <v n="Id">111L</v>
                         </o>
@@ -903,12 +943,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_Polarity"</v>
                             </o>
-                            <v n="SignatureId">1388</v>
+                            <v n="SignatureId">6551</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">506L</v>
+                          <v n="Id">824L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -920,7 +960,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">507L</v>
+                          <v n="Id">825L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -932,7 +972,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">508L</v>
+                          <v n="Id">826L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -944,7 +984,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">509L</v>
+                          <v n="Id">827L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -963,12 +1003,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_StateText"</v>
                             </o>
-                            <v n="SignatureId">3564</v>
+                            <v n="SignatureId">3279</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">510L</v>
+                          <v n="Id">828L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -987,12 +1027,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_StateText"</v>
                             </o>
-                            <v n="SignatureId">3564</v>
+                            <v n="SignatureId">3279</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">511L</v>
+                          <v n="Id">829L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1004,7 +1044,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">512L</v>
+                          <v n="Id">830L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1023,12 +1063,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_CommissioningState"</v>
                             </o>
-                            <v n="SignatureId">1384</v>
+                            <v n="SignatureId">1470</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">513L</v>
+                          <v n="Id">831L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1047,19 +1087,19 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_SmallString"</v>
                             </o>
-                            <v n="SignatureId">3595</v>
+                            <v n="SignatureId">3300</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">514L</v>
+                          <v n="Id">832L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
                           <v n="Identifier">"stTimeDelay"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"F_BA_TimeDelay(BA_Param.nDefTimeDelay_ToAbnormal, 0)"</v>
+                          <v n="InitialValue">"F_BA_TimeDelay(XBA_Param.nDefTimeDelay_ToAbnormal, 0)"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -1071,12 +1111,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"ST_BA_TimeDelayParam"</v>
                             </o>
-                            <v n="SignatureId">3592</v>
+                            <v n="SignatureId">3297</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">515L</v>
+                          <v n="Id">833L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1095,12 +1135,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_LockPriority"</v>
                             </o>
-                            <v n="SignatureId">1470</v>
+                            <v n="SignatureId">1500</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">516L</v>
+                          <v n="Id">834L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1112,14 +1152,14 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">517L</v>
+                          <v n="Id">835L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
                           <v n="Identifier">"aEventTransitionText"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"BA_Param.aEventTransitionText"</v>
+                          <v n="InitialValue">"XBA_Param.aEventTransitionText"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -1131,12 +1171,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_EventTransitionText"</v>
                             </o>
-                            <v n="SignatureId">3509</v>
+                            <v n="SignatureId">3239</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">518L</v>
+                          <v n="Id">836L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1148,7 +1188,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">519L</v>
+                          <v n="Id">837L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1167,12 +1207,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_EventTransitions"</v>
                             </o>
-                            <v n="SignatureId">3508</v>
+                            <v n="SignatureId">3238</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">520L</v>
+                          <v n="Id">838L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1184,7 +1224,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">521L</v>
+                          <v n="Id">839L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1197,14 +1237,14 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">522L</v>
+                          <v n="Id">840L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
                           <v n="Identifier">"sDescription"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <v n="InitialValue">"XBA_Globals.sPlaceholder_Empty"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -1216,19 +1256,19 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">4071</v>
+                            <v n="SignatureId">3475</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">523L</v>
+                          <v n="Id">841L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
                           <v n="Identifier">"sObjectName"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <v n="InitialValue">"XBA_Globals.sPlaceholder_Empty"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -1240,12 +1280,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_MaxString"</v>
                             </o>
-                            <v n="SignatureId">4071</v>
+                            <v n="SignatureId">3475</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">524L</v>
+                          <v n="Id">842L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1264,19 +1304,19 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"E_BA_AssignRefMode"</v>
                             </o>
-                            <v n="SignatureId">1472</v>
+                            <v n="SignatureId">1502</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">525L</v>
+                          <v n="Id">843L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
                           <n n="ElementGroupId" />
                           <v n="Identifier">"sDeviceType"</v>
                           <n n="Value" />
-                          <v n="InitialValue">"BA_Globals.sPlaceholder_Empty"</v>
+                          <v n="InitialValue">"XBA_Globals.sPlaceholder_Empty"</v>
                           <o n="Type" t="UserdefType">
                             <o n="TypeDef" t="VariableExpression">
                               <n n="Type" />
@@ -1288,12 +1328,12 @@ END_VAR	]]></Declaration>
                               <a n="MessagesToSave" et="CompilerMessage" />
                               <v n="Name">"T_BA_SmallString"</v>
                             </o>
-                            <v n="SignatureId">3595</v>
+                            <v n="SignatureId">3300</v>
                             <v n="ScopeId">-1</v>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">526L</v>
+                          <v n="Id">844L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1305,7 +1345,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">527L</v>
+                          <v n="Id">845L</v>
                         </o>
                         <o>
                           <v n="Bounds">"0, 0, 0, 0"</v>
@@ -1317,7 +1357,7 @@ END_VAR	]]></Declaration>
                             <v n="Compiled">false</v>
                           </o>
                           <v n="Origin" t="ParameterOrigin">Project</v>
-                          <v n="Id">528L</v>
+                          <v n="Id">846L</v>
                         </o>
                       </l2>
                     </o>

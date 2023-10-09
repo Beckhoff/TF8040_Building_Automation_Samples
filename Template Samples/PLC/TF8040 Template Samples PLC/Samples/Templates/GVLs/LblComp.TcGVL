@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="LblComp" Id="{f1b3f5f1-d976-453d-81bb-3294c11da448}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.1.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, Kompositionen von Labels für Sonderfunktionen"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, LabelComposition for Secial Functions"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Label Kompositionen"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Label composition"'}
+{endregion}
+
+{attribute 'global_init_slot' := '40520'}
+VAR_GLOBAL
+	LblComp_Project								:FB_BA_Label2x:=(iAggregate:=LblAgg_AutomationStationEquipment,	iFunction:=LblCTL_BACnetDevice);
+	
+	//     Composition of 2 Labels
+	//     479 User-specific system, weather station 
+	LblComp_Wth_RainSensor						:FB_BA_Label2x:=(iAggregate:=LblAgg_RainSensor,			iFunction:=LblFun_OperationalMessage);
+	LblComp_Wth_WeatherStation					:FB_BA_Label2x:=(iAggregate:=LblAgg_WeatherStation,		iFunction:=LblFun_Fault);
+												
+	LblComp_Wth_TemperatureOutside				:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureOutside,	iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_TemperatureDewPoint				:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureDewPoint,iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_PressureAbsolute				:FB_BA_Label2x:=(iAggregate:=LblAgg_PressureAbsolute,	iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_PressureRelative				:FB_BA_Label2x:=(iAggregate:=LblAgg_PressureRelative,	iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_AbsoluteHumidityOutsideAir		:FB_BA_Label2x:=(iAggregate:=LblAgg_AbsoluteHumidityOutsideAir,iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_RelativeHumidityOutsideAir		:FB_BA_Label2x:=(iAggregate:=LblAgg_RelativeHumidityOutsideAir,iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_Brightness						:FB_BA_Label2x:=(iAggregate:=LblAgg_Brightness,			iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_Dawn							:FB_BA_Label2x:=(iAggregate:=LblAgg_Dawn,				iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_SolarRadiation					:FB_BA_Label2x:=(iAggregate:=LblAgg_SolarRadiation,		iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_WindDirection					:FB_BA_Label2x:=(iAggregate:=LblAgg_WindDirection,		iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_WindSpeed						:FB_BA_Label2x:=(iAggregate:=LblAgg_WindSpeed,			iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_GeoLatitude						:FB_BA_Label2x:=(iAggregate:=LblAgg_GeoLatitude,		iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_GeoLongitude					:FB_BA_Label2x:=(iAggregate:=LblAgg_GeoLongitude,		iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_SunAzimuth						:FB_BA_Label2x:=(iAggregate:=LblAgg_SunAzimuth,			iFunction:=LblFun_MeasuredValue);
+	LblComp_Wth_SunElevation					:FB_BA_Label2x:=(iAggregate:=LblAgg_SunElevation,		iFunction:=LblFun_MeasuredValue);
+	
+	LblComp_Wth_WeatherStationReset       		:FB_BA_Label2x:=(iAggregate:=LblAgg_WeatherStationReset,iFunction:=LblFun_SwitchingCommand);
+	LblComp_Wth_WeatherStationCommReset   		:FB_BA_Label2x:=(iAggregate:=LblAgg_WeatherStationCommReset,iFunction:=LblFun_SwitchingCommand);
+	LblComp_Wth_WeatherStationComm        		:FB_BA_Label2x:=(iAggregate:=LblAgg_WeatherStationComm,	iFunction:=LblFun_Fault);  
+
+
+	// Temperature // Temperatur
+	LblComp_TempExtA_MV        			   		:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureExtractAir,		iFunction:=LblFun_MeasuredValue);  
+	LblComp_TempExhA_MV        			   		:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureExhaustAir,		iFunction:=LblFun_MeasuredValue);  
+	LblComp_TempOuA_MV        			   		:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureOutside,			iFunction:=LblFun_MeasuredValue);  
+	LblComp_TempRmA_MV        			   		:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureRoomAir,			iFunction:=LblFun_MeasuredValue);  
+	LblComp_TempSuA_MV        			   		:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureSupplyAir,		iFunction:=LblFun_MeasuredValue);  
+	
+	// Relative humidity // Relative Feuchte
+	LblComp_RelHumExtA_MV        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_RelativeHumidityExtractAir,		iFunction:=LblFun_MeasuredValue);  
+	LblComp_RelHumExhA_MV        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_RelativeHumidityExhaustAir,		iFunction:=LblFun_MeasuredValue);  
+	LblComp_RelHumOuA_MV        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_RelativeHumidityOutsideAir,		iFunction:=LblFun_MeasuredValue);  
+	LblComp_RelHumRmA_MV        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_RelativeHumidityRoomHumidity,	iFunction:=LblFun_MeasuredValue);  
+	LblComp_RelHumSuA_MV        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_RelativeHumiditySupplyAir,		iFunction:=LblFun_MeasuredValue);  
+	
+	// Absolute humidity // Absolute Feuchte
+	LblComp_AbsHumExtA_MVC       			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_AbsoluteHumidityExtractAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_AbsHumExhA_MVC       			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_AbsoluteHumidityExhaustAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_AbsHumOuA_MVC        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_AbsoluteHumidityOutsideAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_AbsHumRmA_MVC        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_AbsoluteHumidityRoomAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_AbsHumSuA_MVC        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_AbsoluteHumiditySupplyAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	
+	// Dew point temperature // Taupunkttemperatur
+	LblComp_DewPntExtA_MVC       			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureDewPointExtractAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_DewPntExhA_MVC       			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureDewPointExhaustAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_DewPntOuA_MVC        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureDewPointOutsideAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_DewPntRmA_MVC        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureDewPointRoomAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_DewPntSuA_MVC        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureDewPointSupplyAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	
+	// Enthalpy // Enthalpie
+	LblComp_EnthalpyExtA_MVC       			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_EnthalpyExtractAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_EnthalpyExhA_MVC       			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_EnthalpyExhaustAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_EnthalpyOuA_MVC        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_EnthalpyOutsideAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_EnthalpyRmA_MVC        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_EnthalpyRoomAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_EnthalpySuA_MVC        			   	:FB_BA_Label2x:=(iAggregate:=LblAgg_EnthalpySupplyAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	
+	// Wet bulp temperature // Feuchtkugeltemperatur
+	LblComp_TempWetBulpExtA_MVC       	   		:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureWetBulpExtractAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_TempWetBulpExhA_MVC       	   		:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureWetBulpExhaustAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_TempWetBulpOuA_MVC        	   		:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureWetBulpOutsideAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_TempWetBulpRmA_MVC        	   		:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureWetBulpRoomAir,		iFunction:=LblFun_MeasuredValueCalculated);  
+	LblComp_TempWetBulpSuA_MVC        	   		:FB_BA_Label2x:=(iAggregate:=LblAgg_TemperatureWetBulpSupplyAir,	iFunction:=LblFun_MeasuredValueCalculated);  
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

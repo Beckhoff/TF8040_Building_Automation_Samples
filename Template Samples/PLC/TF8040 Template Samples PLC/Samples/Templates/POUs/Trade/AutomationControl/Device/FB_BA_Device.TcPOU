@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_BA_Device" Id="{783a29aa-bcf7-4dde-82ff-593bf793d1e3}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Version' := '5.0.1.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "Automatisierungssteuerung, Gerät, Einstellungen, Projekt, Parameter, Trend, Empfängerliste"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "Automation control, Device, Settings, Project, Parameter, Trend, Recipient list"'}
 	{attribute 'Description' := '"LCID": "1031", "Text": "Basis Einstellungen der Steuerung"'}
@@ -1191,7 +1191,7 @@ END_VAR]]></Declaration>
                         <v n="X">8</v>
                         <v n="Y">10</v>
                         <v n="IsJoint">false</v>
-                        <v n="Flags">100</v>
+                        <v n="Flags">68</v>
                       </o>
                       <o>
                         <v n="X">10</v>
@@ -1314,7 +1314,8 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[Project.iParent						:= THIS^;
-Project.iLabel						:= LblAgg_AutomationStationEquipment;
+Project.iLabel						:= LblComp_Project;
+Project.sObjectName					:= '{Idx=11,Idx=99}';
 Project.tPrsData_DefaultPeriod 		:= T#30M;
 Project.tPrsData_ComissioningPeriod := T#10M;
 
@@ -1326,6 +1327,7 @@ Trend.eDPADMode						:= E_BA_DPADMode.eInclude;				]]></ST>
     <LineIds Name="FB_BA_Device.FB_init">
       <LineId Id="8" Count="0" />
       <LineId Id="59" Count="0" />
+      <LineId Id="65" Count="0" />
       <LineId Id="34" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="18" Count="1" />

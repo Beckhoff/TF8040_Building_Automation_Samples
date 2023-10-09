@@ -1,7 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_BA_Parameter" Id="{78edb545-3849-4eb5-9deb-c438d7453294}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_BA_Parameter
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "Automatisierungssteuerung, Gerät, Einstellungen, Projekt, Parameter"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "Automation control, Device, Settings, Project, Parameter"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Basis Parameter"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Basic settings"'}
+{endregion}
+
+FUNCTION_BLOCK FB_BA_Parameter
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
@@ -23,32 +31,29 @@ VAR_INPUT
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 END_VAR
 VAR
-	Parameters 		: FB_BA_Param;
+	Parameters 				: FB_BA_Param;	
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[//Writeaccess on EventEnable Bits
-//Schreibrechte auf die Eventenable Bits (Property 35.)
+        <ST><![CDATA[//Writeaccess on EventEnable Bits (Property 35.)
 Parameters.SetDefWriteAccess(E_BA_Parameter.eEventEnable, E_BA_ROLE.eInternal);
-//Schreibrechte auf die Default Value(Property 74.)
-Parameters.SetDefWriteAccess(E_BA_Parameter.eDefaultValue, E_BA_ROLE.eInternal);
-
-//Default Struktur der BACnetObjekte im Systemmanager 
-Parameters.BACnet_View_SubordinateAnnotationMode := Tc3_BACnetRev14.E_BACnet_AnnotationTitle.eObjectName;
 
 //DefaultSeparator on each DPAD Level
 Parameters.DPAD_ObjectName_DefSeparator:='-';
 Parameters.DPAD_Description_DefSeparator:=' - ';
 
-//Set AcknowledgeRequiredFlags to AMEV 2017 Standard (Property 1.)
-Parameters.AckFlags_Simple 		:=F_BA_EventTransition(bToOffNormal:= FALSE, bToFault:=FALSE, bToNormal:=FALSE);
-Parameters.AckFlags_Standard	:=F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=FALSE);
-Parameters.AckFlags_Extended 	:=F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
+//Default structure of BACnetObjects in Systemmanager 
+Parameters.BACnet_View_SubordinateAnnotationMode := Tc3_BACnetRev14.E_BACnet_AnnotationTitle.eObjectName;
+
+//Set AckknowledgeRequiredFlags to AMEV 2017 Standard (Property 1.)
+Parameters.AckFlags_Simple 		:= F_BA_EventTransition(bToOffNormal:= FALSE, bToFault:=FALSE, bToNormal:=FALSE);
+Parameters.AckFlags_Standard	:= F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=FALSE);
+Parameters.AckFlags_Extended 	:= F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
 
 //Set EventEnable to AMEV 2017 Standard (Property 35.)
-Parameters.EventEn_Simple 		:=F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
-Parameters.EventEn_Standard		:=F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
-Parameters.EventEn_Extended 	:=F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
+Parameters.EventEn_Simple 		:= F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
+Parameters.EventEn_Standard		:= F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
+Parameters.EventEn_Extended		:= F_BA_EventTransition(bToOffNormal:= TRUE, bToFault:=FALSE, bToNormal:=TRUE);
 
 // Quittier- und Rücksetzmodus	// Acknowledge mode
 // E_BA_AcknowledgeMode.eSingle	// Acknowledges only the next outstanding event transition by executing an acknowledgement.
@@ -57,29 +62,24 @@ Parameters.EvtMgmt_AckMode		:= E_BA_AcknowledgeMode.eSingle;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_BA_Parameter">
-      <LineId Id="101" Count="0" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="64" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="90" Count="0" />
       <LineId Id="61" Count="0" />
     </LineIds>
     <LineIds Name="FB_BA_Parameter.FB_init">
-      <LineId Id="8" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="9" Count="0" />
-      <LineId Id="70" Count="0" />
       <LineId Id="34" Count="0" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="60" Count="0" />
-      <LineId Id="59" Count="0" />
-      <LineId Id="57" Count="0" />
       <LineId Id="23" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="32" Count="0" />
+      <LineId Id="63" Count="2" />
       <LineId Id="10" Count="4" />
       <LineId Id="35" Count="0" />
       <LineId Id="15" Count="2" />
       <LineId Id="7" Count="0" />
-      <LineId Id="45" Count="3" />
+      <LineId Id="51" Count="3" />
       <LineId Id="44" Count="0" />
     </LineIds>
   </POU>

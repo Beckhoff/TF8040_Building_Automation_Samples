@@ -2,9 +2,16 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <GVL Name="Site" Id="{2dfd4d5e-1a1f-4620-973a-caea0fa82a41}">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Version' := '5.0.1.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, Publisher, Subscriber"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, Publisher, Subscriber"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_GeneralSettings"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "E_BA_EnergyLvlEx"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "E_BA_BuildingMode"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_BuildingSunBlind"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_BuildingAlarms"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_WeatherStation"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_Facade"'}		 
 	{attribute 'Description' := '"LCID": "1031", "Text": "Ams NetId, Subject"'}
 	{attribute 'Description' := '"LCID": "1033", "Text": "Ams NetId, Subject"'}
 {endregion}
@@ -53,8 +60,14 @@ VAR_GLOBAL
 	bBuildingAlarms_Error			: BOOL;
 	stWeatherStation				: ST_BA_WeatherStation;		// published by FB_BA_WeatherStation_xxx
 	bWeatherStation_Error			: BOOL;
-	stFacadeSunBlind				: ST_BA_Facade;				// published by FB_BA_Facade
-	bFacadeSunBlind_Error			: BOOL;
+	stFacadeNorthSunBlind			: ST_BA_Facade;				// published by FB_BA_Facade
+	bFacadeNorthSunBlind_Error		: BOOL;
+	stFacadeEastSunBlind			: ST_BA_Facade;				// published by FB_BA_Facade
+	bFacadeEastSunBlind_Error		: BOOL;
+	stFacadeSouthSunBlind			: ST_BA_Facade;				// published by FB_BA_Facade
+	bFacadeSouthSunBlind_Error		: BOOL;
+	stFacadeWestSunBlind			: ST_BA_Facade;				// published by FB_BA_Facade
+	bFacadeWestSunBlind_Error		: BOOL;
 	stBuildingSpRmT					: ST_BA_SpRmT;				// Published by FB_BA_BuildingSpRmT
 	bBuildingSpRmT_Error			: BOOL;
 END_VAR]]></Declaration>

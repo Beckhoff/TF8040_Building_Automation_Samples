@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <GVL Name="LblAggregates_EN" Id="{efae9df6-25e5-47c9-9bd6-38ea0bac1c00}">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Version' := '5.1.0.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, AKS, Labels, ObjectName, Description"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, DPAD, Labels, ObjectName, Description"'}
 	{attribute 'Description' := '"LCID": "1031", "Text": "Anlagenkennzeichnungssystem, Labels Aggregate"'}
@@ -159,6 +159,17 @@ VAR_GLOBAL
   LblAgg_TemperatureRecirculatingAir                       :FB_BA_Label:=( sObjName:='TRE',sDescr:='Recirculating air temperature');
   LblAgg_TemperatureFlow                                   :FB_BA_Label:=( sObjName:='TFL',sDescr:='Flow temperature');
   LblAgg_TemperatureSupplyAir                              :FB_BA_Label:=( sObjName:='TSU',sDescr:='Supply air temperature');
+  LblAgg_TemperatureWetBulp                                :FB_BA_Label:=( sObjName:='TWB',sDescr:='Wet bulp temperature');
+  LblAgg_TemperatureWetBulpExtractAir                      :FB_BA_Label:=( sObjName:='WEX',sDescr:='Wet bulp temperature extract air');
+  LblAgg_TemperatureWetBulpExhaustAir                      :FB_BA_Label:=( sObjName:='WEH',sDescr:='Wet bulp temperature exhaust air');
+  LblAgg_TemperatureWetBulpOutsideAir                      :FB_BA_Label:=( sObjName:='WOU',sDescr:='Wet bulp temperature outside air');
+  LblAgg_TemperatureWetBulpRoomAir                         :FB_BA_Label:=( sObjName:='WRO',sDescr:='Wet bulp temperature room air');
+  LblAgg_TemperatureWetBulpSupplyAir                       :FB_BA_Label:=( sObjName:='WSU',sDescr:='Wet bulp temperature supply air');
+  LblAgg_TemperatureDewPointExtractAir                     :FB_BA_Label:=( sObjName:='DEX',sDescr:='Dew point temperature extract air');
+  LblAgg_TemperatureDewPointExhaustAir                     :FB_BA_Label:=( sObjName:='DEH',sDescr:='Dew point temperature exhaust air');
+  LblAgg_TemperatureDewPointOutsideAir                     :FB_BA_Label:=( sObjName:='DOU',sDescr:='Dew point temperature outside air');
+  LblAgg_TemperatureDewPointRoomAir                        :FB_BA_Label:=( sObjName:='DRO',sDescr:='Dew point temperature room air');
+  LblAgg_TemperatureDewPointSupplyAir                      :FB_BA_Label:=( sObjName:='DSU',sDescr:='Dew point temperature supply air');
 //     481 BACS sensors – pressure
   LblAgg_PressureExtractAir                                :FB_BA_Label:=( sObjName:='PEX',sDescr:='Extract air pressure');
   LblAgg_PressureOutsideAir                                :FB_BA_Label:=( sObjName:='POU',sDescr:='Outside air pressure');
@@ -178,13 +189,20 @@ VAR_GLOBAL
   LblAgg_PressureSupplyAir                                 :FB_BA_Label:=( sObjName:='PSU',sDescr:='Supply air pressure');
 //     481 BACS sensors – air quality
   LblAgg_CO2Sensor                                         :FB_BA_Label:=( sObjName:='COM',sDescr:='CO2 sensor');
+  LblAgg_CO2ExtractAir                                     :FB_BA_Label:=( sObjName:='CEX',sDescr:='Extract air CO2');
+  LblAgg_CO2ExhaustAir                                     :FB_BA_Label:=( sObjName:='CEH',sDescr:='Exhaust air CO2');
+  LblAgg_CO2OutsideAir                                     :FB_BA_Label:=( sObjName:='COU',sDescr:='Outside air CO2');
+  LblAgg_CO2RoomAir                                        :FB_BA_Label:=( sObjName:='CRO',sDescr:='Room air CO2');
+  LblAgg_CO2SupplyAir                                      :FB_BA_Label:=( sObjName:='CSU',sDescr:='Supply air CO2');
   LblAgg_QualityExtractAir                                 :FB_BA_Label:=( sObjName:='QEX',sDescr:='Extract air quality');
+  LblAgg_QualityExhaustAir                                 :FB_BA_Label:=( sObjName:='QEH',sDescr:='Exhaust air quality');
+  LblAgg_QualityOutsideAir                                 :FB_BA_Label:=( sObjName:='QOU',sDescr:='Outside air quality');
   LblAgg_OualityRoomAir                                    :FB_BA_Label:=( sObjName:='QRO',sDescr:='Room air quality');
   LblAgg_QualitiySupplyAir                                 :FB_BA_Label:=( sObjName:='QSU',sDescr:='Supply air quality');
   LblAgg_QualityAirSensor                                  :FB_BA_Label:=( sObjName:='AQS',sDescr:='Air quality sensor');
 //     481 BACS sensors – humidity
   LblAgg_Hygrostat                                         :FB_BA_Label:=( sObjName:='HYG',sDescr:='Hygrostat');
-  LblAgg_RelativeHumiditiyExtractAir                       :FB_BA_Label:=( sObjName:='HEX',sDescr:='Relative extract air humidity');
+  LblAgg_RelativeHumidityExtractAir                        :FB_BA_Label:=( sObjName:='HEX',sDescr:='Relative extract air humidity');
   LblAgg_RelativeHumidityOutsideAir                        :FB_BA_Label:=( sObjName:='HOU',sDescr:='Relative outside air humidity');
   LblAgg_RelativeHumidityExhaustAir                        :FB_BA_Label:=( sObjName:='HEH',sDescr:='Relative exhaust air humidity');
   LblAgg_MonitorCondensation                               :FB_BA_Label:=( sObjName:='HCM',sDescr:='Condensation monitor');
@@ -193,8 +211,8 @@ VAR_GLOBAL
   LblAgg_RelativeHumidityRecirculatedAir                   :FB_BA_Label:=( sObjName:='HRE',sDescr:='Relative recirculated air humidity');
   LblAgg_RelativeHumiditySupplyAir                         :FB_BA_Label:=( sObjName:='HSU',sDescr:='Relative supply air humidity');
   LblAgg_AbsoluteHumidityExtractAir                        :FB_BA_Label:=( sObjName:='XEX',sDescr:='Absolute extract air humidity');
-  LblAgg_AbsoluteHumidtiyOutsideAir                        :FB_BA_Label:=( sObjName:='XOU',sDescr:='Absolute outsie air humidity');
-  LblAgg_AbsoluteHumidtiyExhaustAir                        :FB_BA_Label:=( sObjName:='XEH',sDescr:='Absolute exhaust air humidity');
+  LblAgg_AbsoluteHumidityOutsideAir                        :FB_BA_Label:=( sObjName:='XOU',sDescr:='Absolute outsie air humidity');
+  LblAgg_AbsoluteHumidityExhaustAir                        :FB_BA_Label:=( sObjName:='XEH',sDescr:='Absolute exhaust air humidity');
   LblAgg_AbsoluteHumidityMixedAir                          :FB_BA_Label:=( sObjName:='XMI',sDescr:='Absolute mixed air humidity');
   LblAgg_AbsoluteHumidityRoomAir                           :FB_BA_Label:=( sObjName:='XRO',sDescr:='Absolute room humidity');
   LblAgg_AbsoluteHumidityRecirculatingAir                  :FB_BA_Label:=( sObjName:='XRE',sDescr:='Absolute recirculating air humidity');
@@ -230,6 +248,19 @@ VAR_GLOBAL
   LblAgg_VolumeFlowRateHotDrinkingWater                    :FB_BA_Label:=( sObjName:='VHW',sDescr:='Volume flow hot drinking water');
   LblAgg_VolumeFlowRateWaterPurification                   :FB_BA_Label:=( sObjName:='VWP',sDescr:='Volume flow water purification');
   LblAgg_VolumeFlowRateSupplyAir                           :FB_BA_Label:=( sObjName:='VSU',sDescr:='Supply air volume flow');
+//     481 BACS senors – enthalpy
+  LblAgg_Enthalpy                                          :FB_BA_Label:=( sObjName:='ETH',sDescr:='Enthalpy');
+  LblAgg_EnthalpyExtractAir                                :FB_BA_Label:=( sObjName:='EEX',sDescr:='Enthalpy extract air');
+  LblAgg_EnthalpyExhaustAir                                :FB_BA_Label:=( sObjName:='EEH',sDescr:='Enthalpy exhaust air');
+  LblAgg_EnthalpyOutsideAir                                :FB_BA_Label:=( sObjName:='EOU',sDescr:='Enthalpy outside air');
+  LblAgg_EnthalpyRoomAir                                   :FB_BA_Label:=( sObjName:='ERO',sDescr:='Enthalpy room air');
+  LblAgg_EnthalpySupplyAir                                 :FB_BA_Label:=( sObjName:='ESU',sDescr:='Enthalpy supply air');
+//     481 BACS senors – multifunctional sensor
+  LblAgg_MultiSensorExtractAir                             :FB_BA_Label:=( sObjName:='MEX',sDescr:='Multifunctional sensor extract air');
+  LblAgg_MultiSensorExhaustAir                             :FB_BA_Label:=( sObjName:='MEH',sDescr:='Multifunctional sensor exhaust air');
+  LblAgg_MultiSensorOutsideAir                             :FB_BA_Label:=( sObjName:='MOU',sDescr:='Multifunctional sensor outside air');
+  LblAgg_MultiSensorRoomAir                                :FB_BA_Label:=( sObjName:='MRO',sDescr:='Multifunctional sensor room air');
+  LblAgg_MultiSensorSupplyAir                              :FB_BA_Label:=( sObjName:='MSU',sDescr:='Multifunctional sensor supply air');
 //     481 BACS actuators – actuating drives
   LblAgg_ValveRadiator                                     :FB_BA_Label:=( sObjName:='RDV',sDescr:='Radiator valve drive');
   LblAgg_ValveCoolingCeiling                               :FB_BA_Label:=( sObjName:='CCV',sDescr:='Cooling ceiling valve drive');

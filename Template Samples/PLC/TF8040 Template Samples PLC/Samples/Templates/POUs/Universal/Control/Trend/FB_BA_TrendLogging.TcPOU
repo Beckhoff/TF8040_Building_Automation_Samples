@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_BA_TrendLogging" Id="{b8df5f84-07a1-4b04-b77d-4fe7cf191e28}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Version' := '5.0.1.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "Universal, Control, Trend"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "Universal, Control, Trend"'}
 	{attribute 'Using' := '"Type": "Template", "URI": "EC_ID"'}
@@ -39,25 +39,12 @@ VAR_INPUT
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 END_VAR 
 VAR
-	sIdx	: STRING;
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[FOR i := 1 TO TREND_COUNT DO
-//	sIdx := CONCAT(TO_STRING(i),'}');;
-
-	IF	i < 10
-	THEN
-		sIdx := CONCAT('0',TO_STRING(i));
-	ELSE
-		sIdx := TO_STRING(i);	
-	END_IF
-
-
 	Trends[i].iParent					:= THIS^;
 	Trends[i].iLabel					:= LblFun_ObjectTrendLog;
-//	Trends[i].sObjectName				:= F_BA_CONCAT03(s01:= Seperator.sFun_ObjName, s02:= Fun_ObjectTrendLog_ObjName, s03:= sIdx);  
-//	Trends[i].sDescription				:= F_BA_CONCAT03(s01:= Seperator.sFun_Descr, s02:= Fun_ObjectTrendLog_Descr, s03:= '');  
 	Trends[i].bEnable					:= BA2_Param.bTrend_DefLogEnable;
 	Trends[i].stStartTime				:= BA2_Param.stTrend_DefStartTime;
 	Trends[i].stStopTime				:= BA2_Param.stTrend_DefStopTime;	
@@ -82,9 +69,9 @@ END_FOR]]></ST>
       <LineId Id="10" Count="0" />
     </LineIds>
     <LineIds Name="FB_BA_TrendLogging.FB_init">
-      <LineId Id="177" Count="11" />
-      <LineId Id="212" Count="2" />
-      <LineId Id="191" Count="12" />
+      <LineId Id="177" Count="0" />
+      <LineId Id="188" Count="0" />
+      <LineId Id="190" Count="13" />
       <LineId Id="10" Count="0" />
     </LineIds>
   </POU>

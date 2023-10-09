@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <GVL Name="LblAggregates_DE" Id="{d5b8cdb3-c6f3-4985-9718-de207f666172}">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Version' := '5.1.0.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, AKS, Labels, ObjectName, Description"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, DPAD, Labels, ObjectName, Description"'}
 	{attribute 'Description' := '"LCID": "1031", "Text": "Anlagenkennzeichnungssystem, Labels Aggregate"'}
@@ -159,6 +159,17 @@ VAR_GLOBAL
   LblAgg_TemperatureRecirculatingAir                       :FB_BA_Label:=( sObjName:='TUM', sDescr:='Umlufttemperatur');
   LblAgg_TemperatureFlow                                   :FB_BA_Label:=( sObjName:='TVL', sDescr:='Vorlauftemperatur');
   LblAgg_TemperatureSupplyAir                              :FB_BA_Label:=( sObjName:='TZU', sDescr:='Zulufttemperatur');
+  LblAgg_TemperatureWetBulp                                :FB_BA_Label:=( sObjName:='TFK', sDescr:='Feuchtkugeltemperatur');
+  LblAgg_TemperatureWetBulpExtractAir                      :FB_BA_Label:=( sObjName:='FAB', sDescr:='Feuchtkugeltemperatur Abluft');
+  LblAgg_TemperatureWetBulpExhaustAir                      :FB_BA_Label:=( sObjName:='FFO', sDescr:='Feuchtkugeltemperatur Fortluft');
+  LblAgg_TemperatureWetBulpOutsideAir                      :FB_BA_Label:=( sObjName:='FAU', sDescr:='Feuchtkugeltemperatur Aussenluft');
+  LblAgg_TemperatureWetBulpRoomAir                         :FB_BA_Label:=( sObjName:='FRU', sDescr:='Feuchtkugeltemperatur Raumluft');
+  LblAgg_TemperatureWetBulpSupplyAir                       :FB_BA_Label:=( sObjName:='FZU', sDescr:='Feuchtkugeltemperatur Zuluft');
+  LblAgg_TemperatureDewPointExtractAir                     :FB_BA_Label:=( sObjName:='TPA', sDescr:='Taupunkttemperatur Abluft');
+  LblAgg_TemperatureDewPointExhaustAir                     :FB_BA_Label:=( sObjName:='TPF', sDescr:='Taupunkttemperatur Fortluft');
+  LblAgg_TemperatureDewPointOutsideAir                     :FB_BA_Label:=( sObjName:='TPW', sDescr:='Taupunkttemperatur Aussenluft');
+  LblAgg_TemperatureDewPointRoomAir                        :FB_BA_Label:=( sObjName:='TPR', sDescr:='Taupunkttemperatur Raumluft');
+  LblAgg_TemperatureDewPointSupplyAir                      :FB_BA_Label:=( sObjName:='TPZ', sDescr:='Taupunkttemperatur Zuluft');
 //     481 GA-Sensorik – Druck
   LblAgg_PressureExtractAir                                :FB_BA_Label:=( sObjName:='PAB', sDescr:='Abluftdruck');
   LblAgg_PressureOutsideAir                                :FB_BA_Label:=( sObjName:='PAU', sDescr:='Außenluftdruck');
@@ -178,13 +189,20 @@ VAR_GLOBAL
   LblAgg_PressureSupplyAir                                 :FB_BA_Label:=( sObjName:='PZU', sDescr:='Zuluftdruck');
 //     481 GA-Sensorik – Luftqualität
   LblAgg_CO2Sensor                                         :FB_BA_Label:=( sObjName:='COM', sDescr:='CO2-Sensor');
+  LblAgg_CO2ExtractAir                                     :FB_BA_Label:=( sObjName:='CAB', sDescr:='CO2 Abluft');
+  LblAgg_CO2ExhaustAir                                     :FB_BA_Label:=( sObjName:='CFO', sDescr:='CO2 Fortluft');
+  LblAgg_CO2OutsideAir                                     :FB_BA_Label:=( sObjName:='CAU', sDescr:='CO2 Aussenluft');
+  LblAgg_CO2RoomAir                                        :FB_BA_Label:=( sObjName:='CRU', sDescr:='CO2 Raum');
+  LblAgg_CO2SupplyAir                                      :FB_BA_Label:=( sObjName:='CZU', sDescr:='CO2 Zuluft');
   LblAgg_QualityExtractAir                                 :FB_BA_Label:=( sObjName:='QAB', sDescr:='Luftqualität Abluft');
+  LblAgg_QualityExhaustAir                                 :FB_BA_Label:=( sObjName:='QFO', sDescr:='Luftqualität Fortluft');
+  LblAgg_QualityOutsideAir                                 :FB_BA_Label:=( sObjName:='QAU', sDescr:='Luftqualität Aussenluft');
   LblAgg_OualityRoomAir                                    :FB_BA_Label:=( sObjName:='QRU', sDescr:='Luftqualität Raum');
   LblAgg_QualitiySupplyAir                                 :FB_BA_Label:=( sObjName:='QZU', sDescr:='Luftqualität Zuluft');
   LblAgg_QualityAirSensor                                  :FB_BA_Label:=( sObjName:='LQF', sDescr:='Luftqualitätsfühler');
 //     481 GA-Sensorik – Feuchte
   LblAgg_Hygrostat                                         :FB_BA_Label:=( sObjName:='HYG', sDescr:='Hygrostat');
-  LblAgg_RelativeHumiditiyExtractAir                       :FB_BA_Label:=( sObjName:='MAB', sDescr:='Abluftfeuchte relativ');
+  LblAgg_RelativeHumidityExtractAir                        :FB_BA_Label:=( sObjName:='MAB', sDescr:='Abluftfeuchte relativ');
   LblAgg_RelativeHumidityOutsideAir                        :FB_BA_Label:=( sObjName:='MAU', sDescr:='Außenfeuchte relativ');
   LblAgg_RelativeHumidityExhaustAir                        :FB_BA_Label:=( sObjName:='MFO', sDescr:='Fortluftfeuchte relativ');
   LblAgg_MonitorCondensation                               :FB_BA_Label:=( sObjName:='MKW', sDescr:='Kondensationswächter');
@@ -193,8 +211,8 @@ VAR_GLOBAL
   LblAgg_RelativeHumidityRecirculatedAir                   :FB_BA_Label:=( sObjName:='MUM', sDescr:='Umluftfeuchte relativ');
   LblAgg_RelativeHumiditySupplyAir                         :FB_BA_Label:=( sObjName:='MZU', sDescr:='Zuluftfeuchte relativ');
   LblAgg_AbsoluteHumidityExtractAir                        :FB_BA_Label:=( sObjName:='XAB', sDescr:='Abluftfeuchte absolut');
-  LblAgg_AbsoluteHumidtiyOutsideAir                        :FB_BA_Label:=( sObjName:='XAU', sDescr:='Außenluftfeuchte absolut');
-  LblAgg_AbsoluteHumidtiyExhaustAir                        :FB_BA_Label:=( sObjName:='XFO', sDescr:='Fortluftfeuchte absolut');
+  LblAgg_AbsoluteHumidityOutsideAir                        :FB_BA_Label:=( sObjName:='XAU', sDescr:='Außenluftfeuchte absolut');
+  LblAgg_AbsoluteHumidityExhaustAir                        :FB_BA_Label:=( sObjName:='XFO', sDescr:='Fortluftfeuchte absolut');
   LblAgg_AbsoluteHumidityMixedAir                          :FB_BA_Label:=( sObjName:='XMI', sDescr:='Mischluftfeuchte absolut');
   LblAgg_AbsoluteHumidityRoomAir                           :FB_BA_Label:=( sObjName:='XRU', sDescr:='Raumfeuchte absolut');
   LblAgg_AbsoluteHumidityRecirculatingAir                  :FB_BA_Label:=( sObjName:='XUM', sDescr:='Umluftfeuchte absolut');
@@ -230,6 +248,19 @@ VAR_GLOBAL
   LblAgg_VolumeFlowRateHotDrinkingWater                    :FB_BA_Label:=( sObjName:='VWW', sDescr:='Volumenstrom Trinkwasser warm');
   LblAgg_VolumeFlowRateWaterPurification                   :FB_BA_Label:=( sObjName:='VAW', sDescr:='Volumenstrom Wasseraufbereitung');
   LblAgg_VolumeFlowRateSupplyAir                           :FB_BA_Label:=( sObjName:='VZU', sDescr:='Volumenstrom Zuluft');
+//     481 GA-Sensorik – Enthalpie
+  LblAgg_Enthalpy                                          :FB_BA_Label:=( sObjName:='ETH', sDescr:='Enthalpie');
+  LblAgg_EnthalpyExtractAir                                :FB_BA_Label:=( sObjName:='EAB', sDescr:='Enthalpie Abluft');
+  LblAgg_EnthalpyExhaustAir                                :FB_BA_Label:=( sObjName:='EFO', sDescr:='Enthalpie Fortluft');
+  LblAgg_EnthalpyOutsideAir                                :FB_BA_Label:=( sObjName:='EAU', sDescr:='Enthalpie Aussenluft');
+  LblAgg_EnthalpyRoomAir                                   :FB_BA_Label:=( sObjName:='ERU', sDescr:='Enthalpie Raumluft');
+  LblAgg_EnthalpySupplyAir                                 :FB_BA_Label:=( sObjName:='EZU', sDescr:='Enthalpie Zuluft');
+//     481 GA-Sensorik – Multifunktionssensor
+  LblAgg_MultiSensorExtractAir                             :FB_BA_Label:=( sObjName:='MAB', sDescr:='Multifunktionssensor Abluft');
+  LblAgg_MultiSensorExhaustAir                             :FB_BA_Label:=( sObjName:='MFO', sDescr:='Multifunktionssensor Fortluft');
+  LblAgg_MultiSensorOutsideAir                             :FB_BA_Label:=( sObjName:='MAU', sDescr:='Multifunktionssensor Aussenluft');
+  LblAgg_MultiSensorRoomAir                                :FB_BA_Label:=( sObjName:='MRU', sDescr:='Multifunktionssensor Raum');
+  LblAgg_MultiSensorSupplyAir                              :FB_BA_Label:=( sObjName:='MZU', sDescr:='Multifunktionssensor Zuluft');
 //     481 GA-Aktorik – Stellantriebe
   LblAgg_ValveRadiator                                     :FB_BA_Label:=( sObjName:='HKV', sDescr:='Heizkörperventil-Antrieb');
   LblAgg_ValveCoolingCeiling                               :FB_BA_Label:=( sObjName:='KDV', sDescr:='Kühldeckenventil-Antrieb');
