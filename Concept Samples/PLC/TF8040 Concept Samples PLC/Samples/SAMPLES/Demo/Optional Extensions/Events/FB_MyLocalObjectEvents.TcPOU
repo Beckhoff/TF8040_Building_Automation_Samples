@@ -35,6 +35,7 @@ END_VAR
 VAR_INST
 	_nID_Temp		: UDINT						:= 5000;				// First ID to assign to temperature sensors.
 	_nID_Prs		: UDINT						:= 6000;				// First ID to assign to pressure sensors.
+	_nID_Gen		: UDINT						:= 7000;				// First ID to assign to all other objects.
 END_VAR
 VAR
 	_iAnalogObj		: I_BA_AnalogObject;
@@ -43,7 +44,7 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Sample 1) Generate instance ID related to configured units.
 
-IF (iObject.InstanceID <> 0) THEN
+IF (iObject.InstanceID <> XBA_Globals.nInstId_Auto) THEN
 	; // ID already assigned.
 ELSIF (iObject.DataClass <> E_BA_DataClass.eAnalog) THEN
 	; // Skip.
@@ -56,7 +57,7 @@ ELSE
 	ELSIF (IsPressure(_iAnalogObj.Unit)) THEN
 		_nID REF= _nID_Prs;
 	ELSE
-		RETURN; // Skip (Instance ID will be auto-generated).
+		_nID REF= _nID_Gen;
 	END_IF
 		
 	// Assign instance ID:
