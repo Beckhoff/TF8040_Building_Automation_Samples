@@ -91,6 +91,32 @@ IF (nEventClassID <> 0) THEN
 END_IF
 ]]></ST>
     </Implementation>
+    <Folder Name="[Protected] Events" Id="{4aff504b-1474-44a7-b295-050cdde9c749}" />
+    <Method Name="OnObjectEventChange" Id="{20aa6ae7-33a9-417c-8eaa-995d30bdb29f}" FolderPath="[Protected] Events\">
+      <Declaration><![CDATA[// Intention:			Illustrate how to recognize changed events.
+METHOD PROTECTED OnObjectEventChange
+VAR_INPUT
+	iObject				: I_BA_EventObject;
+	bNotifyParents		: BOOL				:= TRUE;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SUPER^.OnObjectEventChange(iObject, bNotifyParents);
+
+// Sample 1) Evaluate current event state:
+CASE (iObject.EventIcon.eState) OF
+	E_BA_EventIconState.eGoneAcked,
+	E_BA_EventIconState.ePresentAcked:
+		iObject.LogMsg.Show(ADSLOG_MSGTYPE_HINT, 'OOEC06', 'Object acknowledged.', TRUE);
+END_CASE
+
+// Sample 2) Compare actual event state to previous event state:
+IF (iObject.LastEventIcon.eState < iObject.EventIcon.eState) THEN
+	; // State intensed...
+ELSE
+	; // State softened...
+END_IF]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_Evt_Ack">
       <LineId Id="9" Count="0" />
       <LineId Id="231" Count="6" />
