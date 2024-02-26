@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_Obj_General" Id="{f07adce9-708d-4d7c-bf72-62a1785c3363}" SpecialFunc="None">
     <Declaration><![CDATA[// Demonstration of objects.
 // > See "FB_BA_EC01" to view decleared event classes.
@@ -16,7 +16,7 @@ VAR
 													iParent									:= A,
 													sDescription							:= '{Analog Value}',
 													eUnit									:= E_BA_Unit.eOther_Percent,
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													stLowLimit								:= F_BA_Limit(TRUE, 0),
 													stHighLimit								:= F_BA_Limit(TRUE, 50),
 													stTimeDelay								:= F_BA_TimeDelay(1, 1),
@@ -59,7 +59,7 @@ VAR
 													sDescription							:= '{Sample AI (Process Data)}',
 													sDeviceType								:= 'Analoger Eingang',
 													eUnit									:= E_BA_Unit.eOther_Percent,
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Input
@@ -69,7 +69,7 @@ VAR
 													sDescription							:= '{Sample AI (Raw)}',
 													sDeviceType								:= 'Analoger Eingang',
 													eUnit									:= E_BA_Unit.eOther_Percent,
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Input
@@ -79,7 +79,7 @@ VAR
 													sDescription							:= '{Sample AI (IO)}',
 													sDeviceType								:= 'Analoger Eingang',
 													eUnit									:= E_BA_Unit.eOther_Percent,
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 												
 			AI_IO_2_10V							: FB_BA_AI_IO := (
@@ -87,7 +87,7 @@ VAR
 													sDescription							:= '{Sample AI (IO)}',
 													sDeviceType								:= 'Analoger Eingang (2-10V)',
 													eUnit									:= E_BA_Unit.eOther_Percent,
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Input
@@ -98,7 +98,7 @@ VAR
 													sDeviceType								:= 'Temperaturfühler',
 													eUnit									:= E_BA_Unit.eTemperature_DegreesCelsius,
 													eSensor									:= E_BA_MeasuringElement.eNI1000,
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Input for Display
@@ -111,7 +111,7 @@ VAR
 													sDeviceType								:= 'Analoger Eingang',
 													eUnit									:= E_BA_Unit.eOther_Percent,
 													bEventDetectionEnable					:= FALSE,
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Output
@@ -120,7 +120,7 @@ VAR
 													iParent									:= A,
 													sDescription							:= '{Analog Befehl (Process Data)}',
 													eUnit									:= E_BA_Unit.eOther_Percent,
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Output
@@ -129,7 +129,7 @@ VAR
 													iParent									:= A,
 													sDescription							:= '{Analog Befehl (Raw Data)}',
 													eUnit									:= E_BA_Unit.eOther_Percent,
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Output
@@ -138,7 +138,7 @@ VAR
 													iParent									:= A,
 													sDescription							:= '{Analog Befehl (IO)}',
 													eUnit									:= E_BA_Unit.eOther_Percent,
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Output for Display
@@ -150,7 +150,7 @@ VAR
 													sDescription							:= '{Analog Befehl Display (IO)}',
 													eUnit									:= E_BA_Unit.eOther_Percent,
 													bEventDetectionEnable					:= FALSE,
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 	{endregion}
 	{region 'Binary'}
@@ -165,7 +165,7 @@ VAR
 													sDescription							:= '{Binary Value}',
 													sInactiveText							:= 'Aus',
 													sActiveText								:= 'Ein',
-													nEventClassID							:= 10
+													nEventClassID							:= MyECIDs.AlmExt
 												);
 															
 			// Intention:						Value for Display
@@ -207,7 +207,7 @@ VAR
 													sDeviceType								:= 'Sicherung',
 													sInactiveText							:= 'Normal',
 													sActiveText								:= 'Ausgelöst',
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Input
@@ -218,7 +218,7 @@ VAR
 													sDeviceType								:= 'Sicherung',
 													sInactiveText							:= 'Normal',
 													sActiveText								:= 'Ausgelöst',
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Input
@@ -230,7 +230,7 @@ VAR
 													sInactiveText							:= 'Normal',
 													sActiveText								:= 'Ausgelöst',
 													ePolarity								:= E_BA_Polarity.eReverse,
-													nEventClassID							:= 51,
+													nEventClassID							:= MyECIDs.DstStd,
 													eEnPlantLock							:= E_BA_LockPriority.eLocalMedium
 												);
 		
@@ -245,7 +245,7 @@ VAR
 													sInactiveText							:= 'Normal',
 													sActiveText								:= 'Ausgelöst',
 													ePolarity								:= E_BA_Polarity.eReverse,
-													nEventClassID							:= 182,
+													nEventClassID							:= MyECIDs.OthSmpl,
 													bEventDetectionEnable					:= FALSE
 												);
 		
@@ -256,7 +256,7 @@ VAR
 													sDescription							:= '{Sample BO Befehl (IO)}',
 													sInactiveText							:= 'Aus',
 													sActiveText								:= 'Ein',
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													stTimeDelay := (
 														nToAbnormal							:= 3
 													)
@@ -269,7 +269,7 @@ VAR
 													sDescription							:= '{Sample BO Befehl (Process Data)}',
 													sInactiveText							:= 'Aus',
 													sActiveText								:= 'Ein',
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													stTimeDelay := (
 														nToAbnormal							:= 3
 													)
@@ -282,7 +282,7 @@ VAR
 													sDescription							:= '{Sample BO Befehl (Raw Data)}',
 													sInactiveText							:= 'Aus',
 													sActiveText								:= 'Ein',
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													stTimeDelay := (
 														nToAbnormal							:= 3
 													)
@@ -297,7 +297,7 @@ VAR
 													sDescription							:= '{Sample BO Befehl Display (IO)}',
 													sInactiveText							:= 'Aus',
 													sActiveText								:= 'Ein',
-													nEventClassID							:= 182,
+													nEventClassID							:= MyECIDs.OthSmpl,
 													bEventDetectionEnable					:= FALSE
 												);
 	{endregion}
@@ -312,7 +312,7 @@ VAR
 													iParent									:= M,
 													sDescription							:= '{Sample MV}',
 													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2' ],
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 			
 			// Intention:						Value for Display
@@ -353,7 +353,7 @@ VAR
 													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
 													aAlarmValues							:= [ 3, 4 ],
 													aFaultValues							:= [ 5 ],
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Input
@@ -365,7 +365,7 @@ VAR
 													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
 													aAlarmValues							:= [ 3, 4 ],
 													aFaultValues							:= [ 5 ],
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Input
@@ -377,7 +377,7 @@ VAR
 													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
 													aAlarmValues							:= [ 3, 4 ],
 													aFaultValues							:= [ 5 ],
-													nEventClassID							:= 11
+													nEventClassID							:= MyECIDs.AlmStd
 												);
 		
 			// Intention:						Input for Display
@@ -389,7 +389,7 @@ VAR
 													sDescription							:= '{Sample MI State (IO)}',
 													sDeviceType								:= 'Gerät',
 													aStateText								:= [ 'Zustand 1', 'Zustand 2', 'Zustand 3', 'Unbekannt' ],
-													nEventClassID							:= 182,
+													nEventClassID							:= MyECIDs.OthSmpl,
 													bEventDetectionEnable					:= FALSE
 												);
 		
@@ -401,7 +401,7 @@ VAR
 													iParent									:= M,
 													sDescription							:= '{Sample MO Befehl (IO)}',
 													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
-													nEventClassID							:= 182,
+													nEventClassID							:= MyECIDs.OthSmpl,
 													bEventDetectionEnable					:= FALSE
 												);
 		
@@ -411,7 +411,7 @@ VAR
 													iParent									:= M,
 													sDescription							:= '{Sample MO Befehl (Process Data)}',
 													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
-													nEventClassID							:= 182
+													nEventClassID							:= MyECIDs.OthSmpl
 												);
 		
 			// Intention:						Output
@@ -420,7 +420,7 @@ VAR
 													iParent									:= M,
 													sDescription							:= '{Sample MO Befehl (Raw Data)}',
 													aStateText								:= [ 'Aus', 'Stufe 1', 'Stufe 2', 'Stufe 3', 'Stufe 4' ],
-													nEventClassID							:= 182
+													nEventClassID							:= MyECIDs.OthSmpl
 												);
 	{endregion}
 END_VAR
@@ -493,25 +493,5 @@ IF (MVPushButton.nPresentValue <> MVPushButton.nDefaultValue) THEN
 END_IF
 ]]></ST>
     </Implementation>
-    <LineIds Name="FB_Obj_General">
-      <LineId Id="9" Count="0" />
-      <LineId Id="319" Count="0" />
-      <LineId Id="295" Count="0" />
-      <LineId Id="1053" Count="1" />
-      <LineId Id="296" Count="0" />
-      <LineId Id="303" Count="0" />
-      <LineId Id="1484" Count="3" />
-      <LineId Id="304" Count="0" />
-      <LineId Id="308" Count="10" />
-      <LineId Id="466" Count="0" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="1055" Count="1" />
-      <LineId Id="469" Count="15" />
-      <LineId Id="597" Count="1" />
-      <LineId Id="1057" Count="1" />
-      <LineId Id="599" Count="1" />
-      <LineId Id="603" Count="15" />
-      <LineId Id="467" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

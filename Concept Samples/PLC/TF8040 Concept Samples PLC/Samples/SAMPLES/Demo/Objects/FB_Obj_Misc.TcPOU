@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_Obj_Misc" Id="{69b1c2ea-7343-455f-ae88-cfe6d2858d6e}" SpecialFunc="None">
     <Declaration><![CDATA[// Demonstration of objects.
 // > See "FB_BA_EC01" to view decleared event classes.
@@ -231,7 +231,7 @@ VAR
 			TrendPoll							: FB_BA_Trend := (
 													iParent									:= Trnd,
 													sDescription							:= '{Sample Trend}',
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													bEnable									:= TRUE,
 													stStartTime								:= F_BA_ToSTDateTime(DT#2010-01-01-00:00),
 													eLoggingType							:= E_BA_LoggingType.ePolled,
@@ -251,7 +251,7 @@ VAR
 			TrendTrig							: FB_BA_Trend := (
 													iParent									:= Trnd,
 													sDescription							:= '{Sample Trend}',
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													bEnable									:= TRUE,
 													stStartTime								:= F_BA_ToSTDateTime(DT#2010-01-01-00:00),
 													eLoggingType							:= E_BA_LoggingType.eTriggered,
@@ -264,13 +264,13 @@ VAR
 													iParent									:= Trnd,
 													sDescription							:= '{Referenced analog object for COV}',
 													eUnit									:= E_BA_Unit.eOther_Percent,
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													bEventDetectionEnable					:= FALSE
 												);
 			TrendCovAI							: FB_BA_Trend := (
 													iParent									:= Trnd,
 													sDescription							:= '{Sample Analog Trend COV}',
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													bEnable									:= TRUE,
 													nBufferSize								:= 100,
 													eLoggingType							:= E_BA_LoggingType.eCOV,
@@ -281,33 +281,33 @@ VAR
 													sDescription							:= '{Referenced binary object for COV}',
 													sInactiveText							:= 'Off',
 													sActiveText								:= 'On',
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													bEventDetectionEnable					:= FALSE
 												);
 			TrendCovBI							: FB_BA_Trend := (
 													iParent									:= Trnd,
 													sDescription							:= '{Sample Binary Trend COV}',
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													bEnable									:= TRUE,
 													nBufferSize								:= 100,
 													eLoggingType							:= E_BA_LoggingType.eCOV,
-													stReferencedParam							:= F_BA_Reference(CovBI, E_BA_Parameter.ePresentValue)
+													stReferencedParam						:= F_BA_Reference(CovBI, E_BA_Parameter.ePresentValue)
 												);
 			CovMI								: FB_BA_MI := (
 													iParent									:= Trnd,
 													sDescription							:= '{Referenced multistate object for COV}',
 													aStateText								:= ['Eco', 'Standard', 'Comfort'],
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													bEventDetectionEnable					:= FALSE
 												);
 			TrendCovMI							: FB_BA_Trend := (
 													iParent									:= Trnd,
 													sDescription							:= '{Sample Multistate Trend COV}',
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													bEnable									:= TRUE,
 													nBufferSize								:= 100,
 													eLoggingType							:= E_BA_LoggingType.eCOV,
-													stReferencedParam							:= F_BA_Reference(CovMI, E_BA_Parameter.ePresentValue)
+													stReferencedParam						:= F_BA_Reference(CovMI, E_BA_Parameter.ePresentValue)
 												);
 													 
 			// Intention:						Multiple trend objects as array
@@ -318,7 +318,7 @@ VAR
 				Trend							: ARRAY[1 .. TREND_COUNT] OF FB_BA_Trend := [TREND_COUNT((
 													iParent									:= Trends,
 													iLabel									:= MyLabels.Trnd,
-													nEventClassID							:= 11,
+													nEventClassID							:= MyECIDs.AlmStd,
 													eLoggingType							:= E_BA_LoggingType.eCOV
 												))];
 	{endregion}
@@ -387,41 +387,5 @@ FOR _i := 1 TO TREND_COUNT DO
 END_FOR
 ]]></ST>
     </Implementation>
-    <LineIds Name="FB_Obj_Misc">
-      <LineId Id="9" Count="0" />
-      <LineId Id="319" Count="0" />
-      <LineId Id="710" Count="0" />
-      <LineId Id="759" Count="0" />
-      <LineId Id="711" Count="1" />
-      <LineId Id="811" Count="0" />
-      <LineId Id="810" Count="0" />
-      <LineId Id="809" Count="0" />
-      <LineId Id="812" Count="0" />
-      <LineId Id="814" Count="5" />
-      <LineId Id="874" Count="0" />
-      <LineId Id="872" Count="0" />
-      <LineId Id="875" Count="1" />
-      <LineId Id="813" Count="0" />
-      <LineId Id="1806" Count="0" />
-      <LineId Id="757" Count="1" />
-      <LineId Id="713" Count="2" />
-      <LineId Id="720" Count="0" />
-      <LineId Id="725" Count="2" />
-      <LineId Id="1430" Count="0" />
-      <LineId Id="2149" Count="0" />
-      <LineId Id="881" Count="0" />
-      <LineId Id="888" Count="0" />
-      <LineId Id="948" Count="0" />
-      <LineId Id="928" Count="0" />
-      <LineId Id="1040" Count="0" />
-      <LineId Id="2494" Count="1" />
-      <LineId Id="1039" Count="0" />
-      <LineId Id="1037" Count="0" />
-      <LineId Id="1047" Count="3" />
-      <LineId Id="1028" Count="5" />
-      <LineId Id="929" Count="0" />
-      <LineId Id="931" Count="2" />
-      <LineId Id="753" Count="1" />
-    </LineIds>
   </POU>
 </TcPlcObject>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_Evt_Events" Id="{b218198f-fd5a-469c-b5b5-684d23708b65}" SpecialFunc="None">
     <Declaration><![CDATA[// Examples of objects that refer different event classes.
 // > One object per 'EventType' and 'AlarmMode'.
@@ -20,13 +20,13 @@ VAR
 							
 			BIAlmSmpl_Val		: REFERENCE TO BOOL				REF= BIAlmSmpl.bVal;
 			BIAlmSmpl_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BIAlmSmpl.eEnPlantLock);
-			BIAlmSmpl			: FB_BA_BI						:= (iParent:=Alm,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=12);
+			BIAlmSmpl			: FB_BA_BI						:= (iParent:=Alm,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.AlmSmpl);
 			BIAlmStd_Val		: REFERENCE TO BOOL				REF= BIAlmStd.bVal;
 			BIAlmStd_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BIAlmStd.eEnPlantLock);
-			BIAlmStd			: FB_BA_BI						:= (iParent:=Alm,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=11,	eEnPlantLock:= E_BA_LockPriority.eHigh);
+			BIAlmStd			: FB_BA_BI						:= (iParent:=Alm,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.AlmStd,	eEnPlantLock:= E_BA_LockPriority.eHigh);
 			BIAlmExt_Val		: REFERENCE TO BOOL				REF= BIAlmExt.bVal;
 			BIAlmExt_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BIAlmExt.eEnPlantLock);
-			BIAlmExt			: FB_BA_BI						:= (iParent:=Alm,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=10);
+			BIAlmExt			: FB_BA_BI						:= (iParent:=Alm,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.AlmExt);
 	{endregion}
 	{region 'Disturb'}
 		Dstb					: FB_BA_View					:= (iParent:=THIS^,	sDescription:='{Disturb}');
@@ -34,13 +34,13 @@ VAR
 
 			BIDstbSmpl_Val		: REFERENCE TO BOOL				REF= BIDstbSmpl.bVal;
 			BIDstbSmpl_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BIDstbSmpl.eEnPlantLock);
-			BIDstbSmpl			: FB_BA_BI						:= (iParent:=Dstb,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=52);
+			BIDstbSmpl			: FB_BA_BI						:= (iParent:=Dstb,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.DstSmpl);
 			BIDstbStd_Val		: REFERENCE TO BOOL				REF= BIDstbStd.bVal;
 			BIDstbStd_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BIDstbStd.eEnPlantLock);
-			BIDstbStd			: FB_BA_BI						:= (iParent:=Dstb,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=51,	eEnPlantLock:= E_BA_LockPriority.eMedium);
+			BIDstbStd			: FB_BA_BI						:= (iParent:=Dstb,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.DstStd,	eEnPlantLock:= E_BA_LockPriority.eMedium);
 			BIDstbExt_Val		: REFERENCE TO BOOL				REF= BIDstbExt.bVal;
 			BIDstbExt_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BIDstbExt.eEnPlantLock);
-			BIDstbExt			: FB_BA_BI						:= (iParent:=Dstb,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=50);
+			BIDstbExt			: FB_BA_BI						:= (iParent:=Dstb,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.DstExt);
 	{endregion}
 	{region 'Maintenance'}
 		Mntn					: FB_BA_View					:= (iParent:=THIS^,	sDescription:='{Maintenance}');
@@ -48,13 +48,13 @@ VAR
 
 			BIMntnSmpl_Val		: REFERENCE TO BOOL				REF= BIMntnSmpl.bVal;
 			BIMntnSmpl_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BIMntnSmpl.eEnPlantLock);
-			BIMntnSmpl			: FB_BA_BI						:= (iParent:=Mntn,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=92);
+			BIMntnSmpl			: FB_BA_BI						:= (iParent:=Mntn,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.MntnSmpl);
 			BIMntnStd_Val		: REFERENCE TO BOOL				REF= BIMntnStd.bVal;
 			BIMntnStd_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BIMntnStd.eEnPlantLock);
-			BIMntnStd			: FB_BA_BI						:= (iParent:=Mntn,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=91,	eEnPlantLock:= E_BA_LockPriority.eLocalHigh);
+			BIMntnStd			: FB_BA_BI						:= (iParent:=Mntn,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.MntnStd,	eEnPlantLock:= E_BA_LockPriority.eLocalHigh);
 			BIMntnExt_Val		: REFERENCE TO BOOL				REF= BIMntnExt.bVal;
 			BIMntnExt_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BIMntnExt.eEnPlantLock);
-			BIMntnExt			: FB_BA_BI						:= (iParent:=Mntn,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=90);
+			BIMntnExt			: FB_BA_BI						:= (iParent:=Mntn,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.MntnExt);
 	{endregion}
 	{region 'Notification'}
 		Ntfy					: FB_BA_View					:= (iParent:=THIS^,	sDescription:='{Notification}');
@@ -62,10 +62,10 @@ VAR
 
 			BINtfySmpl_Val		: REFERENCE TO BOOL				REF= BINtfySmpl.bVal;
 			BINtfySmpl_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BINtfySmpl.eEnPlantLock);
-			BINtfySmpl			: FB_BA_BI						:= (iParent:=Ntfy,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=132);
+			BINtfySmpl			: FB_BA_BI						:= (iParent:=Ntfy,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.NtfSmpl);
 			BINtfyStd_Val		: REFERENCE TO BOOL				REF= BINtfyStd.bVal;
 			BINtfyStd_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BINtfyStd.eEnPlantLock);
-			BINtfyStd			: FB_BA_BI						:= (iParent:=Ntfy,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=131,	eEnPlantLock:= E_BA_LockPriority.eLocalMedium);
+			BINtfyStd			: FB_BA_BI						:= (iParent:=Ntfy,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.NtfStd,	eEnPlantLock:= E_BA_LockPriority.eLocalMedium);
 	{endregion}
 	{region 'Other'}
 		Other					: FB_BA_View					:= (iParent:=THIS^,	sDescription:='{Other}');
@@ -73,10 +73,10 @@ VAR
 				 
 			BIOthrSmpl_Val		: REFERENCE TO BOOL				REF= BIOthrSmpl.bVal;
 			BIOthrSmpl_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BIOthrSmpl.eEnPlantLock);
-			BIOthrSmpl			: FB_BA_BI						:= (iParent:=Other,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=182);
+			BIOthrSmpl			: FB_BA_BI						:= (iParent:=Other,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.OthSmpl);
 			BIOthrStd_Val		: REFERENCE TO BOOL				REF= BIOthrStd.bVal;
 			BIOthrStd_LockPrio	: POINTER TO E_BA_LockPriority	:= ADR(BIOthrStd.eEnPlantLock);
-			BIOthrStd			: FB_BA_BI						:= (iParent:=Other,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=181);
+			BIOthrStd			: FB_BA_BI						:= (iParent:=Other,	iLabel:=MyLabels.Cmd,	iProfile:=MyProfiles.CmdB,	nEventClassID:=MyECIDs.OthStd);
 	{endregion}                                                
 END_VAR
 ]]></Declaration>

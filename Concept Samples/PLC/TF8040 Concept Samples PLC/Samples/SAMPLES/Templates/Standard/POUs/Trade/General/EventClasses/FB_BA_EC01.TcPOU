@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.9">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_BA_EC01" Id="{4e92d919-3d0a-42aa-8547-5b7fc4caebbe}" SpecialFunc="None">
     <Declaration><![CDATA[// Template of event classes.
 FUNCTION_BLOCK FB_BA_EC01 EXTENDS FB_BA_View
@@ -10,7 +10,7 @@ VAR
 	{region 'Alarm'}
 		AlmSmpl			: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 12,
+							nInstanceID				:= MyECIDs.AlmSmpl,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Alarm (Einfach)}',
 							eEventType				:= E_BA_EventType.eAlarm,
@@ -19,7 +19,7 @@ VAR
 						);
 		AlmStd			: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 11,
+							nInstanceID				:= MyECIDs.AlmStd,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Alarm (Standard)}',
 							eEventType				:= E_BA_EventType.eAlarm,
@@ -28,7 +28,7 @@ VAR
 						);
 		AlmExt			: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 10,
+							nInstanceID				:= MyECIDs.AlmExt,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Alarm (Erweitert)}',
 							eEventType				:= E_BA_EventType.eAlarm,
@@ -39,7 +39,7 @@ VAR
 	{region 'Disturb'}
 		DstSmpl			: FB_BA_EC	:= (
 							iParent					:= THIS^,
-							nInstanceID				:= 52,
+							nInstanceID				:= MyECIDs.DstSmpl,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Störung (Einfach)}',
 							eEventType				:= E_BA_EventType.eDisturb,
@@ -48,7 +48,7 @@ VAR
 						);
 		DstStd			: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 51,
+							nInstanceID				:= MyECIDs.DstStd,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Störung (Standard)}',
 							eEventType				:= E_BA_EventType.eDisturb,
@@ -57,7 +57,7 @@ VAR
 						);
 		DstExt			: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 50,
+							nInstanceID				:= MyECIDs.DstExt,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Störung (Erweitert)}',
 							eEventType				:= E_BA_EventType.eDisturb,
@@ -68,7 +68,7 @@ VAR
 	{region 'Maintenance'}
 		MntnSmpl		: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 92,
+							nInstanceID				:= MyECIDs.MntnSmpl,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Wartung (Einfach)}',
 							eEventType				:= E_BA_EventType.eMaintenance,
@@ -77,7 +77,7 @@ VAR
 						);
 		MntnStd			: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 91,
+							nInstanceID				:= MyECIDs.MntnStd,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Wartung (Standard)}',
 							eEventType				:= E_BA_EventType.eMaintenance,
@@ -87,7 +87,7 @@ VAR
 
 		MntnExt			: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 90,
+							nInstanceID				:= MyECIDs.MntnExt,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Wartung (Erweitert)}',
 							eEventType				:= E_BA_EventType.eMaintenance,
@@ -98,7 +98,7 @@ VAR
 	{region 'Notification'}
 		NtfSmpl			: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 132,
+							nInstanceID				:= MyECIDs.NtfSmpl,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Benachrichtigung (Einfach)}',
 							eEventType				:= E_BA_EventType.eNotification,
@@ -107,7 +107,7 @@ VAR
 						);
 		NtfStd			: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 131,
+							nInstanceID				:= MyECIDs.NtfStd,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Benachrichtigung (Standard)}',
 							eEventType				:= E_BA_EventType.eNotification,
@@ -118,7 +118,7 @@ VAR
 	{region 'Other'}
 		OthSmpl			: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 182,
+							nInstanceID				:= MyECIDs.OthSmpl,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Sonstiges (Einfach)}',
 							eEventType				:= E_BA_EventType.eOther,
@@ -127,7 +127,7 @@ VAR
 						);
 		OthStd			: FB_BA_EC := (
 							iParent					:= THIS^,
-							nInstanceID				:= 181,
+							nInstanceID				:= MyECIDs.OthStd,
 							sObjectName				:= OBJECT_NAME,
 							sDescription			:= '{Sonstiges (Standard)}',
 							eEventType				:= E_BA_EventType.eOther,
