@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="Site" Id="{2dfd4d5e-1a1f-4620-973a-caea0fa82a41}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.1.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, Publisher, Subscriber"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, Publisher, Subscriber"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_GeneralSettings"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "E_BA_EnergyLvlEx"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "E_BA_BuildingMode"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_BuildingSunBlind"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_BuildingAlarms"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_WeatherStation"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_Facade"'}		 
+	{attribute 'Description' := '"LCID": "1031", "Text": "Ams NetId, Subject"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Ams NetId, Subject"'}
+{endregion}
+
+{attribute 'qualified_only'}
+VAR_GLOBAL	
+	Self_NetId						: T_BA_MedString	:= '127.0.0.1.1.1';
+	ACE01_NetId						: T_BA_MedString	:= Self_NetId;
+	ACE02_NetId						: T_BA_MedString	:= Self_NetId;
+	ACE03_NetId						: T_BA_MedString	:= Self_NetId;
+	ACE04_NetId						: T_BA_MedString	:= Self_NetId;
+	ACE05_NetId						: T_BA_MedString	:= Self_NetId;
+	                            	
+	GeneralSettings_Subject			: T_BA_MedString	:= 'GeneralSettings';	
+	GeneralSettings_NetId			: T_BA_MedString	:= Self_NetId;	
+		                        	
+	WeatherStation_Subject			: T_BA_MedString	:= 'WeatherStation';
+	WeatherStation_NetId			: T_BA_MedString	:= Self_NetId;
+                                	
+	FacadeNorth_NetId				: T_BA_MedString	:= ACE01_NetId;
+	FacadeNorth_Subject				: T_BA_MedString	:= 'FcdNorth.FacadeSunBlind';
+	FacadeEast_NetId				: T_BA_MedString	:= ACE01_NetId;
+	FacadeEast_Subject				: T_BA_MedString	:= 'FcdEast.FacadeSunBlind';
+	FacadeSouth_NetId				: T_BA_MedString	:= ACE01_NetId;
+	FacadeSouth_Subject				: T_BA_MedString	:= 'FcdSouth.FacadeSunBlind';
+	FacadeWest_NetId				: T_BA_MedString	:= ACE01_NetId;
+	FacadeWest_Subject				: T_BA_MedString	:= 'FcdWest.FacadeSunBlind';
+                                	
+	Building_NetId					: T_BA_MedString	:= ACE01_NetId;
+	BuildingAlarms_Subject			: T_BA_MedString	:= 'BuildingAlarms';
+	BuildingMode_Subject			: T_BA_MedString	:= 'BuildingMode';
+	BuildingEnergyLevel_Subject		: T_BA_MedString	:= 'BuildingEnergyLevel';
+	BuildingSpRmT_Subject			: T_BA_MedString	:= 'BuildingSpRmT';
+	BuildingSunProtection_Subject	: T_BA_MedString	:= 'BuildingSunProtection';
+	
+	
+	stGeneralSettings				: ST_BA_GeneralSettings;	// published by FB_BA_Settings	
+	bGeneralSettings_Error			: BOOL;	
+	eBuildingEnergyLevel			: E_BA_EnergyLvlEx;			// published by FB_BA_BuildingEnergyLevel
+	bBuildingEnergyLevel_Error		: BOOL;
+	eBuildingMode					: E_BA_BuildingMode;		// published by FB_BA_BuildingMode
+	bBuildingMode_Error				: BOOL;
+	stBuildingSunBlind				: ST_BA_BuildingSunBlind;	// published by FB_BA_BuildingSunprotection
+	bBuildingSunBlind_Error			: BOOL;
+	stBuildingAlarms				: ST_BA_BuildingAlarms;		// published by FB_BA_BuildingAlarms
+	bBuildingAlarms_Error			: BOOL;
+	stWeatherStation				: ST_BA_WeatherStation;		// published by FB_BA_WeatherStation_xxx
+	bWeatherStation_Error			: BOOL;
+	stFacadeNorthSunBlind			: ST_BA_Facade;				// published by FB_BA_Facade
+	bFacadeNorthSunBlind_Error		: BOOL;
+	stFacadeEastSunBlind			: ST_BA_Facade;				// published by FB_BA_Facade
+	bFacadeEastSunBlind_Error		: BOOL;
+	stFacadeSouthSunBlind			: ST_BA_Facade;				// published by FB_BA_Facade
+	bFacadeSouthSunBlind_Error		: BOOL;
+	stFacadeWestSunBlind			: ST_BA_Facade;				// published by FB_BA_Facade
+	bFacadeWestSunBlind_Error		: BOOL;
+	stBuildingSpRmT					: ST_BA_SpRmT;				// Published by FB_BA_BuildingSpRmT
+	bBuildingSpRmT_Error			: BOOL;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

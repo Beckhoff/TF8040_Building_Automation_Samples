@@ -23320,7 +23320,7 @@
         "BaSite": {
             "ENABLED": true,
             "NAME": "BaSite",
-            "PATH": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.BaSite.2.6.0\\runtimes\\any\\native\\",
+            "PATH": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.BaSite.2.8.7\\runtimes\\any\\native\\",
             "REQUIRED": false,
             "STARTUPTYPE": 1
         },
@@ -24507,6 +24507,29 @@
             "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
+        "BaSite.AcknowledgeBaObject": {
+            "ACCESS": 3,
+            "DOMAIN": "BaSite",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "AcknowledgeBaObject",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true,
+                "writeValue": {
+                    "properties": {
+                        "BaObjectInstancePath": {
+                            "type": "string"
+                        },
+                        "DeviceName": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "USEMAPPING": true
+        },
         "BaSite.AcknowledgeableEventCountPerType": {
             "ACCESS": 3,
             "CUSTOMERDATA": "",
@@ -24563,21 +24586,24 @@
             "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
-        "BaSite.CheckBaDeviceMapping": {
+        "BaSite.ClearUserData": {
             "ACCESS": 3,
-            "CUSTOMERDATA": "",
             "DOMAIN": "BaSite",
             "DYNAMIC": false,
             "HIDDEN": true,
-            "MAPPING": "CheckBaDeviceMapping",
+            "MAPPING": "ClearUserData",
             "OPTIONS": {},
             "SCHEMA": {
                 "function": true,
                 "writeValue": {
-                    "type": "string"
+                    "properties": {
+                        "userName": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 }
             },
-            "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
         "BaSite.Config": {
@@ -24589,31 +24615,6 @@
             "MAPPING": "Config",
             "OPTIONS": {},
             "SCHEMA": {},
-            "SUBSYMBOL_MAPPING": "",
-            "USEMAPPING": true
-        },
-        "BaSite.ConfirmBaObject": {
-            "ACCESS": 3,
-            "CUSTOMERDATA": "",
-            "DOMAIN": "BaSite",
-            "DYNAMIC": false,
-            "HIDDEN": true,
-            "MAPPING": "ConfirmBaObject",
-            "OPTIONS": {},
-            "SCHEMA": {
-                "function": true,
-                "writeValue": {
-                    "properties": {
-                        "BaObjectInstancePath": {
-                            "type": "string"
-                        },
-                        "DeviceName": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                }
-            },
             "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
@@ -24885,6 +24886,18 @@
             "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
+        "BaSite.GetBaAdditionalParameterInformation": {
+            "ACCESS": 3,
+            "DOMAIN": "BaSite",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "GetBaAdditionalParameterInformation",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true
+            },
+            "USEMAPPING": true
+        },
         "BaSite.GetBaDevice": {
             "ACCESS": 3,
             "CUSTOMERDATA": "",
@@ -24909,20 +24922,6 @@
             "DYNAMIC": false,
             "HIDDEN": true,
             "MAPPING": "GetBaDevices",
-            "OPTIONS": {},
-            "SCHEMA": {
-                "function": true
-            },
-            "SUBSYMBOL_MAPPING": "",
-            "USEMAPPING": true
-        },
-        "BaSite.GetBaExtensionTypes": {
-            "ACCESS": 3,
-            "CUSTOMERDATA": "",
-            "DOMAIN": "BaSite",
-            "DYNAMIC": false,
-            "HIDDEN": true,
-            "MAPPING": "GetBaExtensionTypes",
             "OPTIONS": {},
             "SCHEMA": {
                 "function": true
@@ -25106,6 +25105,18 @@
             "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
+        "BaSite.GetUserLevelGroups": {
+            "ACCESS": 3,
+            "DOMAIN": "BaSite",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "GetUserLevelGroups",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true
+            },
+            "USEMAPPING": true
+        },
         "BaSite.GetValueRange": {
             "ACCESS": 3,
             "CUSTOMERDATA": "",
@@ -25132,6 +25143,22 @@
                 }
             },
             "SUBSYMBOL_MAPPING": "",
+            "USEMAPPING": true
+        },
+        "BaSite.GetValueRanges": {
+            "ACCESS": 3,
+            "DOMAIN": "BaSite",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "GetValueRanges",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true,
+                "writeValue": {
+                    "items": {},
+                    "type": "array"
+                }
+            },
             "USEMAPPING": true
         },
         "BaSite.ListSymbols": {
@@ -25293,24 +25320,6 @@
                         }
                     },
                     "type": "object"
-                }
-            },
-            "SUBSYMBOL_MAPPING": "",
-            "USEMAPPING": true
-        },
-        "BaSite.UpdateValueRanges": {
-            "ACCESS": 3,
-            "CUSTOMERDATA": "",
-            "DOMAIN": "BaSite",
-            "DYNAMIC": false,
-            "HIDDEN": true,
-            "MAPPING": "UpdateValueRanges",
-            "OPTIONS": {},
-            "SCHEMA": {
-                "function": true,
-                "writeValue": {
-                    "items": {},
-                    "type": "array"
                 }
             },
             "SUBSYMBOL_MAPPING": "",
@@ -28557,10 +28566,12 @@
                 "ADS.AdsSyncReadStateReq": 3,
                 "ADS.CheckLicense": 3,
                 "ADS.Diagnostics": 1,
+                "BaSite.AcknowledgeBaObject": 3,
                 "BaSite.AcknowledgeableEventCountPerType": 3,
                 "BaSite.AssignBaObjectToUnusedTrend": 3,
                 "BaSite.ChangeLocale": 3,
                 "BaSite.CheckBaDeviceMapping": 3,
+                "BaSite.ClearUserData": 3,
                 "BaSite.ConfirmBaObject": 3,
                 "BaSite.DeleteTrendCollection": 3,
                 "BaSite.DeleteUserData": 3,
@@ -28568,6 +28579,7 @@
                 "BaSite.EventCountPerType": 3,
                 "BaSite.EventHistory": 3,
                 "BaSite.Events": 3,
+                "BaSite.GetBaAdditionalParameterInformation": 3,
                 "BaSite.GetBaDevice": 3,
                 "BaSite.GetBaDevices": 3,
                 "BaSite.GetBaExtensionTypes": 3,
@@ -28581,7 +28593,9 @@
                 "BaSite.GetReferringObjects": 3,
                 "BaSite.GetSchema": 3,
                 "BaSite.GetUnits": 3,
+                "BaSite.GetUserLevelGroups": 3,
                 "BaSite.GetValueRange": 3,
+                "BaSite.GetValueRanges": 3,
                 "BaSite.ListSymbols": 3,
                 "BaSite.LoadTrendCollections": 3,
                 "BaSite.LoadUserData": 3,
@@ -28728,14 +28742,14 @@
     "VIDEOSEGMENTSIZE": 1048576,
     "VIRTUALDIRECTORIES": {
         "/": "..\\..\\TF8040 Concept Samples HMI\\",
-        "/Beckhoff.TwinCAT.HMI.BA.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Controls.2.6.0\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.BA.Framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Framework.2.6.0\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.BA.Icons": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Icons.2.6.0\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.760.48\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.760.48\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.ResponsiveNavigation": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.ResponsiveNavigation.12.760.48\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Controls.2.8.7\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.Framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Framework.2.8.7\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.Icons": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Icons.2.8.7\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.760.59\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.760.59\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.ResponsiveNavigation": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.ResponsiveNavigation.12.760.59\\runtimes\\native1.12-tchmi",
         "/bin": "..\\..\\TF8040 Concept Samples HMI\\bin\\",
         "/bin/framework": "..\\..\\TF8040 Concept Samples HMI\\bin\\framework",
-        "/framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.760.48\\runtimes\\native1.12-tchmi"
+        "/framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.760.59\\runtimes\\native1.12-tchmi"
     }
 }
