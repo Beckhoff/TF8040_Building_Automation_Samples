@@ -106,6 +106,9 @@ stages:
   jobs:
   - deployment: Release
     environment: 'TF8040-Release-Samples'
+    pool:
+      name: TwinCAT-Builds
+      demands: MD_SMALL
     strategy:
       runOnce:
         deploy:
@@ -122,8 +125,7 @@ stages:
     displayName: Tag commit
     pool:
       name: TwinCAT-Builds
-      demands:
-        - MD_SMALL
+      demands: MD_SMALL
     steps:
           
     - powershell: |
