@@ -23320,7 +23320,7 @@
         "BaSite": {
             "ENABLED": true,
             "NAME": "BaSite",
-            "PATH": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.BaSite.2.8.7\\runtimes\\any\\native\\",
+            "PATH": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.BaSite.2.11.1\\runtimes\\any\\native\\",
             "REQUIRED": false,
             "STARTUPTYPE": 1
         },
@@ -24108,6 +24108,7 @@
         },
         "ADS.GetSystemId": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
             "DYNAMIC": false,
             "HIDDEN": true,
@@ -24117,6 +24118,7 @@
                 "function": true,
                 "type": "string"
             },
+            "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
         "ADS.ListCommonTypes": {
@@ -24509,6 +24511,7 @@
         },
         "BaSite.AcknowledgeBaObject": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "BaSite",
             "DYNAMIC": false,
             "HIDDEN": true,
@@ -24528,6 +24531,7 @@
                     "type": "object"
                 }
             },
+            "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
         "BaSite.AcknowledgeableEventCountPerType": {
@@ -24539,7 +24543,25 @@
             "MAPPING": "AcknowledgeableEventCountPerType",
             "OPTIONS": {},
             "SCHEMA": {
-                "function": true
+                "function": true,
+                "writeValue": {
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "properties": {
+                                "BaObjectInstancePath": {
+                                    "type": "string"
+                                },
+                                "DeviceName": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    ]
+                }
             },
             "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
@@ -24588,6 +24610,7 @@
         },
         "BaSite.ClearUserData": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "BaSite",
             "DYNAMIC": false,
             "HIDDEN": true,
@@ -24604,6 +24627,7 @@
                     "type": "object"
                 }
             },
+            "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
         "BaSite.Config": {
@@ -24683,12 +24707,12 @@
                 "function": true,
                 "properties": {
                     "adsDllVersion": {
-                        "propertyOrder": 2,
+                        "propertyOrder": 3,
                         "readOnly": true,
                         "type": "string"
                     },
                     "compatibleSiteServerVersion": {
-                        "propertyOrder": 3,
+                        "propertyOrder": 2,
                         "readOnly": true,
                         "type": "string"
                     },
@@ -24794,12 +24818,17 @@
                             ],
                             "type": "object"
                         },
-                        "propertyOrder": 4,
+                        "propertyOrder": 5,
                         "readOnly": true,
                         "type": "object"
                     },
                     "siteApiVersion": {
                         "propertyOrder": 1,
+                        "readOnly": true,
+                        "type": "string"
+                    },
+                    "tcHmiSrvExtVersion": {
+                        "propertyOrder": 4,
                         "readOnly": true,
                         "type": "string"
                     }
@@ -24888,6 +24917,7 @@
         },
         "BaSite.GetBaAdditionalParameterInformation": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "BaSite",
             "DYNAMIC": false,
             "HIDDEN": true,
@@ -24896,6 +24926,7 @@
             "SCHEMA": {
                 "function": true
             },
+            "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
         "BaSite.GetBaDevice": {
@@ -24924,7 +24955,22 @@
             "MAPPING": "GetBaDevices",
             "OPTIONS": {},
             "SCHEMA": {
-                "function": true
+                "function": true,
+                "writeValue": {
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "properties": {
+                                "LoadChildren": {
+                                    "type": "boolean"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    ]
+                }
             },
             "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
@@ -25107,6 +25153,7 @@
         },
         "BaSite.GetUserLevelGroups": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "BaSite",
             "DYNAMIC": false,
             "HIDDEN": true,
@@ -25115,6 +25162,7 @@
             "SCHEMA": {
                 "function": true
             },
+            "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
         "BaSite.GetValueRange": {
@@ -25147,6 +25195,7 @@
         },
         "BaSite.GetValueRanges": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "BaSite",
             "DYNAMIC": false,
             "HIDDEN": true,
@@ -25158,6 +25207,19 @@
                     "items": {},
                     "type": "array"
                 }
+            },
+            "SUBSYMBOL_MAPPING": "",
+            "USEMAPPING": true
+        },
+        "BaSite.ListSymbolNames": {
+            "ACCESS": 3,
+            "DOMAIN": "BaSite",
+            "DYNAMIC": false,
+            "HIDDEN": true,
+            "MAPPING": "ListSymbolNames",
+            "OPTIONS": {},
+            "SCHEMA": {
+                "function": true
             },
             "USEMAPPING": true
         },
@@ -25690,6 +25752,7 @@
         },
         "Export": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
             "DYNAMIC": false,
             "HIDDEN": true,
@@ -25717,6 +25780,7 @@
                     "type": "object"
                 }
             },
+            "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
         "ForceLogout": {
@@ -25901,6 +25965,7 @@
         },
         "GetFileInformation": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "TcHmiSrv",
             "DYNAMIC": false,
             "HIDDEN": true,
@@ -25926,6 +25991,7 @@
                     "type": "string"
                 }
             },
+            "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
         "GetSchema": {
@@ -26027,12 +26093,16 @@
         },
         "IFP01": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "BaSite",
             "DYNAMIC": true,
+            "HIDDEN": false,
             "MAPPING": "IFP01",
+            "OPTIONS": {},
             "SCHEMA": {
                 "$ref": "tchmi:server#/definitions/BA.IFP01"
             },
+            "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
         },
         "IFP01.MAIN.Events.BIAlmExt.bVal": {
@@ -26382,10 +26452,12 @@
         },
         "IFP01.MAIN.Misc.SchedA.aCalendar": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
             "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "IFP01::MAIN::Misc::SchedA::aCalendar",
+            "OPTIONS": {},
             "SCHEMA": {
                 "allOf": [
                     {
@@ -26399,14 +26471,18 @@
                         "propertyOrder": 37
                     }
                 ]
-            }
+            },
+            "SUBSYMBOL_MAPPING": "",
+            "USEMAPPING": true
         },
         "IFP01.MAIN.Misc.SchedA.aException": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
             "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "IFP01::MAIN::Misc::SchedA::aException",
+            "OPTIONS": {},
             "SCHEMA": {
                 "allOf": [
                     {
@@ -26420,14 +26496,18 @@
                         "propertyOrder": 38
                     }
                 ]
-            }
+            },
+            "SUBSYMBOL_MAPPING": "",
+            "USEMAPPING": true
         },
         "IFP01.MAIN.Misc.SchedA.aWeek": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
             "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "IFP01::MAIN::Misc::SchedA::aWeek",
+            "OPTIONS": {},
             "SCHEMA": {
                 "allOf": [
                     {
@@ -26442,14 +26522,18 @@
                         "propertyOrder": 36
                     }
                 ]
-            }
+            },
+            "SUBSYMBOL_MAPPING": "",
+            "USEMAPPING": true
         },
         "IFP01.MAIN.Misc.SchedB.aCalendar": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
             "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "IFP01::MAIN::Misc::SchedB::aCalendar",
+            "OPTIONS": {},
             "SCHEMA": {
                 "allOf": [
                     {
@@ -26463,14 +26547,18 @@
                         "propertyOrder": 37
                     }
                 ]
-            }
+            },
+            "SUBSYMBOL_MAPPING": "",
+            "USEMAPPING": true
         },
         "IFP01.MAIN.Misc.SchedB.aException": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
             "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "IFP01::MAIN::Misc::SchedB::aException",
+            "OPTIONS": {},
             "SCHEMA": {
                 "allOf": [
                     {
@@ -26484,14 +26572,18 @@
                         "propertyOrder": 38
                     }
                 ]
-            }
+            },
+            "SUBSYMBOL_MAPPING": "",
+            "USEMAPPING": true
         },
         "IFP01.MAIN.Misc.SchedB.aWeek": {
             "ACCESS": 3,
+            "CUSTOMERDATA": "",
             "DOMAIN": "ADS",
             "DYNAMIC": true,
             "HIDDEN": true,
             "MAPPING": "IFP01::MAIN::Misc::SchedB::aWeek",
+            "OPTIONS": {},
             "SCHEMA": {
                 "allOf": [
                     {
@@ -26506,7 +26598,9 @@
                         "propertyOrder": 36
                     }
                 ]
-            }
+            },
+            "SUBSYMBOL_MAPPING": "",
+            "USEMAPPING": true
         },
         "IFP01.MAIN.Misc.SchedM.aCalendar": {
             "ACCESS": 3,
@@ -26604,6 +26698,26 @@
             },
             "SUBSYMBOL_MAPPING": "",
             "USEMAPPING": true
+        },
+        "IFP01.XBA_Globals.NowDT": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "HIDDEN": true,
+            "MAPPING": "IFP01::XBA_Globals::NowDT",
+            "SCHEMA": {
+                "allOf": [
+                    {
+                        "$ref": "tchmi:general#/definitions/DATE_AND_TIME"
+                    },
+                    {
+                        "attributes": {
+                            "conditionalshow": ""
+                        },
+                        "comment": "Current datetime (Cyclically updated)"
+                    }
+                ]
+            }
         },
         "Import": {
             "ACCESS": 3,
@@ -28596,6 +28710,7 @@
                 "BaSite.GetUserLevelGroups": 3,
                 "BaSite.GetValueRange": 3,
                 "BaSite.GetValueRanges": 3,
+                "BaSite.ListSymbolNames": 3,
                 "BaSite.ListSymbols": 3,
                 "BaSite.LoadTrendCollections": 3,
                 "BaSite.LoadUserData": 3,
@@ -28642,6 +28757,7 @@
                 "IFP01.MAIN.Misc.SchedM.aCalendar": 3,
                 "IFP01.MAIN.Misc.SchedM.aException": 3,
                 "IFP01.MAIN.Misc.SchedM.aWeek": 3,
+                "IFP01.XBA_Globals.NowDT": 3,
                 "IsAuthRequired": 3,
                 "ListDomains": 3,
                 "ListEvents": 3,
@@ -28742,14 +28858,14 @@
     "VIDEOSEGMENTSIZE": 1048576,
     "VIRTUALDIRECTORIES": {
         "/": "..\\..\\TF8040 Concept Samples HMI\\",
-        "/Beckhoff.TwinCAT.HMI.BA.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Controls.2.8.7\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.BA.Framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Framework.2.8.7\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.BA.Icons": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Icons.2.8.7\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.760.59\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.760.59\\runtimes\\native1.12-tchmi",
-        "/Beckhoff.TwinCAT.HMI.ResponsiveNavigation": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.ResponsiveNavigation.12.760.59\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Controls.2.11.1\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.Framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Framework.2.11.1\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.BA.Icons": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.BA.Icons.2.11.1\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.Controls": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Controls.12.762.46\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.Functions": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Functions.12.762.46\\runtimes\\native1.12-tchmi",
+        "/Beckhoff.TwinCAT.HMI.ResponsiveNavigation": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.ResponsiveNavigation.12.762.46\\runtimes\\native1.12-tchmi",
         "/bin": "..\\..\\TF8040 Concept Samples HMI\\bin\\",
         "/bin/framework": "..\\..\\TF8040 Concept Samples HMI\\bin\\framework",
-        "/framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.760.59\\runtimes\\native1.12-tchmi"
+        "/framework": "..\\..\\Packages\\Beckhoff.TwinCAT.HMI.Framework.12.762.46\\runtimes\\native1.12-tchmi"
     }
 }
