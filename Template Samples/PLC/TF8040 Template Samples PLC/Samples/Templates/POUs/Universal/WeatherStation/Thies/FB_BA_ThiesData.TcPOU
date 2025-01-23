@@ -2,22 +2,29 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_BA_ThiesData" Id="{9f840c28-c85d-4754-ad79-0d743698b884}" SpecialFunc="None">
     <Declaration><![CDATA[{region '#Template'}
-	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Version' := '5.1.1.0'}
 	{attribute 'Tags' := '"LCID": "1031", "Text": "Universal, Weather station, Thies"'}
 	{attribute 'Tags' := '"LCID": "1033", "Text": "Universal, Weather station, Thies"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_WSC11Data"'}		 
 	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_WSC11Status"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_WeatherStation"'}
 	{attribute 'Description' := '"LCID": "1031", "Text": "Rangierverteiler der gewünschen Daten"'}
 	{attribute 'Description' := '"LCID": "1033", "Text": "Data collector of important data"'}
 {endregion}
 FUNCTION_BLOCK FB_BA_ThiesData
 VAR_INPUT
 	stWSC11Data				: ST_BA_WSC11Data;
+	bHold					: BOOL;
+END_VAR
+VAR
+	_stWeatherStation		: ST_BA_WeatherStation;
 END_VAR
 VAR_OUTPUT
 	stWeatherStation		: ST_BA_WeatherStation;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[	stWeatherStation.bDisturb				:=	stWSC11Data.stStatus.bInvalidDataAD_Converter;
+      <ST><![CDATA[
+
 	stWeatherStation.fLatitude				:=	stWSC11Data.fLatitude;
 	stWeatherStation.fLongitude				:=	stWSC11Data.fLongitude;			
 	stWeatherStation.fSunAzimuth			:=	stWSC11Data.fSunAzimuth;			
@@ -37,11 +44,13 @@ END_VAR]]></Declaration>
 	stWeatherStation.fDawn					:=	stWSC11Data.fDawn;	
 	stWeatherStation.fGlobalRadiation		:=	stWSC11Data.fGlobalRadiation;
 	stWeatherStation.fWindDirection			:=	stWSC11Data.fWindDirection;			
-	stWeatherStation.fWindSpeed				:=	stWSC11Data.fWindSpeed;	]]></ST>
+	stWeatherStation.fWindSpeed				:=	stWSC11Data.fWindSpeed;	
+	
+	IF bHold	THEN
+		stWeatherStation					:= _stWeatherStation;
+	END_IF
+	
+	_stWeatherStation						:= stWeatherStation;]]></ST>
     </Implementation>
-    <LineIds Name="FB_BA_ThiesData">
-      <LineId Id="16" Count="19" />
-      <LineId Id="7" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

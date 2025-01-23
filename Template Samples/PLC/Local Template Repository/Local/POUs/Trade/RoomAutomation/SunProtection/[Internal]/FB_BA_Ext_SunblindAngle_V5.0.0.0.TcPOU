@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="FB_BA_Ext_SunblindAngle" Id="{f113de17-502d-4408-a6d7-ec528780e457}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "RA, Sunprotection, Sunblind, Zone"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "RA, Sunprotection, Sunblind, Zone"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_Facade"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Sonnenschutzlogik interner Baustein"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Sunblind-logic inernal function)"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_Ext_SunblindAngle EXTENDS FB_BA_Ext_SunblindPosition
+VAR
+	{attribute 'BaParam.Title.DE' := 'Winkel'}
+	{attribute 'BaParam.Title.EN' := 'Angle'}
+	{attribute 'BaParam.Access.Write' := 'Basic'}
+	fSunblindAngle_In			: REAL;		// from external, measured in 0..100%
+	{attribute 'BaParam.Title.DE' := 'Rückmeldung Winkel'}
+	{attribute 'BaParam.Title.EN' := 'Feedback angle'}
+	{attribute 'BaParam.Access.Read' := 'Basic'}
+	fSunblindAngle_Degree		: REAL;		// from template measured in degree
+	fSunblindAngle_Out			: REAL;		// to external, measured in 0..100%
+		
+	fAnglLmtUp					: REAL;
+	fAnglLmtDwn					: REAL;
+		
+	rtStartAngl					: R_TRIG;
+	fSunblindAngle_In_Degree	: REAL;
+	_fSunblindAngle_In_Degree	: REAL;
+	
+	fbLogMsgShortAnglErr		: FB_BA_LogMessage;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fSunblindAngle_Out			:= ToPercent(fSunblindAngle_Degree);	// fSunblindAngle_Out is output as percent
+
+SUPER^();
+
+fSunblindAngle_In_Degree	:= ToDegree(fSunblindAngle_In);		// get EXT-setpoint-value as degree
+
+rtStartAngl(CLK:=(_fSunblindAngle_In_Degree<>fSunblindAngle_In_Degree));
+
+IF rtStartAngl.Q	AND NOT bRstManFnct	AND NOT bResetManual_In THEN
+	//send desired values
+	stSunblindCmdExt.fAngl		:= fSunblindAngle_In_Degree;
+	stSunblindCmdExt.bActv		:= TRUE;
+	stSunblindCmdExt.bManUp		:= FALSE;
+	stSunblindCmdExt.bManDwn	:= FALSE;
+	stSunblindCmdExt.bManMod	:= FALSE;
+	
+	// Event-increment as timestamp
+	BA_Globals.nEvtIncSunBld	:= BA_Globals.nEvtIncSunBld+1;
+	stSunblindCmdExt.nEvtInc	:= BA_Globals.nEvtIncSunBld;
+END_IF
+
+	_fSunblindAngle_In_Degree	:= fSunblindAngle_In_Degree;
+	
+// after driving take over the actual position as target-positions
+IF ftBusy.Q	OR rtReferencing.Q THEN
+	// after positioning the actual position may be slightly off due to cycletime rounding errors
+
+	fSunblindAngle_In			:= fSunblindAngle_Out;			// set the input-value to the actual output-value, so a new command from EXT will be surely recognized as a deviation
+																// this makes it necessary to set the degree-value as well
+	fSunblindAngle_In_Degree	:= ToDegree(fSunblindAngle_In);	// ToDegree(fSunblindAngle_In) will surely silence rtStartAngl since this is the calculation before rtStart
+	_fSunblindAngle_In_Degree	:= ToDegree(fSunblindAngle_In);	// this will silence the rtStart above as well
+	
+	stSunblindCmdExt.fAngl		:= fSunblindAngle_Degree;		// This has to be set due to setting the position in FB_BA_Ext_SunblindPosition, see the comment there
+																// If it is not set, the drive-job in the sunblind is not terminated by angle. The position in FB_BA_Ext_SunblindPosition changes and causes never ending positioning-jobs
+END_IF
+
+
+// errormessage
+IF (fAnglLmtUp < 0) OR (fAnglLmtDwn > 0)	THEN
+	fbLogMsgShortAnglErr.Show(ADSLOG_MSGTYPE_ERROR, 'FB_BA_SunblindZone', 'Angle limit up has to be >=0 and angle limit down <=0 - please check configuration in FB_BA_SunBld',FALSE); 	
+ELSE
+	fbLogMsgShortAnglErr.Reset();	
+END_IF]]></ST>
+    </Implementation>
+    <Method Name="ToDegree" Id="{ff2f9129-5836-4c80-affe-0d6a2a46ed36}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PRIVATE ToDegree : REAL
+VAR_INPUT
+	fPercent	: REAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fPercent>=50	THEN
+		ToDegree	:= fAnglLmtDwn*((fPercent/50)-1);
+ELSE	//	fPercent<50	
+		ToDegree	:= fAnglLmtUp*((fPercent/-50)+1);
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ToPercent" Id="{a68f4b07-8c1d-4d07-b9ed-d1c57faf08ac}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PRIVATE ToPercent : REAL
+VAR_INPUT
+	fDegree	: REAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF fDegree>=0	THEN
+		IF fAnglLmtUp>0		THEN	// correct parametrizing
+			ToPercent	:= fDegree*(-50/fAnglLmtUp)+50;
+		ELSE
+			ToPercent	:= 50;
+		END_IF	
+				
+ELSE	// fDegree<0	
+		IF fAnglLmtDwn<0		THEN	// correct parametrizing
+			ToPercent	:= fDegree*(50/fAnglLmtDwn)+50;	
+		ELSE
+			ToPercent	:= 50;
+		END_IF	
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

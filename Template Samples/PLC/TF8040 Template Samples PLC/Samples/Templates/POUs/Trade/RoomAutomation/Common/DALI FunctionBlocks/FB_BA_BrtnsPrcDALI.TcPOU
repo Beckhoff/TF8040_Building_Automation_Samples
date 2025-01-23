@@ -1,0 +1,517 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="FB_BA_BrtnsPrcDALI" Id="{5bb7327b-e88c-411e-bcdd-3351a6fa95ed}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "RA, Allgemein, DALI, Präsenzmelder"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "RA, Common, DALI, presence-detection"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Grundbaustein DALI Präsenzmelder"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Basic function DALI presence-detection"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_BrtnsPrcDALI
+VAR_INPUT
+	bEn							: BOOL;						// FB-enable 
+	bInitialize					: BOOL;						// initialize with DALI-parameters
+	{attribute 'parameterUnit':= 's'}
+	nPrdQueryBrtns				: UDINT;					// [s] query interval of brightness - 0 = disabled
+	nAdr						: BYTE;						// DALI-address
+	nInstPrc					: BYTE;						// DALI-instance of presence
+	nInstBrtns					: BYTE;						// DALI-instance of brightness	
+	nResBrtns					: BYTE	:= 10;				// manufactuers specific resolution	
+	ipDALICommunication			: Tc3_DALI.I_DALICommunication;
+END_VAR
+VAR_OUTPUT	
+	bPrc						: BOOL;						// presence
+	nBrtns						: UINT;						// brightness value
+	bInitializing				: BOOL;						// device is being initialized
+	bErr						: BOOL;						// error
+END_VAR    
+VAR_INPUT CONSTANT PERSISTENT	 
+	{region 'Device parameters to be initially set into the device'}
+	{attribute 'parameterUnit':= '50ms'}
+	nDeadtime					: BYTE	:= 2;		// Dead-time-timer as multiple of 50ms
+	{attribute 'parameterUnit':= '10s'}
+	nHold						: BYTE	:= 90;		// Hold-timer as multiple of 10s
+	{attribute 'parameterUnit':= 's'}
+	nReport						: BYTE	:= 60;		// Report-timer in s          		
+	{endregion}  
+END_VAR        
+VAR CONSTANT
+	nEventFilter				: DWORD	:= 7;
+	eEventPriority				: Tc3_DALI.E_DALIEventPriority	:= Tc3_DALI.E_DALIEventPriority.Middle;
+	eEventScheme				: Tc3_DALI.E_DALIEventScheme	:= Tc3_DALI.E_DALIEventScheme.DeviceInstance;
+END_VAR                             	
+VAR
+	rtInitialize				: R_TRIG;    
+	bInitializationDone			: BOOL	:= TRUE;
+	bInitializationErr			: BOOL;
+	sInitializationMessage		: T_MaxString;
+                 	
+	bGetBrightnessBusy			: BOOL;
+	bGetBrightnessErr			: BOOL;
+	bGetPresenceBusy			: BOOL;
+	bGetPresenceErr				: BOOL;
+	
+	fbLogMsgShortAdr			: FB_BA_LogMessage;
+	fbLogMsgInterface			: FB_BA_LogMessage;
+	fbLogMsgGetBrightnessCmdErr	: FB_BA_LogMessage;
+	fbLogMsgGetPresenceCmdErr	: FB_BA_LogMessage;
+	fbLogMsgInitializationErr	: FB_BA_LogMessage;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[{region 'errorhandling'}
+bErr	:= FALSE;
+
+IF	(nAdr > 63) THEN
+	fbLogMsgShortAdr.Show(ADSLOG_MSGTYPE_ERROR, 'DALI addressing error', 'short-address must not exceed 63', FALSE); 	
+	bErr	:= TRUE;
+	RETURN;
+ELSE
+	fbLogMsgShortAdr.Reset();	
+	bErr	:= FALSE;
+END_IF
+	 
+IF	(ipDALICommunication = 0) THEN
+	fbLogMsgInterface.Show(ADSLOG_MSGTYPE_ERROR, 'DALI addressing error', 'communication interface-pointer must not be 0', FALSE); 	
+	bErr	:= TRUE;
+	RETURN;
+ELSE
+	fbLogMsgInterface.Reset();	
+	bErr	:= FALSE;
+END_IF
+{endregion}
+	 
+{region 'initialization'}
+rtInitialize(CLK:=bInitialize);
+IF rtInitialize.Q	THEN
+	bInitializationDone	:= FALSE;
+END_IF
+
+_Initialization(bStart:= rtInitialize.Q);
+IF	bInitializationErr THEN
+	sInitializationMessage:= CONCAT('Sensor #', TO_STRING(nAdr));
+	sInitializationMessage	:= CONCAT(CONCAT(sInitializationMessage, ','), GetLineInfo());
+	fbLogMsgInitializationErr.Show(ADSLOG_MSGTYPE_ERROR, 'DALI initialization-error', sInitializationMessage, FALSE); 	
+				   
+	bErr	:= TRUE;
+	RETURN;
+ELSE
+	fbLogMsgInitializationErr.Reset();	
+	bErr	:= FALSE;
+END_IF
+{endregion}
+
+IF NOT bEn	OR NOT bInitializationDone THEN
+	GetBrightness	(bEn	:= FALSE); 
+	RETURN;
+END_IF
+
+{region 'query light level'}	 
+GetBrightness	(bEn	:= TRUE);
+{endregion}                 
+	 
+{region 'query light level'}
+GetPresence		(bEn	:= TRUE);
+{endregion}
+	 
+IF bGetBrightnessErr	THEN
+	bErr	:= TRUE;
+ELSE
+	bErr	:= FALSE;
+END_IF
+
+
+]]></ST>
+    </Implementation>
+    <Method Name="_Initialization" Id="{bdd048bf-690a-423d-886b-d7370fe46252}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PRIVATE _Initialization : BOOL
+VAR_INPUT
+	bStart		: BOOL;
+END_VAR
+
+VAR_INST
+	
+	fbStartQuiescentMode				: FB_DALI103StartQuiescentMode(0);
+	fbDisableApplicationController 		: FB_DALI103DisableApplicationController(0);
+	fbDisablePowerCycleNotification		: FB_DALI103DisablePowerCycleNotification(0);
+	fbSetOperatingMode             		: FB_DALI103SetOperatingMode(0);
+	fbEnableInstance               		: FB_DALI103EnableInstance(0);
+	fbSetEventFilter               		: FB_DALI103SetEventFilter(0);
+	fbSetEventPriority             		: FB_DALI103SetEventPriority(0);
+	fbSetEventScheme               		: FB_DALI103SetEventScheme(0);
+	fbSetDeadtimeTimer             		: FB_DALI303SetDeadtimeTimer(0);
+	fbSetHoldTimer                 		: FB_DALI303SetHoldTimer(0);
+	fbSetReportTimer               		: FB_DALI303SetReportTimer(0);
+	fbDisableInstance					: FB_DALI103DisableInstance(0);	
+	fbStopQuiescentMode					: FB_DALI103StopQuiescentMode(0);
+			
+	nStep								: INT;
+	rtStart								: R_TRIG;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbStartQuiescentMode.ipDALICommunication			:= ipDALICommunication;
+fbStartQuiescentMode.nAddress						:= nAdr;
+
+fbDisableApplicationController.ipDALICommunication	:= ipDALICommunication;
+fbDisableApplicationController.nAddress				:= nAdr;
+
+fbDisablePowerCycleNotification.ipDALICommunication	:= ipDALICommunication;
+fbDisablePowerCycleNotification.nAddress			:= nAdr;
+
+fbSetOperatingMode.ipDALICommunication				:= ipDALICommunication;
+fbSetOperatingMode.nAddress							:= nAdr;
+fbSetOperatingMode.nOperatingMode					:= 0;
+
+fbEnableInstance.ipDALICommunication				:= ipDALICommunication;
+fbEnableInstance.nAddress							:= nAdr;
+fbEnableInstance.nInstanceAddress      				:= nInstPrc;
+
+fbSetEventFilter.ipDALICommunication				:= ipDALICommunication;
+fbSetEventFilter.nAddress							:= nAdr;
+fbSetEventFilter.nInstanceAddress      				:= nInstPrc;
+fbSetEventFilter.nEventFilter						:= nEventFilter;				
+
+fbSetEventPriority.ipDALICommunication				:= ipDALICommunication;   
+fbSetEventPriority.nAddress							:= nAdr;
+fbSetEventPriority.nInstanceAddress      			:= nInstPrc;
+fbSetEventPriority.eEventPriority	      			:= eEventPriority;
+         	
+fbSetEventScheme.ipDALICommunication				:= ipDALICommunication;
+fbSetEventScheme.nAddress							:= nAdr;
+fbSetEventScheme.nInstanceAddress      				:= nInstPrc;
+fbSetEventScheme.eEventScheme      					:= eEventScheme;
+
+fbSetDeadtimeTimer.ipDALICommunication				:= ipDALICommunication;
+fbSetDeadtimeTimer.nAddress							:= nAdr;
+fbSetDeadtimeTimer.nInstanceAddress      			:= nInstPrc;
+fbSetDeadtimeTimer.nDeadtime      					:= nDeadtime;
+
+fbSetHoldTimer.ipDALICommunication					:= ipDALICommunication;
+fbSetHoldTimer.nAddress								:= nAdr;
+fbSetHoldTimer.nInstanceAddress      				:= nInstPrc;
+fbSetHoldTimer.nHold      							:= nHold;
+
+fbSetReportTimer.ipDALICommunication				:= ipDALICommunication;
+fbSetReportTimer.nAddress							:= nAdr;
+fbSetReportTimer.nInstanceAddress      				:= nInstPrc;
+fbSetReportTimer.nReport      						:= nReport;
+
+fbDisableInstance.ipDALICommunication				:= ipDALICommunication;
+fbDisableInstance.nAddress							:= nAdr;
+fbDisableInstance.nInstanceAddress      			:= nInstBrtns;
+
+fbStopQuiescentMode.ipDALICommunication				:= ipDALICommunication;
+fbStopQuiescentMode.nAddress						:= nAdr;
+
+
+rtStart(CLK	:= bStart);
+IF rtStart.Q	THEN
+	bInitializationDone				:= FALSE;
+	bInitializationErr				:= FALSE;
+	fbStartQuiescentMode			(bStart:=FALSE);
+	fbDisableApplicationController	(bStart:=FALSE);
+	fbDisablePowerCycleNotification	(bStart:=FALSE);
+	fbSetOperatingMode				(bStart:=FALSE);
+	fbEnableInstance				(bStart:=FALSE);
+	fbSetEventFilter				(bStart:=FALSE);
+	fbSetEventPriority				(bStart:=FALSE);
+	fbSetEventScheme				(bStart:=FALSE);
+	fbSetDeadtimeTimer				(bStart:=FALSE);
+	fbSetHoldTimer					(bStart:=FALSE);
+	fbSetReportTimer				(bStart:=FALSE);
+	fbDisableInstance				(bStart:=FALSE);
+	fbStopQuiescentMode				(bStart:=FALSE);
+	
+	nStep	:= 10;
+END_IF
+
+CASE nStep OF
+	0	: 	// Idle
+	
+	10	:	fbStartQuiescentMode(bStart:=TRUE);
+			IF NOT fbStartQuiescentMode.bBusy	THEN
+				IF fbStartQuiescentMode.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 20;
+				END_IF
+			END_IF
+	
+	20	:	fbDisableApplicationController(bStart:=TRUE);
+			IF NOT fbDisableApplicationController.bBusy	THEN
+				IF fbDisableApplicationController.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 30;
+				END_IF
+			END_IF
+		
+	30	:	fbDisablePowerCycleNotification(bStart:=TRUE);
+			IF NOT fbDisablePowerCycleNotification.bBusy	THEN
+				IF fbDisablePowerCycleNotification.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 40;
+				END_IF
+			END_IF
+		
+	40	:	fbSetOperatingMode(bStart:=TRUE);
+			IF NOT fbSetOperatingMode.bBusy	THEN
+				IF fbSetOperatingMode.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 50;
+				END_IF
+			END_IF
+		
+	50	:	fbEnableInstance(bStart:=TRUE);
+			IF NOT fbEnableInstance.bBusy	THEN
+				IF fbEnableInstance.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 60;
+				END_IF
+			END_IF
+		
+	60	:	fbSetEventFilter(bStart:=TRUE, );
+			IF NOT fbSetEventFilter.bBusy	THEN
+				IF fbSetEventFilter.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 70;
+				END_IF
+			END_IF
+		
+	70	:	fbSetEventPriority(bStart:=TRUE);
+			IF NOT fbSetEventPriority.bBusy	THEN
+				IF fbSetEventPriority.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 80;
+				END_IF
+			END_IF
+		
+	80	:	fbSetEventScheme(bStart:=TRUE);
+			IF NOT fbSetEventScheme.bBusy	THEN
+				IF fbSetEventScheme.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 90;
+				END_IF
+			END_IF
+		
+	90	:	fbSetDeadtimeTimer(bStart:=TRUE);
+			IF NOT fbSetDeadtimeTimer.bBusy	THEN
+				IF fbSetDeadtimeTimer.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 100;
+				END_IF
+			END_IF
+		
+	100	:	fbSetHoldTimer(bStart:=TRUE);
+			IF NOT fbSetHoldTimer.bBusy	THEN
+				IF fbSetHoldTimer.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 110;
+				END_IF
+			END_IF
+		
+	110	:	fbSetReportTimer(bStart:=TRUE);
+			IF NOT fbSetReportTimer.bBusy	THEN
+				IF fbSetReportTimer.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 120;
+				END_IF
+			END_IF
+		
+	120	:	fbDisableInstance(bStart:=TRUE);
+			IF NOT fbDisableInstance.bBusy	THEN
+				IF fbDisableInstance.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 130;
+				END_IF
+			END_IF
+		
+	130	:	fbStopQuiescentMode(bStart:=TRUE);
+			IF NOT fbStopQuiescentMode.bBusy	THEN
+				IF fbStopQuiescentMode.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 800;
+				END_IF
+			END_IF
+			
+	800	: 		// Completed
+			bInitializationDone	:= TRUE;
+			nStep	:= 0;
+			
+	900	: 		// Error
+			bInitializationErr	:= TRUE;
+			nStep	:= 0;
+	
+END_CASE
+
+bInitializing	:= (nStep>0);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetBrightness" Id="{070737c0-cbe8-4b13-a44f-ffbe79e1cfdb}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PRIVATE GetBrightness : BOOL
+VAR_INPUT
+	bEn					: BOOL;
+END_VAR
+VAR_INST
+	ftEnable			: F_TRIG;
+	nStep				: INT;
+	fbBrightness		: FB_DALI304LightSensor(0);
+	tonQuery			: TON;
+END_VAR
+VAR
+	sLineInfo			: T_MaxString ;
+	sErrorMessage		: T_MaxString ;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbBrightness.ipDALICommunication	:= THIS^.ipDALICommunication;
+fbBrightness.nShortAddress			:= THIS^.nAdr;
+fbBrightness.nInstanceNumber		:= THIS^.nInstBrtns;
+fbBrightness.nResolution		 	:= THIS^.nResBrtns;
+
+
+ftEnable(CLK	:= bEn);
+
+IF ftEnable.Q	THEN
+	fbBrightness				(bQueryInputValue := FALSE);
+	nStep						:= 0;
+	THIS^.bGetBrightnessBusy	:= FALSE;
+	nBrtns						:= 0;
+	tonQuery					(IN:=FALSE);
+	THIS^.fbLogMsgGetBrightnessCmdErr.Reset();	
+END_IF
+
+IF NOT bEn OR (THIS^.nPrdQueryBrtns=0) THEN
+	RETURN;
+END_IF
+
+THIS^.nResBrtns		:= LIMIT(1,THIS^.nResBrtns,64);
+
+{region 'query brightness'}		
+ 
+tonQuery(IN:= (NOT tonQuery.Q AND NOT THIS^.bGetBrightnessBusy), PT:= F_BA_UdiToTiSec(THIS^.nPrdQueryBrtns));
+
+IF NOT THIS^.bGetBrightnessBusy	THEN
+	IF tonQuery.Q	THEN
+		nStep	:= 10;
+	END_IF
+END_IF	
+	 
+CASE nStep	OF
+	0	: 	// Idle
+			
+	10	:	// Start	
+			fbBrightness( bQueryInputValue 	:= TRUE);
+
+			IF (NOT fbBrightness.bReadingInputValue) THEN	
+				IF	fbBrightness.bError THEN
+						 
+					sLineInfo	:= 	 THIS^.GetLineInfo();
+					
+					sErrorMessage	:= CONCAT('Sensor #', TO_STRING(THIS^.nAdr));
+					sErrorMessage	:= CONCAT(sErrorMessage, ','); 
+					sErrorMessage	:= CONCAT(sErrorMessage, sLineInfo); 																// DALI-line-specific part of message
+						 
+					sErrorMessage	:= CONCAT(sErrorMessage, ', MessageId: ');  														// Message Id as mentioned in the event-logger
+					sErrorMessage	:= CONCAT(sErrorMessage, TO_STRING(fbBrightness.ipResultMessage.nEventId)); 
+						 
+					THIS^.fbLogMsgGetBrightnessCmdErr.Show(ADSLOG_MSGTYPE_ERROR, 'DALI-error: QueryBrightness', sErrorMessage, FALSE); 	// assembled message
+				ELSE
+					THIS^.fbLogMsgGetBrightnessCmdErr.Reset();	
+					THIS^.nBrtns	:= TO_UINT(fbBrightness.nBrightnessLevel);
+				END_IF
+				fbBrightness(bQueryInputValue 	:= FALSE);   
+				nStep		:= 0; 
+			END_IF                     					
+END_CASE
+	 
+THIS^.bGetBrightnessBusy	:= (nStep <> 0);
+THIS^.bGetBrightnessErr	:= fbBrightness.bError;		
+{endregion}]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetLineInfo" Id="{bf28b9f6-e802-4e4b-832e-7e1890e41782}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PRIVATE GetLineInfo : STRING(255)
+VAR
+	sLineInfo		: T_MaxString ;
+	sAdressInfo		: T_MaxString ;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[sLineInfo	:= CONCAT((' DALI-line: '), (THIS^.ipDALICommunication.GetInstancePath()));
+
+GetLineInfo	:= sLineInfo;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetPresence" Id="{5224a306-b990-4dfb-a6da-45acb02d305a}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PRIVATE GetPresence : BOOL
+VAR_INPUT
+	bEn					: BOOL;
+END_VAR
+VAR_INST
+	ftEnable			: F_TRIG;
+	fbPresence			: FB_DALI303OccupancySensor(0);
+END_VAR
+VAR
+	sLineInfo			: T_MaxString ;
+	sErrorMessage		: T_MaxString ;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbPresence.ipDALICommunication	:= THIS^.ipDALICommunication;
+fbPresence.nShortAddress		:= THIS^.nAdr;
+fbPresence.nInstanceNumber		:= THIS^.nInstPrc;
+fbPresence.bQueryInputValue 	:= FALSE;
+
+ftEnable(CLK	:= bEn);
+
+IF ftEnable.Q	THEN
+	THIS^.bPrc							:= FALSE;
+	THIS^.bGetPresenceBusy				:= FALSE;
+	fbPresence(bGetInputNotifications	:= FALSE);   
+	THIS^.fbLogMsgGetPresenceCmdErr.Reset();	
+END_IF
+
+IF NOT bEn	THEN
+	RETURN;
+END_IF
+
+{region 'query presence'}		
+
+fbPresence(bGetInputNotifications	:= TRUE);   
+THIS^.bPrc	:= fbPresence.bOccupied;
+IF	fbPresence.bError THEN
+	
+	sLineInfo	:= 	 THIS^.GetLineInfo();
+	
+	sErrorMessage	:= CONCAT('Sensor #', TO_STRING(THIS^.nAdr));
+	sErrorMessage	:= CONCAT(sErrorMessage, ','); 
+	sErrorMessage	:= CONCAT(sErrorMessage, sLineInfo); 																// DALI-line-specific part of message
+						 
+	sErrorMessage	:= CONCAT(sErrorMessage, ', MessageId: ');  														// Message Id as mentioned in the event-logger
+	sErrorMessage	:= CONCAT(sErrorMessage, TO_STRING(fbPresence.ipResultMessage.nEventId)); 
+					
+	THIS^.fbLogMsgGetPresenceCmdErr.Show(ADSLOG_MSGTYPE_ERROR, 'DALI-error: QueryPresence', sErrorMessage, FALSE); 	// assembled message
+ELSE
+	THIS^.fbLogMsgGetPresenceCmdErr.Reset();	
+END_IF
+
+THIS^.bGetPresenceErr		:= fbPresence.bError;
+{endregion}]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

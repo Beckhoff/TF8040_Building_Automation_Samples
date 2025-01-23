@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="DALICommunication" Id="{9588dcba-92d6-4576-a65e-58975f94cb35}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM DALICommunication
+VAR
+
+	stKL6821InData			AT %I*	: Tc3_DALI.ST_KL6821InData;       
+	stKL6821OutData			AT %Q*	: Tc3_DALI.ST_KL6821OutData;
+	
+	fbKL6821Communication			: Tc3_DALI.FB_KL6821Communication;
+	
+	bError							: BOOL;
+	bResetMaximumDemandCounter		: BOOL;
+	bResetOverflowCounter			: BOOL;
+	nOptions						: DWORD;
+	bBusy							: BOOL;
+	nBufferDemandMeter				: BYTE;
+	nBufferMaximumDemandMeter		: BYTE;
+	nBufferOverflowCounter			: UINT;
+	bResetInactiveProcessImage		: BOOL;
+	bInitialise						: BOOL;
+	nErrorId						: DWORD;
+	
+	bDigitalInput1Active			: BOOL;
+	bDigitalInput2Active			: BOOL;
+	bProcessImageInactive			: BOOL;
+	bCollisionError					: BOOL;
+	bPowerSupplyError				: BOOL;
+	bShortCircuit					: BOOL;
+	bInitialising					: BOOL;
+	nTerminalDescription			: WORD;
+	nFirmwareVersion				: WORD;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+						
+fbKL6821Communication(	bError							=> bError, 
+						bResetMaximumDemandCounter		:= bResetMaximumDemandCounter, 
+						bResetOverflowCounter			:= bResetOverflowCounter, 
+						nOptions						:= nOptions, 
+						bBusy							=> bBusy, 
+						nBufferDemandMeter				=> nBufferDemandMeter, 
+						nBufferMaximumDemandMeter		=> nBufferMaximumDemandMeter, 
+						nBufferOverflowCounter			=> nBufferOverflowCounter, 
+						bResetInactiveProcessImage		:= bResetInactiveProcessImage, 
+						bInitialise						:= bInitialise, 
+						bDigitalInput1Active			=> bDigitalInput1Active, 
+						bDigitalInput2Active			=> bDigitalInput2Active, 
+						bProcessImageInactive			=> bProcessImageInactive, 
+						bCollisionError					=> bCollisionError, 
+						bPowerSupplyError				=> bPowerSupplyError, 
+						bShortCircuit					=> bShortCircuit, 
+						bInitialising					=> bInitialising, 
+						nTerminalDescription			=> nTerminalDescription, 
+						nFirmwareVersion				=> nFirmwareVersion, 
+						stInData						:= stKL6821InData, 
+						stOutData						:= stKL6821OutData);]]></ST>
+    </Implementation>
+    <LineIds Name="DALICommunication">
+      <LineId Id="3" Count="21" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

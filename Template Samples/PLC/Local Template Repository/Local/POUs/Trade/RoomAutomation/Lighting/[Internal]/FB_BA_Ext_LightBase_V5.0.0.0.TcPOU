@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BA_Ext_LightBase" Id="{0b142b1b-5ba2-4c81-ac33-a8a91aaeea8a}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "RA, Beleuchtung, Anwenderfunktionen, Zone"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "RA, Lighting, User-functions, zone"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_LightActuatorFeedback"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Beleuchtung interner Baustein"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Lighting internal function"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_Ext_LightBase EXTENDS FB_BA_View
+VAR	
+	// data from/to user-function
+	{attribute 'BaParam.Title.DE' := 'Fehler'}
+	{attribute 'BaParam.Title.EN' := 'Error'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	bErr_Out				: BOOL;							// to external
+	{attribute 'BaParam.Title.DE' := 'Lichtstatus'}
+	{attribute 'BaParam.Title.EN' := 'Light status'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	bLightOn_Out			: BOOL;							// to external
+	{attribute 'BaParam.Title.DE' := 'Aktuell steuernde Priorität'}	// Referenzaktor
+	{attribute 'BaParam.Title.EN' := 'Actual controlling priority'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	eActualPrio_Out			: BYTE;			// priority of reference-actuator
+END_VAR
+
+VAR PERSISTENT
+	// data from/to user-function
+	{attribute 'BaParam.Title.DE' := 'Aktivierungsmodus'}
+	{attribute 'BaParam.Title.EN' := 'Activation-mode'}
+	{attribute 'BaParam.Access.Write' := 'Basic'}
+	eLightActivationMode_In	: E_BA_LightActivationMode:= E_BA_LightActivationMode.eFullAutomatic;	// selectable activation-mode: full- or semi-automatic;
+END_VAR
+
+VAR_INPUT CONSTANT PERSISTENT
+	ePrio					: BYTE	:= E_BA_LightingPrio.eManual;	// priority of remote-telegram (HMI)
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

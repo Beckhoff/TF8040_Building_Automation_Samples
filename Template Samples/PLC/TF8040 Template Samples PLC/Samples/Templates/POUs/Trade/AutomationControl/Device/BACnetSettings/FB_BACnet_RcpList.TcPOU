@@ -1,7 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="FB_BACnet_RcpList" Id="{6618e578-ce73-4756-bfd8-03f7b4a463b4}" SpecialFunc="None">
-    <Declaration><![CDATA[// Exemple illustrates how to write the (BACnet) recipient list to a 'FB_BA_EC' object.
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "Automatisierungssteuerung, Gerät, Einstellungen, Projekt, Parameter"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "Automation control, Device, Settings, Project, Parameter"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Empfängerliste der Ereignisklassenobjekte / Meldungsklassenobjekte"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Recipient list of event class objects / notification class"'}
+{endregion}
+
+// Exemple illustrates how to write the (BACnet) recipient list to a 'FB_BA_EC' object.
 FUNCTION_BLOCK FB_BACnet_RcpList  
 VAR
 	bWrite				: BOOL ;
@@ -34,6 +42,7 @@ VAR
 						)];
 END_VAR
 VAR
+	bResult: BOOL;
 	_iObj				: I_BA_Object;
 	_fbBACnetObj		: POINTER TO FB_BACnet_BaseObject;
 	_hRes				: HRESULT;
@@ -62,20 +71,5 @@ IF (bWrite) THEN
 	END_WHILE
 END_IF]]></ST>
     </Implementation>
-    <LineIds Name="FB_BACnet_RcpList">
-      <LineId Id="285" Count="1" />
-      <LineId Id="133" Count="0" />
-      <LineId Id="135" Count="0" />
-      <LineId Id="325" Count="0" />
-      <LineId Id="19" Count="0" />
-      <LineId Id="202" Count="0" />
-      <LineId Id="182" Count="0" />
-      <LineId Id="179" Count="0" />
-      <LineId Id="136" Count="0" />
-      <LineId Id="364" Count="8" />
-      <LineId Id="246" Count="0" />
-      <LineId Id="181" Count="0" />
-      <LineId Id="137" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>

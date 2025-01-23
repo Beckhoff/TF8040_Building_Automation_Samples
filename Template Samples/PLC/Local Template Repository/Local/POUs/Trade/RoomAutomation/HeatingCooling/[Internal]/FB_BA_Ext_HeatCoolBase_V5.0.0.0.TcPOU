@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BA_Ext_HeatCoolBase" Id="{7129dbf7-f9b9-40c4-803b-1d8f9b3f0376}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "RA, Sunprotection, Sunblind, Zone"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "RA, Sunprotection, Sunblind, Zone"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_Facade"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Sonnenschutzlogik interner Baustein"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Sunblind-logic inernal function)"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_Ext_HeatCoolBase EXTENDS FB_BA_View
+VAR		
+	{attribute 'BaParam.Title.DE' := 'Raumtemperaturannpassung'}
+	{attribute 'BaParam.Title.EN' := 'Room temperature adjustment'}
+	{attribute 'BaParam.Access.Write' := 'Basic'}
+	fRmTAdj_In				: REAL;
+	{attribute 'BaParam.Title.DE' := 'Rückmeldung Raumtemperaturannpassung'}
+	{attribute 'BaParam.Title.EN' := 'Feedback room temperature adjustment'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	fRmTAdj_Out				: REAL;
+	{attribute 'BaParam.Title.DE' := 'Raumtemperaturannpassung Bereich'}
+	{attribute 'BaParam.Title.EN' := 'Temperature adjust range'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	fRmTAdjLimit_Out		: REAL;
+	{attribute 'BaParam.Title.DE' := 'Raumtemperatur'}
+	{attribute 'BaParam.Title.EN' := 'Room temperature'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	fRmT_Out				: REAL;
+	{attribute 'BaParam.Title.DE' := 'Sollwert Heizen'}
+	{attribute 'BaParam.Title.EN' := 'Setpoint heating'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	fSPHtg_Out				: REAL;	
+	{attribute 'BaParam.Title.DE' := 'Sollwert Kühlen'}
+	{attribute 'BaParam.Title.EN' := 'Setpoint cooling'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	fSPCol_Out				: REAL;		
+	{attribute 'BaParam.Title.DE' := 'Reglerausgang Heizen'}
+	{attribute 'BaParam.Title.EN' := 'Control value heating'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	fCtrlValHtg_Out			: REAL;		
+	{attribute 'BaParam.Title.DE' := 'Reglerausgang Kühlen'}
+	{attribute 'BaParam.Title.EN' := 'Control value cooling'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	fCtrlValCol_Out			: REAL;		
+	{attribute 'BaParam.Title.DE' := 'Aktuelles Raumenergieniveau'}
+	{attribute 'BaParam.Title.EN' := 'Actual room energy level'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	eActualEnergyLevel_Out	: E_BA_EnergyLvlEx;
+	{attribute 'BaParam.Title.DE' := 'Fehler'}
+	{attribute 'BaParam.Title.EN' := 'Error'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	bErr_Out				: BOOL;
+END_VAR
+
+VAR
+	_fRmTAdj_Out			: REAL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+IF (_fRmTAdj_Out<>fRmTAdj_Out)	THEN
+	fRmTAdj_In	:= fRmTAdj_Out;		// set EXT-setpoint to actual resulting setpont in the template if this value has changed
+END_IF
+
+_fRmTAdj_Out:=fRmTAdj_Out;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

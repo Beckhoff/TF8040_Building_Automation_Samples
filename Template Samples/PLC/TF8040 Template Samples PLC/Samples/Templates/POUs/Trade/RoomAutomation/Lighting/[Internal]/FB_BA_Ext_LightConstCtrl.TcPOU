@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BA_Ext_LightConstCtrl" Id="{506a8de8-0f52-48ee-85de-a6132843737a}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "RA, Beleuchtung, Anwenderfunktionen, Zone"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "RA, Lighting, User-functions, zone"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_LightActuatorFeedback"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Beleuchtung interner Baustein"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Lighting internal function"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_Ext_LightConstCtrl EXTENDS FB_BA_Ext_LightCtrl
+VAR	
+	// data from/to user function
+	{attribute 'BaParam.Title.DE' := 'Aktivieren Regelungsbetrieb'}
+	{attribute 'BaParam.Title.EN' := 'Activate control mode'}
+	{attribute 'BaParam.Access.Write' := 'Basic'}
+	bSetCtrlMod_In				: BOOL;						// enter control mode from either deactivated or manual mode
+	{attribute 'BaParam.Title.DE' := 'Regelungsbetrieb ist aktiv'}
+	{attribute 'BaParam.Title.EN' := 'Control mode is active'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	bCtrlMod_Out				: BOOL;						// state information control mode, used for external display
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

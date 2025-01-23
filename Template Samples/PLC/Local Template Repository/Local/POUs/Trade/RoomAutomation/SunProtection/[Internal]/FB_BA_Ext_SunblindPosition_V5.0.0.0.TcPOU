@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BA_Ext_SunblindPosition" Id="{1d57d80c-3697-4781-8bd6-a78c7ef72712}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "RA, Sunprotection, Sunblind, Zone"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "RA, Sunprotection, Sunblind, Zone"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_Facade"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Sonnenschutzlogik interner Baustein"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Sunblind-logic inernal function)"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_Ext_SunblindPosition EXTENDS FB_BA_Ext_SunblindBase
+VAR
+	{attribute 'BaParam.Title.DE' := 'Position'}
+	{attribute 'BaParam.Title.EN' := 'Position'}
+	{attribute 'BaParam.Access.Write' := 'Basic'}
+	fSunblindPosition_In	: REAL;			// from external	
+	{attribute 'BaParam.Title.DE' := 'Rückmeldung Position'}
+	{attribute 'BaParam.Title.EN' := 'Feedback position'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	fSunblindPosition_Out	: REAL;		// to external
+	
+	
+	rtStartPos				: R_TRIG;
+	_fSunBldPos_In			: REAL;
+	
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+
+rtStartPos(CLK:=(_fSunBldPos_In<>fSunblindPosition_In));
+
+IF rtStartPos.Q	AND NOT bRstManFnct	AND NOT bResetManual_In THEN
+	//send desired values
+	stSunblindCmdExt.fPos		:= fSunblindPosition_In;
+	stSunblindCmdExt.bActv		:= TRUE;
+	stSunblindCmdExt.bManUp		:= FALSE;
+	stSunblindCmdExt.bManDwn	:= FALSE;
+	stSunblindCmdExt.bManMod	:= FALSE;
+	
+	// Event-increment as timestamp
+	BA_Globals.nEvtIncSunBld	:= BA_Globals.nEvtIncSunBld+1;
+	stSunblindCmdExt.nEvtInc	:= BA_Globals.nEvtIncSunBld;
+END_IF
+
+	_fSunBldPos_In				:= fSunblindPosition_In;
+
+// after driving take over the actual position as target-positions
+IF ftBusy.Q	OR rtReferencing.Q THEN
+// after positioning the actual position may be slightly off due to driving the angle afterwards.
+
+	fSunblindPosition_In		:= fSunblindPosition_Out;	// set the input-value to the actual output-value, so a new command from EXT will be surely recognized as a deviation
+	_fSunBldPos_In				:= fSunblindPosition_Out;	// this will silence the rtStart above as well
+	
+	stSunblindCmdExt.fPos 		:= fSunblindPosition_Out;	// set the telegram to the actual value as well, so a second command with the same position, which will be off afterwards du to angle-driving, will be executed again
+															// this makes it necessary to set the angle in FB_BA_Ext_SunblindAngle as well
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

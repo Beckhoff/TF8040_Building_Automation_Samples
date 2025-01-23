@@ -3,12 +3,12 @@
   <PropertyGroup>
     <FileVersion>1.0.0.0</FileVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{bf07a91f-c196-46ce-a105-fa7a34c5ed37}</ProjectGuid>
+    <ProjectGuid>{a9cac8a7-489b-45e8-bd12-23fa521c0249}</ProjectGuid>
     <SubObjectsSortedByName>True</SubObjectsSortedByName>
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
     <WriteProductVersion>true</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
-    <ProgramVersion>3.1.4023.0</ProgramVersion>
+    <ProgramVersion>3.1.4024.0</ProgramVersion>
     <Application>{3ad83fe4-68bf-4046-a959-7e0b7ca9e44c}</Application>
     <TypeSystem>{95e206f0-d23d-45ae-90e8-f88eb4fabb03}</TypeSystem>
     <Implicit_Task_Info>{f3dc6f19-111a-4334-9cab-0b6878f126cf}</Implicit_Task_Info>
@@ -17,8 +17,8 @@
     <LibraryReferences>{b11aa02b-3bec-4042-bb85-98e8e386de67}</LibraryReferences>
     <Company>Beckhoff Automation GmbH</Company>
     <Released>false</Released>
-    <Title>TF8040 Template-Samples</Title>
-    <ProjectVersion>2.1.1.0</ProjectVersion>
+    <Title>BA2_Templates</Title>
+    <ProjectVersion>2.2.0.0</ProjectVersion>
     <LibraryCategories>
       <LibraryCategory xmlns="">
         <Id>{74d110c6-7213-4765-be2b-3ff0f1e344fb}</Id>
@@ -234,28 +234,26 @@
     <SelectedLibraryCategories>
       <Id xmlns="">{74d110c6-7213-4765-be2b-3ff0f1e344fb}</Id>
     </SelectedLibraryCategories>
-    <DefaultNamespace>
-    </DefaultNamespace>
-    <Placeholder>
-    </Placeholder>
+    <DefaultNamespace>BA2_Templates</DefaultNamespace>
+    <Placeholder>BA2_Templates</Placeholder>
     <Author>Beckhoff Automation GmbH</Author>
-    <Description>Template-Samples to demonstrate the TF8040 PLC templates.</Description>
+    <Description>Library that covers all technical building automation services in a built-in skeleton. It contains function blocks for conventional HVAC and room automation. </Description>
     <Name>Samples</Name>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FastTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\DALICommunication.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\MAIN.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Templates\DUTs\Enumerations\Building\E_BA_BuildingMode.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Templates\DUTs\Enumerations\Plant\AC\E_AC_PlantStep01.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Templates\DUTs\Enumerations\Plant\AC\E_AC_SeqNumber_H.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Templates\DUTs\Enumerations\Plant\AC\E_AC_SeqNumber_T.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\DUTs\Enumerations\Plant\AC\E_BA_AC_OpMod01.TcDUT">
@@ -268,6 +266,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\DUTs\Enumerations\Plant\AC\E_BA_AC_SelSpErc.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\DUTs\Enumerations\Plant\AC\E_BA_AC_SeqNumber_H.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\DUTs\Enumerations\Plant\AC\E_BA_AC_SeqNumber_T.TcDUT">
@@ -312,7 +313,16 @@
     <Compile Include="Templates\DUTs\Enumerations\Universal\E_BA_OnOffA.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Templates\DUTs\Types\Actuator\ST_BA_LightActuatorFeedback.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\DUTs\Types\Actuator\ST_BA_SunblindActuatorFeedback.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Templates\DUTs\Types\Building\ST_BA_BuildingAlarms.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\DUTs\Types\Building\ST_BA_BuildingLighting.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\DUTs\Types\Building\ST_BA_BuildingSunblind.TcDUT">
@@ -387,6 +397,9 @@
     <Compile Include="Templates\GVLs\LblComp.TcGVL">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Templates\GVLs\Priority.TcGVL">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Templates\GVLs\Site\Site.TcGVL">
       <SubType>Code</SubType>
     </Compile>
@@ -399,10 +412,16 @@
     <Compile Include="Templates\POUs\Trade\AirConditioning\Aggregates\Cooler\Temperature\FB_BA_AC_ColT_02.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Templates\POUs\Trade\AirConditioning\Aggregates\Damper\FB_BA_AC_Dmp2P.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Templates\POUs\Trade\AirConditioning\Aggregates\ERC\FB_BA_AC_ErcTSuACtrl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\POUs\Trade\AirConditioning\Aggregates\ERC\Plate\FB_BA_AC_ErcPl_02.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\AirConditioning\Aggregates\Fan\FB_BA_AC_FanCtl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\POUs\Trade\AirConditioning\Aggregates\PreHeater\FB_BA_AC_PreHtr.TcPOU">
@@ -417,19 +436,7 @@
     <Compile Include="Templates\POUs\Trade\AirConditioning\FB_BA_AirConditioning.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Trade\AirConditioning\General\FB_BA_AC_EnPrio.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Templates\POUs\Trade\AirConditioning\General\FB_BA_AC_OpMod1St.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Templates\POUs\Trade\AirConditioning\General\FB_BA_AC_OpMod1St_Prio.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Templates\POUs\Trade\AirConditioning\General\FB_BA_AC_OpModAggBinary.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Templates\POUs\Trade\AirConditioning\General\FB_BA_AC_OpModAggMdlt.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\POUs\Trade\AirConditioning\General\FB_BA_AC_PlantCmd_AHU_1st_10.TcPOU">
@@ -483,28 +490,43 @@
     <Compile Include="Templates\POUs\Trade\AutomationControl\FB_BA_AutomationControl.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Trade\BuildingAutomation\Communication\FB_BA_AdsComClient.TcPOU">
+    <Compile Include="Templates\POUs\Trade\BuildingAutomation\Communication\FB_BA_AdsComServer_Basic.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Trade\BuildingAutomation\Communication\FB_BA_AdsComServer.TcPOU">
+    <Compile Include="Templates\POUs\Trade\BuildingAutomation\FB_BA_BuildingAutomationServer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Trade\BuildingAutomation\FB_BA_BuildingAutomation.TcPOU">
+    <Compile Include="Templates\POUs\Trade\BuildingAutomation\General\FB_BA_BuildingData.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Trade\BuildingAutomation\GlobalEventsAndSettings\FB_BA_BuildingAlarms.TcPOU">
+    <Compile Include="Templates\POUs\Trade\BuildingAutomation\General\Functions\FB_BA_BuildingEnergyLevel.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Trade\BuildingAutomation\GlobalEventsAndSettings\FB_BA_BuildingMode.TcPOU">
+    <Compile Include="Templates\POUs\Trade\BuildingAutomation\General\Functions\FB_BA_BuildingMode.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Trade\BuildingAutomation\GlobalEventsAndSettings\FB_BA_EventsAndSettings.TcPOU">
+    <Compile Include="Templates\POUs\Trade\BuildingAutomation\General\Functions\FB_BA_BuildingSpRmT.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Trade\BuildingAutomation\GlobalEventsAndSettings\FB_BA_WeatherParameter.TcPOU">
+    <Compile Include="Templates\POUs\Trade\BuildingAutomation\Weather_Data\FB_BA_WeatherData.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Trade\BuildingAutomation\WeatherStation\FB_BA_WeatherStation_Draft.TcPOU">
+    <Compile Include="Templates\POUs\Trade\BuildingAutomation\Weather_Data\Parameter\FB_BA_WeatherParameter.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\DoorsGatesWindowsSunProtection\Communication\FB_BA_AdsComServer_DGWS.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\DoorsGatesWindowsSunProtection\FB_BA_DGWSPServer.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\HazardDetectionAlarmSystems\BurglarAlarmSystem\FB_BA_BurglarAlarmSystem.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\HazardDetectionAlarmSystems\FB_BA_HazardDetectionAlarmSystems.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\HazardDetectionAlarmSystems\FireAlarmSystem\FB_BA_FireAlarmSystem.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\POUs\Trade\HeatingSystem\Distribution\HeatingCircuit\FB_BA_H_HtgCir01.TcPOU">
@@ -522,7 +544,88 @@
     <Compile Include="Templates\POUs\Trade\HeatingSystem\Setpoint\FB_BA_H_HtgCir_Sp.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Trade\RoomAutomation\FB_BA_RoomAutomation.TcPOU">
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\Common\DALI FunctionBlocks\FB_BA_BrtnsPrcDALI.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\Common\Sensors\FB_BA_BrightnessPresenceDALI.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\Communication\FB_BA_AdsComServer_Room.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\FB_BA_RoomAutomationServer.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\HeatingCooling\Functions\Zone\FB_BA_HeatCool_PID.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\HeatingCooling\[Internal]\FB_BA_Ext_HeatCoolBase.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\Lighting\Actuators\FB_BA_LightAnalog.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\Lighting\Functions\Zone\FB_BA_LightGroupConstant.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\Lighting\[Internal]\FB_BA_Ext_BrightnessPresence_Base.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\Lighting\[Internal]\FB_BA_Ext_LightBase.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\Lighting\[Internal]\FB_BA_Ext_LightConstCtrl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\Lighting\[Internal]\FB_BA_Ext_LightCtrl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\RoomSamples\FB_BA_RoomSample1.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Actuators\FB_BA_SunBld.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Building\FB_BA_BuildingSunprotection.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Building\FB_BA_IceProtection.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Facade\FB_BA_Facade.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Facade\FB_BA_Facade_Information.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Facade\FB_BA_Facade_Maintenance.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Facade\FB_BA_Facade_ParkPosition.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Facade\FB_BA_Facade_SunProtection.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Facade\FB_BA_Facade_ThermoAutomatic.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Facade\FB_BA_Facade_TwilightAutomatic.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Facade\FB_BA_Facade_WindProtection.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Zone\FB_BA_SunblindZone.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\[Internal]\FB_BA_Ext_SunblindAngle.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\[Internal]\FB_BA_Ext_SunblindBase.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Trade\RoomAutomation\SunProtection\[Internal]\FB_BA_Ext_SunblindPosition.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\POUs\Universal\Aggregat\Analog\FB_BA_ActuatorAnalog.TcPOU">
@@ -546,6 +649,9 @@
     <Compile Include="Templates\POUs\Universal\Control\EventClasses\FB_BA_EvtCategory.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Templates\POUs\Universal\Control\Hysteresis\FB_BA_Hys_03.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Templates\POUs\Universal\Control\Hysteresis\FB_BA_Hys_21.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -555,7 +661,13 @@
     <Compile Include="Templates\POUs\Universal\Control\Monitoring\FB_BA_FdbBinary.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Universal\Control\Object\FB_BA_AV_Op_Val.TcPOU">
+    <Compile Include="Templates\POUs\Universal\Control\Monitoring\FB_BA_PresenceMonitoring.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Universal\Control\Object\FB_BA_AV_Op_SP.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\POUs\Universal\Control\Object\FB_BA_BV_OP_Val.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\POUs\Universal\Control\PID\FB_BA_PID.TcPOU">
@@ -585,16 +697,10 @@
     <Compile Include="Templates\POUs\Universal\Control\Trend\FB_BA_TrendLogging.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Universal\Damper\2P\FB_BA_Dmp2P.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Templates\POUs\Universal\Motor\1st\FB_BA_Mot1st.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\POUs\Universal\Motor\Control\FB_BA_MotCtl.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Templates\POUs\Universal\Motor\Control\FB_BA_MotCtlExt.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\POUs\Universal\Pump\1st\FB_BA_Pu1st.TcPOU">
@@ -606,13 +712,7 @@
     <Compile Include="Templates\POUs\Universal\Sensor\FB_BA_SensorAnalog.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Templates\POUs\Universal\Sensor\FB_BA_SensorAnalog_Raw.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Templates\POUs\Universal\Sensor\FB_BA_SensorBinary.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Templates\POUs\Universal\Sensor\FB_BA_SensorBinary_Raw.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Templates\POUs\Universal\Valve\FB_BA_Vlv.TcPOU">
@@ -624,11 +724,15 @@
     <Compile Include="Templates\POUs\Universal\WeatherStation\Thies\FB_BA_ThiesWSC11.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\MAIN.TcPOU">
+    <Compile Include="Templates\POUs\Universal\WeatherStation\Thies\FB_BA_WeatherStation_Thies.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DUTs" />
+    <Folder Include="GVLs" />
+    <Folder Include="Templates" />
+    <Folder Include="POUs" />
     <Folder Include="Templates\DUTs" />
     <Folder Include="Templates\DUTs\Enumerations" />
     <Folder Include="Templates\DUTs\Enumerations\Building" />
@@ -638,6 +742,7 @@
     <Folder Include="Templates\DUTs\Enumerations\System" />
     <Folder Include="Templates\DUTs\Enumerations\Universal" />
     <Folder Include="Templates\DUTs\Types" />
+    <Folder Include="Templates\DUTs\Types\Actuator" />
     <Folder Include="Templates\DUTs\Types\Building" />
     <Folder Include="Templates\DUTs\Types\Facade" />
     <Folder Include="Templates\DUTs\Types\General" />
@@ -656,13 +761,16 @@
     <Folder Include="Templates\POUs\Trade\AirConditioning\Aggregates" />
     <Folder Include="Templates\POUs\Trade\AirConditioning\Aggregates\Cooler" />
     <Folder Include="Templates\POUs\Trade\AirConditioning\Aggregates\Cooler\Temperature" />
+    <Folder Include="Templates\POUs\Trade\AirConditioning\Aggregates\Damper" />
     <Folder Include="Templates\POUs\Trade\AirConditioning\Aggregates\ERC" />
     <Folder Include="Templates\POUs\Trade\AirConditioning\Aggregates\ERC\Plate" />
+    <Folder Include="Templates\POUs\Trade\AirConditioning\Aggregates\Fan" />
     <Folder Include="Templates\POUs\Trade\AirConditioning\Aggregates\PreHeater" />
     <Folder Include="Templates\POUs\Trade\AirConditioning\General" />
     <Folder Include="Templates\POUs\Trade\AirConditioning\Plants" />
     <Folder Include="Templates\POUs\Trade\AirConditioning\Setpoint" />
     <Folder Include="Templates\POUs\Trade\AirConditioning\Setpoint\Temperature" />
+    <Folder Include="Templates\POUs\Trade\AutomationControl" />
     <Folder Include="Templates\POUs\Trade\AutomationControl\ControlCabinet" />
     <Folder Include="Templates\POUs\Trade\AutomationControl\Device" />
     <Folder Include="Templates\POUs\Trade\AutomationControl\Device\BACnetSettings" />
@@ -670,37 +778,60 @@
     <Folder Include="Templates\POUs\Trade\AutomationControl\Device\TimeSettings" />
     <Folder Include="Templates\POUs\Trade\AutomationControl\EventClasses" />
     <Folder Include="Templates\POUs\Trade\BuildingAutomation" />
-    <Folder Include="Templates\POUs\Trade\BuildingAutomation\GlobalEventsAndSettings" />
     <Folder Include="Templates\POUs\Trade\BuildingAutomation\Communication" />
-    <Folder Include="Templates\POUs\Trade\BuildingAutomation\WeatherStation" />
+    <Folder Include="Templates\POUs\Trade\BuildingAutomation\General" />
+    <Folder Include="Templates\POUs\Trade\BuildingAutomation\General\Functions" />
+    <Folder Include="Templates\POUs\Trade\BuildingAutomation\Weather_Data" />
+    <Folder Include="Templates\POUs\Trade\BuildingAutomation\Weather_Data\Parameter" />
+    <Folder Include="Templates\POUs\Trade\DoorsGatesWindowsSunProtection" />
+    <Folder Include="Templates\POUs\Trade\DoorsGatesWindowsSunProtection\Communication" />
+    <Folder Include="Templates\POUs\Trade\HazardDetectionAlarmSystems" />
+    <Folder Include="Templates\POUs\Trade\HazardDetectionAlarmSystems\BurglarAlarmSystem" />
+    <Folder Include="Templates\POUs\Trade\HazardDetectionAlarmSystems\FireAlarmSystem" />
     <Folder Include="Templates\POUs\Trade\HeatingSystem" />
-    <Folder Include="Templates\POUs\Trade\AutomationControl" />
     <Folder Include="Templates\POUs\Trade\HeatingSystem\Distribution" />
     <Folder Include="Templates\POUs\Trade\HeatingSystem\Distribution\HeatingCircuit" />
     <Folder Include="Templates\POUs\Trade\HeatingSystem\General" />
     <Folder Include="Templates\POUs\Trade\HeatingSystem\Setpoint" />
-    <Folder Include="Templates\POUs\Trade\RoomAutomation">
-      <ExcludeFromBuild>false</ExcludeFromBuild>
-    </Folder>
+    <Folder Include="Templates\POUs\Trade\RoomAutomation" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\Common" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\Common\DALI FunctionBlocks" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\Common\Sensors" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\Communication" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\HeatingCooling" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\HeatingCooling\Functions" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\HeatingCooling\Functions\Zone" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\HeatingCooling\[Internal]" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\Lighting" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\Lighting\Actuators" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\Lighting\Functions" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\Lighting\Functions\Zone" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\Lighting\[Internal]" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\RoomSamples" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\SunProtection" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Actuators" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Building" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Facade" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\SunProtection\Functions\Zone" />
+    <Folder Include="Templates\POUs\Trade\RoomAutomation\SunProtection\[Internal]" />
     <Folder Include="Templates\POUs\Universal" />
+    <Folder Include="Templates\POUs\Universal\Aggregat" />
     <Folder Include="Templates\POUs\Universal\Aggregat\Analog" />
     <Folder Include="Templates\POUs\Universal\Aggregat\Binary" />
-    <Folder Include="Templates\POUs\Universal\Aggregat\Multistate" />
     <Folder Include="Templates\POUs\Universal\Aggregat\Modulation" />
+    <Folder Include="Templates\POUs\Universal\Aggregat\Multistate" />
     <Folder Include="Templates\POUs\Universal\Control" />
     <Folder Include="Templates\POUs\Universal\Control\AntiBlocking" />
+    <Folder Include="Templates\POUs\Universal\Control\EventClasses" />
     <Folder Include="Templates\POUs\Universal\Control\Hysteresis" />
     <Folder Include="Templates\POUs\Universal\Control\Monitoring" />
     <Folder Include="Templates\POUs\Universal\Control\Object" />
-    <Folder Include="Templates\POUs\Universal\Control\EventClasses" />
     <Folder Include="Templates\POUs\Universal\Control\PID" />
     <Folder Include="Templates\POUs\Universal\Control\Ramp" />
     <Folder Include="Templates\POUs\Universal\Control\Scale" />
     <Folder Include="Templates\POUs\Universal\Control\TimeDelay" />
     <Folder Include="Templates\POUs\Universal\Control\Trend" />
-    <Folder Include="Templates\POUs\Universal\Aggregat" />
-    <Folder Include="Templates\POUs\Universal\Damper" />
-    <Folder Include="Templates\POUs\Universal\Damper\2P" />
     <Folder Include="Templates\POUs\Universal\Motor" />
     <Folder Include="Templates\POUs\Universal\Motor\1st" />
     <Folder Include="Templates\POUs\Universal\Motor\Control" />
@@ -710,10 +841,6 @@
     <Folder Include="Templates\POUs\Universal\Valve" />
     <Folder Include="Templates\POUs\Universal\WeatherStation" />
     <Folder Include="Templates\POUs\Universal\WeatherStation\Thies" />
-    <Folder Include="DUTs" />
-    <Folder Include="GVLs" />
-    <Folder Include="Templates" />
-    <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
     <PlaceholderReference Include="Tc2_MDP">
@@ -735,22 +862,679 @@
     <PlaceholderReference Include="Tc2_System">
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
+      <Parameters>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>TABLE_UPPER_BOUND</Key>
+          <Value>15</Value>
+        </Parameter>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>STRING_LENGTH_EXP</Key>
+          <Value>255</Value>
+        </Parameter>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>STRING_LENGTH_ADDRESS</Key>
+          <Value>20</Value>
+        </Parameter>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>STRING_LENGTH_COMMENT</Key>
+          <Value>255</Value>
+        </Parameter>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>STRING_LENGTH_OUTSTRING</Key>
+          <Value>255</Value>
+        </Parameter>
+        <Parameter ListName="PARAM" xmlns="">
+          <Key>TABLE_SHOW_VALID_ITEMS</Key>
+          <Value>FALSE</Value>
+        </Parameter>
+      </Parameters>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Utilities">
       <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Utilities</Namespace>
+      <Parameters>
+        <Parameter ListName="PARAMETERLIST" xmlns="">
+          <Key>NMAXLICENSES</Key>
+          <Value>50</Value>
+        </Parameter>
+        <Parameter ListName="PARAMETERLIST" xmlns="">
+          <Key>NMAXLICENSEDEVICES</Key>
+          <Value>16</Value>
+        </Parameter>
+        <Parameter ListName="PARAMETERLIST" xmlns="">
+          <Key>NMAXCPUCOUNT</Key>
+          <Value>64</Value>
+        </Parameter>
+        <Parameter ListName="PARAMETERLIST" xmlns="">
+          <Key>CMAXCHARACTERS</Key>
+          <Value>16#FFFFFFF0</Value>
+        </Parameter>
+        <Parameter ListName="PARAMETERLIST" xmlns="">
+          <Key>NMAXFILESONDONGLE</Key>
+          <Value>20</Value>
+        </Parameter>
+        <Parameter ListName="PARAMETERLIST" xmlns="">
+          <Key>CMAXCSVFIELDVALUESIZE</Key>
+          <Value>255</Value>
+        </Parameter>
+      </Parameters>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_BA2">
       <DefaultResolution>Tc3_BA2, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_BA2</Namespace>
+      <Parameters>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NSUNPRT_MAXSUNBLDSCN</Key>
+          <Value>20</Value>
+        </Parameter>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NSUNPRT_MAXROWFCD</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NSUNPRT_MAXCOLUMNFCD</Key>
+          <Value>20</Value>
+        </Parameter>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NSUNPRT_MAXSHDOBJ</Key>
+          <Value>20</Value>
+        </Parameter>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NSUNPRT_MAXDATAFILESIZE</Key>
+          <Value>100000</Value>
+        </Parameter>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NMAXSEQCTRL</Key>
+          <Value>8</Value>
+        </Parameter>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NMAXPRIORITY</Key>
+          <Value>16</Value>
+        </Parameter>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NMAXAGGREGATE</Key>
+          <Value>16</Value>
+        </Parameter>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NMAXPROFILE</Key>
+          <Value>16</Value>
+        </Parameter>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NSCHEDULEENTRYCOUNT</Key>
+          <Value>6</Value>
+        </Parameter>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NSCHEDULECALENDARCOUNT</Key>
+          <Value>3</Value>
+        </Parameter>
+        <Parameter ListName="BA_PARAM" xmlns="">
+          <Key>NSCHEDULEEXCEPTIONCOUNT</Key>
+          <Value>24</Value>
+        </Parameter>
+      </Parameters>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_BA2_Common">
       <DefaultResolution>Tc3_BA2_Common, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_BA2_Common</Namespace>
+      <Parameters>
+        <Parameter ListName="BACOMN_PARAM" xmlns="">
+          <Key>NSTRTOKENIZER_BUFFERSIZE</Key>
+          <Value>32</Value>
+        </Parameter>
+        <Parameter ListName="BACOMN_PARAM" xmlns="">
+          <Key>NSTRTOKENIZER_MAXLEVEL</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="BACOMN_PARAM" xmlns="">
+          <Key>NMAXNUMOFCMPVAL</Key>
+          <Value>32</Value>
+        </Parameter>
+      </Parameters>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_BACnetRev14">
       <DefaultResolution>Tc3_BACnetRev14, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_BACnetRev14</Namespace>
+      <Parameters>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>TADS_TIMEOUT</Key>
+          <Value>TIME#15s0ms</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NADS_BUFFERSIZE</Key>
+          <Value>16#18000</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>EPRIO_LIFESAFETY</Key>
+          <Value>E_BACnet_Priority.eP1</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>EPRIO_CRITICAL</Key>
+          <Value>E_BACnet_Priority.eP5</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>EPRIO_MANLOCAL</Key>
+          <Value>E_BACnet_Priority.eP7</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>EPRIO_MANOPERATOR</Key>
+          <Value>E_BACnet_Priority.eP8</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>EPRIO_PROGRAM</Key>
+          <Value>E_BACnet_Priority.eP15</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>EPRIO_DEFAULT</Key>
+          <Value>E_BACnet_Priority.eDefault</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>EREMOTEPRIO_DEFAULT</Key>
+          <Value>E_BACnet_Priority.eP8</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>SEVTMGMT_ACKMSGREMOTE</Key>
+          <Value>'Acknowledged by remote user.'</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>SEVTMGMT_ACKMSGPLC</Key>
+          <Value>'Acknowledged by PLC.'</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>BUTF8AUTOCONVERT</Key>
+          <Value>TRUE</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>SSEPARATOR_OBJECTNAME</Key>
+          <Value>'_'</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>SSEPARATOR_DESCRIPTION</Key>
+          <Value>' - '</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>SSEPARATOR_EVENTMESSAGETEXT</Key>
+          <Value>' - '</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NSTATETEXT_LENGTH</Key>
+          <Value>40</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>BSTATETEXT_WRITEPROTECT</Key>
+          <Value>FALSE</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>EVIEW_SUBORDINATEANNOTATIONMODE</Key>
+          <Value>E_BACnet_AnnotationTitle.eObjectName</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NMULTISTATE_STATECOUNT</Key>
+          <Value>12</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>SMULTISTATE_DEFAULTSTATETEXT</Key>
+          <Value>['State 1', 'State 2', 'State 3']</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NTLOG_BUFFERENTRYCOUNT</Key>
+          <Value>500</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NTLM_REFERENCECOUNT</Key>
+          <Value>8</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NELOG_BUFFERENTRYCOUNT</Key>
+          <Value>250</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NLOOP_PRIOFORWRITING</Key>
+          <Value>E_BACnet_Priority.eP16</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NCAL_DATELISTCOUNT</Key>
+          <Value>24</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NNC_RECIPIENTLISTSIZE</Key>
+          <Value>8</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NSCHED_PRIOFORWRITING</Key>
+          <Value>E_BACnet_Priority.eP16</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NSCHED_ENTRYCOUNT</Key>
+          <Value>6</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NSCHED_CALENDARCOUNT</Key>
+          <Value>3</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NSCHED_EXCEPTIONCOUNT</Key>
+          <Value>24</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NSCHED_REFERENCECOUNT</Key>
+          <Value>2</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>ESCHED_BTYPE</Key>
+          <Value>E_BACnet_SchedBType.eBinaryPV</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NEE_EVENTPARAMETER_BINARYCODEDSIZE</Key>
+          <Value>100</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_AI</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_AIRAW</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_AO</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_AO5P</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_AORAW</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_AORAW5P</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_AV</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_AVRAW5P</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_AVEVENT</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_AVDISP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_AVSETP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_BI</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_BIRAW</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_BO</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_BO5P</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_BORAW</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_BORAW5P</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_BV</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_BVRAW5P</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_BVEVENT</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_BVDISP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_BVSETP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_MI</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_MIRAW</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_MO</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_MO5P</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_MORAW</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_MORAW5P</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_MV</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_MVRAW5P</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_MVEVENT</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_MVDISP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_MVSETP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_CAL</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_DEVICE</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_EE</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_FILE</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_LOOP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_LOOPREF</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_NC</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_PROG</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_SCHEDA</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_SCHEDB</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_SCHEDM</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_TLOG</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_TLOGBUF</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_ACC</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_ACCRAW</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_PC</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_PCRAW</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_VIEW</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_DATE</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_DATEP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_DATETIME</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_DATETIMEP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_TIME</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_TIMEP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_INT</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_LAV</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_STRING</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOL_UINT</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_AI</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_AO</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_AV</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_AVDISP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_AVSETP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_BI</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_BO</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_BV</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_BVDISP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_BVSETP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_MI</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_MO</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_MV</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_MVDISP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_MVSETP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_CAL</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_DEVICE</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_EE</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_FILE</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_LOOP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_NC</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_PROG</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_SCHEDA</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_SCHEDB</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_SCHEDM</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_TLOG</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_ACC</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_PC</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_DATE</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_DATEP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_DATETIME</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_DATETIMEP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_TIME</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_TIMEP</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_INT</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_LAV</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_STRING</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPOOLRM_UINT</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>NPROP_LISTENTRYCOUNT</Key>
+          <Value>16</Value>
+        </Parameter>
+        <Parameter ListName="BACNET_PARAM" xmlns="">
+          <Key>STPROP_DEFAULTSETTINGS</Key>
+          <Value>STRUCT()</Value>
+        </Parameter>
+      </Parameters>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_DALI">
+      <DefaultResolution>Tc3_DALI, * (Beckhoff Automation GmbH)</DefaultResolution>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
@@ -759,20 +1543,376 @@
     <PlaceholderReference Include="Tc3_XBA">
       <DefaultResolution>Tc3_XBA, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_XBA</Namespace>
+      <Parameters>
+        <Parameter ListName="XBA_BACNETPARAM" xmlns="">
+          <Key>SEVENTMESSAGETEXTFORMAT</Key>
+          <Value>'{Descr} - {EvtTrans}'</Value>
+        </Parameter>
+        <Parameter ListName="XBA_BACNETPARAM" xmlns="">
+          <Key>FRM_AO_WRITEINCREMENT</Key>
+          <Value>0.0</Value>
+        </Parameter>
+        <Parameter ListName="XBA_BACNETPARAM" xmlns="">
+          <Key>EVIEW_SUBORDINATEANNOTATIONMODE</Key>
+          <Value>E_BACnet_AnnotationTitle.eSymbolName</Value>
+        </Parameter>
+        <Parameter ListName="XBA_BACNETPARAM" xmlns="">
+          <Key>APRIORITY</Key>
+          <Value>[E_BACnet_Priority.eP15, E_BACnet_Priority.eP8, E_BACnet_Priority.eP7, E_BACnet_Priority.eP3, E_BACnet_Priority.eP1]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_BACNETPARAM" xmlns="">
+          <Key>ANODETYPE</Key>
+          <Value>[E_BACnet_NodeType.eUnknown, E_BACnet_NodeType.eOther, E_BACnet_NodeType.eOrganizational, E_BACnet_NodeType.eOrganizational, E_BACnet_NodeType.eOrganizational, E_BACnet_NodeType.eOrganizational, E_BACnet_NodeType.eOrganizational, E_BACnet_NodeType.eOrganizational, E_BACnet_NodeType.eOrganizational, E_BACnet_NodeType.eOrganizational, E_BACnet_NodeType.eOrganizational, E_BACnet_NodeType.eOrganizational, E_BACnet_NodeType.eEquipment, E_BACnet_NodeType.eFunctional]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_BACNETPARAM" xmlns="">
+          <Key>ANOTIFYTYPE</Key>
+          <Value>[E_BACnet_NotifyType.eAlarm, E_BACnet_NotifyType.eAlarm, E_BACnet_NotifyType.eNotifyEvent, E_BACnet_NotifyType.eNotifyEvent, E_BACnet_NotifyType.eNotifyEvent]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_BACNETPARAM" xmlns="">
+          <Key>AEVENTSTATE</Key>
+          <Value>[E_BACnet_EventState.eNormal, E_BACnet_EventState.eFault, E_BACnet_EventState.eOffnormal, E_BACnet_EventState.eLowLimit, E_BACnet_EventState.eHighLimit]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>BENABLEBACNET</Key>
+          <Value>TRUE</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NENABLEDSUPPLEMENTS</Key>
+          <Value>1</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NCOM_BACNETRM_IOCOUNT</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>BSITESERVER_ENABLE</Key>
+          <Value>TRUE</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NSITESERVER_BUFFERSIZE</Key>
+          <Value>8192</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NSITESERVER_SESSIONTIMEOUT</Key>
+          <Value>TIME#20s0ms</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NSITECLIENT_BUFFERSIZE</Key>
+          <Value>1024</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>TSITECLIENT_READTIMEOUT</Key>
+          <Value>TIME#5s0ms</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>ELANGUAGE</Key>
+          <Value>E_BA_Language.eEnglish</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>BUTF8AUTOCONVERT</Key>
+          <Value>TRUE</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NDPAD_LEVELS</Key>
+          <Value>10</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NDPAD_DEFINDEXDIGITS</Key>
+          <Value>2</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>SDPAD_OBJECTNAME_DEFSEPARATOR</Key>
+          <Value>'_'</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>EDPAD_OBJECTNAME_MANOVRCONCATMODE</Key>
+          <Value>E_BA_ConcatDPADMode.eNone</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>SDPAD_DESCRIPTION_DEFSEPARATOR</Key>
+          <Value>' - '</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>EDPAD_DESCRIPTION_MANOVRCONCATMODE</Key>
+          <Value>E_BA_ConcatDPADMode.eNone</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>BDPAD_DESCRIPTION_EXPLICITINDEX</Key>
+          <Value>TRUE</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>EEVTMGMT_ACKMODE</Key>
+          <Value>E_BA_AcknowledgeMode.eSingle</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>SEVTMGMT_ACKMSGINTERNAL</Key>
+          <Value>'Built-in acknowledgement.'</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>SEVTMGMT_ACKMSGREMOTE</Key>
+          <Value>'Acknowledged by remote user.'</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>SEVTMGMT_ACKMSGPLC</Key>
+          <Value>'Acknowledged by PLC.'</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>AACKFLAGS_USERDEFINED</Key>
+          <Value>[TRUE, FALSE, TRUE]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>AACKFLAGS_SIMPLE</Key>
+          <Value>[TRUE, TRUE, FALSE]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>AACKFLAGS_STANDARD</Key>
+          <Value>[TRUE, TRUE, FALSE]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>AACKFLAGS_EXTENDED</Key>
+          <Value>[TRUE, TRUE, TRUE]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>AEVENTEN_USERDEFINED</Key>
+          <Value>[TRUE, FALSE, TRUE]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>AEVENTEN_SIMPLE</Key>
+          <Value>[TRUE, TRUE, FALSE]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>AEVENTEN_STANDARD</Key>
+          <Value>[TRUE, TRUE, FALSE]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>AEVENTEN_EXTENDED</Key>
+          <Value>[TRUE, TRUE, TRUE]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NEVENTHISTORY_ENTRYCOUNT</Key>
+          <Value>2048</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NEVENTTRANSITIONTEXT_LENGTH</Key>
+          <Value>24</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>AEVENTTRANSITIONTEXT</Key>
+          <Value>['To Offnormal', 'To Fault', 'To Normal']</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NEVENTLIST_ENTRYCOUNT</Key>
+          <Value>512</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NINSTID_AUTOGENERATEOFFSET</Key>
+          <Value>100</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NSTATETEXT_LENGTH</Key>
+          <Value>40</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NTAG_LENGTH</Key>
+          <Value>8</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>ADEFREADACCESS</Key>
+          <Value>[E_BA_Parameter.Count(0)]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>ADEFWRITEACCESS</Key>
+          <Value>[E_BA_Parameter.Count(0)]</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NMULTISTATE_STATECOUNT</Key>
+          <Value>25</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>FINPUT_DEFRESOLUTION</Key>
+          <Value>0.1</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>FINPUT_DEFSCALEOFFSET</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>FOUTPUT_DEFRESOLUTION</Key>
+          <Value>0.00305185</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>FOUTPUT_DEFSCALEOFFSET</Key>
+          <Value>0</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>FINPUT_DEFSENSOR</Key>
+          <Value>E_BA_MeasuringElement.eNI1000</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>FDEFLIMITDEADBAND</Key>
+          <Value>0.0</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NDEFTIMEDELAY_TOABNORMAL</Key>
+          <Value>1</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NDEFTIMEDELAYAO_TOABNORMAL</Key>
+          <Value>1</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NDEFTIMEDELAYBO_TOABNORMAL</Key>
+          <Value>30</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NDEFTIMEDELAYMO_TOABNORMAL</Key>
+          <Value>30</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>FDEFCOVINCREMENT</Key>
+          <Value>0.1</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NPLANTCTRL_OPMODECOUNT</Key>
+          <Value>16</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NPLANTCTRL_AGGREGATECOUNT</Key>
+          <Value>16</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NSEQLINK_REFCOUNT</Key>
+          <Value>16</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NMAXSEQCTRL</Key>
+          <Value>8</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NCOLLECT_REFCOUNT</Key>
+          <Value>16</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NLOOP_DEFOPMODE</Key>
+          <Value>E_BA_PIDMode.eP1ID</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NTREND_BUFFERSIZE</Key>
+          <Value>500</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>STTREND_DEFSTARTTIME</Key>
+          <Value>STRUCT()</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>STTREND_DEFSTOPTIME</Key>
+          <Value>STRUCT()</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>BTREND_DEFSTOPONFULL</Key>
+          <Value>FALSE</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NTREND_DEFLOGINTERVAL</Key>
+          <Value>900</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NTREND_DEFNOTIFICATIONTHRESHOLD</Key>
+          <Value>50</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>ETREND_DEFLOGGINGTYPE</Key>
+          <Value>E_BA_LoggingType.ePolled</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NCAL_ENTRYCOUNT</Key>
+          <Value>24</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NSCHED_ENTRYCOUNT</Key>
+          <Value>6</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NSCHED_CALENDARCOUNT</Key>
+          <Value>3</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NSCHED_EXCEPTIONCOUNT</Key>
+          <Value>24</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NSIM_AISEN_DEFDAMPCONSTANT</Key>
+          <Value>20</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>TSUB_READTOLERANCE</Key>
+          <Value>TIME#0ms</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>BSUB_CLEARONREADERROR</Key>
+          <Value>FALSE</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>TSUB_DEFREADINTERVAL</Key>
+          <Value>TIME#30s0ms</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NGROUPCMD_REFCOUNT</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NGROUPDSP_REFCOUNT</Key>
+          <Value>5</Value>
+        </Parameter>
+        <Parameter ListName="XBA_PARAM" xmlns="">
+          <Key>NGROUPVAL_REFCOUNT</Key>
+          <Value>5</Value>
+        </Parameter>
+      </Parameters>
     </PlaceholderReference>
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderResolution Include="Tc2_DataExchange">
+      <Resolution>Tc2_DataExchange, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Tc2_IoFunctions">
+      <Resolution>Tc2_IoFunctions, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Tc2_Math">
+      <Resolution>Tc2_Math, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Tc2_MDP">
+      <Resolution>Tc2_MDP, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Tc2_SerialCom">
+      <Resolution>Tc2_SerialCom, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Tc2_Standard">
+      <Resolution>Tc2_Standard, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Tc2_SUPS">
+      <Resolution>Tc2_SUPS, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Tc2_System">
+      <Resolution>Tc2_System, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Tc2_Utilities">
+      <Resolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
     <PlaceholderResolution Include="Tc3_BA2">
-      <Resolution>Tc3_BA2, 5.3.10.0 (Beckhoff Automation GmbH)</Resolution>
+      <Resolution>Tc3_BA2, * (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="Tc3_BA2_Common">
-      <Resolution>Tc3_BA2_Common, 2.2.14.0 (Beckhoff Automation GmbH)</Resolution>
+      <Resolution>Tc3_BA2_Common, * (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
     <PlaceholderResolution Include="Tc3_BACnetRev14">
-      <Resolution>Tc3_BACnetRev14, 4.2.27.0 (Beckhoff Automation GmbH)</Resolution>
+      <Resolution>Tc3_BACnetRev14, * (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
-    <PlaceholderResolution Include="Tc3_XBA">
-      <Resolution>Tc3_XBA, 5.5.11.0 (Beckhoff Automation GmbH)</Resolution>
+    <PlaceholderResolution Include="Tc3_EventLogger">
+      <Resolution>Tc3_EventLogger, * (Beckhoff Automation GmbH)</Resolution>
+    </PlaceholderResolution>
+    <PlaceholderResolution Include="Tc3_Module">
+      <Resolution>Tc3_Module, * (Beckhoff Automation GmbH)</Resolution>
     </PlaceholderResolution>
   </ItemGroup>
   <ItemGroup>

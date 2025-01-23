@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BA_Ext_LightCtrl" Id="{eb9030c7-9871-42d8-a6f5-4373c1f02c67}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "RA, Beleuchtung, Anwenderfunktionen, Zone"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "RA, Lighting, User-functions, zone"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_LightActuatorFeedback"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Beleuchtung interner Baustein"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Lighting internal function"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_Ext_LightCtrl EXTENDS FB_BA_Ext_LightBase
+VAR	
+	{attribute 'BaParam.Title.DE' := 'Setzen Lichtwert Hand'}
+	{attribute 'BaParam.Title.EN' := 'Set light value manual'}
+	{attribute 'BaParam.Access.Write' := 'Basic'}
+	bSetLightValueMan_In		: BOOL;						// setting value in manual mode: a rising edge at this input sets the output to fSetValMan and turns the function into manual mode immediately, regardless of its previous state
+	{attribute 'BaParam.Title.DE' := 'Lichtwert Hand'}
+	{attribute 'BaParam.Title.EN' := 'Light value manual'}
+	{attribute 'BaParam.Access.Write' := 'Basic'}
+	fSetLightValueMan_In		: REAL;						// setting value in manual mode, limited from 0 to 100.
+	{attribute 'BaParam.Title.DE' := 'Lichtwert Rückmeldung'}
+	{attribute 'BaParam.Title.EN' := 'Light value feedback'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	fLightValue_Out				: REAL;						// to external
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

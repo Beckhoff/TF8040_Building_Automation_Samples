@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
-  <POU Name="MAIN" Id="{9ed6b420-c511-49d4-b7af-98ea1ec56652}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="MAIN" Id="{992dd72a-c6fb-4b96-9f6e-3c624331df19}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 DPAD		: FB_BA_CarelessDPAD := (
@@ -12,103 +12,108 @@ DPAD		: FB_BA_CarelessDPAD := (
 	(* Level 5 *)		(	eNodeType:=E_BA_NodeType.eAggregate,		sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 2),
 	(* Level 6 *)		(	eNodeType:=E_BA_NodeType.eFunction,			sSeparator_ObjectName := '-', 	sSeparator_Description := ' - ',	nIndexDigits := 2)
 					]
-				);				
-
-			
+				);
 //	Level 1 Gebäude 	
 //	Level 1 Building 	
 		B			: FB_BA_View := (
 						sObjectName		:= 'B',	
 						sDescription	:= 'Building B',	
 						eDPADMode		:= E_BA_DPADMode.eInclude					
-					);     
-  
-// Level 2 Stockwerk 	->	O01 = Obergeschoss 01, U01 = Untergeschoss 01,  E00 = Ergeschoss
-// Level 2 floor ->	F01 = floor 01, B01 = basement 01,  GFL = Ground floor  						
-			F01			: FB_BA_View := (
+					);
+// Level 2 Gebäudeteil
+// Level 2 Part of building						
+			PB1			: FB_BA_View := (
 							iParent 		:= B,
-							sObjectName		:= '{F01}',		
-							sDescription	:= '{Floor 01}',
+							sObjectName		:= '{PB1}',		
+							sDescription	:= '{Part of building 1}',
 							eDPADMode		:= E_BA_DPADMode.eInclude					
-						);  
+						);   
 // Level 3 Gewerk Automationsschwerpunkt
 // Level 3 Trade AutomationFocalPoint                                                                                       	
 				ACE			: FB_BA_AutomationControl := (
-								iParent 		:= F01,
+								iParent 		:= PB1,
 								sObjectName		:= '{ACE}',
 								sDescription	:= '{Automation Control}',			
 								eDPADMode		:= E_BA_DPADMode.eInclude					
-							);     
-// Level 3 Gewerk Gebäudeautomation Allgemein   
-// Level 3 Trade General                                                                                       	
-				BAG			: FB_BA_BuildingAutomation := (
-								iParent 		:= F01,
+							);
+// Level 3 Gewerk Gebäudeautomation Allgemein	- SERVER
+// Level 3 Trade building automation general	- SERVER                                                                       	
+				BAG			: FB_BA_BuildingAutomationServer := (
+								iParent 		:= PB1,
 								sObjectName		:= '{BAG}',
 								sDescription	:= '{Building Automation}',			
-								eDPADMode		:= E_BA_DPADMode.eInclude					
-							);  	 											   	 											
-
-// Level 3 Gewerk Luftechnische Anlagen      
-// Level 3 Trade ventilation system        
-				ACS			: FB_BA_AirConditioning := (
-								iParent 		:= F01,
-								sObjectName		:= '{ACS}',
-								sDescription	:= '{Air Conditioning}',  									
-								eDPADMode		:= E_BA_DPADMode.eInclude					
-							);  			                                                                        	
+								eDPADMode		:= E_BA_DPADMode.eInclude
+							);    	
 // Level 3 Gewerk Wärmeversorgungsanlagen  
 // Level 3 Trade Heat supply systems, heat distribution  --> 	HD = heat distribution, HG = heat generation
 				HTG			: FB_BA_Heating := (
-								iParent 		:= F01,
+								iParent 		:= PB1,
 								sObjectName		:= '{HTG}',
 								sDescription	:= '{Heating}',        		
 								eDPADMode		:= E_BA_DPADMode.eInclude			
 							);     	    
-// Level 3 Gewerk Raumautomation    
-// Level 3 Trade room automation                                                                              	
-				ROM			: FB_BA_RoomAutomation := (
-								iParent			:= F01,
+// Level 3 Gewerk Luftechnische Anlagen      
+// Level 3 Trade ventilation system        
+				ACS			: FB_BA_AirConditioning := (
+								iParent 		:= PB1,
+								sObjectName		:= '{ACS}',
+								sDescription	:= '{Air Conditioning}',  									
+								eDPADMode		:= E_BA_DPADMode.eInclude					
+							);  			     
+// Level 3 Gewerk Raumautomation	- SERVER
+// Level 3 Trade room automation	- SERVER
+				ROM			: FB_BA_RoomAutomationServer := (
+								iParent			:= PB1,
 								sObjectName		:= '{ROM}',
 								sDescription	:= '{Room automation}',        											
 								eDPADMode		:= E_BA_DPADMode.eInclude
-							); 
-
+							);
+// Level 3 Gewerk Gefahrenmelde- und Alarmanlagen   
+// Level 3 Trade Hazard Detection and Alarm Systems  				
+				HDAS		: FB_BA_HazardDetectionAlarmSystems:= (
+								iParent 		:= PB1,
+								sObjectName		:= '{GMA}',
+								sDescription	:= '{Hazard detection and alarm systems}',			
+								eDPADMode		:= E_BA_DPADMode.eInclude
+							);
+// Level 3 Gewerk Türen, Tore, Fenster, Sonnenschutz	- SERVER
+// Level 3 Trade Doors, gates, windwos, sun protection	- SERVER
+				DGWSP		: FB_BA_DGWSPServer := (
+								iParent 		:= PB1,
+								sObjectName		:= '{TTF}',
+								sDescription	:= '{Doors - gates - windows - sun-protection}',			
+								eDPADMode		:= E_BA_DPADMode.eInclude
+							);								
 // SystemTime Settings								
 	BACnetTime_TO_SysTime		: FB_BA_BACnetTime_TO_SysTime;	
 	ExternalSysTime				: FB_BA_ExternalSysTime;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-//	Level 1 Gebäude 	Building		
+      <ST><![CDATA[//	Level 1 Gebäude 	Building		
 	B();
-// Level 2 Stockwerk -->	O01 = Obergeschoss 01, U01 = Untergeschoss 01,  E00 = Ergeschoss 	floor ->	F01 = floor 01, B01 = basement 01,  GFL = Ground floor
-		F01();
-// Level 3 Gewerk Wärmeversorgungsanlagen	Heat supply systems	
-			HTG(); 	
-// Level 3 Gewerk Automation		Trade Automation			
+// Level 2 Gebäudeteil		Part of building
+		PB1();
+// Level 3 Gewerk Automation							Trade Automation			
 			ACE(); 							
-// Level 3 Gewerk Gebäudeautomation Allgemein		Trade BuildingAutomationGeneral			
+// Level 3 Gewerk Gebäudeautomation Allgemein			Trade BuildingAutomationGeneral			
 			BAG(); 								
-// Level 3 Gewerk Lufttechnische Anlagen		Trade ventilation system	
+// Level 3 Gewerk Wärmeversorgungsanlagen				Trade Heat supply systems	
+			HTG(); 	
+// Level 3 Gewerk Lufttechnische Anlagen				Trade ventilation system	
 			ACS(); 								
-// Level 3 Gewerk Raumautomation	Trade room automation 
+// Level 3 Gewerk Raumautomation						Trade room automation 
 			ROM(); 		
-						
-						
+// Level 3 Gewerk Gefahrenmelde- und Alarmanlagen		Trade Hazard detection and alarm systems
+			HDAS();	
+// Level 3 Gewerk Türen, Tore, Fenster, Sonnenschutz	Trade Doors, gates, windows, sun protection			
+			DGWSP();	
+
 //	BACnetTime_TO_SysTime();	
-	ExternalSysTime();	]]></ST>
+	ExternalSysTime();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="87" Count="0" />
-      <LineId Id="89" Count="1" />
-      <LineId Id="95" Count="1" />
-      <LineId Id="98" Count="1" />
-      <LineId Id="319" Count="0" />
-      <LineId Id="318" Count="0" />
-      <LineId Id="100" Count="5" />
-      <LineId Id="162" Count="0" />
-      <LineId Id="393" Count="1" />
-      <LineId Id="392" Count="0" />
+      <LineId Id="3" Count="19" />
+      <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

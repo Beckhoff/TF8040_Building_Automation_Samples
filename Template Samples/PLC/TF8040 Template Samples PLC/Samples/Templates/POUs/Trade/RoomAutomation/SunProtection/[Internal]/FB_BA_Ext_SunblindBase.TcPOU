@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BA_Ext_SunblindBase" Id="{04749455-9794-4426-ab85-f83dada88ce6}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "RA, Sunprotection, Sunblind, Zone"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "RA, Sunprotection, Sunblind, Zone"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_Facade"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Sonnenschutzlogik interner Baustein"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Sunblind-logic inernal function)"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_Ext_SunblindBase EXTENDS FB_BA_Object
+VAR_INPUT
+	bRstManFnct				: BOOL;								// reset the external function from outside
+END_VAR
+VAR		
+	{attribute 'BaParam.Title.DE' := 'Hoch'}
+	{attribute 'BaParam.Title.EN' := 'Up'}
+	{attribute 'BaParam.Access.Write' := 'Basic'}
+	bUp_In					: BOOL;								// from external
+	{attribute 'BaParam.Title.DE' := 'Herunter'}
+	{attribute 'BaParam.Title.EN' := 'Down'}
+	{attribute 'BaParam.Access.Write' := 'Basic'}
+	bDown_In				: BOOL;								// from external
+	{attribute 'BaParam.Title.DE' := 'Reset Hand'}
+	{attribute 'BaParam.Title.EN' := 'Reset manual'}
+	{attribute 'BaParam.Access.Write' := 'Basic'}
+	bResetManual_In			: BOOL;								// from external
+	{attribute 'BaParam.Title.DE' := 'Rückmeldung Fehler'}
+	{attribute 'BaParam.Title.EN' := 'Feedback Error'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	bErr_Out				: BOOL;								// to external
+	{attribute 'BaParam.Title.DE' := 'Rückmeldung geöffnet'}
+	{attribute 'BaParam.Title.EN' := 'Feedback open'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	bOpened_Out				: BOOL;								// to external
+	{attribute 'BaParam.Title.DE' := 'Rückmeldung geschlossen'}
+	{attribute 'BaParam.Title.EN' := 'Feedback close'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	bClosed_Out				: BOOL;								// to external
+	{attribute 'BaParam.Title.DE' := 'Aktuell steuernde Priorität'}
+	{attribute 'BaParam.Title.EN' := 'Actual controlling priority'}
+	{attribute 'BaParam.Access.Write' := 'Locked'}
+	{attribute 'BaParam.Access.Read' := 'Guest'}
+	eActualPrio_Out			: BYTE;								// priority of resulting zone-telegram
+		                                                    	
+	                                                        	
+	bInitialize_In			: BOOL;								// from external // actually not used by external control
+	bBusy					: BOOL;								// to external // actually not used by external control
+	bReferencing			: BOOL;								// to external // actually not used by external control
+	bBlindMoving			: BOOL;                         	
+	                                                        	
+	stSunblindCmdExt		: ST_BA_SunBld;						// telegram assembled from external data
+	stSunblindCmdResult		: ST_BA_SunBld;						// telegram to extract information for external handling
+		                    
+	rtUp					: R_TRIG;
+	rtDown					: R_TRIG;
+	rtReferencing			: R_TRIG;
+	ftBusy					: F_TRIG;
+	                        
+	_nResetManual_In		: BYTE;
+	_nInitialize_In			: BYTE;
+END_VAR
+VAR_INPUT CONSTANT PERSISTENT
+	ePrio					: BYTE	:= E_BA_SunbldPrio.eManualGroup;	// priority of external telegram
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+
+// predefinition of priority
+stSunblindCmdExt.ePrio		:= ePrio;
+
+// state moving
+bBlindMoving	:= bBusy AND NOT bReferencing;
+
+// reset telegram from outside or from HMI or set 0%/100% as on/off
+IF bRstManFnct	OR (bResetManual_In AND (_nResetManual_In=1))	THEN	// bResetManual_In has to go through the other parts first before having an effect here
+	stSunblindCmdExt.bActv			:= FALSE;
+	stSunblindCmdExt.bManUp			:= FALSE;
+	stSunblindCmdExt.bManDwn		:= FALSE;
+	stSunblindCmdExt.bManMod		:= FALSE;
+ELSIF (bUp_In OR bDown_In) AND_THEN bBlindMoving	THEN   		// stop while driving
+		stSunblindCmdExt.bManUp		:= FALSE; 
+		stSunblindCmdExt.bManDwn	:= FALSE;
+ELSIF bUp_In								THEN    
+		stSunblindCmdExt.bManUp		:= TRUE;
+		stSunblindCmdExt.bManDwn	:= FALSE;
+ELSIF bDown_In 							THEN   
+		stSunblindCmdExt.bManUp		:= FALSE; 
+		stSunblindCmdExt.bManDwn	:= TRUE;
+END_IF
+
+IF	bOpened_Out	THEN    
+		stSunblindCmdExt.bManUp		:= FALSE;
+END_IF
+IF	bClosed_Out	THEN    
+		stSunblindCmdExt.bManDwn	:= FALSE;
+END_IF
+
+rtUp	(CLK:=	stSunblindCmdExt.bManUp);
+rtDown	(CLK:=	stSunblindCmdExt.bManDwn);
+
+IF rtUp.Q	OR rtDown.Q	THEN
+	stSunblindCmdExt.bActv			:= TRUE;
+	stSunblindCmdExt.bManMod		:= TRUE;
+	// Event-increment as timestamp
+	BA_Globals.nEvtIncSunBld		:= BA_Globals.nEvtIncSunBld+1;
+	stSunblindCmdExt.nEvtInc		:= BA_Globals.nEvtIncSunBld;
+END_IF
+
+ftBusy			(CLK := bBusy);			// trigger for children to take over the actual values as target-values
+rtReferencing	(CLK := bReferencing);	// trigger for children to take over the actual values as target-values
+bUp_In	:= bDown_In	:= FALSE;
+
+// reset bResetManual_In after one cycle
+IF bResetManual_In	THEN
+	_nResetManual_In	:= _nResetManual_In+1;
+	IF _nResetManual_In>=2	THEN
+		bResetManual_In	:= FALSE;
+		_nResetManual_In	:= 0;
+	END_IF
+END_IF
+
+// reset bInitialize_In after one cycle
+IF bInitialize_In	THEN
+	_nInitialize_In	:= _nInitialize_In+1;
+	IF _nInitialize_In>=2	THEN
+		bInitialize_In	:= FALSE;
+		_nInitialize_In	:= 0;
+	END_IF
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

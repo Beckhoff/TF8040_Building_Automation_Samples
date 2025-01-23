@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_BA_SunblindActuatorFeedback" Id="{211985cc-1e08-48ec-84e3-003fcecd2b14}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "DUT, Types, RA, Feedback, Sunblind"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "DUT, Types, RA, Feedback, Sunblind"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Rückmeldung Sonnenschutzaktor an Zonensteuerung (Anwenderfunktion)"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Feedback sunblind-actuator to zone-control (user-function)"'}
+{endregion}
+TYPE ST_BA_SunblindActuatorFeedback :
+STRUCT
+	bReferencing			: BOOL;					// referencing									(1 byte)
+	bErr					: BOOL;					// error										(1 byte)	
+	bBusy					: BOOL;					// actuator busy								(1 byte)	
+	ePrio					: BYTE;					// priority of active telegram					(1 byte)	
+   {attribute 'hide'}
+	aDummy					: ARRAY[1..4] OF BYTE; 	// padding bytes, in order to reach a limit corresponding to the largest data type (divisible by 8 bytes)
+	fPosition				: REAL;					// sunblind position							(4 bytes)
+	fAngle					: REAL;                 // sunblind angle								(4 bytes)
+	fAnglLmtUp				: REAL;					// for internal calulations						(4 bytes)
+	fAnglLmtDwn				: REAL;					// for internal calulations						(4 bytes)
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

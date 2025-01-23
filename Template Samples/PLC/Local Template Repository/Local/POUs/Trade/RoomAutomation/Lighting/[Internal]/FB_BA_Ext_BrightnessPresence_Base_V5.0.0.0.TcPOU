@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_BA_Ext_BrightnessPresence_Base" Id="{32f05796-60bf-4831-8a93-f68fe85124bb}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "RA, Beleuchtung, Anwenderfunktionen, Zone"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "RA, Lighting, User-functions, zone"'}
+	{attribute 'Using' := '"Type": "Template", "URI": "ST_BA_LightActuatorFeedback"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Beleuchtung interner Baustein"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Lighting internal function"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_Ext_BrightnessPresence_Base EXTENDS FB_BA_View
+VAR
+	bInitialize_In		: BOOL;							// from external
+	_nInitialize_In		: BYTE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();
+// reset bInitialize_In after one cycle
+IF bInitialize_In	THEN
+	_nInitialize_In	:= _nInitialize_In+1;
+	IF _nInitialize_In>=2	THEN
+		bInitialize_In	:= FALSE;
+		_nInitialize_In	:= 0;
+	END_IF
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

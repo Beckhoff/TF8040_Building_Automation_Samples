@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="Priority" Id="{7172b04b-5580-4cf6-8894-5c965771bf4f}">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '6.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "GVL, Prioritäten"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "GVL, Priority"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Prioritäten"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Priority"'}
+{endregion}
+
+{attribute 'qualified_only'}
+VAR_GLOBAL
+	nProgram		: UDINT := TO_UDINT(LIMIT(1,XBA_BACnetParam.aPriority[2],16));		
+	nManualRemote	: UDINT := TO_UDINT(LIMIT(1,XBA_BACnetParam.aPriority[3],16));		
+	nManualLocal	: UDINT := TO_UDINT(LIMIT(1,XBA_BACnetParam.aPriority[4],16));		
+	nCritical		: UDINT := TO_UDINT(LIMIT(1,XBA_BACnetParam.aPriority[5],16));		
+	nLifeSafety		: UDINT := TO_UDINT(LIMIT(1,XBA_BACnetParam.aPriority[6],16));		
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>
