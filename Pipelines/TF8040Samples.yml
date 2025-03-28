@@ -39,6 +39,7 @@ stages:
         - MD_SMALL
     steps:
 
+    - template: InitBaBT.yml@BaBuildTemplates
     - template: SetPipelineName.yml@BaBuildTemplates
       parameters:
         name: $(Version.MajorMinorPatchPreReleaseNumber)
@@ -145,3 +146,8 @@ stages:
       parameters:
         GitTag: TF8040_Samples/$(Version.MajorMinorPatchPreReleaseNumber)
         BranchName: $(branchName)
+
+    - template: CreateChangelog.yml@BaBuildTemplates
+      parameters:
+        WikiPage: 'Changelogs/Samples'
+        WikipageName: '$(Version.MajorMinorPatchPreReleaseNumber)_BA'        
