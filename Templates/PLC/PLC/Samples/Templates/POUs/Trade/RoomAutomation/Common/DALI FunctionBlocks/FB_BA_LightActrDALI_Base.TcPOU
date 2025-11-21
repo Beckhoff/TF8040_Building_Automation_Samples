@@ -1,0 +1,714 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="FB_BA_LightActrDALI_Base" Id="{cd46763b-6b0d-45a4-b86f-179e429ca648}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "RA, Allgemein, DALI, Lichtfaktor"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "RA, Common, DALI, light-actuator"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Grundbaustein DALI Lichtaktor"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Basic function DALI light-actuator"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_LightActrDALI_Base
+VAR_INPUT
+	bEn							: BOOL;							// FB-enable
+	bInitialize					: BOOL;							// initialize with DALI-parameters
+	stLightingCmd				: ST_BA_Lighting;				// command-telegram
+	eAdrType					: Tc3_DALI.E_DALIAddressType	:= Tc3_DALI.E_DALIAddressType.Short;
+	nAdr						: BYTE;
+	nAdrRefDev					: BYTE;							// reference device if group-mode is selected
+	ipDALICommunication			: Tc3_DALI.I_DALICommunication;
+END_VAR
+VAR_OUTPUT
+	nActlLgtVal					: BYTE;							// 0..254
+	fActlLgtVal					: REAL;							// 0..100
+	bInitializing				: BOOL;							// device is being initialized
+	bErr						: BOOL;							// error
+END_VAR
+VAR_INPUT CONSTANT PERSISTENT
+{region 'Application parameters'}		
+	{attribute 'parameterUnit':= 'DALI'}
+	nHysLgtVal					: BYTE;							// hysteresis to accept a new light-value-command
+	{attribute 'parameterUnit':= 's'}
+	nPrdQueryLgtVal				: UDINT;						// background query light-level
+	{attribute 'parameterUnit':= 's'}
+	nPrdQueryLgtVal_Fast		: UDINT	:= 10;					// background query light-level fast -> only in case of error to recover more quickly
+{endregion}	
+	 
+{region 'Device parameters to be initially set into the device'}	
+	{attribute 'parameterUnit':= 'DALI'}
+	nMinLevel					: BYTE	:= 126;					// 1..254
+	{attribute 'parameterUnit':= 'DALI'}
+	nMaxLevel					: BYTE	:= 254;					// 1..254
+	{attribute 'parameterUnit':= 'DALI'}
+	nPowerOnLevel				: BYTE	:= 254;					// 1..254
+	{attribute 'parameterUnit':= 'DALI'}
+	nSystemFailureLevel			: BYTE	:= 254;					// 1..254
+	eFadeTime					: Tc3_DALI.E_DALIFadeTime	:= Tc3_DALI.E_DALIFadeTime.Disabled;
+	eFadeRate					: Tc3_DALI.E_DALIFadeRate	:= Tc3_DALI.E_DALIFadeRate.N358StepsPerSec;
+{endregion}                                                     
+END_VAR
+VAR CONSTANT
+	eExtendedFadeTimeBase		: Tc3_DALI.E_DALIExtendedFadeTimeBase		:= Tc3_DALI.E_DALIExtendedFadeTimeBase.Base01;
+	eExtendedFadeTimeMultiplier	: Tc3_DALI.E_DALIExtendedFadeTimeMultiplier	:= Tc3_DALI.E_DALIExtendedFadeTimeMultiplier.Disabled;
+END_VAR
+VAR
+	rtInitialize				: R_TRIG;    
+	bInitializationDone			: BOOL	:= TRUE;
+	bInitializationErr			: BOOL;
+	sInitializationMessage		: T_MaxString;
+	
+	bSetLightValBusy			: BOOL;
+	bSetLightValErr				: BOOL;
+	bGetLightValBusy			: BOOL;
+	bGetLightValErr				: BOOL;
+	
+	bInhibit					: BOOL; // Inhibit in case of error
+	
+	fbLogMsgShortAdr			: FB_BA_LogMessage;
+	fbLogMsgGroupAdr			: FB_BA_LogMessage;
+	fbLogMsgReferenceDev		: FB_BA_LogMessage;
+	fbLogMsgAddresstype			: FB_BA_LogMessage;
+	fbLogMsgInterface			: FB_BA_LogMessage;
+	fbLogMsgReferenceDevice		: FB_BA_LogMessage;
+	
+	fbLogMsSetLightValCmdErr	: FB_BA_LogMessage;
+	fbLogMsgGetLightValCmdErr	: FB_BA_LogMessage;
+	fbLogMsgInitializationErr	: FB_BA_LogMessage;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[{region 'errorhandling'}
+bErr	:= FALSE;
+
+IF	(nAdr > 63) THEN
+	fbLogMsgShortAdr.Show(ADSLOG_MSGTYPE_ERROR, 'DALI addressing error', 'short-address must not exceed 63', FALSE); 	
+	bErr	:= TRUE;
+	RETURN;
+ELSE
+	fbLogMsgShortAdr.Reset();	
+	bErr	:= FALSE;
+END_IF
+	 
+IF	(eAdrType = Tc3_DALI.E_DALIAddressType.Group) AND_THEN (nAdr > 15) THEN
+	fbLogMsgGroupAdr.Show(ADSLOG_MSGTYPE_ERROR, 'DALI addressing error', 'group-Address must not exceed 15', FALSE); 	
+	bErr	:= TRUE;
+	RETURN;
+ELSE
+	fbLogMsgGroupAdr.Reset();	
+	bErr	:= FALSE;	
+END_IF	
+	 
+IF	((eAdrType = Tc3_DALI.E_DALIAddressType.Group) OR_ELSE (eAdrType = Tc3_DALI.E_DALIAddressType.Broadcast)) AND_THEN (nAdrRefDev > 63) THEN
+	fbLogMsgReferenceDev.Show(ADSLOG_MSGTYPE_ERROR, 'DALI addressing error', 'address of reference-device must not exceed 63', FALSE); 	
+	bErr	:= TRUE;
+	RETURN;
+ELSE
+	fbLogMsgReferenceDev.Reset();	
+	bErr	:= FALSE;	
+END_IF	
+
+IF	(eAdrType <> Tc3_DALI.E_DALIAddressType.Short) AND_THEN (eAdrType <> Tc3_DALI.E_DALIAddressType.Group) AND_THEN (eAdrType <> Tc3_DALI.E_DALIAddressType.Broadcast) THEN
+	fbLogMsgAddresstype.Show(ADSLOG_MSGTYPE_ERROR, 'DALI addressing error', 'only address-type short, group or broadcast is allowed', FALSE); 	
+	bErr	:= TRUE;
+	RETURN;
+ELSE
+	fbLogMsgAddresstype.Reset();	
+	bErr	:= FALSE;	
+END_IF	
+	 
+IF	(ipDALICommunication = 0) THEN
+	fbLogMsgInterface.Show(ADSLOG_MSGTYPE_ERROR, 'DALI addressing error', 'communication interface-pointer must not be 0', FALSE); 	
+	bErr	:= TRUE;
+	RETURN;
+ELSE
+	fbLogMsgInterface.Reset();	
+	bErr	:= FALSE;
+END_IF	 
+{endregion}
+
+{region 'initialization'}
+rtInitialize(CLK:=bInitialize);
+IF rtInitialize.Q	THEN
+	bInitializationDone	:= FALSE;
+END_IF
+
+THIS^._Initialization(bStart:= rtInitialize.Q);
+IF	bInitializationErr THEN
+	CASE eAdrType	OF
+		Tc3_DALI.E_DALIAddressType.Short:
+			sInitializationMessage:= CONCAT('Single-device #', TO_STRING(nAdr));
+		Tc3_DALI.E_DALIAddressType.Group:
+			sInitializationMessage:= CONCAT('Group #', TO_STRING(nAdr));	
+		Tc3_DALI.E_DALIAddressType.Broadcast:
+			sInitializationMessage:= 'Broadcast';
+	END_CASE
+	sInitializationMessage	:= CONCAT(CONCAT(sInitializationMessage, ','), GetLineInfo());
+	fbLogMsgInitializationErr.Show(ADSLOG_MSGTYPE_ERROR, 'DALI initialization-error', sInitializationMessage, FALSE); 	
+				   
+	bErr	:= TRUE;
+	RETURN;
+ELSE
+	fbLogMsgInitializationErr.Reset();	
+	bErr	:= FALSE;
+END_IF
+{endregion}
+
+
+THIS^._Execution();]]></ST>
+    </Implementation>
+    <Method Name="_Execution" Id="{b8c703b7-960f-4261-b335-ce1ff7f802e6}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PROTECTED _Execution : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+{region 'Wait to be enabled and initialized'}
+IF NOT bEn OR NOT bInitializationDone THEN
+	SetLightVal	(bEn	:= FALSE,
+				fLgtVal	:= 0); 
+	GetLightVal	(bEn	:= FALSE); 
+	RETURN;
+END_IF
+{endregion}
+
+IF eAdrType = Tc3_DALI.E_DALIAddressType.Short	THEN
+	nAdrRefDev	:= nAdr;
+END_IF
+
+{region 'check group membership of reference-device'}
+CheckGroupRefDev	(bEn		:= (eAdrType = Tc3_DALI.E_DALIAddressType.Group));
+{endregion}
+
+{region 'set light level'}
+SetLightVal	(bEn				:= NOT bInhibit,
+			fLgtVal				:= stLightingCmd.fLgtVal); 
+{endregion}
+	 
+{region 'query light level'}	 
+GetLightVal	(bEn				:= (nPrdQueryLgtVal>0));
+{endregion}
+
+IF bGetLightValErr	THEN	 // GetLightValErr as an indicator, that the device is not defective. If defective, setting Light value and -temperature and polling temperature is not wanted.
+	bInhibit:= TRUE;
+END_IF
+IF NOT bGetLightValBusy	AND NOT bGetLightValErr THEN 
+	bInhibit:= FALSE;
+END_IF
+	 
+IF bSetLightValErr	OR bGetLightValErr	THEN
+	bErr	:= TRUE;
+ELSE
+	bErr	:= FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="_Initialization" Id="{7e7f54d7-dc4f-4153-bd60-4d9aa1fe23b6}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PROTECTED _Initialization : BOOL
+VAR_INPUT
+	bStart		: BOOL;
+END_VAR
+
+VAR_INST
+	
+	fbStartQuiescentMode				: FB_DALI103StartQuiescentMode(0);
+	fbSetMinLevel						: FB_DALI102SetMinLevel(0);
+	fbSetMaxLevel                       : FB_DALI102SetMaxLevel(0);
+	fbSetPowerOnLevel					: FB_DALI102SetPowerOnLevel(0);
+	fbSetSystemFailureLevel				: FB_DALI102SetSystemFailureLevel(0);
+	fbSetFadeTime                       : FB_DALI102SetFadeTime(0);
+	fbSetExtendedFadeTime               : FB_DALI102SetExtendedFadeTime(0);
+	fbSetFadeRate                       : FB_DALI102SetFadeRate(0);
+	fbStopQuiescentMode					: FB_DALI103StopQuiescentMode(0);
+			
+	nStep								: INT;
+	rtStart								: R_TRIG;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbStartQuiescentMode.ipDALICommunication			:= ipDALICommunication;
+fbStartQuiescentMode.nAddress						:= nAdr;
+
+fbSetMinLevel.ipDALICommunication					:= ipDALICommunication;
+fbSetMinLevel.nAddress								:= nAdr;
+fbSetMinLevel.eAddressType							:= eAdrType;
+fbSetMinLevel.nMinLevel								:= nMinLevel;
+
+fbSetMaxLevel.ipDALICommunication					:= ipDALICommunication;
+fbSetMaxLevel.nAddress								:= nAdr;
+fbSetMaxLevel.eAddressType							:= eAdrType;
+fbSetMaxLevel.nMaxLevel								:= nMaxLevel;
+
+fbSetPowerOnLevel.ipDALICommunication				:= ipDALICommunication;
+fbSetPowerOnLevel.nAddress							:= nAdr;
+fbSetPowerOnLevel.eAddressType						:= eAdrType;
+fbSetPowerOnLevel.nPowerOnLevel						:= nPowerOnLevel;
+
+fbSetSystemFailureLevel.ipDALICommunication			:= ipDALICommunication;
+fbSetSystemFailureLevel.nAddress					:= nAdr;
+fbSetSystemFailureLevel.eAddressType				:= eAdrType;
+fbSetSystemFailureLevel.nSystemFailureLevel			:= nSystemFailureLevel;
+
+fbSetFadeTime.ipDALICommunication					:= ipDALICommunication;
+fbSetFadeTime.nAddress								:= nAdr;
+fbSetFadeTime.eAddressType							:= eAdrType;
+fbSetFadeTime.eFadeTime								:= eFadeTime;
+
+fbSetExtendedFadeTime.ipDALICommunication			:= ipDALICommunication;
+fbSetExtendedFadeTime.nAddress						:= nAdr;
+fbSetExtendedFadeTime.eAddressType					:= eAdrType;
+fbSetExtendedFadeTime.eExtendedFadeTimeBase			:= E_DALIExtendedFadeTimeBase.Base01;
+fbSetExtendedFadeTime.eExtendedFadeTimeMultiplier	:= E_DALIExtendedFadeTimeMultiplier.Disabled;
+
+fbSetFadeRate.ipDALICommunication					:= ipDALICommunication;
+fbSetFadeRate.nAddress								:= nAdr;
+fbSetFadeRate.eAddressType							:= eAdrType;
+fbSetFadeRate.eFadeRate								:= eFadeRate;
+
+fbStopQuiescentMode.ipDALICommunication				:= ipDALICommunication;
+fbStopQuiescentMode.nAddress						:= nAdr;
+
+
+rtStart(CLK	:= bStart);
+IF rtStart.Q	THEN
+	bInitializationDone				:= FALSE;
+	bInitializationErr				:= FALSE;
+	fbStartQuiescentMode			(bStart:=FALSE);
+	fbSetMinLevel					(bStart:=FALSE);
+	fbSetMaxLevel					(bStart:=FALSE);
+	fbSetFadeTime					(bStart:=FALSE);
+	fbSetExtendedFadeTime			(bStart:=FALSE);
+	fbSetFadeRate					(bStart:=FALSE);
+	fbStopQuiescentMode				(bStart:=FALSE);
+	
+	nStep	:= 10;
+END_IF
+
+CASE nStep OF
+	0	: 	// Idle
+	
+	10	:	fbStartQuiescentMode(bStart:=TRUE);
+			IF NOT fbStartQuiescentMode.bBusy	THEN
+				IF fbStartQuiescentMode.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 20;
+				END_IF
+			END_IF
+	
+	20	:	fbSetMinLevel(bStart:=TRUE);
+			IF NOT fbSetMinLevel.bBusy	THEN
+				IF fbSetMinLevel.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 30;
+				END_IF
+			END_IF
+		
+	30	:	fbSetMaxLevel(bStart:=TRUE);
+			IF NOT fbSetMaxLevel.bBusy	THEN
+				IF fbSetMaxLevel.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 40;
+				END_IF
+			END_IF
+		
+	40	:	fbSetPowerOnLevel(bStart:=TRUE);
+			IF NOT fbSetPowerOnLevel.bBusy	THEN
+				IF fbSetPowerOnLevel.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 50;
+				END_IF
+			END_IF
+		
+	50	:	fbSetSystemFailureLevel(bStart:=TRUE);
+			IF NOT fbSetSystemFailureLevel.bBusy	THEN
+				IF fbSetSystemFailureLevel.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 60;
+				END_IF
+			END_IF
+		
+	60	:	fbSetFadeTime(bStart:=TRUE, );
+			IF NOT fbSetFadeTime.bBusy	THEN
+				IF fbSetFadeTime.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 70;
+				END_IF
+			END_IF
+		
+	70	:	fbSetExtendedFadeTime(bStart:=TRUE);
+			IF NOT fbSetExtendedFadeTime.bBusy	THEN
+				IF fbSetExtendedFadeTime.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 80;
+				END_IF
+			END_IF
+		
+	80	:	fbSetFadeRate(bStart:=TRUE);
+			IF NOT fbSetFadeRate.bBusy	THEN
+				IF fbSetFadeRate.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 110;
+				END_IF
+			END_IF
+		
+	110	:	fbStopQuiescentMode(bStart:=TRUE);
+			IF NOT fbStopQuiescentMode.bBusy	THEN
+				IF fbStopQuiescentMode.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 800;
+				END_IF
+			END_IF
+			
+	800	: 	// Completed
+			bInitializationDone	:= TRUE;
+			nStep	:= 0;
+			
+	900	: 	// Error
+			bInitializationErr	:= TRUE;
+			nStep	:= 0;
+	
+END_CASE
+
+bInitializing	:= (nStep>0);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CheckGroupRefDev" Id="{89aef0c9-5537-4cf1-b9dc-fffb0fe0ff74}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PROTECTED CheckGroupRefDev : BOOL	// Check if the reference device belongs to the addressed group
+VAR_INPUT
+	bEn				: BOOL;
+END_VAR             
+VAR_INST            
+	nStep			: INT;
+	fbQueryGroups	: FB_DALI102QueryGroups(0);
+	_nAdr			: BYTE	:= 255;
+	_nAdrRefDev		: BYTE	:= 255;
+END_VAR             
+VAR                 
+	sErrorMessage	: T_MaxString ;
+END_VAR             
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbQueryGroups.ipDALICommunication	:= THIS^.ipDALICommunication;
+fbQueryGroups.nAddress				:= THIS^.nAdrRefDev; 
+fbQueryGroups.eAddressType			:= Tc3_DALI.E_DALIAddressType.Short; 
+fbQueryGroups.eCommandPriority		:= Tc3_DALI.E_DALICommandPriority.Low;
+
+
+IF NOT bEn	THEN
+	RETURN;
+END_IF
+
+{region 'check membership of reference-device'}		
+//+++++++++++ check membership of reference-device +++++++++++
+
+ 
+IF 				(THIS^.eAdrType = Tc3_DALI.E_DALIAddressType.Group) 						// check group-membership of reference-device
+	AND_THEN	((_nAdr <> THIS^.nAdr) OR_ELSE (_nAdrRefDev <> THIS^.nAdrRefDev))	THEN	// do it only if group-number has changed or reference-device has changed, which is definitely the case at PLC-start
+	nStep		:= 10;
+	_nAdr		:= THIS^.nAdr;
+	_nAdrRefDev	:= THIS^.nAdrRefDev;
+END_IF	
+
+CASE nStep	OF
+	
+	0	: 	// Idle
+			
+	10	:	// Start	
+			fbQueryGroups(bStart	:= TRUE);
+
+			IF (NOT fbQueryGroups.bBusy)  THEN	
+				IF 	fbQueryGroups.bError	THEN			// Query Groups Error is also an indicator of wrong reference-device
+					sErrorMessage	:= CONCAT('Reference device #', TO_STRING(THIS^.nAdrRefDev)); 
+					sErrorMessage	:= CONCAT(sErrorMessage, ' may not exist, group #'); 
+					sErrorMessage	:= CONCAT(sErrorMessage, TO_STRING(THIS^.nAdr)); 
+						 
+					THIS^.fbLogMsgReferenceDevice.Show(ADSLOG_MSGTYPE_ERROR, 'DALI-error QueryGroups', sErrorMessage, FALSE); 	// assembled message
+						 
+				ELSIF ( TO_WORD((EXPT(2,(THIS^.nAdr)))) AND fbQueryGroups.nGroups) =	0	THEN	// Reference-device does not belong to the addressed group
+					sErrorMessage	:= CONCAT('Reference device #', TO_STRING(THIS^.nAdrRefDev)); 
+					sErrorMessage	:= CONCAT(sErrorMessage, ' does not belong to group #'); 
+					sErrorMessage	:= CONCAT(sErrorMessage, TO_STRING(THIS^.nAdr)); 
+					 
+					THIS^.fbLogMsgReferenceDevice.Show(ADSLOG_MSGTYPE_ERROR, 'DALI-error reference-device of group ', sErrorMessage, FALSE); 	// assembled message
+	 			END_IF	
+					 
+				THIS^.fbLogMsgReferenceDevice.Reset();
+				fbQueryGroups(bStart:= FALSE);
+				nStep	:= 0; 
+			END_IF                     					
+END_CASE
+{endregion}]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetAdressInfo" Id="{cec139af-4cc9-4aab-8932-043bf0b826a4}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PROTECTED GetAdressInfo : T_MaxString
+VAR
+	sAdressInfo		: T_MaxString ;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE THIS^.eAdrType	OF
+	Tc3_DALI.E_DALIAddressType.Short:
+		sAdressInfo	:= CONCAT('#', TO_STRING(THIS^.nAdr)); 
+		sAdressInfo	:= CONCAT(sAdressInfo, ', short-addressed'); 
+	Tc3_DALI.E_DALIAddressType.Group:
+		sAdressInfo	:= CONCAT('#', TO_STRING(THIS^.nAdrRefDev)); 
+		sAdressInfo	:= CONCAT(sAdressInfo, ' of group #'); 
+		sAdressInfo	:= CONCAT(sAdressInfo, TO_STRING(THIS^.nAdr)); 
+	Tc3_DALI.E_DALIAddressType.Broadcast:
+		sAdressInfo	:= CONCAT('#', TO_STRING(THIS^.nAdrRefDev)); 
+		sAdressInfo	:= CONCAT(sAdressInfo, ', broadcast-call'); 			   
+END_CASE
+
+GetAdressInfo	:= sAdressInfo;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetLightVal" Id="{1908af8f-379b-47ba-b543-3b276b91e8ae}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PROTECTED GetLightVal : BOOL
+VAR_INPUT
+	bEn				: BOOL;
+END_VAR             
+VAR_INST            
+	ftEnable			: F_TRIG;
+	nStep				: INT;
+	fbQueryLgtVal		: FB_DALI102QueryActualLevel(0);
+	tonQuery			: TON;
+	tQuery				: TIME;
+END_VAR
+VAR
+	sAdressInfo			: T_MaxString ;
+	sLineInfo			: T_MaxString ;
+	sErrorMessage		: T_MaxString ;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbQueryLgtVal.ipDALICommunication	:= THIS^.ipDALICommunication;
+fbQueryLgtVal.nAddress				:= THIS^.nAdrRefDev;
+fbQueryLgtVal.eAddressType			:= Tc3_DALI.E_DALIAddressType.Short;
+fbQueryLgtVal.eCommandPriority		:= Tc3_DALI.E_DALICommandPriority.Low;
+
+ftEnable(CLK	:= bEn);
+
+IF ftEnable.Q	THEN
+	fbQueryLgtVal			(bStart := FALSE);
+	nStep					:= 0;
+	THIS^.bGetLightValBusy	:= FALSE;
+	tonQuery				(IN:=FALSE);
+	THIS^.fbLogMsgGetLightValCmdErr.Reset();	
+END_IF
+
+IF NOT bEn	THEN
+	RETURN;
+END_IF
+
+{region 'query light level'}	 
+//+++++++++++ query light level +++++++++++
+IF NOT THIS^.bInhibit	THEN	 
+	tQuery	:= F_BA_UdiToTiSec(THIS^.nPrdQueryLgtVal);
+ELSE		 
+	tQuery	:= F_BA_UdiToTiSec(THIS^.nPrdQueryLgtVal_Fast);
+END_IF		 
+	 
+tonQuery(IN:= (NOT tonQuery.Q AND NOT THIS^.bGetLightValBusy), PT:= tQuery);
+	 
+IF NOT THIS^.bGetLightValBusy	THEN
+	IF tonQuery.Q	THEN
+		nStep	:= 10;
+	END_IF
+END_IF	
+
+CASE nStep	OF
+	
+	0	: 	// Idle
+			
+	10	:	// Start	
+			fbQueryLgtVal( bStart	:= TRUE);
+								 
+			IF (NOT fbQueryLgtVal.bBusy) THEN
+				IF	fbQueryLgtVal.bError THEN 
+						 
+					sAdressInfo	:= 	 THIS^.GetAdressInfo();
+					sLineInfo	:= 	 THIS^.GetLineInfo();
+						 
+					CASE THIS^.eAdrType	OF																								// address-specific part of message
+						Tc3_DALI.E_DALIAddressType.Short:
+							sErrorMessage	:= CONCAT('Addressed device: ', sAdressInfo);
+						Tc3_DALI.E_DALIAddressType.Group, Tc3_DALI.E_DALIAddressType.Broadcast:
+							sErrorMessage	:= CONCAT('Reference device: ', sAdressInfo); 
+					END_CASE
+						 
+					sErrorMessage	:= CONCAT(sErrorMessage, ','); 
+					sErrorMessage	:= CONCAT(sErrorMessage, sLineInfo); 																// DALI-line-specific part of message
+						 
+					sErrorMessage	:= CONCAT(sErrorMessage, ', MessageId: ');  														// Message Id as mentioned in the event-logger
+					sErrorMessage	:= CONCAT(sErrorMessage, TO_STRING(fbQueryLgtVal.ipResultMessage.nEventId)); 
+						 
+					THIS^.fbLogMsgGetLightValCmdErr.Show(ADSLOG_MSGTYPE_ERROR, 'DALI-error: QueryLightLevel', sErrorMessage, FALSE); 	// assembled message
+				ELSE
+					THIS^.fbLogMsgGetLightValCmdErr.Reset();	
+					THIS^.nActlLgtVal:= fbQueryLgtVal.nActualLevel;
+					THIS^.fActlLgtVal	:= TO_REAL(Tc3_DALI.DALI_TO_PERCENT(THIS^.nActlLgtVal));
+				END_IF
+				fbQueryLgtVal(bStart := FALSE);   
+				nStep		:= 0; 
+			END_IF                     					
+	
+END_CASE
+	 
+THIS^.bGetLightValBusy		:= (nStep <> 0);
+THIS^.bGetLightValErr		:= fbQueryLgtVal.bError;
+{endregion}]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetLineInfo" Id="{8f6ebee6-fe26-40de-b311-839b96cd9d59}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PROTECTED GetLineInfo : STRING(255)
+VAR
+	sLineInfo		: T_MaxString ;
+	sAdressInfo		: T_MaxString ;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[sLineInfo	:= CONCAT((' DALI-line: '), (THIS^.ipDALICommunication.GetInstancePath()));
+
+GetLineInfo	:= sLineInfo;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetLightVal" Id="{0ef4df80-8aea-4ef4-8b01-96a288d9ef8a}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PROTECTED SetLightVal : BOOL
+VAR_INPUT
+	bEn					: BOOL;
+	fLgtVal				: REAL;							// 1..100%
+END_VAR
+VAR_INST
+	_fLgtVal			: REAL;							// 1..100%
+	ftEnable			: F_TRIG;
+	nStep				: INT;
+	fbSetLgtVal			: FB_DALI102DirectArcPowerControl(0);
+	nLgtVal				: BYTE;							// 0..254
+	bInitLgtVal			: BOOL;
+	rtZero				: R_TRIG;
+	bSetZero			: BOOL;	
+END_VAR
+VAR
+	sLineInfo			: T_MaxString ;
+	sErrorMessage		: T_MaxString ;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbSetLgtVal.ipDALICommunication	:= THIS^.ipDALICommunication;
+fbSetLgtVal.nAddress			:= THIS^.nAdr;
+fbSetLgtVal.eAddressType		:= THIS^.eAdrType;
+fbSetLgtVal.eCommandPriority	:= Tc3_DALI.E_DALICommandPriority.MiddleHigh;
+
+ftEnable(CLK	:= bEn);
+
+IF ftEnable.Q	THEN
+	fbSetLgtVal(bStart		:= FALSE);   
+	nStep					:= 0;
+	THIS^.bSetLightValBusy	:= FALSE;
+	THIS^.nActlLgtVal		:= 0;
+	rtZero	(CLK := bEn);
+	THIS^.fbLogMsSetLightValCmdErr.Reset();	
+END_IF
+
+IF NOT bEn	THEN
+	RETURN;
+END_IF
+
+fLgtVal				:= LIMIT(0, fLgtVal,100);
+THIS^.nHysLgtVal 	:= LIMIT(2, THIS^.nHysLgtVal, 50);	
+nLgtVal				:= Tc3_DALI.PERCENT_TO_DALI (fLgtVal);
+
+IF	nLgtVal > 0	THEN
+	nLgtVal	 	:= LIMIT(nMinLevel, nLgtVal, nMaxLevel);
+END_IF
+
+{region 'set light level'}
+//+++++++++++ set light level +++++++++++
+
+rtZero(CLK:= (nLgtVal=0));
+IF rtZero.Q	THEN
+	bSetZero	:= TRUE;
+END_IF	
+
+IF NOT THIS^.bSetLightValBusy	THEN
+	IF NOT bInitLgtVal OR  (ABS(TO_REAL(THIS^.nActlLgtVal)-TO_REAL(nLgtVal))>= TO_REAL(THIS^.nHysLgtVal/2))	THEN
+		bInitLgtVal	:= TRUE;
+		nStep	:= 10;	
+	ELSIF	bSetZero		THEN	// if the hysteresis does not let the light be set to 0, then it will be explicitely done here
+		nStep	:= 15;
+	END_IF
+END_IF	
+
+CASE nStep	OF
+	
+	0	: 	// Idle
+			
+	10	: 	// Start
+			fbSetLgtVal(	bStart			:= TRUE,
+							nArcPowerLevel	:= nLgtVal);  
+			nStep		:= 20;
+
+	15	: 	// Set explicitely to zero
+			fbSetLgtVal(	bStart			:= TRUE,
+							nArcPowerLevel	:= 0);
+			nLgtVal		:= 0;
+			bSetZero	:= FALSE;
+			nStep		:= 20;
+			
+	20	:	// Wait  
+			fbSetLgtVal();
+				 
+			IF (NOT fbSetLgtVal.bBusy) THEN	
+				IF	fbSetLgtVal.bError 	THEN
+						 
+					sLineInfo	:= 	 THIS^.GetLineInfo();
+						 
+					CASE THIS^.eAdrType	OF																								// address-specific part of message
+						Tc3_DALI.E_DALIAddressType.Short:
+							sErrorMessage	:= CONCAT('Addressed single-device: #', TO_STRING(THIS^.nAdr));
+						Tc3_DALI.E_DALIAddressType.Group:
+							sErrorMessage	:= CONCAT('Addressed group: #', TO_STRING(THIS^.nAdr));
+						Tc3_DALI.E_DALIAddressType.Broadcast:
+							sErrorMessage	:= 'Broadcast'; 
+					END_CASE
+						 
+					sErrorMessage	:= CONCAT(sErrorMessage, ','); 
+					sErrorMessage	:= CONCAT(sErrorMessage, sLineInfo); 																// DALI-line-specific part of message
+						 
+					sErrorMessage	:= CONCAT(sErrorMessage, ', MessageId: ');   														// Message Id as mentioned in the event-logger
+					sErrorMessage	:= CONCAT(sErrorMessage, TO_STRING(fbSetLgtVal.ipResultMessage.nEventId)); 
+						 
+					THIS^.fbLogMsgGetLightValCmdErr.Show(ADSLOG_MSGTYPE_ERROR, 'DALI-error: SetLightLevel', sErrorMessage, FALSE); 	// assembled message
+						 
+				ELSE
+					THIS^.fbLogMsSetLightValCmdErr.Reset();	
+					THIS^.nActlLgtVal := nLgtVal;						// predicted actual value by successful command 
+					THIS^.fActlLgtVal := TO_REAL(Tc3_DALI.DALI_TO_PERCENT(THIS^.nActlLgtVal));
+				END_IF
+				fbSetLgtVal(bStart	:= FALSE);   
+				nStep		:= 0; 
+			END_IF                                                 
+END_CASE
+	 
+THIS^.bSetLightValBusy		:= (nStep <> 0);
+THIS^.bSetLightValErr		:= fbSetLgtVal.bError;
+{endregion}]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

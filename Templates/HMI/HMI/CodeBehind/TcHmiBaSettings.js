@@ -65,8 +65,6 @@
             [TcHmi.BuildingAutomation.Controls.RoomAutomation.Sunblind.Priority.sunProtection, TcHmi.BuildingAutomation.Icons.convertIIconDataToIIconAttributes({ ...TcHmi.BuildingAutomation.Icons.RoomAutomation.Automatic, color: TcHmi.BuildingAutomation.Color.RGBAColor.TcHmiGreen })]
         ]);
 
-        TcHmi.BuildingAutomation.Controls.RoomAutomation.Window.ShowQuickLinks = false;
-
         /**********************************************************************************************************************************/
         /*********************************************************** Framework ************************************************************/
         /**********************************************************************************************************************************/
@@ -74,6 +72,7 @@
         /*****************************************************************/
         /************************** BusyHandler **************************/
 
+        TcHmi.BuildingAutomation.BusyHandler.DefaultTimeout = 10000;
         TcHmi.BuildingAutomation.BusyHandler.RecordTimerResults = false;
 
         /*****************************************************************/
@@ -130,9 +129,10 @@
         /*****************************************************************/
         /***************************** UiIcon ****************************/
 
-        TcHmi.BuildingAutomation.Components.UiIcon.AutoActivateIconStatus = false;
-        TcHmi.BuildingAutomation.Components.UiIcon.EnableEventCountBadge = true;
+        TcHmi.BuildingAutomation.Components.UiIcon.AutoColorEventIcon = false;
+        TcHmi.BuildingAutomation.Components.UiIcon.AutoColorStatus = TcHmi.BuildingAutomation.Components.UiIcon.StatusColorBehavior.auto;
         TcHmi.BuildingAutomation.Components.UiIcon.AutoScaleEventIconThreshold = 40;
+        TcHmi.BuildingAutomation.Components.UiIcon.EnableEventCountBadge = true;
         TcHmi.BuildingAutomation.Components.UiIcon.EventIconSize = 30;
 
         TcHmi.BuildingAutomation.Components.UiIcon.MaximumEventConditionDisplayed = new Map([

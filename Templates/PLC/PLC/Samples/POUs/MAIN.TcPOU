@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
   <POU Name="MAIN" Id="{992dd72a-c6fb-4b96-9f6e-3c624331df19}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
@@ -17,72 +17,63 @@ DPAD		: FB_BA_CarelessDPAD := (
 //	Level 1 Building 	
 		B			: FB_BA_View := (
 						sObjectName		:= 'B',	
-						sDescription	:= 'Building B',	
-						eDPADMode		:= E_BA_DPADMode.eInclude					
+						sDescription	:= 'Building B'				
 					);
 // Level 2 Gebäudeteil
 // Level 2 Part of building						
 			PB1			: FB_BA_View := (
 							iParent 		:= B,
 							sObjectName		:= '{PB1}',		
-							sDescription	:= '{Part of building 1}',
-							eDPADMode		:= E_BA_DPADMode.eInclude					
+							sDescription	:= '{Part of building 1}'			
 						);   
 // Level 3 Gewerk Automationsschwerpunkt
 // Level 3 Trade AutomationFocalPoint                                                                                       	
 				ACE			: FB_BA_AutomationControl := (
 								iParent 		:= PB1,
 								sObjectName		:= '{ACE}',
-								sDescription	:= '{Automation Control}',			
-								eDPADMode		:= E_BA_DPADMode.eInclude					
+								sDescription	:= '{Automation Control}'								
 							);
 // Level 3 Gewerk Gebäudeautomation Allgemein	- SERVER
 // Level 3 Trade building automation general	- SERVER                                                                       	
 				BAG			: FB_BA_BuildingAutomationServer := (
 								iParent 		:= PB1,
 								sObjectName		:= '{BAG}',
-								sDescription	:= '{Building Automation}',			
-								eDPADMode		:= E_BA_DPADMode.eInclude
+								sDescription	:= '{Building Automation}'
 							);    	
 // Level 3 Gewerk Wärmeversorgungsanlagen  
 // Level 3 Trade Heat supply systems, heat distribution  --> 	HD = heat distribution, HG = heat generation
 				HTG			: FB_BA_Heating := (
 								iParent 		:= PB1,
 								sObjectName		:= '{HTG}',
-								sDescription	:= '{Heating}',        		
-								eDPADMode		:= E_BA_DPADMode.eInclude			
+								sDescription	:= '{Heating}'			
 							);     	    
 // Level 3 Gewerk Luftechnische Anlagen      
 // Level 3 Trade ventilation system        
 				ACS			: FB_BA_AirConditioning := (
 								iParent 		:= PB1,
 								sObjectName		:= '{ACS}',
-								sDescription	:= '{Air Conditioning}',  									
-								eDPADMode		:= E_BA_DPADMode.eInclude					
+								sDescription	:= '{Air Conditioning}'					
 							);  			     
 // Level 3 Gewerk Raumautomation	- SERVER
 // Level 3 Trade room automation	- SERVER
 				ROM			: FB_BA_RoomAutomationServer := (
 								iParent			:= PB1,
 								sObjectName		:= '{ROM}',
-								sDescription	:= '{Room automation}',        											
-								eDPADMode		:= E_BA_DPADMode.eInclude
+								sDescription	:= '{Room automation}'
 							);
 // Level 3 Gewerk Gefahrenmelde- und Alarmanlagen   
 // Level 3 Trade Hazard Detection and Alarm Systems  				
 				HDAS		: FB_BA_HazardDetectionAlarmSystems:= (
 								iParent 		:= PB1,
 								sObjectName		:= '{GMA}',
-								sDescription	:= '{Hazard detection and alarm systems}',			
-								eDPADMode		:= E_BA_DPADMode.eInclude
+								sDescription	:= '{Hazard detection and alarm systems}'
 							);
 // Level 3 Gewerk Türen, Tore, Fenster, Sonnenschutz	- SERVER
 // Level 3 Trade Doors, gates, windwos, sun protection	- SERVER
 				DGWSP		: FB_BA_DGWSPServer := (
 								iParent 		:= PB1,
 								sObjectName		:= '{TTF}',
-								sDescription	:= '{Doors - gates - windows - sun-protection}',			
-								eDPADMode		:= E_BA_DPADMode.eInclude
+								sDescription	:= '{Doors - gates - windows - sun-protection}'
 							);								
 // SystemTime Settings								
 	BACnetTime_TO_SysTime		: FB_BA_BACnetTime_TO_SysTime;	
@@ -112,7 +103,7 @@ END_VAR]]></Declaration>
 	ExternalSysTime();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="3" Count="19" />
+      <LineId Id="186" Count="19" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

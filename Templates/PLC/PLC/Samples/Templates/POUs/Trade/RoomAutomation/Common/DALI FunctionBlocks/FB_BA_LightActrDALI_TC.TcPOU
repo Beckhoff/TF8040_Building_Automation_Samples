@@ -1,0 +1,514 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="FB_BA_LightActrDALI_TC" Id="{b0337d1a-b3e7-4e02-a684-41fc9c2fdba9}" SpecialFunc="None">
+    <Declaration><![CDATA[{region '#Template'}
+	{attribute 'Version' := '5.0.0.0'}
+	{attribute 'Tags' := '"LCID": "1031", "Text": "RA, Allgemein, DALI, Lichtfaktor"'}
+	{attribute 'Tags' := '"LCID": "1033", "Text": "RA, Common, DALI, light-actuator"'}
+	{attribute 'Description' := '"LCID": "1031", "Text": "Grundbaustein DALI Lichtaktor mit Farbtemperatur"'}
+	{attribute 'Description' := '"LCID": "1033", "Text": "Basic function DALI light-actuator with temperature-control"'}
+{endregion}
+FUNCTION_BLOCK FB_BA_LightActrDALI_TC EXTENDS FB_BA_LightActrDALI_Base
+VAR_OUTPUT
+	fActlLgtT					: REAL;							// Light-temperature		0K to 1000001K - "0" will cause no change at the light-actuator
+END_VAR
+VAR_INPUT CONSTANT PERSISTENT
+{region 'Application parameters'}		
+	{attribute 'parameterUnit':= 'K'}
+	fHysLgtT					: REAL;							// hysteresis to accept a new light-temperature-command
+	{attribute 'parameterUnit':= 's'}
+	nPrdQueryLgtT				: UDINT;						// background query light-level temperature
+{endregion}	
+	 
+{region 'Device parameters to be initially set into the device'}	
+	{attribute 'parameterUnit':= 'KELVIN'}
+	fTemperatureLimitWarmest	: LREAL	:= 2700;				// WARMEST value 0K to 1000001K
+	{attribute 'parameterUnit':= 'KELVIN'}                      
+	fTemperatureLimitCoolest	: LREAL	:= 6500;				// COOLEST value 0K to 1000001K
+	{attribute 'parameterUnit':= 'KELVIN'}                      
+	fPowerOnTemperature			: LREAL	:= 3000;				// 0K to 1000001K
+	{attribute 'parameterUnit':= 'KELVIN'}	                    
+	fSystemFailureTemperature	: LREAL	:= 3000;				// 0K to 1000001K
+{endregion}                                                     
+END_VAR
+VAR
+	bSetLightTBusy				: BOOL;
+	bSetLightTErr				: BOOL;
+	bGetLightTBusy				: BOOL;
+	bGetLightTErr				: BOOL;
+	
+	fbLogMssSetLightTCmdErr		: FB_BA_LogMessage;
+	fbLogMsgGetLightTCmdErr		: FB_BA_LogMessage;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SUPER^();]]></ST>
+    </Implementation>
+    <Method Name="_Execution" Id="{6d63ad35-e82e-41c9-8a90-edabe25a0062}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PROTECTED _Execution : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+{region 'Wait to be enabled and initialized'}
+IF NOT bEn OR NOT bInitializationDone THEN
+	SetLightVal	(bEn	:= FALSE,
+				fLgtVal	:= 0); 
+	GetLightVal	(bEn	:= FALSE); 
+	SetLightT	(bEn	:= FALSE,
+				fLgtT	:= 0); 
+	GetLightVal	(bEn	:= FALSE); 
+	RETURN;
+END_IF
+{endregion}
+
+IF eAdrType = Tc3_DALI.E_DALIAddressType.Short	THEN
+	nAdrRefDev	:= nAdr;
+END_IF
+
+{region 'check group membership of reference-device'}
+CheckGroupRefDev	(bEn		:= (eAdrType = Tc3_DALI.E_DALIAddressType.Group));
+{endregion}
+
+{region 'set light level'}
+SetLightVal	(bEn				:= NOT bInhibit,
+			fLgtVal				:= stLightingCmd.fLgtVal); 
+{endregion}
+	 
+{region 'query light level'}	 
+GetLightVal	(bEn				:= (nPrdQueryLgtVal>0));
+{endregion}
+	 
+{region 'set light temperature'}		
+SetLightT	(bEn				:= (stLightingCmd.fLgtT > 0) 	// Telegrams coming up with "0" are supposed not intending to change the light-temperature
+									AND NOT bInhibit,
+			fLgtT				:= stLightingCmd.fLgtT);
+{endregion}
+		  					
+{region 'query light temperature'}		
+GetLightT	(bEn				:= (nPrdQueryLgtT>0)	
+									AND NOT bInhibit);
+{endregion}
+
+IF bGetLightValErr	THEN	 // GetLightValErr as an indicator, that the device is not defective. If defective, setting Light value and -temperature and polling temperature is not wanted.
+	bInhibit:= TRUE;
+END_IF
+IF NOT bGetLightValBusy	AND NOT bGetLightValErr THEN 
+	bInhibit:= FALSE;
+END_IF
+	 
+IF bSetLightValErr	OR bGetLightValErr	OR bSetLightTErr	OR bGetLightTErr	THEN
+	bErr	:= TRUE;
+ELSE
+	bErr	:= FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="_Initialization" Id="{74945b1c-4ed9-47c6-bf11-b3d9c7dd91e6}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PROTECTED _Initialization : BOOL
+VAR_INPUT
+	bStart		: BOOL;
+END_VAR
+
+VAR_INST
+	
+	fbStartQuiescentMode				: FB_DALI103StartQuiescentMode(0);
+	fbSetMinLevel						: FB_DALI102SetMinLevel(0);
+	fbSetMaxLevel                       : FB_DALI102SetMaxLevel(0);
+	fbSetPowerOnValues                  : FB_DALI209SetPowerOnValues(0);
+	fbSetSystemFailureValues            : FB_DALI209SetSystemFailureValues(0);
+	fbSetFadeTime                       : FB_DALI102SetFadeTime(0);
+	fbSetExtendedFadeTime               : FB_DALI102SetExtendedFadeTime(0);
+	fbSetFadeRate                       : FB_DALI102SetFadeRate(0);
+	fbStoreColourTemperatureTcLimit     : FB_DALI209StoreColourTemperatureTcLimit(0);
+	fbStopQuiescentMode					: FB_DALI103StopQuiescentMode(0);
+			
+	nStep								: INT;
+	rtStart								: R_TRIG;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbStartQuiescentMode.ipDALICommunication			:= ipDALICommunication;
+fbStartQuiescentMode.nAddress						:= nAdr;
+
+fbSetMinLevel.ipDALICommunication					:= ipDALICommunication;
+fbSetMinLevel.nAddress								:= nAdr;
+fbSetMinLevel.eAddressType							:= eAdrType;
+fbSetMinLevel.nMinLevel								:= nMinLevel;
+
+fbSetMaxLevel.ipDALICommunication					:= ipDALICommunication;
+fbSetMaxLevel.nAddress								:= nAdr;
+fbSetMaxLevel.eAddressType							:= eAdrType;
+fbSetMaxLevel.nMaxLevel								:= nMaxLevel;
+
+fbSetPowerOnValues.ipDALICommunication				:= ipDALICommunication;
+fbSetPowerOnValues.nAddress							:= nAdr;
+fbSetPowerOnValues.eAddressType						:= eAdrType;
+fbSetPowerOnValues.eColourType						:= E_DALIColourType.ColourTemperatureTc;
+fbSetPowerOnValues.nPowerOnLevel					:= nPowerOnLevel;
+fbSetPowerOnValues.nColourTemperatureTc				:= Tc3_DALI.KELVIN_TO_MIREK(fPowerOnTemperature);
+
+fbSetSystemFailureValues.ipDALICommunication		:= ipDALICommunication;
+fbSetSystemFailureValues.nAddress					:= nAdr;
+fbSetSystemFailureValues.eAddressType				:= eAdrType;
+fbSetSystemFailureValues.eColourType				:= E_DALIColourType.ColourTemperatureTc;
+fbSetSystemFailureValues.nSystemFailureLevel		:= nSystemFailureLevel;
+fbSetSystemFailureValues.nColourTemperatureTc		:= Tc3_DALI.KELVIN_TO_MIREK(fSystemFailureTemperature);
+
+fbSetFadeTime.ipDALICommunication					:= ipDALICommunication;
+fbSetFadeTime.nAddress								:= nAdr;
+fbSetFadeTime.eAddressType							:= eAdrType;
+fbSetFadeTime.eFadeTime								:= eFadeTime;
+
+fbSetExtendedFadeTime.ipDALICommunication			:= ipDALICommunication;
+fbSetExtendedFadeTime.nAddress						:= nAdr;
+fbSetExtendedFadeTime.eAddressType					:= eAdrType;
+fbSetExtendedFadeTime.eExtendedFadeTimeBase			:= E_DALIExtendedFadeTimeBase.Base01;
+fbSetExtendedFadeTime.eExtendedFadeTimeMultiplier	:= E_DALIExtendedFadeTimeMultiplier.Disabled;
+
+fbSetFadeRate.ipDALICommunication					:= ipDALICommunication;
+fbSetFadeRate.nAddress								:= nAdr;
+fbSetFadeRate.eAddressType							:= eAdrType;
+fbSetFadeRate.eFadeRate								:= eFadeRate;
+
+fbStoreColourTemperatureTcLimit.ipDALICommunication	:= ipDALICommunication;
+fbStoreColourTemperatureTcLimit.nAddress			:= nAdr;
+fbStoreColourTemperatureTcLimit.eAddressType		:= eAdrType;
+
+fbStopQuiescentMode.ipDALICommunication				:= ipDALICommunication;
+fbStopQuiescentMode.nAddress						:= nAdr;
+
+
+rtStart(CLK	:= bStart);
+IF rtStart.Q	THEN
+	bInitializationDone				:= FALSE;
+	bInitializationErr				:= FALSE;
+	fbStartQuiescentMode			(bStart:=FALSE);
+	fbSetMinLevel					(bStart:=FALSE);
+	fbSetMaxLevel					(bStart:=FALSE);
+	fbSetPowerOnValues				(bStart:=FALSE);
+	fbSetSystemFailureValues		(bStart:=FALSE);
+	fbSetFadeTime					(bStart:=FALSE);
+	fbSetExtendedFadeTime			(bStart:=FALSE);
+	fbSetFadeRate					(bStart:=FALSE);
+	fbStoreColourTemperatureTcLimit	(bStart:=FALSE);
+	fbStopQuiescentMode				(bStart:=FALSE);
+	
+	nStep	:= 10;
+END_IF
+
+CASE nStep OF
+	0	: 	// Idle
+	
+	10	:	fbStartQuiescentMode(bStart:=TRUE);
+			IF NOT fbStartQuiescentMode.bBusy	THEN
+				IF fbStartQuiescentMode.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 20;
+				END_IF
+			END_IF
+	
+	20	:	fbSetMinLevel(bStart:=TRUE);
+			IF NOT fbSetMinLevel.bBusy	THEN
+				IF fbSetMinLevel.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 30;
+				END_IF
+			END_IF
+		
+	30	:	fbSetMaxLevel(bStart:=TRUE);
+			IF NOT fbSetMaxLevel.bBusy	THEN
+				IF fbSetMaxLevel.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 40;
+				END_IF
+			END_IF
+		
+	40	:	fbSetPowerOnValues(bStart:=TRUE);
+			IF NOT fbSetPowerOnValues.bBusy	THEN
+				IF fbSetPowerOnValues.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 50;
+				END_IF
+			END_IF
+		
+	50	:	fbSetSystemFailureValues(bStart:=TRUE);
+			IF NOT fbSetSystemFailureValues.bBusy	THEN
+				IF fbSetSystemFailureValues.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 60;
+				END_IF
+			END_IF
+		
+	60	:	fbSetFadeTime(bStart:=TRUE, );
+			IF NOT fbSetFadeTime.bBusy	THEN
+				IF fbSetFadeTime.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 70;
+				END_IF
+			END_IF
+		
+	70	:	fbSetExtendedFadeTime(bStart:=TRUE);
+			IF NOT fbSetExtendedFadeTime.bBusy	THEN
+				IF fbSetExtendedFadeTime.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 80;
+				END_IF
+			END_IF
+		
+	80	:	fbSetFadeRate(bStart:=TRUE);
+			IF NOT fbSetFadeRate.bBusy	THEN
+				IF fbSetFadeRate.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 90;
+				END_IF
+			END_IF
+		
+	90	:	fbStoreColourTemperatureTcLimit.eSelectLimitValue			:= E_DALIColourTemperatureTcLimit.ColourTemperatureTcCoolest;
+			fbStoreColourTemperatureTcLimit.nColourTemperatureTcLimit	:= Tc3_DALI.KELVIN_TO_MIREK(fTemperatureLimitCoolest);
+			fbStoreColourTemperatureTcLimit(bStart:=TRUE);
+			IF NOT fbStoreColourTemperatureTcLimit.bBusy	THEN
+				fbStoreColourTemperatureTcLimit	(bStart:=FALSE);		// executed again in next step
+				IF fbStoreColourTemperatureTcLimit.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 100;
+				END_IF
+			END_IF
+		
+	100	:	fbStoreColourTemperatureTcLimit.eSelectLimitValue			:= E_DALIColourTemperatureTcLimit.ColourTemperatureTcWarmest;
+			fbStoreColourTemperatureTcLimit.nColourTemperatureTcLimit	:= Tc3_DALI.KELVIN_TO_MIREK(fTemperatureLimitWarmest);
+			fbStoreColourTemperatureTcLimit(bStart:=TRUE);
+			IF NOT fbStoreColourTemperatureTcLimit.bBusy	THEN
+				IF fbStoreColourTemperatureTcLimit.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 110;
+				END_IF
+			END_IF
+		
+	110	:	fbStopQuiescentMode(bStart:=TRUE);
+			IF NOT fbStopQuiescentMode.bBusy	THEN
+				IF fbStopQuiescentMode.bError	THEN
+					nStep	:= 900;
+				ELSE	
+					nStep	:= 800;
+				END_IF
+			END_IF
+			
+	800	: 	// Completed
+			bInitializationDone	:= TRUE;
+			nStep	:= 0;
+			
+	900	: 	// Error
+			bInitializationErr	:= TRUE;
+			nStep	:= 0;
+	
+END_CASE
+
+bInitializing	:= (nStep>0);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetLightT" Id="{45b21225-40a2-41f3-9e10-dab079eb5099}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PRIVATE GetLightT : BOOL
+VAR_INPUT
+	bEn				: BOOL;
+END_VAR             
+VAR_INST            
+	ftEnable		: F_TRIG;
+	nStep			: INT;
+	fbQueryLgtT		: FB_DALI209QueryColourValue(0);
+	tonQuery		: TON;
+END_VAR             
+VAR                 
+	sAdressInfo		: T_MaxString ;
+	sLineInfo		: T_MaxString ;
+	sErrorMessage	: T_MaxString ;
+END_VAR             
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbQueryLgtT.ipDALICommunication	:= THIS^.ipDALICommunication;
+fbQueryLgtT.nAddress			:= THIS^.nAdrRefDev; 
+fbQueryLgtT.eAddressType		:= Tc3_DALI.E_DALIAddressType.Short; 
+fbQueryLgtT.eCommandPriority	:= Tc3_DALI.E_DALICommandPriority.Low;
+fbQueryLgtT.eColourValue		:= Tc3_DALI.E_DALIColourValue.ColourTemperatureTc;
+
+ftEnable(CLK	:= bEn);
+
+IF ftEnable.Q	THEN
+	fbQueryLgtT				(bStart := FALSE);
+	nStep					:= 0;
+	THIS^.bGetLightTBusy	:= FALSE;
+	tonQuery				(IN:=FALSE);
+	THIS^.fbLogMsgGetLightTCmdErr.Reset();	
+END_IF
+
+IF NOT bEn	THEN
+	RETURN;
+END_IF
+
+{region 'query light temperature'}		
+//+++++++++++ query light temperature +++++++++++
+
+tonQuery(IN:= (NOT tonQuery.Q AND NOT THIS^.bGetLightTBusy), PT:= F_BA_UdiToTiSec(THIS^.nPrdQueryLgtT));
+ 
+IF NOT THIS^.bGetLightTBusy	THEN
+	IF tonQuery.Q	THEN
+		nStep	:= 10;
+	END_IF
+END_IF	
+
+CASE nStep	OF
+	
+	0	: 	// Idle
+			
+	10	:	// Start	
+			fbQueryLgtT(bStart	:= TRUE);
+
+			IF (NOT fbQueryLgtT.bBusy) THEN	
+				IF	fbQueryLgtT.bError THEN
+						 
+					sAdressInfo	:= 	 THIS^.GetAdressInfo();
+					sLineInfo	:= 	 THIS^.GetLineInfo();
+						 
+					CASE THIS^.eAdrType	OF																										// address-specific part of message
+						Tc3_DALI.E_DALIAddressType.Short:
+							sErrorMessage	:= CONCAT('Addressed device: ', sAdressInfo);
+						Tc3_DALI.E_DALIAddressType.Group, Tc3_DALI.E_DALIAddressType.Broadcast:
+							sErrorMessage	:= CONCAT('Reference device: ', sAdressInfo); 
+					END_CASE
+						 
+					sErrorMessage	:= CONCAT(sErrorMessage, ','); 
+					sErrorMessage	:= CONCAT(sErrorMessage, sLineInfo); 																		// DALI-line-specific part of message
+						 
+					sErrorMessage	:= CONCAT(sErrorMessage, ', MessageId: ');  																// Message Id as mentioned in the event-logger
+					sErrorMessage	:= CONCAT(sErrorMessage, TO_STRING(fbQueryLgtT.ipResultMessage.nEventId)); 
+						 
+					THIS^.fbLogMsgGetLightTCmdErr.Show(ADSLOG_MSGTYPE_ERROR, 'DALI-error: QueryLightTemperature', sErrorMessage, FALSE); 	// assembled message
+				ELSE
+					THIS^.fbLogMsgGetLightTCmdErr.Reset();	
+				END_IF
+				fbQueryLgtT		(bStart 	:= FALSE);   
+				THIS^.fActlLgtT	:= TO_REAL(Tc3_DALI.MIREK_TO_KELVIN (fbQueryLgtT.nColourValue));  
+				nStep			:= 0; 
+			END_IF                     					
+END_CASE
+
+THIS^.bGetLightTBusy	:= (nStep <> 0);
+THIS^.bGetLightTErr 	:= fbQueryLgtT.bError;			 
+{endregion}]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetLightT" Id="{cd85925a-344a-43a3-8fb3-db7eb89d5107}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD PRIVATE SetLightT : BOOL
+VAR_INPUT
+	bEn					: BOOL;				// FB-enable
+	fLgtT				: REAL;				// 0K..1000001K
+END_VAR      
+VAR_INST
+	ftEnable			: F_TRIG;
+	nStep				: INT;
+	fbSetLgtT			: FB_DALI209SetColourTemperatureTc(0);	
+	bInitLgtT			: BOOL;
+	tonWaitLgtT			: TON;
+END_VAR
+VAR
+	sLineInfo			: T_MaxString ;
+	sErrorMessage		: T_MaxString ;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[fbSetLgtT.ipDALICommunication	:= THIS^.ipDALICommunication;
+fbSetLgtT.nAddress				:= THIS^.nAdr;
+fbSetLgtT.eAddressType			:= THIS^.eAdrType;
+fbSetLgtT.eCommandPriority		:= Tc3_DALI.E_DALICommandPriority.MiddleHigh;
+
+ftEnable(CLK	:= bEn);
+
+IF ftEnable.Q	THEN
+	fbSetLgtT				(bStart := FALSE);
+	nStep					:= 0;
+	THIS^.bSetLightTBusy	:= FALSE;
+	tonWaitLgtT 			(IN:=FALSE);
+	THIS^.fbLogMssSetLightTCmdErr.Reset();	
+END_IF
+
+IF NOT bEn	THEN
+	RETURN;
+END_IF
+
+{region 'set light temperature'}					
+//+++++++++++ set light temperature +++++++++++
+	 
+fLgtT		:= LIMIT(TO_REAL(THIS^.fTemperatureLimitWarmest),fLgtT,TO_REAL(THIS^.fTemperatureLimitCoolest));		// Temperature in Kelvin
+	 
+IF NOT THIS^.bSetLightTBusy	THEN
+	IF ((ABS(THIS^.fActlLgtT-fLgtT)> THIS^.fHysLgtT/2)) OR_ELSE (NOT bInitLgtT) 	THEN
+		bInitLgtT	:= TRUE;
+		nStep	:= 10;	
+	END_IF	
+END_IF	
+
+CASE nStep	OF
+	
+	0	: 	// Idle
+			
+	10	: 	// Start
+			fbSetLgtT(	bStart					:= TRUE, 
+						nColourTemperatureTc   	:= Tc3_DALI.KELVIN_TO_MIREK(fLgtT));  
+			nStep	:= 20;
+			
+	20	:	// Wait  
+			fbSetLgtT();
+				 
+			IF (NOT fbSetLgtT.bBusy) THEN		
+				IF	fbSetLgtT.bError THEN
+
+					sLineInfo	:= 	 THIS^.GetLineInfo();
+						 
+					CASE THIS^.eAdrType	OF																										// address-specific part of message
+						Tc3_DALI.E_DALIAddressType.Short:
+							sErrorMessage	:= CONCAT('Addressed single-device: #', TO_STRING(THIS^.nAdr));
+						Tc3_DALI.E_DALIAddressType.Group:
+							sErrorMessage	:= CONCAT('Addressed group: #', TO_STRING(THIS^.nAdr));
+						Tc3_DALI.E_DALIAddressType.Broadcast:
+							sErrorMessage	:= 'Broadcast'; 
+					END_CASE
+						 
+					sErrorMessage	:= CONCAT(sErrorMessage, ','); 
+					sErrorMessage	:= CONCAT(sErrorMessage, sLineInfo); 																		// DALI-line-specific part of message
+						 
+					sErrorMessage	:= CONCAT(sErrorMessage, ', MessageId: ');   																// Message Id as mentioned in the event-logger
+					sErrorMessage	:= CONCAT(sErrorMessage, TO_STRING(fbSetLgtT.ipResultMessage.nEventId)); 
+						 
+					THIS^.fbLogMsgGetLightTCmdErr.Show(ADSLOG_MSGTYPE_ERROR, 'DALI-error: SetLightTemperature', sErrorMessage, FALSE); 		// assembled message				 
+										   
+				ELSE
+					THIS^.fbLogMssSetLightTCmdErr.Reset();
+					THIS^.fActlLgtT	:= fLgtT;  					// predicted actual value by successful command 
+				END_IF
+				fbSetLgtT(bStart := FALSE);   
+				nStep	:= 0; 
+			END_IF                                                
+
+END_CASE
+	 
+THIS^.bSetLightTBusy	:= (nStep <> 0);
+THIS^.bSetLightTErr 	:= fbSetLgtT.bError;	
+{endregion}
+		  ]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
