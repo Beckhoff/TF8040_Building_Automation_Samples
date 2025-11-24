@@ -1,5 +1,3 @@
-[[_TOC_]]
-
 # HMI
 Explanation of the sample project *TF8040 Template Samples HMI*.
 
@@ -12,7 +10,7 @@ The individual sample pages of the project are described below.
 > **INFO**	
 The open live view shows many errors. This is because objects in the PLC signal an error if no physical inputs are connected.
 
-## Projektnavigation
+## Project navigation
 The [generic navigation](https://infosys.beckhoff.com/english.php?content=../content/1033/tf8040_tc3_buildingautomation/13610089995.html&id=) is displayed on the content of this page.
 
 ## Plants

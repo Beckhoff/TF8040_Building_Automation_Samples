@@ -1,5 +1,4 @@
-[[_TOC_]]
-
+# HMI
 Explanation of the sample project *TF8040-Concept-Samples-HMI*.
 
 > **INFO**
@@ -70,8 +69,7 @@ This page shows the trend control for displaying various trend curves.
 
 In this case, the complete project structure was linked to the control. This filters the project structure for all available trends and displays them. You can select and deselect trends on the right-hand side.
 
-> **INFO**
-	
+> **INFO**	
 For more information, see the documentation on [Trend](https://infosys.beckhoff.com/english.php?content=../content/1033/tf8040_tc3_buildingautomation/13611078667.html&id=).
 
 ![image.png](../_img/Trend.png)

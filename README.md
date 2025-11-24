@@ -1,6 +1,4 @@
-[[_TOC_]]
-
-# Beschreibung
+# TF8040 Samples
 Examples of all features from TF8040.
 
 # Download
