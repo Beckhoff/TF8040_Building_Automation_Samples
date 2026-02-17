@@ -1,6 +1,12 @@
 # TF8040 Samples
 Examples of all features from TF8040.
 
+# System requirements
+The TF8040 samples are made for TwinCAT Build 4026 based systems:
+- TwinCAT.Standard.XAE >= v4026.3
+- TwinCAT.HMI.Engineering >= v14.1
+- TF8040.BuildingAutomation.XAE >= v6.1
+
 # Download
 To use the samples clone or download the repository.
 Inside the repository you find the following samples:
