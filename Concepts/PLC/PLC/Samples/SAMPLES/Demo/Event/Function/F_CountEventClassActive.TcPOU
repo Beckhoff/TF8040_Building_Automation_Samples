@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.17">
+  <POU Name="F_CountEventClassActive" Id="{370192c2-da90-42d9-8244-fe02d9f057f8}" SpecialFunc="None">
+    <Declaration><![CDATA[// Count all event class related objects with active events.
+FUNCTION F_CountEventClassActive  :UINT
+VAR_INPUT
+	nEventClassID		: UINT					:= 0;		// Target event class ID.
+END_VAR
+VAR
+	_nEvents			: UINT;
+	_iObj				: I_BA_Object;
+	_iEvtObj			: I_BA_EventObject;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Iterate over all objects:
+_nEvents := 0;
+WHILE (F_BA_IterateObjects(_iObj)) DO
+	IF (NOT __QUERYINTERFACE(_iObj,_iEvtObj)) THEN
+		; // Skip.	     
+	ELSIF (_iEvtObj.EventClassID <> nEventClassID) THEN
+		; // Skip.
+	ELSIF (_iEvtObj.Event = FALSE) THEN
+		; // Skip.
+	ELSE
+		_nEvents := _nEvents+1;
+	END_IF
+END_WHILE
+F_CountEventClassActive:=_nEvents;
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
