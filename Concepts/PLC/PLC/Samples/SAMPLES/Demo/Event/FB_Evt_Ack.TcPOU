@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.17">
   <POU Name="FB_Evt_Ack" Id="{fbc947ed-fc04-4bb0-b954-ae66748fd31d}" SpecialFunc="None">
     <Declaration><![CDATA[// Acknowledgement-Examples.
 // > One object per demonstrated 'AlarmMode'.
@@ -72,7 +72,10 @@ VAR
 		// Intention:					Acknowledge all objects that reference a specific event class.
 		nEventClassID					: UINT										:= 0;			// Enter ID of event class to acknowledge.
 	{endregion}
-		 
+	{region 'count active events of event class'}	
+		// Intention:					count all objects with active events reference a specific event class.
+		nEvents							: UINT;		//count of events of specific class 
+	{endregion} 	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -89,6 +92,9 @@ IF (nEventClassID <> 0) THEN
 	F_AcknowledgeEventClass(nEventClassID);
 	nEventClassID := 0;
 END_IF
+
+nEvents:= F_CountEventClassActive(nEventClassID);
+
 ]]></ST>
     </Implementation>
     <Folder Name="[Protected] Events" Id="{4aff504b-1474-44a7-b295-050cdde9c749}" />
